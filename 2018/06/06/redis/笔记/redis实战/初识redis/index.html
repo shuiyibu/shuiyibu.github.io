@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="redis,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="适用场景：    类型 简介 特性 场景     String(字符串) 二进制安全 可以包含任何数据,比如jpg图片或者序列化的对象,一个键最大能存储512M（对于string类型的value，直接使用strlen key) —   Hash(字典) 键值对集合,即编程语言中的Map类型 适合存储对象,并且可以像数据库中update一个属性一样只修改某一项属性值(Memcached中需要取出整">
+<meta name="keywords" content="redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识redis">
+<meta property="og:url" content="http://yoursite.com/2018/06/06/redis/笔记/redis实战/初识redis/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="适用场景：    类型 简介 特性 场景     String(字符串) 二进制安全 可以包含任何数据,比如jpg图片或者序列化的对象,一个键最大能存储512M（对于string类型的value，直接使用strlen key) —   Hash(字典) 键值对集合,即编程语言中的Map类型 适合存储对象,并且可以像数据库中update一个属性一样只修改某一项属性值(Memcached中需要取出整">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-05T06:33:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初识redis">
+<meta name="twitter:description" content="适用场景：    类型 简介 特性 场景     String(字符串) 二进制安全 可以包含任何数据,比如jpg图片或者序列化的对象,一个键最大能存储512M（对于string类型的value，直接使用strlen key) —   Hash(字典) 键值对集合,即编程语言中的Map类型 适合存储对象,并且可以像数据库中update一个属性一样只修改某一项属性值(Memcached中需要取出整">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/06/redis/笔记/redis实战/初识redis/">
+
+
+
+
+
+  <title>初识redis | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/06/redis/笔记/redis实战/初识redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">初识redis</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-06T11:30:30+08:00">
+                2018-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/06/redis/笔记/redis实战/初识redis/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/06/06/redis/笔记/redis实战/初识redis/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<p>适用场景：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>简介</th>
+<th>特性</th>
+<th>场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>String(字符串)</td>
+<td>二进制安全</td>
+<td>可以包含任何数据,比如jpg图片或者序列化的对象,一个键最大能存储512M（对于string类型的value，直接使用strlen key)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Hash(字典)</td>
+<td>键值对集合,即编程语言中的Map类型</td>
+<td>适合存储对象,并且可以像数据库中update一个属性一样只修改某一项属性值(Memcached中需要取出整个字符串反序列化成对象修改完再序列化存回去)每个 hash 可以存储 2^32 -1 键值对（40多亿）。</td>
+<td>存储、读取、修改用户属性</td>
+</tr>
+<tr>
+<td>List(列表)</td>
+<td>链表(双向链表)</td>
+<td>增删快,提供了操作某一段元素的API ,     列表最多可存储 2^32 - 1 元素 (4294967295, 每个列表可存储40多亿)。</td>
+<td>1,最新消息排行等功能(比如朋友圈的时间线) 2,消息队列</td>
+</tr>
+<tr>
+<td>Set(集合)</td>
+<td>哈希表实现,元素不重复</td>
+<td>1,添加、删除,查找的复杂度都是O(1) 2,为集合提供了求交集、并集、差集等操作 ,集合中最大的成员数为 2^32 - 1(4294967295, 每个集合可存储40多亿个成员)。</td>
+<td>1,共同好友 2,利用唯一性,统计访问网站的所有独立ip 3,好用推荐时,根据tag求交集,大于某个阈值就可以推荐</td>
+</tr>
+<tr>
+<td>Sorted Set(有序集合)</td>
+<td>将Set中的元素增加一个权重参数score,元素按score有序排列</td>
+<td>数据插入集合时,已经进行天然排序</td>
+<td>1,排行榜 2,带权重的消息队列</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hset dylanHash field1 &quot;hello&quot;</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; hset dylanHash field2 &quot;hello&quot;</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; hget dylanHash field2</span><br><span class="line">&quot;hello&quot;</span><br><span class="line">127.0.0.1:6379&gt; hset dylanHash field2 &quot;world&quot;</span><br><span class="line">(integer) 0 #依然是0</span><br><span class="line">127.0.0.1:6379&gt; hget dylanHash field2</span><br><span class="line">&quot;world&quot;</span><br><span class="line">127.0.0.1:6379&gt; hgetall dylanHash</span><br><span class="line">1) &quot;field1&quot;</span><br><span class="line">2) &quot;hello&quot;</span><br><span class="line">3) &quot;field2&quot;</span><br><span class="line">4) &quot;world&quot;</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="设置过期时间"><a href="#设置过期时间" class="headerlink" title="设置过期时间"></a>设置过期时间</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set name &quot;dylan&quot; ex 10</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">&quot;dylan&quot;</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">&quot;dylan&quot;</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">&quot;dylan&quot;</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">&quot;dylan&quot;</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">&quot;dylan&quot;</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">&quot;dylan&quot;</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">&quot;dylan&quot;</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">(nil)</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="KEYS-pattern"><a href="#KEYS-pattern" class="headerlink" title="KEYS pattern"></a>KEYS pattern</h3><p>查找所有符合给定模式( pattern)的 key 。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; SET NAME1 &apos;DYLAN&apos;</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; SET NAME2 &apos;DYLAN&apos;</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; SET NAME3 &apos;DYLAN&apos;</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; KEYS NA%</span><br><span class="line">(empty list or set)</span><br><span class="line">127.0.0.1:6379&gt; KEYS NA*</span><br><span class="line">1) &quot;NAME1&quot;</span><br><span class="line">2) &quot;NAME2&quot;</span><br><span class="line">3) &quot;NAME3&quot;</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></p>
+<p>MOVE key db<br>将当前数据库的 key 移动到给定的数据库 db 当中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; SELECT 0</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; SET SONG &quot;DB1&quot;</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; EXISTS SONG</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; MOVE SONG 1</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; EXISTS SONG</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; SELECT 1</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379[1]&gt; EXISTS SONG</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379[1]&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Punsubscribe-命令———-无效？"><a href="#Punsubscribe-命令———-无效？" class="headerlink" title="Punsubscribe 命令———-无效？???????????"></a>Punsubscribe 命令———-无效？???????????</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding: utf-8</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这章还没有用到python客户端</span></span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line">conn=redis.Redis()</span><br><span class="line">conn.set(<span class="string">'hello'</span>,<span class="string">'world'</span>)</span><br><span class="line">conn.get(<span class="string">'hello'</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="代码清单-1-1"><a href="#代码清单-1-1" class="headerlink" title="代码清单 1-1"></a>代码清单 1-1</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> redis-cli                                 <span class="comment"># 启动redis-cli 客户端</span></span></span><br><span class="line">redis 127.0.0.1:6379&gt; set hello world       # 将键 hello 的值设置为 world 。</span><br><span class="line">OK                                          # SET 命令在执行成功时返回 OK ，Python 客户端会将这个 OK 转换成 True</span><br><span class="line">redis 127.0.0.1:6379&gt; get hello             # 获取储存在键 hello 中的值。</span><br><span class="line">"world"                                     # 键的值仍然是 world ，跟我们刚才设置的一样。</span><br><span class="line">redis 127.0.0.1:6379&gt; del hello             # 删除这个键值对。</span><br><span class="line">(integer) 1                                 # 在对值进行删除的时候，DEL 命令将返回被成功删除的值的数量。</span><br><span class="line">redis 127.0.0.1:6379&gt; get hello             # 因为键的值已经不存在，所以尝试获取键的值将得到一个 nil ，</span><br><span class="line">(nil)                                       # Python 客户端会将这个 nil 转换成 None。</span><br><span class="line">redis 127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="LIST代码清单-1-2"><a href="#LIST代码清单-1-2" class="headerlink" title="LIST代码清单 1-2"></a>LIST代码清单 1-2</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; rpush list-key item   # 在向列表推入新元素之后，该命令会返回列表的当前长度。</span><br><span class="line">(integer) 1                                 #</span><br><span class="line">redis 127.0.0.1:6379&gt; rpush list-key item2  #</span><br><span class="line">(integer) 2                                 #</span><br><span class="line">redis 127.0.0.1:6379&gt; rpush list-key item   #</span><br><span class="line">(integer) 3                                 #</span><br><span class="line">redis 127.0.0.1:6379&gt; lrange list-key 0 -1  # 使用0为范围的起始索引，-1为范围的结束索引，</span><br><span class="line">1) "item"                                   # 可以取出列表包含的所有元素。</span><br><span class="line">2) "item2"                                  #</span><br><span class="line">3) "item"                                   #</span><br><span class="line">redis 127.0.0.1:6379&gt; lindex list-key 1     # 使用LINDEX可以从列表里面取出单个元素。</span><br><span class="line">"item2"                                     #</span><br><span class="line">redis 127.0.0.1:6379&gt; lpop list-key         # 从列表里面弹出一个元素，被弹出的元素不再存在于列表。</span><br><span class="line">"item"                                      #</span><br><span class="line">redis 127.0.0.1:6379&gt; lrange list-key 0 -1  #</span><br><span class="line">1) "item2"                                  #</span><br><span class="line">2) "item"                                   #</span><br><span class="line">redis 127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="SET代码清单-1-3"><a href="#SET代码清单-1-3" class="headerlink" title="SET代码清单 1-3"></a>SET代码清单 1-3</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; sadd set-key item     # 在尝试将一个元素添加到集合的时候，</span><br><span class="line">(integer) 1                                 # 命令返回1表示这个元素被成功地添加到了集合里面，</span><br><span class="line">redis 127.0.0.1:6379&gt; sadd set-key item2    # 而返回0则表示这个元素已经存在于集合中。</span><br><span class="line">(integer) 1                                 #</span><br><span class="line">redis 127.0.0.1:6379&gt; sadd set-key item3    #</span><br><span class="line">(integer) 1                                 #</span><br><span class="line">redis 127.0.0.1:6379&gt; sadd set-key item     #</span><br><span class="line">(integer) 0                                 #</span><br><span class="line">redis 127.0.0.1:6379&gt; smembers set-key      # 获取集合包含的所有元素将得到一个由元素组成的序列，</span><br><span class="line">1) &quot;item&quot;                                   # Python客户端会将这个序列转换成Python集合。</span><br><span class="line">2) &quot;item2&quot;                                  #</span><br><span class="line">3) &quot;item3&quot;                                  #</span><br><span class="line">redis 127.0.0.1:6379&gt; sismember set-key item4   # 检查一个元素是否存在于集合中，</span><br><span class="line">(integer) 0                                     # Python客户端会返回一个布尔值来表示检查结果。</span><br><span class="line">redis 127.0.0.1:6379&gt; sismember set-key item    #</span><br><span class="line">(integer) 1                                     #</span><br><span class="line">redis 127.0.0.1:6379&gt; srem set-key item2    # 在使用命令移除集合中的元素时，命令会返回被移除的元素数量。</span><br><span class="line">(integer) 1                                 #</span><br><span class="line">redis 127.0.0.1:6379&gt; srem set-key item2    #</span><br><span class="line">(integer) 0                                 #</span><br><span class="line">redis 127.0.0.1:6379&gt;  smembers set-key</span><br><span class="line">1) &quot;item&quot;</span><br><span class="line">2) &quot;item3&quot;</span><br><span class="line">redis 127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="HASH代码清单-1-4"><a href="#HASH代码清单-1-4" class="headerlink" title="HASH代码清单 1-4"></a>HASH代码清单 1-4</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; hset hash-key sub-key1 value1 # 在尝试添加键值对到散列的时候，</span><br><span class="line">(integer) 1                                         # 命令会返回一个值来表示给定的键是否已经存在于散列里面。</span><br><span class="line">redis 127.0.0.1:6379&gt; hset hash-key sub-key2 value2 #</span><br><span class="line">(integer) 1                                         #</span><br><span class="line">redis 127.0.0.1:6379&gt; hset hash-key sub-key1 value1 #</span><br><span class="line">(integer) 0                                         #</span><br><span class="line">redis 127.0.0.1:6379&gt; hgetall hash-key              # 获取散列包含的所有键值对，</span><br><span class="line">1) &quot;sub-key1&quot;                                       # Python客户端会将这些键值对转换为Python字典。</span><br><span class="line">2) &quot;value1&quot;                                         #</span><br><span class="line">3) &quot;sub-key2&quot;                                       #</span><br><span class="line">4) &quot;value2&quot;                                         #</span><br><span class="line">redis 127.0.0.1:6379&gt; hdel hash-key sub-key2        # 在删除键值对的时候，</span><br><span class="line">(integer) 1                                         # 命令会返回一个值来表示给定的键在移除之前是否存在于散列里面。</span><br><span class="line">redis 127.0.0.1:6379&gt; hdel hash-key sub-key2        #</span><br><span class="line">(integer) 0                                         #</span><br><span class="line">redis 127.0.0.1:6379&gt; hget hash-key sub-key1        # 从散列里面单独取出一个域。</span><br><span class="line">&quot;value1&quot;                                            #</span><br><span class="line">redis 127.0.0.1:6379&gt; hgetall hash-key</span><br><span class="line">1) &quot;sub-key1&quot;</span><br><span class="line">2) &quot;value1&quot;</span><br></pre></td></tr></table></figure>
+<h1 id="ZSET代码清单-1-5"><a href="#ZSET代码清单-1-5" class="headerlink" title="ZSET代码清单 1-5"></a>ZSET代码清单 1-5</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; zadd zset-key 728 member1     # 在尝试向有序集合添加元素的时候，</span><br><span class="line">(integer) 1                                         # 命令会返回新添加元素的数量。</span><br><span class="line">redis 127.0.0.1:6379&gt; zadd zset-key 982 member0     #</span><br><span class="line">(integer) 1                                         #</span><br><span class="line">redis 127.0.0.1:6379&gt; zadd zset-key 982 member0     #</span><br><span class="line">(integer) 0                                         #</span><br><span class="line">redis 127.0.0.1:6379&gt; zrange zset-key 0 -1 withscores   # 获取有序集合包含的所有元素，</span><br><span class="line">1) &quot;member1&quot;                                            # 这些元素会按照分值进行排序，</span><br><span class="line">2) &quot;728&quot;                                                # Python客户端会将这些分值转换成浮点数。</span><br><span class="line">3) &quot;member0&quot;                                            #</span><br><span class="line">4) &quot;982&quot;                                                #</span><br><span class="line">redis 127.0.0.1:6379&gt; zrangebyscore zset-key 0 800 withscores   # 也可以根据分值来获取有序集合的其中一部分元素。</span><br><span class="line">1) &quot;member1&quot;                                                    #</span><br><span class="line">2) &quot;728&quot;                                                        #</span><br><span class="line">redis 127.0.0.1:6379&gt; zrem zset-key member1     # 在移除有序集合元素的时候，</span><br><span class="line">(integer) 1                                     # 命令会返回被移除元素的数量。</span><br><span class="line">redis 127.0.0.1:6379&gt; zrem zset-key member1     #</span><br><span class="line">(integer) 0                                     #</span><br><span class="line">redis 127.0.0.1:6379&gt; zrange zset-key 0 -1 withscores</span><br><span class="line">1) &quot;member0&quot;</span><br><span class="line">2) &quot;982&quot;</span><br></pre></td></tr></table></figure>
+<h1 id="代码清单-1-6"><a href="#代码清单-1-6" class="headerlink" title="代码清单 1-6"></a>代码清单 1-6</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &lt;start id="upvote-code"/&gt;</span></span><br><span class="line"><span class="comment"># 准备好需要用到的常量。</span></span><br><span class="line">ONE_WEEK_IN_SECONDS = <span class="number">7</span> * <span class="number">86400</span></span><br><span class="line">VOTE_SCORE = <span class="number">432</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">article_vote</span><span class="params">(conn, user, article)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 计算文章的投票截止时间。</span></span><br><span class="line">    cutoff = time.time() - ONE_WEEK_IN_SECONDS</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 检查是否还可以对文章进行投票</span></span><br><span class="line">    <span class="comment">#（虽然使用散列也可以获取文章的发布时间，</span></span><br><span class="line">    <span class="comment"># 但有序集合返回的文章发布时间为浮点数，</span></span><br><span class="line">    <span class="comment"># 可以不进行转换直接使用）。</span></span><br><span class="line">    <span class="keyword">if</span> conn.zscore(<span class="string">'time:'</span>, article) &lt; cutoff:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 从article:id标识符（identifier）里面取出文章的ID。</span></span><br><span class="line">    article_id = article.partition(<span class="string">':'</span>)[<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 如果用户是第一次为这篇文章投票，那么增加这篇文章的投票数量和评分。</span></span><br><span class="line">    <span class="keyword">if</span> conn.sadd(<span class="string">'voted:'</span> + article_id, user):</span><br><span class="line">        conn.zincrby(<span class="string">'score:'</span>, article, VOTE_SCORE)</span><br><span class="line">        conn.hincrby(article, <span class="string">'votes'</span>, <span class="number">1</span>)</span><br><span class="line"><span class="comment"># &lt;end id="upvote-code"/&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="代码清单-1-7"><a href="#代码清单-1-7" class="headerlink" title="代码清单 1-7"></a>代码清单 1-7</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &lt;start id="post-article-code"/&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">post_article</span><span class="params">(conn, user, title, link)</span>:</span></span><br><span class="line">    <span class="comment"># 生成一个新的文章ID。</span></span><br><span class="line">    article_id = str(conn.incr(<span class="string">'article:'</span>))</span><br><span class="line"></span><br><span class="line">    voted = <span class="string">'voted:'</span> + article_id</span><br><span class="line">    <span class="comment"># 将发布文章的用户添加到文章的已投票用户名单里面，</span></span><br><span class="line">    <span class="comment"># 然后将这个名单的过期时间设置为一周（第3章将对过期时间作更详细的介绍）。</span></span><br><span class="line">    conn.sadd(voted, user)</span><br><span class="line">    conn.expire(voted, ONE_WEEK_IN_SECONDS)</span><br><span class="line"></span><br><span class="line">    now = time.time()</span><br><span class="line">    article = <span class="string">'article:'</span> + article_id</span><br><span class="line">    <span class="comment"># 将文章信息存储到一个散列里面。</span></span><br><span class="line">    conn.hmset(article, &#123;</span><br><span class="line">        <span class="string">'title'</span>: title,</span><br><span class="line">        <span class="string">'link'</span>: link,</span><br><span class="line">        <span class="string">'poster'</span>: user,</span><br><span class="line">        <span class="string">'time'</span>: now,</span><br><span class="line">        <span class="string">'votes'</span>: <span class="number">1</span>,</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 将文章添加到根据发布时间排序的有序集合和根据评分排序的有序集合里面。</span></span><br><span class="line">    conn.zadd(<span class="string">'score:'</span>, article, now + VOTE_SCORE)</span><br><span class="line">    conn.zadd(<span class="string">'time:'</span>, article, now)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> article_id</span><br><span class="line"><span class="comment"># &lt;end id="post-article-code"/&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="代码清单-1-8"><a href="#代码清单-1-8" class="headerlink" title="代码清单 1-8"></a>代码清单 1-8</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &lt;start id="fetch-articles-code"/&gt;</span></span><br><span class="line">ARTICLES_PER_PAGE = <span class="number">25</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_articles</span><span class="params">(conn, page, order=<span class="string">'score:'</span>)</span>:</span></span><br><span class="line">    <span class="comment"># 设置获取文章的起始索引和结束索引。</span></span><br><span class="line">    start = (page<span class="number">-1</span>) * ARTICLES_PER_PAGE</span><br><span class="line">    end = start + ARTICLES_PER_PAGE - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取多个文章ID。</span></span><br><span class="line">    ids = conn.zrevrange(order, start, end)</span><br><span class="line">    articles = []</span><br><span class="line">    <span class="comment"># 根据文章ID获取文章的详细信息。</span></span><br><span class="line">    <span class="keyword">for</span> id <span class="keyword">in</span> ids:</span><br><span class="line">        article_data = conn.hgetall(id)</span><br><span class="line">        article_data[<span class="string">'id'</span>] = id</span><br><span class="line">        articles.append(article_data)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> articles</span><br><span class="line"><span class="comment"># &lt;end id="fetch-articles-code"/&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="代码清单-1-9"><a href="#代码清单-1-9" class="headerlink" title="代码清单 1-9"></a>代码清单 1-9</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &lt;start id="add-remove-groups"/&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_remove_groups</span><span class="params">(conn, article_id, to_add=[], to_remove=[])</span>:</span></span><br><span class="line">    <span class="comment"># 构建存储文章信息的键名。</span></span><br><span class="line">    article = <span class="string">'article:'</span> + article_id</span><br><span class="line">    <span class="keyword">for</span> group <span class="keyword">in</span> to_add:</span><br><span class="line">        <span class="comment"># 将文章添加到它所属的群组里面。</span></span><br><span class="line">        conn.sadd(<span class="string">'group:'</span> + group, article)</span><br><span class="line">    <span class="keyword">for</span> group <span class="keyword">in</span> to_remove:</span><br><span class="line">        <span class="comment"># 从群组里面移除文章。</span></span><br><span class="line">        conn.srem(<span class="string">'group:'</span> + group, article)</span><br><span class="line"><span class="comment"># &lt;end id="add-remove-groups"/&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="代码清单-1-10"><a href="#代码清单-1-10" class="headerlink" title="代码清单 1-10"></a>代码清单 1-10</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &lt;start id="fetch-articles-group"/&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_group_articles</span><span class="params">(conn, group, page, order=<span class="string">'score:'</span>)</span>:</span></span><br><span class="line">    <span class="comment"># 为每个群组的每种排列顺序都创建一个键。</span></span><br><span class="line">    key = order + group</span><br><span class="line">    <span class="comment"># 检查是否有已缓存的排序结果，如果没有的话就现在进行排序。</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> conn.exists(key):</span><br><span class="line">        <span class="comment"># 根据评分或者发布时间，对群组文章进行排序。</span></span><br><span class="line">        conn.zinterstore(key,</span><br><span class="line">            [<span class="string">'group:'</span> + group, order],</span><br><span class="line">            aggregate=<span class="string">'max'</span>,</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># 让Redis在60秒钟之后自动删除这个有序集合。</span></span><br><span class="line">        conn.expire(key, <span class="number">60</span>)</span><br><span class="line">    <span class="comment"># 调用之前定义的get_articles()函数来进行分页并获取文章数据。</span></span><br><span class="line">    <span class="keyword">return</span> get_articles(conn, page, key)</span><br><span class="line"><span class="comment"># &lt;end id="fetch-articles-group"/&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#--------------- 以下是用于测试代码的辅助函数 --------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestCh01</span><span class="params">(unittest.TestCase)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setUp</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">import</span> redis</span><br><span class="line">        self.conn = redis.Redis(db=<span class="number">15</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tearDown</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">del</span> self.conn</span><br><span class="line">        <span class="keyword">print</span></span><br><span class="line">        <span class="keyword">print</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_article_functionality</span><span class="params">(self)</span>:</span></span><br><span class="line">        conn = self.conn</span><br><span class="line">        <span class="keyword">import</span> pprint</span><br><span class="line"></span><br><span class="line">        article_id = str(post_article(conn, <span class="string">'username'</span>, <span class="string">'A title'</span>, <span class="string">'http://www.google.com'</span>))</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"We posted a new article with id:"</span>, article_id</span><br><span class="line">        <span class="keyword">print</span></span><br><span class="line">        self.assertTrue(article_id)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"Its HASH looks like:"</span></span><br><span class="line">        r = conn.hgetall(<span class="string">'article:'</span> + article_id)</span><br><span class="line">        <span class="keyword">print</span> r</span><br><span class="line">        <span class="keyword">print</span></span><br><span class="line">        self.assertTrue(r)</span><br><span class="line"></span><br><span class="line">        article_vote(conn, <span class="string">'other_user'</span>, <span class="string">'article:'</span> + article_id)</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"We voted for the article, it now has votes:"</span>,</span><br><span class="line">        v = int(conn.hget(<span class="string">'article:'</span> + article_id, <span class="string">'votes'</span>))</span><br><span class="line">        <span class="keyword">print</span> v</span><br><span class="line">        <span class="keyword">print</span></span><br><span class="line">        self.assertTrue(v &gt; <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"The currently highest-scoring articles are:"</span></span><br><span class="line">        articles = get_articles(conn, <span class="number">1</span>)</span><br><span class="line">        pprint.pprint(articles)</span><br><span class="line">        <span class="keyword">print</span></span><br><span class="line"></span><br><span class="line">        self.assertTrue(len(articles) &gt;= <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        add_remove_groups(conn, article_id, [<span class="string">'new-group'</span>])</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"We added the article to a new group, other articles include:"</span></span><br><span class="line">        articles = get_group_articles(conn, <span class="string">'new-group'</span>, <span class="number">1</span>)</span><br><span class="line">        pprint.pprint(articles)</span><br><span class="line">        <span class="keyword">print</span></span><br><span class="line">        self.assertTrue(len(articles) &gt;= <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        to_del = (</span><br><span class="line">            conn.keys(<span class="string">'time:*'</span>) + conn.keys(<span class="string">'voted:*'</span>) + conn.keys(<span class="string">'score:*'</span>) +</span><br><span class="line">            conn.keys(<span class="string">'article:*'</span>) + conn.keys(<span class="string">'group:*'</span>)</span><br><span class="line">        )</span><br><span class="line">        <span class="keyword">if</span> to_del:</span><br><span class="line">            conn.delete(*to_del)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    unittest.main()</span><br></pre></td></tr></table></figure>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/06/redis/笔记/redis环境配置/" rel="next" title="redis在CENTOS7上的环境配置">
+                <i class="fa fa-chevron-left"></i> redis在CENTOS7上的环境配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/06/redis/笔记/初识redis/" rel="prev" title="初识redis">
+                初识redis <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/06/06/redis/笔记/redis实战/初识redis/" data-title="初识redis" data-url="http://yoursite.com/2018/06/06/redis/笔记/redis实战/初识redis/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#设置过期时间"><span class="nav-number">1.</span> <span class="nav-text">设置过期时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KEYS-pattern"><span class="nav-number">2.</span> <span class="nav-text">KEYS pattern</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Punsubscribe-命令———-无效？"><span class="nav-number">3.</span> <span class="nav-text">Punsubscribe 命令———-无效？???????????</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-1-1"><span class="nav-number"></span> <span class="nav-text">代码清单 1-1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LIST代码清单-1-2"><span class="nav-number"></span> <span class="nav-text">LIST代码清单 1-2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SET代码清单-1-3"><span class="nav-number"></span> <span class="nav-text">SET代码清单 1-3</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HASH代码清单-1-4"><span class="nav-number"></span> <span class="nav-text">HASH代码清单 1-4</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ZSET代码清单-1-5"><span class="nav-number"></span> <span class="nav-text">ZSET代码清单 1-5</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-1-6"><span class="nav-number"></span> <span class="nav-text">代码清单 1-6</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-1-7"><span class="nav-number"></span> <span class="nav-text">代码清单 1-7</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-1-8"><span class="nav-number"></span> <span class="nav-text">代码清单 1-8</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-1-9"><span class="nav-number"></span> <span class="nav-text">代码清单 1-9</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-1-10"><span class="nav-number"></span> <span class="nav-text">代码清单 1-10</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">1.</span> <span class="nav-text">参考文献</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

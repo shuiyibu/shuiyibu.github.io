@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="网络,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="谈微服务，首先要谈“Monolithic架构”，例如网上是这样说的“网上对Microservice进行介绍的文章常常以Monolith作为开头，我也不会例外。原因是，知道了Monolith的不便之后才能更容易地理解Microservice架构模式所具有的各种优点。[1]”">
+<meta name="keywords" content="网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式9---微服务（MicroServices）与巨石型应用（Monolithic Applications）之间的区别在哪里">
+<meta property="og:url" content="http://yoursite.com/2018/05/15/Interview/分布式/分布式9-微服务（MicroServices）与巨石型应用（Monolithic-Applications）之间的区别在哪里/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="谈微服务，首先要谈“Monolithic架构”，例如网上是这样说的“网上对Microservice进行介绍的文章常常以Monolith作为开头，我也不会例外。原因是，知道了Monolith的不便之后才能更容易地理解Microservice架构模式所具有的各种优点。[1]”">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://img-blog.csdn.net/20170730232733239?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGlhb3l3NzE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20170730232053990?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGlhb3l3NzE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20170731143156279?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGlhb3l3NzE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2018-05-22T06:54:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分布式9---微服务（MicroServices）与巨石型应用（Monolithic Applications）之间的区别在哪里">
+<meta name="twitter:description" content="谈微服务，首先要谈“Monolithic架构”，例如网上是这样说的“网上对Microservice进行介绍的文章常常以Monolith作为开头，我也不会例外。原因是，知道了Monolith的不便之后才能更容易地理解Microservice架构模式所具有的各种优点。[1]”">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20170730232733239?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGlhb3l3NzE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/15/Interview/分布式/分布式9-微服务（MicroServices）与巨石型应用（Monolithic-Applications）之间的区别在哪里/">
+
+
+
+
+
+  <title>分布式9---微服务（MicroServices）与巨石型应用（Monolithic Applications）之间的区别在哪里 | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/Interview/分布式/分布式9-微服务（MicroServices）与巨石型应用（Monolithic-Applications）之间的区别在哪里/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">分布式9---微服务（MicroServices）与巨石型应用（Monolithic Applications）之间的区别在哪里</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T15:39:03+08:00">
+                2018-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/interview/" itemprop="url" rel="index">
+                    <span itemprop="name">interview</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/15/Interview/分布式/分布式9-微服务（MicroServices）与巨石型应用（Monolithic-Applications）之间的区别在哪里/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/05/15/Interview/分布式/分布式9-微服务（MicroServices）与巨石型应用（Monolithic-Applications）之间的区别在哪里/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>谈微服务，首先要谈“Monolithic架构”，例如网上是这样说的“网上对Microservice进行介绍的文章常常以Monolith作为开头，我也不会例外。原因是，知道了Monolith的不便之后才能更容易地理解Microservice架构模式所具有的各种优点。<a href="http://www.cnblogs.com/loveis715/p/4644266.html" target="_blank" rel="noopener">[1]</a>”<br><a id="more"></a></p>
+<h2 id="传统应用架构"><a href="#传统应用架构" class="headerlink" title="传统应用架构"></a>传统应用架构</h2><p>　　传统的企业级应用是单体应用（monolith application），一般是分层结构，如表现层/应用层/领域层/数据层，这主要是水平切分的思想。</p>
+<p>　　随着互联网应用的发展，特别是大型电商系统，业务非常复杂。这种巨型系统，首先要关注的是如何根据业务划分子系统，然后是子系统间如何协作，最后才是子系统内部实现。SOA设计可以很有效支持前面两步，在SOA体系里，每个子系统是独立的服务，服务接口体现子系统协作关系，至于子系统内部，直接作为黑盒子处理<a href="https://tieba.baidu.com/p/4433528712" target="_blank" rel="noopener">[6]</a>。</p>
+<p>　　所以对于复杂系统，首先采用SOA垂直切分子系统，然后使用分层设计水平切分单个子系统，服务化把传统的分层设计往前更推进一步。</p>
+<p>　　当然SOA本身也在不断发展，最初跨企业的Web service交互可认为1.0时代；支持企业内部系统间轻量级访问，支持服务治理，可认为2.0时代；服务进一步分层和微服务化可认为3.0时代。</p>
+<p>　　Web应用程序发展的早期，大部分Web工程是将所有的功能模块（service side）打包到一起并放在一个web容器中运行，很多企业的Java应用程序打包为war包。其他语言（Ruby，Python或者C++）写的程序也有类似的情况<a href="http://www.jianshu.com/p/546ef242b6a3" target="_blank" rel="noopener">[5]</a>。</p>
+<p><img src="https://img-blog.csdn.net/20170730232733239?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGlhb3l3NzE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>图1. 传统服务（Monolith）架构</p>
+<p>　　但是，上述的好处是有条件的：应用不那么复杂。对于大规模的复杂应用，巨石型应用会显得特别笨重：要修改一个地方就要将整个应用全部部署（PS：在不同的场景下优势也变成了劣势）；编译时间过长；回归测试周期过长；开发效率降低等。另外，巨石应用不利于更新技术框架，除非你愿意将系统全部重写（代价太高你愿意老板也不愿意）<a href="http://www.jianshu.com/p/546ef242b6a3" target="_blank" rel="noopener">[5]</a>。</p>
+<h1 id="2-微服务架构"><a href="#2-微服务架构" class="headerlink" title="2. 微服务架构"></a>2. 微服务架构</h1><p>　　微服务是为适应当前互联网快速发展，互联网应用快速迭代、快速部署而产生的技术架构，微服务强调的是在共享硬件资源的基础上隔离，缺乏软件共享；相当于敏捷的建立了很多小烟囱系统，虽然降低耦合，但是未有效的解决信息孤岛。</p>
+<p>　　微服务所设计的每个微服务都要非常容易被抛弃、被替换。拥抱不断变化的业务，快读迭代开发。微服务设计目标是降低系统复杂度，提高开发生产力，是适合敏捷方法快速建立持续改进的系统，例如互联网应用，而信息共享是需要通过另个维度来解决。</p>
+<p><img src="https://img-blog.csdn.net/20170730232053990?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGlhb3l3NzE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>图2. 微服务（Microservice）架构</p>
+<p>　　微服务架构云化方案一般融合Docker和DevOps技术，解决租户隔离和统一开发平台的需求，依赖IaaS，以此形成云化。</p>
+<p>　　例如以建设企业办公楼为例，微服务借助DevOps工具，使用服务化的建筑预制件快速搭建需要的办公楼（室），其中内含水电等都是独立的。</p>
+<h1 id="3-轻量级SOA架构"><a href="#3-轻量级SOA架构" class="headerlink" title="3. 轻量级SOA架构"></a>3. 轻量级SOA架构</h1><p>　　在传统企业级SOA实施中，服务架构设计也采用轻量级模式，把业务、平台组件拆分为细粒度服务，按服务内容分别创建并管理服务容器，架构模式与微服务类似，主要差异是需要基于SOA GIRD（有的厂商为ESB），提供BPM、MDM等企业级组件。</p>
+<p><img src="https://img-blog.csdn.net/20170731143156279?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGlhb3l3NzE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>　　在上述轻量级SOA架构中，每个服务容器可以单独完善、优化，可以达到系统不停机，特别是在信息共享和系统集成方面，是优于微服务架构。</p>
+<p>　　轻量级SOA架构云化方案是使用PaaS方案，企业私有PaaS，是统一运营平台、统一开发平台，是为传统大型企业解决信息孤岛问题，以及企业信息化优化、统一管理而形成的解决方案。</p>
+<p>　　私有PaaS强调SOA，SOA很多的应用场景都是在对已有应用的打通，比如你买了SAP的软件，又买了另一家的软件，还有以前投资定制开发的软件。这些软件都很贵，要像祖宗一样供起来的，轻易不敢改动，而且有大量历史数据，改动成本很高。所以要尽量保留，要通过SOA的方式对接在一起。</p>
+<p>　　再以建设企业办公楼为例，通过PaaS平台统一构建企业办公楼，每个单位或部门按需租用办公室，内部共享使用水电等资源，每个水、电、门禁资源是统一管理的，也可以个性化，并按使用情况计量。</p>
+<h1 id="4-微服务与SOA二者云化比较"><a href="#4-微服务与SOA二者云化比较" class="headerlink" title="4. 微服务与SOA二者云化比较"></a>4. 微服务与SOA二者云化比较</h1><ol>
+<li>PaaS平台是不依赖IaaS，可以独立存在的，微服务云一般依赖IaaS来实现云；</li>
+<li>PaaS实现软件层面的共享，能全面支持Gartner多租户模型，而微服务云平台仅是通过IaaS实现硬件资源的共享，以及容器的隔离；</li>
+<li>PaaS平台符合Gartner多租户模型4到7高级模型，而微服务云平台最多符合1到3级资源层级的模型；</li>
+<li>PaaS平台是统一可运营的平台，适用于大型企业，微服务云平台是个敏捷平台，更适合互联网多变的应用；</li>
+<li>PaaS平台强调可重用、复用性强，继承信息化资产，微服务云平台的微服务强调的是重写，快速应变；</li>
+<li>PaaS平台采用成熟中间件产品，例如Opentext的产品，平台稳定，高可用；微服务云平台微服务因为采用分布式系统而产生的复杂性和稳定性问题，而且测试、维护也复杂；</li>
+<li>微服务强调替换比利旧重要；</li>
+<li>基于PaaS平台开发的应用，天生就是SaaS。</li>
+</ol>
+<h1 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h1><p>　　综上所述，微服务云平台与SOA云平台，都能实现云，为最终用户提供SaaS，差别是适用场景上，在传统企业级应用中，基于SOA的PaaS更适合解决信息孤岛问题、消除部门壁垒、利旧信息资产；从技术层面来说，差别也不是很大，都是在服务化的体系和云的体系之下。<br>　　这些都是根据互联网上的经验综合梳理出的理解，欢迎讨论。</p>
+<p>参考：  [1]. 《微服务架构模式简介》 博客园 Amber-Garden 2015.07  [2]. 《微服务架构设计》 博客园 PetterLiu 2016.12  [3]. 《面向集团客户云计算运营平台的运营开通技术方案及应用架构——之云计算运营平台方案（三）》 CSDN博客 肖永威 2013.12  [4]. 《管理支撑办公系统技术架构选型对比讨论（J2EE与SOA对比）》 CSDN博客 肖永威 2014.04  [5]. 《基于微服务的软件架构模式》 简书 杜琪 2015.12  [6]. 无架构，不系统，谈谈架构的发展趋势和现状 百度贴吧 2016版权声明：本文为博主原创文章，未经博主允许不得转载。    <a href="https://blog.csdn.net/xiaoyw/art" target="_blank" rel="noopener">https://blog.csdn.net/xiaoyw/art</a></p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><a href="https://blog.csdn.net/xiaoyw71/article/details/75008335" target="_blank" rel="noopener">https://blog.csdn.net/xiaoyw71/article/details/75008335</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/网络/" rel="tag"># 网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/15/Interview/分布式/分布式8-Web-Server、Web-Container-与-Application-Server-的区别是什么/" rel="next" title="分布式8---Web Server、Web Container 与 Application Server 的区别是什么">
+                <i class="fa fa-chevron-left"></i> 分布式8---Web Server、Web Container 与 Application Server 的区别是什么
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/15/Interview/分布式/分布式10-描述-Cookie-和-Session-的作用，区别和各自的应用范围，Session工作原理/" rel="prev" title="分布式10---描述 Cookie 和 Session 的作用，区别和各自的应用范围，Session工作原理">
+                分布式10---描述 Cookie 和 Session 的作用，区别和各自的应用范围，Session工作原理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/05/15/Interview/分布式/分布式9-微服务（MicroServices）与巨石型应用（Monolithic-Applications）之间的区别在哪里/" data-title="分布式9---微服务（MicroServices）与巨石型应用（Monolithic Applications）之间的区别在哪里" data-url="http://yoursite.com/2018/05/15/Interview/分布式/分布式9-微服务（MicroServices）与巨石型应用（Monolithic-Applications）之间的区别在哪里/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#传统应用架构"><span class="nav-number">1.</span> <span class="nav-text">传统应用架构</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#2-微服务架构"><span class="nav-number"></span> <span class="nav-text">2. 微服务架构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-轻量级SOA架构"><span class="nav-number"></span> <span class="nav-text">3. 轻量级SOA架构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-微服务与SOA二者云化比较"><span class="nav-number"></span> <span class="nav-text">4. 微服务与SOA二者云化比较</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-总结"><span class="nav-number"></span> <span class="nav-text">5. 总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">0.1.</span> <span class="nav-text">参考文献</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

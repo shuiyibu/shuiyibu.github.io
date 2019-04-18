@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="开放问题,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="9:28  严格意义上Web服务器只负责处理HTTP协议，只能发送静态页面的内容。而JSP，ASP，PHP等动态内容需要通过CGI、FastCGI、ISAPI等接口交给其他程序去处理。这个其他程序就是应用服务器。         比如Web服务器包括Ngi… 严格意义上Web服务器只负责处理HTTP协议，只能发送静态页面的内容。而JSP，ASP，PHP等动态内容需要通过CGI、FastCGI、">
+<meta name="keywords" content="开放问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开放问题43---应用服务器与WEB 服务器的区别？应用服务器怎么监控性能，各种方式的区别？你使用过的应用服务器优化技术有哪些">
+<meta property="og:url" content="http://yoursite.com/2018/05/15/Interview/开放问题/开放问题43-应用服务器与WEB-服务器的区别？应用服务器怎么监控性能，各种方式的区别？你使用过的应用服务器优化技术有哪些/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="9:28  严格意义上Web服务器只负责处理HTTP协议，只能发送静态页面的内容。而JSP，ASP，PHP等动态内容需要通过CGI、FastCGI、ISAPI等接口交给其他程序去处理。这个其他程序就是应用服务器。         比如Web服务器包括Ngi… 严格意义上Web服务器只负责处理HTTP协议，只能发送静态页面的内容。而JSP，ASP，PHP等动态内容需要通过CGI、FastCGI、">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://imgu.xinnet.com/d/file/xol/xinzhi/66/2018-03-22/ba2a7a3f375f358fc065d3c5ec59865d.jpg">
+<meta property="og:updated_time" content="2018-05-23T07:59:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="开放问题43---应用服务器与WEB 服务器的区别？应用服务器怎么监控性能，各种方式的区别？你使用过的应用服务器优化技术有哪些">
+<meta name="twitter:description" content="9:28  严格意义上Web服务器只负责处理HTTP协议，只能发送静态页面的内容。而JSP，ASP，PHP等动态内容需要通过CGI、FastCGI、ISAPI等接口交给其他程序去处理。这个其他程序就是应用服务器。         比如Web服务器包括Ngi… 严格意义上Web服务器只负责处理HTTP协议，只能发送静态页面的内容。而JSP，ASP，PHP等动态内容需要通过CGI、FastCGI、">
+<meta name="twitter:image" content="http://imgu.xinnet.com/d/file/xol/xinzhi/66/2018-03-22/ba2a7a3f375f358fc065d3c5ec59865d.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/15/Interview/开放问题/开放问题43-应用服务器与WEB-服务器的区别？应用服务器怎么监控性能，各种方式的区别？你使用过的应用服务器优化技术有哪些/">
+
+
+
+
+
+  <title>开放问题43---应用服务器与WEB 服务器的区别？应用服务器怎么监控性能，各种方式的区别？你使用过的应用服务器优化技术有哪些 | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/Interview/开放问题/开放问题43-应用服务器与WEB-服务器的区别？应用服务器怎么监控性能，各种方式的区别？你使用过的应用服务器优化技术有哪些/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">开放问题43---应用服务器与WEB 服务器的区别？应用服务器怎么监控性能，各种方式的区别？你使用过的应用服务器优化技术有哪些</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T15:26:52+08:00">
+                2018-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/interview/" itemprop="url" rel="index">
+                    <span itemprop="name">interview</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/15/Interview/开放问题/开放问题43-应用服务器与WEB-服务器的区别？应用服务器怎么监控性能，各种方式的区别？你使用过的应用服务器优化技术有哪些/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/05/15/Interview/开放问题/开放问题43-应用服务器与WEB-服务器的区别？应用服务器怎么监控性能，各种方式的区别？你使用过的应用服务器优化技术有哪些/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<ul>
+<li>9:28</li>
+</ul>
+<p>严格意义上Web服务器只负责处理HTTP协议，只能发送静态页面的内容。而JSP，ASP，PHP等动态内容需要通过CGI、FastCGI、ISAPI等接口交给其他程序去处理。这个其他程序就是应用服务器。         比如Web服务器包括Ngi…</p>
+<p>严格意义上Web服务器只负责处理HTTP协议，只能发送静态页面的内容。而JSP，ASP，PHP等动态内容需要通过CGI、FastCGI、ISAPI等接口交给其他程序去处理。这个其他程序就是应用服务器。<br>比如Web服务器包括Nginx，Apache，IIS等。而应用服务器包括WebLogic，JBoss等。应用服务器一般也支持HTTP协议，因此界限没这么清晰。但是应用服务器的HTTP协议部分仅仅是支持，一般不会做特别优化，所以很少有见Tomcat直接暴露给外面，而是和Nginx、Apache等配合，只让Tomcat处理JSP和Servlet部分。<br><img src="http://imgu.xinnet.com/d/file/xol/xinzhi/66/2018-03-22/ba2a7a3f375f358fc065d3c5ec59865d.jpg" alt="timg (26).jpg"></p>
+<p>首先你要明白HTTP服务器是什么？ 是提供HTTP协议的软件，现在比较广泛的是apache和nginx 。它们的默认端口是都80，当然这个可以在配置文件中修改。 所以要查看HTTP服务器和端口是多少只是需要看软件占用的端口就可以了。</p>
+<p>一、 常见的WEB服务器和应用服务器</p>
+<p>　　在UNIX和Linux平台下使用最广泛的免费web服务器是W3C、NCSA和APACHE服务器，而Windows平台NT/2000/2003使用IIS的WEB服务器。</p>
+<p>　　在选择使用WEB服务器应考虑的本身特性因素有：性能、安全性、日志和统计、虚拟主机、代理服务器、缓冲服务和集成应用程序等，下面介绍几种常用的WEB服务器。<br>1：常见的web服务器： （其实IIS和Apache同时也支持基础的应用服务器的功能）</p>
+<p><strong>Microsoft IIS</strong></p>
+<p>　　Microsoft的Web服务器产品为Internet <a href="http://www.xinnet.com/domain/tld-info.html" target="_blank" rel="noopener">info</a>rmation Server (IIS)， IIS 是允许在公共Intranet或Internet上发布信息的Web服务器。IIS是目前最流行的Web服务器产品之一，很多著名的网站都是建立在IIS 的平台上。IIS提供了一个图形界面的管理工具，称为 Internet服务管理器，可用于监视配置和控制Internet服务。</p>
+<p>　　IIS是一种Web服务组件，其中包括Web服务器、FTP服务器、NNTP服务器和SMTP服务器， 分别用于网页浏览、文件传输、新闻服务和邮件发送等方面，它使得在网络(包括互联网和局域网)上发布信息成了一件很容易的事。它提供 ISAPI(Intranet Server API)作为扩展Web服务器功能的编程接口;同时，它还提供一个Internet数据库连接器，可以实现对数据库的查询和更新。</p>
+<p><strong>*Apache*</strong></p>
+<p>　　Apache 源于NCSAhttpd服务器，经过多次修改，成为世界上最流行的Web服务器软件之一。 Apache是自由软件，所以不断有人来为它开发新的功能、新的特性、修改原来的缺陷。Apache的特点是简单、速度快、性能稳定，并可做代理服务器来 使用。本来它只用于小型或试验Internet网络，后来逐步扩充到各种Unix系统中，尤其对Linux的支持相当完美。</p>
+<p>　 　Apache是以进程为基础的结构，进程要比线程消耗更多的系统开支，不太适合于多处理器环境，因此， 在一个Apache Web站点扩容时，通常是增加服务器或扩充群集节点而不是增加处理器。到目前为止Apache仍然是世界上用的最多的Web服务器，世界上很多著名的网站 都是Apache的产物，它的成功之处主要在于它的源代码开放、有一支开放的开发队伍、支持跨平台的应用(可以运行在几乎所有的Unix、 Windows、Linux系统平台上)以及它的可移植性等方面。</p>
+<p>2：常见的应用服务器： （貌似都是Java的哦。asp.NET被IIS支持了，PHP，Python等貌似一般不需要单独的应用服务器哦）</p>
+<p>　　<strong>*IBM WebSphere*</strong></p>
+<p>　　WebSphere Application Server 是 一 种功能完善、开放的Web应用程序服务器，是IBM电子商务计划的核心部分，它是基于 Java 的应用环境，用于建立、部署和管理 Internet 和 Intranet Web 应用程序。 这一整套产品进行了扩展，以适应 Web 应用程序服务器的需要，范围从简单到高级直到企业级。</p>
+<p>　　WebSphere 针对以 Web 为中心的开发人员，他们都是在基本 HTTP服务器和 CGI 编程技术上成长起来的。IBM 将提供 WebSphere 产品系列，通过提供综合资源、可重复使用的组件、功能强大并易于使用的工具、以及支持 HTTP 和 IIOP 通信的可伸缩运行时环境，来帮助这些用户从简单的 Web 应用程序转移到电子商务世界。</p>
+<p>　　<strong>*BEA WebLogic*</strong></p>
+<p>　　BEA WebLogic Server 是一种多功能、基于标准的web应用服务器，为企业构建自己的应用提供了坚实的基础。各种应用开发、部署所有关键性的任务，无论是集成各种系统和数据库， 还是提交服务、跨 Internet 协作，起始点都是 BEA WebLogic Server。由于 它具有全面的功能、对开放标准的遵从性、多层架构、支持基于组件的开发，基于 Internet 的企业都选择它来开发、部署最佳的应用。</p>
+<p>　　BEA WebLogic Server 在使应用服务器成为企业应用架构的基础方面继续处于领先地位。BEA WebLogic Server 为构建集成化的企业级应用提供了稳固的基础，它们以 Internet 的容量和速度，在连网的企业之间共享信息、提交服务，实现协作自动化。BEA WebLogic Server 的遵从 J2EE 、面向服务的架构，以及丰富的工具集支持，便于实现业务逻辑、数据和表达的分离，提供开发和部署各种业务驱动应用所必需的底层核心功能。</p>
+<p>　　 <strong>*IPlanet Application*</strong></p>
+<p>　　IPlanet Application Server作为Sun与Netscape联盟产物的iPlanet公司生产的iPlanet Application Server 满足最新J2EE规范的要求。它是一种完整的WEB服务器应用解决方案，它允许企业以便捷的方式，开发、部署和管理关键任务 Internet 应用。该解决方案集高性能、高度可伸缩和高度可用性于一体，可以支持大量的具有多种客户机类型与数据源的事务。</p>
+<p>　　iPlanet Application Server的基本核心服务包括事务监控器、多负载平衡选项、对集群和故障转移全面的支持、集成的XML 解析器和可扩展格式语言转换(XLST)引擎以及对国际化的全面支持。iPlanet Application Server 企业版所提供的全部特性和功能，并得益于J2EE系统构架，拥有更好的商业工作流程管理工具和应用集成功能。</p>
+<p>　　<strong>*OracleIAS*</strong></p>
+<p>　　Oracle iAS的英文全称是Oracle Internet Application Server，即Internet应用服务器，Oracle iAS是基于Java的应用服务器，通过与Oracle 数据库等产品的结合，Oracle iAS能够满足Internet应用对可靠性、可用性和可伸缩性的要求。</p>
+<p>　　Oracle iAS最大的优势是其集成性和通用性，它是一个集成的、通用的中间件产品。在集成性方面，Oracle iAS将业界最流行的HTTP服务器Apache集成到系统中，集成了Apache的Oracle iAS通信服务层可以处理多种客户请求，包括来自Web浏览器、胖客户端和手持设备的请求，并且根据请求的具体内容，将它们分发给不同的应用服务进行处 理。在通用性方面，Oracle iAS支持各种业界标准，包括 JavaBeans、CORBA、Servlets以及XML标准等，这种对标准的全面支持使得用户很容易将在其他系统平台上开发的应用移植到 Oracle平台上。</p>
+<p>　　<strong>*Tomcat*</strong></p>
+<p>　　Tomcat是一个开放源代码、运行servlet和JSP Web应用软件的基于Java的Web应用软件容器。Tomcat Server是根据servlet和JSP规范进行执行的，因此我们就可以说Tomcat Server也实行了Apache-Jakarta规范且比绝大多数商业应用软件服务器要好。</p>
+<p>　　Tomcat是JavaServlet 2.2和JavaServer Pages 1.1技术的标准实现，是基于Apache许可证下开发的自由软件。Tomcat是完全重写的Servlet API 2.2和JSP 1.1兼容的Servlet/JSP容器。Tomcat使用了JServ的一些代码，特别是Apache服务适配器。随着Catalina Servlet引擎的出现，Tomcat第四版号的性能得到提升，使得它成为一个值得考虑的Servlet/JSP容器，因此目前许多WEB服务器都是采 用Tomcat。</p>
+<p>二 、web服务器和应用服务器比较</p>
+<p>通俗的讲，Web服务器传送(serves)页面使浏览器可以浏览，然而应用程序服务器提供的是客户 端应用程序可以调用(call)的方法(methods)。确切一点，你可以说：Web服务器专门处理HTTP请求(request)，但是应用程序服务 器是通过很多协议来为应用程序提供(serves)商业逻辑(business logic)。<br>下面让我们来细细道来：<br>Web服务器(Web Server)<br>Web服务器可以解析(handles)HTTP协议。当Web服务器接收到一个HTTP请求(request)，会返回一个HTTP响应 (response)，例如送回一个HTML页面。为了处理一个请求(request)，Web服务器可以响应(response)一个静态页面或图片， 进行页面跳转(redirect)，或者把动态响应(dynamic response)的产生委托(delegate)给一些其它的程序例如CGI脚本，JSP(JavaServer Pages)脚本，servlets，ASP(Active Server Pages)脚本，服务器端(server-side)JavaScript，或者一些其它的服务器端(server-side)技术。无论它们(译者 注：脚本)的目的如何，这些服务器端(server-side)的程序通常产生一个HTML的响应(response)来让浏览器可以浏览。<br>要知道，Web服务器的代理模型(delegation model)非常简单。当一个请求(request)被送到Web服务器里来时，它只单纯的把请求(request)传递给可以很好的处理请求 (request)的程序(译者注：服务器端脚本)。Web服务器仅仅提供一个可以执行服务器端(server-side)程序和返回(程序所产生的)响 应(response)的环境，而不会超出职能范围。服务器端(server-side)程序通常具有事务处理(transaction processing)，数据库连接(database connectivity)和消息(messaging)等功能。<br>虽然Web服务器不支持事务处理或数据库连接池，但它可以配置(employ)各种策略(strategies)来实现容错性(fault tolerance)和可扩展性(scalability)，例如负载平衡(load balancing)，缓冲(caching)。集群特征(clustering—features)经常被误认为仅仅是应用程序服务器专有的特征。<br>应用程序服务器(The Application Server)<br>根据我们的定义，作为应用程序服务器，它通过各种协议，可以包括HTTP，把商业逻辑暴露给(expose)客户端应用程序。Web服务器主要是处理向浏 览器发送HTML以供浏览，而应用程序服务器提供访问商业逻辑的途径以供客户端应用程序使用。应用程序使用此商业逻辑就象你调用对象的一个方法(或过程语 言中的一个函数)一样。<br>应用程序服务器的客户端(包含有图形用户界面(GUI)的)可能会运行在一台PC、一个Web服务器或者甚至是其它的应用程序服务器上。在应用程序服务器 与其客户端之间来回穿梭(traveling)的信息不仅仅局限于简单的显示标记。相反，这种信息就是程序逻辑(program logic)。 正是由于这种逻辑取得了(takes)数据和方法调用(calls)的形式而不是静态HTML，所以客户端才可以随心所欲的使用这种被暴露的商业逻辑。<br>在大多数情形下，应用程序服务器是通过组件(component)的应用程序接口(API)把商业逻辑暴露(expose)(给客户端应用程序)的，例如 基于J2EE(Java 2 Platform, Enterprise Edition)应用程序服务器的EJB(Enterprise JavaBean)组件模型。此外，应用程序服务器可以管理自己的资源，例如看大门的工作(gate-keeping duties)包括安全(security)，事务处理(transaction processing)，资源池(resource pooling)， 和消息(messaging)。就象Web服务器一样，应用程序服务器配置了多种可扩展(scalability)和容错(fault tolerance)技术。<br>一个例子<br>例如，设想一个在线商店(网站)提供实时定价(real-time pricing)和有效性(availability)信息。这个站点(4<a href="http://www.xinnet.com/domain/tld-cc.html" target="_blank" rel="noopener">cc</a>aaf3e54ad14a196aa503af7a0a9cb)很可能会提供一个表单(form)让你来选择产品。当你提交查询 (query)后，网站会进行查找(lookup)并把结果内嵌在HTML页面中返回。网站可以有很多种方式来实现这种功能。我要介绍一个不使用应用程序 服务器的情景和一个使用应用程序服务器的情景。观察一下这两中情景的不同会有助于你了解应用程序服务器的功能。<br>情景1：不带应用程序服务器的Web服务器<br>在此种情景下，一个Web服务器独立提供在线商店的功能。Web服务器获得你的请求(request)，然后发送给服务器端(server-side)可 以处理请求(request)的程序。此程序从数据库或文本文件(flat file，译者注：flat file是指没有特殊格式的非二进制的文件，如properties和XML文件等)中查找定价信息。一旦找到，服务器端(server-side)程序 把结果信息表示成(formulate)HTML形式，最后Web服务器把会它发送到你的Web浏览器。<br>简而言之，Web服务器只是简单的通过响应(response)HTML页面来处理HTTP请求(request)。<br>情景2：带应用程序服务器的Web服务器<br>情景2和情景1相同的是Web服务器还是把响应(response)的产生委托(delegates)给脚本(译者注：服务器端(server- side)程序)。然而，你可以把查找定价的商业逻辑(business logic)放到应用程序服务器上。由于这种变化，此脚本只是简单的调用应用程序服务器的查找服务(lookup service)，而不是已经知道如何查找数据然后表示为(formulate)一个响应(response)。 这时当该脚本程序产生HTML响应(response)时就可以使用该服务的返回结果了。<br>在此情景中，应用程序服务器提供(serves)了用于查询产品的定价信息的商业逻辑。(服务器的)这种功能(functionality)没有指出有关 显示和客户端如何使用此信息的细节，相反客户端和应用程序服务器只是来回传送数据。当有客户端调用应用程序服务器的查找服务(lookup service)时，此服务只是简单的查找并返回结果给客户端。<br>通过从响应产生(response-generating)HTML的代码中分离出来，在应用程序之中该定价(查找)逻辑的可重用性更强了。其他的客户 端，例如收款机，也可以调用同样的服务(service)来作为一个店员给客户结帐。相反，在情景1中的定价查找服务是不可重用的因为信息内嵌在HTML 页中了。<br>总而言之，在情景2的模型中，在Web服务器通过回应HTML页面来处理HTTP请求(request)，而应用程序服务器则是通过处理定价和有效性(availability)请求(request)来提供应用程序逻辑的。<br>警告(Caveats)<br>现在，XML Web Services已经使应用程序服务器和Web服务器的界线混淆了。通过传送一个XML有效载荷(payload)给服务器，Web服务器现在可以处理数据和响应(response)的能力与以前的应用程序服务器同样多了。<br>另外，现在大多数应用程序服务器也包含了Web服务器，这就意味着可以把Web服务器当作是应用程序服务器的一个子集(subset)。虽然应用程序服务 器包含了Web服务器的功能，但是开发者很少把应用程序服务器部署(deploy)成这种功能(capacity)(译者注：这种功能是指既有应用程序服 务器的功能又有Web服务器的功能)。相反，如果需要，他们通常会把Web服务器独立配置，和应用程序服务器一前一后。这种功能的分离有助于提高性能(简 单的Web请求(request)就不会影响应用程序服务器了)，分开配置(专门的Web服务器，集群(clustering)等等)，而且给最佳产品的 选取留有余地。</p>
+<p>三、 比较</p>
+<p>-————————</p>
+<p>1.WEB服务器</p>
+<p>理解WEB服务器,首先你要理解什么是WEB?WEB你可以简单理解为你所看到的HTML页面就是WEB的数据元素,处理这些数据元素的应用软件就叫WEB服务器,如IIS、apache。 WEB服务器与客户端打交道，它要处理的主要信息有：session、request、response、HTML、JS、CS等。<br>-————————<br>2.应用服务器<br>应用服务器如JSP，处理的是非常规性WEB页面（JSP文件），他动态生成WEB页面，生成的WEB页面在发送给客户端（实际上当应用服务器处理完一个JSP请求并完成JSP生成HTML后它的任务就结束了，其余的就是WEB处理的过程了）。<br>-————————<br>3.两者关系<br>WEB服务器一般是通用的，而应用服务器一般是专用的，如Tomcat只处理JAVA应用程序而不能处理ASPX或PHP。而Apache是一个WEB服 务器f（HTTP服务器），后来连接Tomcat应用服务器来支持java。</p>
+<p>参考：</p>
+<p><a href="http://www.cnblogs.com/itech/archive/2009/08/18/1548860.html" target="_blank" rel="noopener">http://www.cnblogs.com/itech/archive/2009/08/18/1548860.html</a></p>
+<p>四、理解</p>
+<p>WEB服务器、应用程序服务器、HTTP服务器有何区别？IIS、Apache、Tomcat、Weblogic、WebSphere都各属于哪种服务器？这些问题困惑了很久，今天终于梳理清楚了：</p>
+<p><strong>*HTTP服务器*</strong></p>
+<p>首先你要明白HTTP服务器是什么？ 是提供HTTP协议的软件，现在比较广泛的是apache和nginx 它们的默认端口是都80，当然这个可以在配置文件中修改。 所以要查看HTTP服务器和端口是多少只是需要看软件占用的端口就可以了。</p>
+<p><strong>*Web服务器*</strong></p>
+<p>Web服务器的基本功能就是提供Web信息浏览服务。它只需支持HTTP协议、HTML文档格式及URL。与客户端的网络浏览器配合。因为Web服务器主要支持的协议就是HTTP，所以通常情况下HTTP服务器和WEB服务器是相等的(有没有支持除HTTP之外的协议的web服务器，作者没有考证过)，说的是一回事。</p>
+<p><strong>*应用程序服务器(简称应用服务器)*</strong>　　</p>
+<p>应用程序服务器(简称应用服务器)，我们先看一下微软对它的定义：”我们把应用程序服务器定义为“作为服务器执行共享业务应用程序的底层的系统软件”。就像文件服务器为很多用户提供文件一样，应用程序服务器让多个用户可以同时使用应用程序（通常是客户创建的应用程序）”</p>
+<p>　　通俗的讲，Web服务器传送(serves)页面使浏览器可以浏览，然而应用程序服务器提供的是客户端应用程序可以调用(call)的方法(methods)。确切一点，你可以说: <strong>Web服务器专门处理HTTP请求(request)，但是应用程序服务器是通过很多协议来为应用程序提供(serves)商业逻辑(busineSSLogic)。</strong></p>
+<p>　　以JavaEE为例，Web服务器主要是处理静态页面处理和作为Servlet容器，解释和执行servlet/JSP，而应用服务器是运行业务逻辑的，主要是EJB、JNDI和JMXAPI等J2EEAPI方面的，还包含事务处理、数据库连接等功能，所以在企业级应用中，应用服务器提供的功能比WEB服务器强大的多。</p>
+<p>　　以这样的定义，IIS、Apache、Tomcat都可以属于Web服务器，Weblogic、WebSphere都属于应用服务器。</p>
+<p>　　Apache: 在<strong>Web服务器</strong>中，Apache是纯粹的Web服务器，经常与Tomcat配对使用。它对HTML页面具有强大的解释能力，但是不能解释嵌入页面内的服务器端脚本代码（JSP/Servlet）。</p>
+<p>　　Tomcat:早期的Tomcat是一个嵌入Apache内的JSP/Servlet解释引擎Apache+Tomcat就相当于IIS+ASP。后来的Tomcat已不再嵌入Apache内，Tomcat进程独立于Apache进程运行。而且，Tomcat已经是一个独立的Servlet和JSP容器，业务逻辑层代码和界面交互层代码可以分离了。因此，有人把Tomcat叫做<strong>轻量级应用服务器</strong>。</p>
+<p>　　IIS:微软早期的IIS，就是一个纯粹的Web服务器。后来，它嵌入了ASP引擎，可以解释VBScript和JScript服务器端代码了，这时，它就可以兼作应用服务器。当然，它与J2EE应用服务器根本无法相比，但是，从功能上说，从原理上说，它勉强可以称之为应用服务器。确切地说，它是兼有一点<strong>应用服务器</strong>功能的<strong>Web服务器</strong>。</p>
+<p>　　综上：Apache是纯粹的web服务器，而Tomcat和IIS因为具有了解释执行服务器端代码的能力，可以称作为轻量级应用服务器或带有服务器功能的Web服务器。<strong>Weblogic、WebSphere因为能提供强大的J2EE功能，毫无疑问是绝对的应用服务器</strong>。<strong>对于处于中间位置的Tomcat，它可以配合纯Web服务器Apache一起使用，也可以作为应用服务器的辅助与应用服务器一起部署</strong>：</p>
+<p>一、Tomcat与应用服务器</p>
+<p>　　到目前为止，Tomcat一直被认为是Servlet/JSPAPI的执行器，也就所谓的Servlet容器。然而，Tomcat并不仅仅如此，它还提供了JNDI和JMXAPI的实现机制。尽管如此，Tomcat仍然还不能算是应用服务器，因为它不提供大多数J2EEAPI的支持。</p>
+<p>　　很有意思的是，目前许多的应用服务器通常把Tomcat作为它们Servlet和JSPAPI的容器。由于Tomcat允许开发者只需通过加入一行致谢，就可以把Tomcat嵌入到它们的应用中。遗憾的是，许多商业应用服务器并没有遵守此规则。</p>
+<p>　　对于开发者来说，如果是为了寻找利用Servlet、JSP、JNDI和JMX技术来生成JavaWeb应用的话，选择Tomcat是一个优秀的解决方案；但是为了寻找支持其他的J2EEAPI，那么寻找一个应用服务器或者把Tomcat作为应用服务器的辅助，将是一个不错的解决方案；第三种方式是找到独立的J2EEAPI实现，然后把它们跟Tomcat结合起来使用。虽然整合会带来相关的问题，但是这种方式是最为有效的。。</p>
+<p>二、Tomcat与Web服务器</p>
+<p>　　Tomcat是提供一个支持Servlet和JSP运行的容器。Servlet和JSP能根据实时需要，产生动态网页内容。而对于Web服务器来说，Apache仅仅支持静态网页，对于支持动态网页就会显得无能为力；Tomcat则既能为动态网页服务，同时也能为静态网页提供支持。尽管它没有通常的Web服务器快、功能也不如Web服务器丰富，但是Tomcat逐渐为支持静态内容不断扩充。大多数的Web服务器都是用底层语言编写如C，利用了相应平台的特征，因此用纯Java编写的Tomcat执行速度不可能与它们相提并论。</p>
+<p>　　一般来说，大的站点都是将Tomcat与Apache的结合，Apache负责接受所有来自客户端的HTTP请求，然后将Servlets和JSP的请求转发给Tomcat来处理。Tomcat完成处理后，将响应传回给Apache，最后Apache将响应返回给客户端。</p>
+<p>　　而且为了提高性能，可以一台apache连接多台tomcat实现负载平衡。</p>
+<p>　　关于WEB服务器、应用程序服务器的更详细区别可以参考下面这篇文章：</p>
+<p>　　通俗的讲，Web服务器传送(serves)页面使浏览器可以浏览，然而应用程序服务器提供的是客户端应用程序可以调用(call)的方法(methods)。确切一点，你可以说:Web服务器专门处理HTTP请求(request)，但是应用程序服务器是通过很多协议来为应用程序提供(serves)商业逻辑(businesslogic)。</p>
+<p>　　下面让我们来细细道来:</p>
+<p>　　Web服务器(WebServer)</p>
+<p>　　Web服务器可以解析(handles)HTTP协议。当Web服务器接收到一个HTTP请求(request)，会返回一个HTTP响应(response)，例如送回一个HTML页面。为了处理一个请求(request)，Web服务器可以响应(response)一个静态页面或图片，进行页面跳转(redirect)，或者把动态响应(dynamicresponse)的产生委托(delegate)给一些其它的程序例如CGI脚本，JSP(JavaServerPages)脚本，servlets，ASP(ActiveServerPages)脚本，服务器端(server-side)JavaScript，或者一些其它的服务器端(server-side)技术。无论它们(译者注:脚本)的目的如何，这些服务器端(server-side)的程序通常产生一个HTML的响应(response)来让浏览器可以浏览。</p>
+<p>　　要知道，Web服务器的代理模型(delegationmodel)非常简单。当一个请求(request)被送到Web服务器里来时，它只单纯的把请求(request)传递给可以很好的处理请求(request)的程序(译者注:服务器端脚本)。Web服务器仅仅提供一个可以执行服务器端(server-side)程序和返回(程序所产生的)响应(response)的环境，而不会超出职能范围。服务器端(server-side)程序通常具有事务处理(transactionprocessing)，数据库连接(databaseconnectivity)和消息(messaging)等功能。</p>
+<p>　　虽然Web服务器不支持事务处理或数据库连接池，但它可以配置(employ)各种策略(strategies)来实现容错性(faulttolerance)和可扩展性(scalability)，例如负载平衡(loadbalancing)，缓冲(caching)。集群特征(clustering—features)经常被误认为仅仅是应用程序服务器专有的特征。</p>
+<p>　　应用程序服务器(TheApplicationServer)</p>
+<p>　　根据我们的定义，作为应用程序服务器，它通过各种协议，可以包括HTTP，把商业逻辑暴露给(expose)客户端应用程序。Web服务器主要是处理向浏览器发送HTML以供浏览，而应用程序服务器提供访问商业逻辑的途径以供客户端应用程序使用。应用程序使用此商业逻辑就象你调用对象的一个方法(或过程语言中的一个函数)一样。</p>
+<p>　　应用程序服务器的客户端(包含有图形用户界面(GUI)的)可能会运行在一台PC、一个Web服务器或者甚至是其它的应用程序服务器上。在应用程序服务器与其客户端之间来回穿梭(traveling)的信息不仅仅局限于简单的显示标记。相反，这种信息就是程序逻辑(programlogic)。正是由于这种逻辑取得了(takes)数据和方法调用(calls)的形式而不是静态HTML，所以客户端才可以随心所欲的使用这种被暴露的商业逻辑。</p>
+<p>　　在大多数情形下，应用程序服务器是通过组件(component)的应用程序接口(API)把商业逻辑暴露(expose)(给客户端应用程序)的，例如基于J2EE(Java2Platform,EnterpriseEdition)应用程序服务器的EJB(EnterpriseJavaBean)组件模型。此外，应用程序服务器可以管理自己的资源，例如看大门的工作(gate-keepingduties)包括安全(security)，事务处理(transactionprocessing)，资源池(resourcepooling)，和消息(messaging)。就象Web服务器一样，应用程序服务器配置了多种可扩展(scalability)和容错(faulttolerance)技术。</p>
+<p>一个例子</p>
+<p>　　例如，设想一个在线商店(网站)提供实时定价(real-timepricing)和有效性(availability)信息。这个站点(site)很可能会提供一个表单(form)让你来选择产品。当你提交查询(query)后，网站会进行查找(lookup)并把结果内嵌在HTML页面中返回。网站可以有很多种方式来实现这种功能。我要介绍一个不使用应用程序服务器的情景和一个使用应用程序服务器的情景。观察一下这两中情景的不同会有助于你了解应用程序服务器的功能。</p>
+<p>情景1:不带应用程序服务器的Web服务器</p>
+<p>　　在此种情景下，一个Web服务器独立提供在线商店的功能。Web服务器获得你的请求(request)，然后发送给服务器端(server-side)可以处理请求(request)的程序。此程序从数据库或文本文件(flatfile，译者注:flatfile是指没有特殊格式的非二进制的文件，如properties和XML文件等)中查找定价信息。一旦找到，服务器端(server-side)程序把结果信息表示成(formulate)HTML形式，最后Web服务器把会它发送到你的Web浏览器。</p>
+<p>简而言之，Web服务器只是简单的通过响应(response)HTML页面来处理HTTP请求(request)。</p>
+<p>情景2:带应用程序服务器的Web服务器</p>
+<p>　　情景2和情景1相同的是Web服务器还是把响应(response)的产生委托(delegates)给脚本(译者注:服务器端(server-side)程序)。然而，你可以把查找定价的商业逻辑(businesslogic)放到应用程序服务器上。由于这种变化，此脚本只是简单的调用应用程序服务器的查找服务(lookupservice)，而不是已经知道如何查找数据然后表示为(formulate)一个响应(response)。这时当该脚本程序产生HTML响应(response)时就可以使用该服务的返回结果了。</p>
+<p>　　在此情景中，应用程序服务器提供(serves)了用于查询产品的定价信息的商业逻辑。(服务器的)这种功能(functionality)没有指出有关显示和客户端如何使用此信息的细节，相反客户端和应用程序服务器只是来回传送数据。当有客户端调用应用程序服务器的查找服务(lookupservice)时，此服务只是简单的查找并返回结果给客户端。</p>
+<p>　　通过从响应产生(response-generating)HTML的代码中分离出来，在应用程序之中该定价(查找)逻辑的可重用性更强了。其他的客户端，例如收款机，也可以调用同样的服务(service)来作为一个店员给客户结帐。相反，在情景1中的定价查找服务是不可重用的因为信息内嵌在HTML页中了。</p>
+<p>　　总而言之，在情景2的模型中，在Web服务器通过回应HTML页面来处理HTTP请求(request)，而应用程序服务器则是通过处理定价和有效性(availability)请求(request)来提供应用程序逻辑的。</p>
+<p>警告(Caveats)</p>
+<p>　　现在，XMLWebServices已经使应用程序服务器和Web服务器的界线混淆了。通过传送一个XML有效载荷(payload)给服务器，Web服务器现在可以处理数据和响应(response)的能力与以前的应用程序服务器同样多了。</p>
+<p>　　另外，现在大多数应用程序服务器也包含了Web服务器，这就意味着可以把Web服务器当作是应用程序服务器的一个子集(subset)。虽然应用程序服务器包含了Web服务器的功能，但是开发者很少把应用程序服务器部署(deploy)成这种功能(capacity)(译者注:这种功能是指既有应用程序服务器的功能又有Web服务器的功能)。相反，如果需要，他们通常会把Web服务器独立配置，和应用程序服务器一前一后。这种功能的分离有助于提高性能(简单的Web请求(request)就不会影响应用程序服务器了)，分开配置(专门的Web服务器，集群(clustering)等等)，而且给最佳产品的选取留有余地。</p>
+<p><a href="http://www.cnblogs.com/zhaoyl/archive/2012/10/10/2718575.html" target="_blank" rel="noopener">http://www.cnblogs.com/zhaoyl/archive/2012/10/10/2718575.html</a></p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><a href="http://www.xinnet.com/xinzhi/66/129199.html" target="_blank" rel="noopener">http://www.xinnet.com/xinzhi/66/129199.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/开放问题/" rel="tag"># 开放问题</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/15/Interview/开放问题/开放问题42-如果让你实现一个并发安全的链表，你会怎么做/" rel="next" title="开放问题42---如果让你实现一个并发安全的链表，你会怎么做">
+                <i class="fa fa-chevron-left"></i> 开放问题42---如果让你实现一个并发安全的链表，你会怎么做
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/15/Interview/开放问题/开放问题44-大型网站在架构上应当考虑哪些问题/" rel="prev" title="开放问题44---大型网站在架构上应当考虑哪些问题">
+                开放问题44---大型网站在架构上应当考虑哪些问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/05/15/Interview/开放问题/开放问题43-应用服务器与WEB-服务器的区别？应用服务器怎么监控性能，各种方式的区别？你使用过的应用服务器优化技术有哪些/" data-title="开放问题43---应用服务器与WEB 服务器的区别？应用服务器怎么监控性能，各种方式的区别？你使用过的应用服务器优化技术有哪些" data-url="http://yoursite.com/2018/05/15/Interview/开放问题/开放问题43-应用服务器与WEB-服务器的区别？应用服务器怎么监控性能，各种方式的区别？你使用过的应用服务器优化技术有哪些/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">1.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

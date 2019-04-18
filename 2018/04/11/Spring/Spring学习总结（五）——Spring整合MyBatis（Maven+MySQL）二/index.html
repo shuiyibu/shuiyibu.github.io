@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="一江烟雨任平生">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）二目录  一、在Web项目中启动Spring容器   1.1、使用监听器启动Spring容器 1.2、使用Servlet方式启动Spring容器   二、获取ApplicationContext实例   2.1、使用工具类WebApplicationContextUtils获得Spring容器 2.2、实现接口A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2018/04/11/Spring/Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）二/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）二目录  一、在Web项目中启动Spring容器   1.1、使用监听器启动Spring容器 1.2、使用Servlet方式启动Spring容器   二、获取ApplicationContext实例   2.1、使用工具类WebApplicationContextUtils获得Spring容器 2.2、实现接口A">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160706103203608-1827029932.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160706103533202-362177979.png">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160706140957452-1415538286.png">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160706150340967-1588060223.png">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:updated_time" content="2018-04-11T08:57:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）二目录  一、在Web项目中启动Spring容器   1.1、使用监听器启动Spring容器 1.2、使用Servlet方式启动Spring容器   二、获取ApplicationContext实例   2.1、使用工具类WebApplicationContextUtils获得Spring容器 2.2、实现接口A">
+<meta name="twitter:image" content="http://common.cnblogs.com/images/copycode.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/11/Spring/Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）二/">
+
+
+
+
+
+  <title> | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/11/Spring/Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）二/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline"></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T16:57:22+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/11/Spring/Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）二/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/04/11/Spring/Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）二/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Spring学习总结（五）——Spring整合MyBatis（Maven-MySQL）二"><a href="#Spring学习总结（五）——Spring整合MyBatis（Maven-MySQL）二" class="headerlink" title="Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）二"></a><a href="http://www.cnblogs.com/best/p/5646807.html" target="_blank" rel="noopener">Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）二</a></h1><p><strong>目录</strong></p>
+<ul>
+<li><p><a href="http://www.cnblogs.com/best/p/5646807.html#_label0" target="_blank" rel="noopener">一、在Web项目中启动Spring容器</a></p>
+</li>
+<li><ul>
+<li><a href="http://www.cnblogs.com/best/p/5646807.html#_lab2_0_0" target="_blank" rel="noopener">1.1、使用监听器启动Spring容器</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5646807.html#_lab2_0_1" target="_blank" rel="noopener">1.2、使用Servlet方式启动Spring容器</a></li>
+</ul>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5646807.html#_label1" target="_blank" rel="noopener">二、获取ApplicationContext实例</a></p>
+</li>
+<li><ul>
+<li><a href="http://www.cnblogs.com/best/p/5646807.html#_lab2_1_0" target="_blank" rel="noopener">2.1、使用工具类WebApplicationContextUtils获得Spring容器</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5646807.html#_lab2_1_1" target="_blank" rel="noopener">2.2、实现接口ApplicationContextAware</a></li>
+</ul>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5646807.html#_label2" target="_blank" rel="noopener">三、基于注解的声明式事务管理配置</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5646807.html#_label3" target="_blank" rel="noopener">四、示例下载</a></p>
+</li>
+</ul>
+<p>接着上一篇博客<a href="http://www.cnblogs.com/best/p/5638827.html" target="_blank" rel="noopener">《Spring整合MyBatis（Maven+MySQL）一》</a>继续。</p>
+<p>Spring的开放性和扩张性在J2EE应用领域得到了充分的证明，与其他优秀框架无缝的集成是Spring最为强大的功能。Spring类似电脑的主板，可以将许多部件集成在一起协调工作。</p>
+<h1 id="一、在Web项目中启动Spring容器"><a href="#一、在Web项目中启动Spring容器" class="headerlink" title="一、在Web项目中启动Spring容器"></a>一、在Web项目中启动Spring容器</h1><p>在Web项目中，当Web容器启动时我们要同时启动Spring容器，有三种办法，</p>
+<ul>
+<li><p>第一种使用监听器启动，</p>
+</li>
+<li><p>第二使用Servlet启动，</p>
+</li>
+<li><p>第三使用MVC框架的扩展点启动，</p>
+</li>
+</ul>
+<p>这里主要选择第一种，因为监听器的启动时机早于Servlet。强烈建议使用办法一。</p>
+<h2 id="1-1、使用监听器启动Spring容器"><a href="#1-1、使用监听器启动Spring容器" class="headerlink" title="1.1、使用监听器启动Spring容器"></a>1.1、使用监听器启动Spring容器</h2><p>我们需要使用到Spring定义好的一个监听器：<code>org.springframework.web.context.ContextLoaderListener</code>，该监听器在包Spring-web.x.x.x.jar下，修改pom.xml文件，添加依赖：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-web&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>修改web.xml文件，新增监听器声明，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;listener&gt;</span><br><span class="line">    &lt;description&gt;Spring容器启动监听器&lt;/description&gt;</span><br><span class="line">    &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;</span><br><span class="line">&lt;/listener&gt;</span><br></pre></td></tr></table></figure>
+<p>当监听器在启动Spring容器时会自动查找Web-INF/lib目录下名为applicationContext.xml配置文件，当然也可以设置参数指定配置文件的具体位置，特别是有多个配置文件的情况，指定办法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;listener&gt;</span><br><span class="line">    &lt;description&gt;Spring容器加载监听器&lt;/description&gt;</span><br><span class="line">    &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;</span><br><span class="line">&lt;/listener&gt;</span><br><span class="line">&lt;context-param&gt;</span><br><span class="line">    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line">    &lt;param-value&gt;classpath*:applicationContext.xml&lt;/param-value&gt;</span><br><span class="line">&lt;/context-param&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>如果有多个配置文件则可以通过逗号分开。怎么判断是否启动成功，则可以参考本文第二点，获得ApplicationContext实例，也可以查看tomcat启动时的信息，如果没有出现错误且能找到如下说明基本成功。</p>
+<p> <img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160706103203608-1827029932.png" alt="img"></p>
+<p>启动失败也有几种可能，如applicationContext.xml文件的路径错误；找不到类ContextLoaderListener；如果提示找不到类，很可能是因为没有将Maven依赖的包发布出去，可以在项目属性中设置，如下所示：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160706103533202-362177979.png" alt="img"></p>
+<h2 id="1-2、使用Servlet方式启动Spring容器"><a href="#1-2、使用Servlet方式启动Spring容器" class="headerlink" title="1.2、使用Servlet方式启动Spring容器"></a>1.2、使用Servlet方式启动Spring容器</h2><p>方法与1.1基本相同，只是配置有小的区别，修改web.xml的具体内容如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">    &lt;servlet-name&gt;context&lt;/servlet-name&gt;</span><br><span class="line">    &lt;servlet-class&gt;org.springframework.web.context.ContextLoaderServlet&lt;/servlet-class&gt;</span><br><span class="line">    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span><br><span class="line">&lt;/ servlet &gt;</span><br><span class="line">&lt;context-param&gt; </span><br><span class="line">    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line">       &lt;!-- 多个配置文件之间以“，”隔开 --&gt;</span><br><span class="line">    &lt;param-value&gt;</span><br><span class="line">           classpath:beans1.xml,classpath:beans2.xml...</span><br><span class="line">     &lt;/param-value&gt;</span><br><span class="line">  &lt;/context-param&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>需要注意的是==两者都是继承类ContextLoader==，但==从Spring3.0开始已经移除了ContextLoaderServlet，用ContextLoaderListener的方式替代==。第3种启动方式只有在特定的框架中才有效，所以不多用。</p>
+<h1 id="二、获取ApplicationContext实例"><a href="#二、获取ApplicationContext实例" class="headerlink" title="二、获取ApplicationContext实例"></a>二、获取ApplicationContext实例</h1><p>当web容器启动时Spring容器如果也成功启动了，则可以在整个web应用程序中获得ApplicationContext完成IOC、AOP及Spring的其它功能，获得ApplicationContext的常用方法有两种：</p>
+<h2 id="2-1、使用工具类WebApplicationContextUtils获得Spring容器"><a href="#2-1、使用工具类WebApplicationContextUtils获得Spring容器" class="headerlink" title="2.1、使用工具类WebApplicationContextUtils获得Spring容器"></a>2.1、使用工具类WebApplicationContextUtils获得Spring容器</h2><p>2.1.1、定义一个Service类，BookTypeService代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangguo.Spring61.service;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import javax.annotation.Resource;</span><br><span class="line"></span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line">import com.zhangguo.Spring61.entities.BookType;</span><br><span class="line">import com.zhangguo.Spring61.mapping.BookTypeDAO;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * 图书类型服务</span><br><span class="line"> */</span><br><span class="line">@Service</span><br><span class="line">public class BookTypeService &#123;</span><br><span class="line"></span><br><span class="line">    @Resource</span><br><span class="line">    BookTypeDAO bookTypeDAO;</span><br><span class="line"></span><br><span class="line">    public List&lt;BookType&gt; getAllBookTypes() &#123;</span><br><span class="line">        System.err.println(&quot;一些被省去的业务&quot;);</span><br><span class="line">        return bookTypeDAO.getAllBookTypes();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>@Service表示Spring容器将自动管理BookTypeService实例，@Resource表示自动装配，会自动从Spring容器中找到类型为BookTypeDAO的Bean完成bookTypeDAO字段的初始化。</p>
+<p>2.1.2、定义一个Servlet，BookTypeList Servlet代码如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangguo.Spring61.action;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line"></span><br><span class="line">import org.springframework.web.context.WebApplicationContext;</span><br><span class="line">import org.springframework.web.context.support.WebApplicationContextUtils;</span><br><span class="line"></span><br><span class="line">import com.zhangguo.Spring61.service.BookTypeService;</span><br><span class="line"></span><br><span class="line">@WebServlet(&quot;/BookTypeList.do&quot;)</span><br><span class="line">public class BookTypeList extends HttpServlet &#123;</span><br><span class="line">    private static final long serialVersionUID = 1L;</span><br><span class="line">    </span><br><span class="line">     BookTypeService bookTypeService;</span><br><span class="line">     </span><br><span class="line">    @Override</span><br><span class="line">    public void init() throws ServletException &#123;</span><br><span class="line">      //在当前上下文中获得Spring容器</span><br><span class="line">      WebApplicationContext ctx=WebApplicationContextUtils.getWebApplicationContext(getServletContext());</span><br><span class="line">      //从容器中获得bean</span><br><span class="line">      bookTypeService=ctx.getBean(BookTypeService.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        PrintWriter writer=response.getWriter();</span><br><span class="line">        writer.print(bookTypeService.getAllBookTypes().size());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>在Servlet中我们重写了父类的init方法，注意如果重写带参数的那个init方法init(ServletConfig config)，则==一定要记得调用父类的init方法完成参数的初始化==，即不要删除super.init(config)，如果不这样将获不到servlet下上文;在init方法中我们通过WebApplicationContextUtils类获得得了Spring容器。</p>
+<p>此时的applicationContext.xml文件如下：</p>
+<p><img src="http://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt="img"> View Code</p>
+<p>运行结果：</p>
+<p><strong><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160706140957452-1415538286.png" alt="img"></strong></p>
+<h2 id="2-2、实现接口ApplicationContextAware"><a href="#2-2、实现接口ApplicationContextAware" class="headerlink" title="2.2、实现接口ApplicationContextAware"></a>2.2、实现接口ApplicationContextAware</h2><p> 当一个类实现了<code>org.springframework.context.ApplicationContextAware</code>接口时且实现该接口的类被Spring容器管理，则Spring容器会自动意识到需要调用接口中的方法setApplicationContext设置当前的Spring上下文。通俗说实现这个接口可以方便获得Spring上下文。该接口如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Copyright 2002-2012 the original author or authors.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Licensed under the Apache License, Version 2.0 (the "License");</span></span><br><span class="line"><span class="comment"> * you may not use this file except in compliance with the License.</span></span><br><span class="line"><span class="comment"> * You may obtain a copy of the License at</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *      http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Unless required by applicable law or agreed to in writing, software</span></span><br><span class="line"><span class="comment"> * distributed under the License is distributed on an "AS IS" BASIS,</span></span><br><span class="line"><span class="comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></span><br><span class="line"><span class="comment"> * See the License for the specific language governing permissions and</span></span><br><span class="line"><span class="comment"> * limitations under the License.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> org.springframework.context;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.BeansException;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.Aware;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Interface to be implemented by any object that wishes to be notified</span></span><br><span class="line"><span class="comment"> * of the &#123;<span class="doctag">@link</span> ApplicationContext&#125; that it runs in.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Implementing this interface makes sense for example when an object</span></span><br><span class="line"><span class="comment"> * requires access to a set of collaborating beans. Note that configuration</span></span><br><span class="line"><span class="comment"> * via bean references is preferable to implementing this interface just</span></span><br><span class="line"><span class="comment"> * for bean lookup purposes.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;This interface can also be implemented if an object needs access to file</span></span><br><span class="line"><span class="comment"> * resources, i.e. wants to call &#123;<span class="doctag">@code</span> getResource&#125;, wants to publish</span></span><br><span class="line"><span class="comment"> * an application event, or requires access to the MessageSource. However,</span></span><br><span class="line"><span class="comment"> * it is preferable to implement the more specific &#123;<span class="doctag">@link</span> ResourceLoaderAware&#125;,</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> ApplicationEventPublisherAware&#125; or &#123;<span class="doctag">@link</span> MessageSourceAware&#125; interface</span></span><br><span class="line"><span class="comment"> * in such a specific scenario.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Note that file resource dependencies can also be exposed as bean properties</span></span><br><span class="line"><span class="comment"> * of type &#123;<span class="doctag">@link</span> org.springframework.core.io.Resource&#125;, populated via Strings</span></span><br><span class="line"><span class="comment"> * with automatic type conversion by the bean factory. This removes the need</span></span><br><span class="line"><span class="comment"> * for implementing any callback interface just for the purpose of accessing</span></span><br><span class="line"><span class="comment"> * a specific file resource.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;&#123;<span class="doctag">@link</span> org.springframework.context.support.ApplicationObjectSupport&#125; is a</span></span><br><span class="line"><span class="comment"> * convenience base class for application objects, implementing this interface.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;For a list of all bean lifecycle methods, see the</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> org.springframework.beans.factory.BeanFactory BeanFactory javadocs&#125;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Rod Johnson</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Juergen Hoeller</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Chris Beams</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> ResourceLoaderAware</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> ApplicationEventPublisherAware</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> MessageSourceAware</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> org.springframework.context.support.ApplicationObjectSupport</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> org.springframework.beans.factory.BeanFactoryAware</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ApplicationContextAware</span> <span class="keyword">extends</span> <span class="title">Aware</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Set the ApplicationContext that this object runs in.</span></span><br><span class="line"><span class="comment">     * Normally this call will be used to initialize the object.</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;Invoked after population of normal bean properties but before an init callback such</span></span><br><span class="line"><span class="comment">     * as &#123;<span class="doctag">@link</span> org.springframework.beans.factory.InitializingBean#afterPropertiesSet()&#125;</span></span><br><span class="line"><span class="comment">     * or a custom init-method. Invoked after &#123;<span class="doctag">@link</span> ResourceLoaderAware#setResourceLoader&#125;,</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> ApplicationEventPublisherAware#setApplicationEventPublisher&#125; and</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> MessageSourceAware&#125;, if applicable.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> applicationContext the ApplicationContext object to be used by this object</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> ApplicationContextException in case of context initialization errors</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> BeansException if thrown by application context methods</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@see</span> org.springframework.beans.factory.BeanInitializationException</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setApplicationContext</span><span class="params">(ApplicationContext applicationContext)</span> <span class="keyword">throws</span> BeansException</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了达到目的，我们现在创建一个名为CtxUtil.java的类，实现该接口，代如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring61.action;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.BeansException;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContextAware;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CtxUtil</span> <span class="keyword">implements</span> <span class="title">ApplicationContextAware</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ApplicationContext springCtx;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setApplicationContext</span><span class="params">(ApplicationContext applicationContext)</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">        springCtx=applicationContext;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//根据名称获得容器中的bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getBean</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> springCtx.getBean(name);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//根据类型获得容器中的bean</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">getBean</span><span class="params">(Class&lt;T&gt; clazz)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> springCtx.getBean(clazz);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 为了让Spring容器在加载时能扫描到该类，我们在类上注解了@Component；其实也可以直接在ApplicationContext.xml中新增一个bean，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;ctxUtil&quot; class=&quot;com.zhangguo.Spring61.action.CtxUtil&quot;&gt;&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--自动扫描组件 --&gt;</span><br><span class="line">&lt;context:component-scan base-package=&quot;com.zhangguo.Spring61&quot;&gt;</span><br><span class="line">    &lt;context:exclude-filter type=&quot;aspectj&quot; expression=&quot;com.zhangguo.Spring61.dao.*&quot;/&gt;</span><br><span class="line">&lt;/context:component-scan&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p> 测试代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring61.action;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.ServletConfig;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.ServletException;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.annotation.WebServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.web.context.WebApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.context.support.WebApplicationContextUtils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.zhangguo.Spring61.service.BookTypeService;</span><br><span class="line"></span><br><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"/BookTypeSize.do"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookTypeSize</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;</span><br><span class="line">    </span><br><span class="line">     BookTypeService bookTypeService;</span><br><span class="line">     </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">      <span class="comment">//从容器中获得bean</span></span><br><span class="line">      bookTypeService=CtxUtil.getBean(BookTypeService.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        PrintWriter writer=response.getWriter();</span><br><span class="line">        writer.print(bookTypeService.getAllBookTypes().size());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果同2.1。</p>
+<h1 id="三、基于注解的声明式事务管理配置"><a href="#三、基于注解的声明式事务管理配置" class="headerlink" title="三、基于注解的声明式事务管理配置"></a>三、基于注解的声明式事务管理配置</h1><p>MyBatis-Spring利用了存在于Spring中的<code>DataSourceTransactionManager</code>管理事务。</p>
+<p>一旦Spring的<code>PlatformTransactionManager</code>配置好了,你可以在Spring中以你通常的做法来配置事务。@Transactional注解和AOP方式的配置都是支持的。在事务处理期间,一个单独的SqlSession对象将会被创建和使用。当事务完成时,这个session会以合适的方式提交或回滚。一旦事务创建之后,MyBatis-Spring将会透明的管理事务。在你的DAO类中就不需要额外的代码了。</p>
+<p>我们先使用一个简单的示例，证明没有事务时的状态：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PrintWriter writer=response.getWriter();</span><br><span class="line">BookType entity1=new BookType();</span><br><span class="line">entity1.setTypeName(&quot;中国文学&quot;);</span><br><span class="line"></span><br><span class="line">BookType entity2=new BookType();</span><br><span class="line">entity1.setTypeName(&quot;外国文学&quot;);  //请注意这是是entity1</span><br><span class="line">writer.print(bookTypeService.addDouble(entity1, entity2));</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>当运行时会发现有异常，因为entity2的typeName属性是null，报异常了；按照事务的特性两条记录要么都添加成功要么都添加不成功。但查看数据库会发现，有一个对象的数据被添加成功了，另一个则失败了，这==不符合原子特性==。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160706150340967-1588060223.png" alt="img"></p>
+<p>为了解决上面的问题，我们引入Spring中的事务与MyBatis-Spring的事务管理。一定要记得添加Spring-tx.jar的依赖。修改ApplicationContext.xml如下所示：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:aop</span>=<span class="string">"http://www.springframework.org/schema/aop"</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tx</span>=<span class="string">"http://www.springframework.org/schema/tx"</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/context/spring-context-4.3.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/aop</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/tx</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--属性占位文件引入，可以通过$&#123;属性名&#125;获得属性文件中的内容 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">"classpath:db.properties"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--定义一个jdbc数据源，创建一个驱动管理数据源的bean --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"jdbcDataSource"</span> <span class="attr">class</span>=<span class="string">"com.mchange.v2.c3p0.ComboPooledDataSource"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClass"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.driver&#125;"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"jdbcUrl"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.url&#125;"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"user"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.uid&#125;"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.pwd&#125;"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"acquireIncrement"</span> <span class="attr">value</span>=<span class="string">"5"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"initialPoolSize"</span> <span class="attr">value</span>=<span class="string">"10"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minPoolSize"</span> <span class="attr">value</span>=<span class="string">"5"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxPoolSize"</span> <span class="attr">value</span>=<span class="string">"20"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--定义一个jdbc数据源，创建一个驱动管理数据源的bean --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"jdbcDataSourceBak"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.datasource.DriverManagerDataSource"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.driver&#125;"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.url&#125;"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.uid&#125;"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.pwd&#125;"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--创建一个sql会话工厂bean，指定数据源 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 指定数据源 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"jdbcDataSource"</span> /&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--类型别名包，默认引入com.zhangguo.Spring61.entities下的所有类 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"typeAliasesPackage"</span> <span class="attr">value</span>=<span class="string">"com.zhangguo.Spring61.entities"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--指定sql映射xml文件的路径 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"mapperLocations"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">value</span>=<span class="string">"classpath:com/zhangguo/Spring61/mapping/*Mapper.xml"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--自动扫描映射接口 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 指定sql会话工厂，在上面配置过的 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactoryBeanName"</span> <span class="attr">value</span>=<span class="string">"sqlSessionFactory"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 指定基础包，即自动扫描com.zhangguo.Spring61.mapping这个包以及它的子包下的所有映射接口类 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"basePackage"</span> <span class="attr">value</span>=<span class="string">"com.zhangguo.Spring61.mapping"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 创建一个sqlSession对象 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sqlSession"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionTemplate"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">index</span>=<span class="string">"0"</span> <span class="attr">ref</span>=<span class="string">"sqlSessionFactory"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"ctxUtil"</span> <span class="attr">class</span>=<span class="string">"com.zhangguo.Spring61.action.CtxUtil"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!--声明式事务管理 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"txManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"jdbcDataSource"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--声明支持使用注解管理事务 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">"txManager"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--自动扫描组件 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.zhangguo.Spring61"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">context:exclude-filter</span> <span class="attr">type</span>=<span class="string">"aspectj"</span> <span class="attr">expression</span>=<span class="string">"com.zhangguo.Spring61.dao.*"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:aspectj-autoproxy</span> <span class="attr">proxy-target-class</span>=<span class="string">"true"</span>&gt;</span><span class="tag">&lt;/<span class="name">aop:aspectj-autoproxy</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>请注意，加粗字体的部分是新增的。 修改后的BookTypeDAO接口如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangguo.Spring61.mapping;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import com.zhangguo.Spring61.entities.BookType;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 图书类型数据访问接口</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public interface BookTypeDAO &#123;</span><br><span class="line">    /*</span><br><span class="line">     * 获得所有图书类型</span><br><span class="line">     */</span><br><span class="line">    public List&lt;BookType&gt; getAllBookTypes();</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     * 添加新的图书类型</span><br><span class="line">     */</span><br><span class="line">    public int add(BookType entity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>修改后的BookTypeMapper.xml映射文件如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</span><br><span class="line">&lt;!--命名空间应该是对应接口的包名+类名 --&gt;</span><br><span class="line">&lt;mapper namespace=&quot;com.zhangguo.Spring61.mapping.BookTypeDAO&quot;&gt;</span><br><span class="line">    &lt;!--id应该是接口中的方法，结果类型如没有配置别名则应该使用全名称 --&gt;</span><br><span class="line">    &lt;select id=&quot;getAllBookTypes&quot; resultType=&quot;BookType&quot;&gt;</span><br><span class="line">        select id,typeName from booktypes</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;insert id=&quot;add&quot; parameterType=&quot;BookType&quot;&gt;</span><br><span class="line">        insert into booktypes(typeName) values(#&#123;typeName&#125;)</span><br><span class="line">    &lt;/insert&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>修改后的BookTypeService类如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangguo.Spring61.service;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line">import javax.annotation.Resource;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line">import org.springframework.transaction.annotation.Transactional;</span><br><span class="line">import com.zhangguo.Spring61.entities.BookType;</span><br><span class="line">import com.zhangguo.Spring61.mapping.BookTypeDAO;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * 图书类型服务</span><br><span class="line"> */</span><br><span class="line">@Service</span><br><span class="line">public class BookTypeService &#123;</span><br><span class="line"></span><br><span class="line">    @Resource</span><br><span class="line">    BookTypeDAO bookTypeDAO;</span><br><span class="line"></span><br><span class="line">    public List&lt;BookType&gt; getAllBookTypes() &#123;</span><br><span class="line">        System.err.println(&quot;一些被省去的业务&quot;);</span><br><span class="line">        return bookTypeDAO.getAllBookTypes();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Transactional</span><br><span class="line">    public int addDouble(BookType entity1,BookType entity2)&#123;</span><br><span class="line">        int rows=0;</span><br><span class="line">        rows+=bookTypeDAO.add(entity1);</span><br><span class="line">        rows+=bookTypeDAO.add(entity2);</span><br><span class="line">        return rows;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>在方法addDouble上增加了一个注解@Transactional，用于显式声明该方法需要事务处理，如果把该注解移除则不会拥有事务特性。</p>
+<p>测试的Servlet代码如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangguo.Spring61.action;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletConfig;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line"></span><br><span class="line">import org.springframework.web.context.WebApplicationContext;</span><br><span class="line">import org.springframework.web.context.support.WebApplicationContextUtils;</span><br><span class="line"></span><br><span class="line">import com.zhangguo.Spring61.entities.BookType;</span><br><span class="line">import com.zhangguo.Spring61.service.BookTypeService;</span><br><span class="line"></span><br><span class="line">@WebServlet(&quot;/BookTypeAdd.do&quot;)</span><br><span class="line">public class BookTypeAdd extends HttpServlet &#123;</span><br><span class="line">    private static final long serialVersionUID = 1L;</span><br><span class="line">    </span><br><span class="line">     BookTypeService bookTypeService;</span><br><span class="line">     </span><br><span class="line">    @Override</span><br><span class="line">    public void init() throws ServletException &#123;</span><br><span class="line">      //从容器中获得bean</span><br><span class="line">      bookTypeService=CtxUtil.getBean(BookTypeService.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        PrintWriter writer=response.getWriter();</span><br><span class="line">        BookType entity1=new BookType();</span><br><span class="line">        entity1.setTypeName(&quot;量子力学&quot;);</span><br><span class="line">        </span><br><span class="line">        BookType entity2=new BookType();</span><br><span class="line">        entity1.setTypeName(&quot;天体物理&quot;);  //请注意这是是entity1，entity2的typeName属性为空</span><br><span class="line">        writer.print(bookTypeService.addDouble(entity1, entity2));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>entity2因为没有typeName属性，添加时会异常，有事务存在，则数据库并没有变化，entity1与entity2都未添加到数据库中。</p>
+<p>除了使用声明式事务管理，也可以使用AOP进行事务拦截，参考代码如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 拦截器方式配置事物 --&gt;</span><br><span class="line">&lt;tx:advice id=&quot;transactionAdvice&quot; transaction-manager=&quot;transactionManager&quot;&gt;</span><br><span class="line">    &lt;tx:attributes&gt;</span><br><span class="line">        &lt;tx:method name=&quot;add*&quot; propagation=&quot;REQUIRED&quot; /&gt;</span><br><span class="line">        &lt;tx:method name=&quot;append*&quot; propagation=&quot;REQUIRED&quot; /&gt;</span><br><span class="line">        &lt;tx:method name=&quot;insert*&quot; propagation=&quot;REQUIRED&quot; /&gt;</span><br><span class="line">        &lt;tx:method name=&quot;save*&quot; propagation=&quot;REQUIRED&quot; /&gt;</span><br><span class="line">        &lt;tx:method name=&quot;update*&quot; propagation=&quot;REQUIRED&quot; /&gt;</span><br><span class="line">        &lt;tx:method name=&quot;modify*&quot; propagation=&quot;REQUIRED&quot; /&gt;</span><br><span class="line">        &lt;tx:method name=&quot;edit*&quot; propagation=&quot;REQUIRED&quot; /&gt;</span><br><span class="line">        &lt;tx:method name=&quot;delete*&quot; propagation=&quot;REQUIRED&quot; /&gt;</span><br><span class="line">        &lt;tx:method name=&quot;remove*&quot; propagation=&quot;REQUIRED&quot; /&gt;</span><br><span class="line">        &lt;tx:method name=&quot;repair&quot; propagation=&quot;REQUIRED&quot; /&gt;</span><br><span class="line">        &lt;tx:method name=&quot;delAndRepair&quot; propagation=&quot;REQUIRED&quot; /&gt;</span><br><span class="line">        &lt;tx:method name=&quot;get*&quot; propagation=&quot;SUPPORTS&quot; /&gt;</span><br><span class="line">        &lt;tx:method name=&quot;find*&quot; propagation=&quot;SUPPORTS&quot; /&gt;</span><br><span class="line">        &lt;tx:method name=&quot;load*&quot; propagation=&quot;SUPPORTS&quot; /&gt;</span><br><span class="line">        &lt;tx:method name=&quot;search*&quot; propagation=&quot;SUPPORTS&quot; /&gt;</span><br><span class="line">        &lt;tx:method name=&quot;datagrid*&quot; propagation=&quot;SUPPORTS&quot; /&gt;</span><br><span class="line">        &lt;tx:method name=&quot;*&quot; propagation=&quot;SUPPORTS&quot; /&gt;</span><br><span class="line">    &lt;/tx:attributes&gt;</span><br><span class="line">&lt;/tx:advice&gt;</span><br><span class="line">&lt;aop:config&gt;</span><br><span class="line">    &lt;aop:pointcut id=&quot;transactionPointcut&quot; expression=&quot;execution(* com.service..*Impl.*(..))&quot; /&gt;</span><br><span class="line">    &lt;aop:advisor pointcut-ref=&quot;transactionPointcut&quot; advice-ref=&quot;transactionAdvice&quot; /&gt;</span><br><span class="line">&lt;/aop:config&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>小结：声明式事务管理需要根据实际情况编码注解方法要不要事务处理，拦截方式配置事务则是根据方法名统一处理，一般查询是不需要事务参与的。在上面的配置中REQUIRED则表示需要事务支持，而SUPPORTS则不需要事务支持。</p>
+<h1 id="四、示例下载"><a href="#四、示例下载" class="headerlink" title="四、示例下载"></a>四、示例下载</h1><p><a href="http://files.cnblogs.com/files/best/Spring061_4.rar" target="_blank" rel="noopener">示例下载</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/11/Network/网络/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/11/Spring/Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）一/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/04/11/Spring/Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）二/" data-title data-url="http://yoursite.com/2018/04/11/Spring/Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）二/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring学习总结（五）——Spring整合MyBatis（Maven-MySQL）二"><span class="nav-number">1.</span> <span class="nav-text">Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）二</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一、在Web项目中启动Spring容器"><span class="nav-number">2.</span> <span class="nav-text">一、在Web项目中启动Spring容器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1、使用监听器启动Spring容器"><span class="nav-number">2.1.</span> <span class="nav-text">1.1、使用监听器启动Spring容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2、使用Servlet方式启动Spring容器"><span class="nav-number">2.2.</span> <span class="nav-text">1.2、使用Servlet方式启动Spring容器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、获取ApplicationContext实例"><span class="nav-number">3.</span> <span class="nav-text">二、获取ApplicationContext实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1、使用工具类WebApplicationContextUtils获得Spring容器"><span class="nav-number">3.1.</span> <span class="nav-text">2.1、使用工具类WebApplicationContextUtils获得Spring容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2、实现接口ApplicationContextAware"><span class="nav-number">3.2.</span> <span class="nav-text">2.2、实现接口ApplicationContextAware</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、基于注解的声明式事务管理配置"><span class="nav-number">4.</span> <span class="nav-text">三、基于注解的声明式事务管理配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、示例下载"><span class="nav-number">5.</span> <span class="nav-text">四、示例下载</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

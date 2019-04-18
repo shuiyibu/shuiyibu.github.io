@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="一江烟雨任平生">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）一目录  一、 使用Maven创建一个Web项目  二、使用MyBatis完成MySQL数据库访问   2.1、添加依赖 2.2、准备数据 2.3、创建java Bean 2.4、创建实例与表的映射文件 2.5、创建MyBatisCfg.xml文件  2.6、实现数据访问功能 2.7、测试运行 2.8、整合log">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2018/04/11/Spring/Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）一/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）一目录  一、 使用Maven创建一个Web项目  二、使用MyBatis完成MySQL数据库访问   2.1、添加依赖 2.2、准备数据 2.3、创建java Bean 2.4、创建实例与表的映射文件 2.5、创建MyBatisCfg.xml文件  2.6、实现数据访问功能 2.7、测试运行 2.8、整合log">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704140439983-88353041.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704090408092-633191076.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704090446233-1939253279.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704090551436-360154840.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704090735921-680871308.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704090812967-707862289.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704090851624-1036703005.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704090916749-1496719860.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091008983-146369523.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091057499-1074210770.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091215389-1199287190.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091254483-570877409.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091349327-2042140044.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091508217-563665211.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091611577-801095090.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091725514-585478827.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091749233-1760747273.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091806280-222871447.png">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704093530577-41182078.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704101042936-924407774.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704101354921-1283041689.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704103350811-1961605068.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704103828014-110508441.png">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704104048577-1879174385.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704104226296-1633233417.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704104313749-26654762.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704104600296-740165932.png">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704134506655-474099253.png">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704135430702-55163282.png">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704140117889-655905898.png">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704161150358-1457543141.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704161602921-467743347.png">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160705142636046-1554973151.png">
+<meta property="og:image" content="http://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160706093826686-1023376134.png">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:updated_time" content="2018-04-11T08:57:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）一目录  一、 使用Maven创建一个Web项目  二、使用MyBatis完成MySQL数据库访问   2.1、添加依赖 2.2、准备数据 2.3、创建java Bean 2.4、创建实例与表的映射文件 2.5、创建MyBatisCfg.xml文件  2.6、实现数据访问功能 2.7、测试运行 2.8、整合log">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704140439983-88353041.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/11/Spring/Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）一/">
+
+
+
+
+
+  <title> | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/11/Spring/Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）一/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline"></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T16:57:26+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/11/Spring/Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）一/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/04/11/Spring/Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）一/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Spring学习总结（五）——Spring整合MyBatis（Maven-MySQL）一"><a href="#Spring学习总结（五）——Spring整合MyBatis（Maven-MySQL）一" class="headerlink" title="Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）一"></a><a href="http://www.cnblogs.com/best/p/5638827.html" target="_blank" rel="noopener">Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）一</a></h1><p><strong>目录</strong></p>
+<ul>
+<li><p><a href="http://www.cnblogs.com/best/p/5638827.html#_label0" target="_blank" rel="noopener">一、 使用Maven创建一个Web项目</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5638827.html#_label1" target="_blank" rel="noopener">二、使用MyBatis完成MySQL数据库访问</a></p>
+</li>
+<li><ul>
+<li><a href="http://www.cnblogs.com/best/p/5638827.html#_lab2_1_0" target="_blank" rel="noopener">2.1、添加依赖</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5638827.html#_lab2_1_1" target="_blank" rel="noopener">2.2、准备数据</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5638827.html#_lab2_1_2" target="_blank" rel="noopener">2.3、创建java Bean</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5638827.html#_lab2_1_3" target="_blank" rel="noopener">2.4、创建实例与表的映射文件</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5638827.html#_lab2_1_4" target="_blank" rel="noopener">2.5、创建MyBatisCfg.xml文件 </a></li>
+<li><a href="http://www.cnblogs.com/best/p/5638827.html#_lab2_1_5" target="_blank" rel="noopener">2.6、实现数据访问功能</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5638827.html#_lab2_1_6" target="_blank" rel="noopener">2.7、测试运行</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5638827.html#_lab2_1_7" target="_blank" rel="noopener">2.8、整合log4j2</a></li>
+</ul>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5638827.html#_label2" target="_blank" rel="noopener">三、使用Spring4.X整合MyBatis3.X初级版</a></p>
+</li>
+<li><ul>
+<li><a href="http://www.cnblogs.com/best/p/5638827.html#_lab2_2_0" target="_blank" rel="noopener">3.1、修改pom.xml添加依赖</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5638827.html#_lab2_2_1" target="_blank" rel="noopener"> 3.2、创建Spring上下文初始化配置文件</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5638827.html#_lab2_2_2" target="_blank" rel="noopener"> 3.3、测试运行</a></li>
+</ul>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5638827.html#_label3" target="_blank" rel="noopener"> 四、Spring集成MyBatis升级版</a></p>
+</li>
+<li><ul>
+<li><p><a href="http://www.cnblogs.com/best/p/5638827.html#_lab2_3_0" target="_blank" rel="noopener"> 4.1、去掉MyBatisCfg.xml配置文件</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5638827.html#_lab2_3_1" target="_blank" rel="noopener">4.2、映射接口类自动扫描配置</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5638827.html#_lab2_3_2" target="_blank" rel="noopener">4.3、引入属性配置文件db.properties</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5638827.html#_lab2_3_3" target="_blank" rel="noopener">4.4、数据源与连接池</a></p>
+</li>
+<li><ul>
+<li><a href="http://www.cnblogs.com/best/p/5638827.html#_label3_3_3_0" target="_blank" rel="noopener">4.4.1、DBCP</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5638827.html#_label3_3_3_1" target="_blank" rel="noopener">4.4.2、C3P0</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5638827.html#_label3_3_3_2" target="_blank" rel="noopener">4.4.3、Druid（德鲁伊）</a></li>
+</ul>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5638827.html#_lab2_3_4" target="_blank" rel="noopener">4.5、使用SqlSession</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5638827.html#_label4" target="_blank" rel="noopener">五、示例下载</a></p>
+</li>
+</ul>
+<p>MyBatis-Spring 会帮助你将 MyBatis 代码无缝地整合到 Spring 中。 使用这个类库中的类, Spring 将会加载必要的MyBatis工厂类和 session 类。 这个类库也提供一个简单的方式来注入MyBatis数据映射器和SqlSession到业务层的bean中。 而且它也会处理事务, 翻译MyBatis的异常到Spring的 DataAccessException异常(数据访问异常,译者注)中。最终它并不会依赖于MyBatis,Spring或MyBatis-Spring来构建应用程序代码。<a href="http://www.mybatis.org/spring/zh/index.html" target="_blank" rel="noopener">更多内容请查看官网帮助</a>。</p>
+<h1 id="一、-使用Maven创建一个Web项目"><a href="#一、-使用Maven创建一个Web项目" class="headerlink" title="一、 使用Maven创建一个Web项目"></a>一、 使用Maven创建一个Web项目</h1><p>为了完成Spring4.x与MyBatis3.X的整合更加顺利，先回顾在Maven环境下创建Web项目并使用MyBatis3.X，第一、二点内容多数是回顾过去的内容 。完成第一阶段与第二阶段的项目结构如下所示：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704140439983-88353041.png" alt="img"></p>
+<p><a href="http://files.cnblogs.com/files/best/Spring061_1.rar" target="_blank" rel="noopener">下载阶段一与阶段二示例</a></p>
+<p>1.2、点击“File”-&gt;“New”-&gt;”Other”-&gt;输入“Maven”，新建一个“Maven Project”，如下图所示：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704090408092-633191076.png" alt="img"></p>
+<p>1.2、请勾选“Create a simple project”，创建一个简单的项目，不使用模板。也可以使用模板，选择WebApp，不过这里就不应该勾选。如下图所示：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704090446233-1939253279.png" alt="img"></p>
+<p>1.3、填写好包名、项目名，选择打包类型为：war，如下图所示：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704090551436-360154840.png" alt="img"></p>
+<p>1.4、项目创建好后可能会发现有错误，选择项目，右键“属性properties”-&gt;”层面Project Facets”-&gt;”Java”修改版本号为1.7，默认为1.5；点击“Ok”保存后关闭。如下图所示：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704090735921-680871308.png" alt="img"></p>
+<p>1.5、重复上一个步骤，反勾Dynamic Web Module，将项目暂时变成非Web项目。点击“Ok”保存后关闭。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704090812967-707862289.png" alt="img"></p>
+<p>1.6、重复上一步骤，再进层面属性，勾选“Dynamic Web Module”选择Version为3.0。点击左下角的超链接“Further Configuration available…“。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704090851624-1036703005.png" alt="img"></p>
+<p>1.7、勾选“Generate web.xml deployment descriptor”生成web.xml部署描述文件。点击“Ok”保存后关闭。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704090916749-1496719860.png" alt="img"></p>
+<p>1.8、将生成的WebContent目录下的两个文件夹“META-INF”与“WEB-INF”复制到src/main/webapp目录下。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091008983-146369523.png" alt="img"></p>
+<p>1.9、删除WebContent目录。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091057499-1074210770.png" alt="img"></p>
+<p>1.10、删除后会发现项目的pom.xml文件报错，是因为找不到指定位置的web.xml文件引起的。再进入项目的属性，选择“Deployment Assembly”项目部署项，删除“src/test/java”、“src/test/resources”与“WebContent”目录，因为这三项不需要部署出去。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091215389-1199287190.png" alt="img"></p>
+<p>1.11、点击“Add添加”后选择“Folder文件夹”为项目的最终部署结果指定Web内容根文件夹。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091254483-570877409.png" alt="img"></p>
+<p>1.12、选择src\main\webapp目录为目标目录，点击“Finish完成”保存并关闭。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091349327-2042140044.png" alt="img"></p>
+<p>1.13、如果此时项目还报错，随便修改pom.xml文件后保存后应该错误会消失。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091508217-563665211.png" alt="img"></p>
+<p> 1.14、在src\main\webapp目录下新建一个index.jsp文件，作为测试使用。</p>
+<p> <img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091611577-801095090.png" alt="img"></p>
+<p>1.15、新建完成后发现有错误，是因为没有JavaEE Server Runtime引起的，在项目上右键属性选择“Java Build Path”项，点击“Add Library…”添加引用。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091725514-585478827.png" alt="img"></p>
+<p>1.16、选择Server Runtime项，点击“Next下一步”，再选择“Apache Tomcat v7.0”，这里可能要根据自己的运行环境选择了，如果还没Server，则应该先整合Tomcat。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091749233-1760747273.png" alt="img"></p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704091806280-222871447.png" alt="img"></p>
+<p>1.17、在index.jsp文件中写上测试内容。</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=<span class="string">"java"</span> contentType=<span class="string">"text/html; charset=UTF-8"</span></span><br><span class="line">    pageEncoding=<span class="string">"UTF-8"</span>%&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC <span class="string">"-//W3C//DTD HTML 4.01 Transitional//EN"</span> <span class="string">"http://www.w3.org/TR/html4/loose.dtd"</span>&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">"Content-Type"</span> content=<span class="string">"text/html; charset=UTF-8"</span>&gt;</span><br><span class="line">&lt;title&gt;Hello World!&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">Hello World!</span><br><span class="line">&lt;p&gt;</span><br><span class="line">&lt;%=<span class="keyword">new</span> java.util.Date().toLocaleString() %&gt;</span><br><span class="line">&lt;/p&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p> 1.18、在项目上右键选择“Run as”-&gt; “Run on Server”运行项目，运行结果如下。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704093530577-41182078.png" alt="img"></p>
+<h1 id="二、使用MyBatis完成MySQL数据库访问"><a href="#二、使用MyBatis完成MySQL数据库访问" class="headerlink" title="二、使用MyBatis完成MySQL数据库访问"></a>二、使用MyBatis完成MySQL数据库访问</h1><h2 id="2-1、添加依赖"><a href="#2-1、添加依赖" class="headerlink" title="2.1、添加依赖"></a>2.1、添加依赖</h2><p>要完成使用MyBatis访问MySQL数据库，需要添加一些依赖包，包含MyBatis3，连接驱动，JUnit，Log4j2等。可以去共享资源库中搜索，第一个网站地址是：<a href="http://mvnrepository.com/，" target="_blank" rel="noopener">http://mvnrepository.com/，</a> 这里以搜索连接驱动为示例，搜索后的结果有5.xx版许多，也有6.xx版，但不建议使用6.xx版，因为MyBatis3不支持。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704101042936-924407774.png" alt="img"></p>
+<p>我们选择5.0版中的5.1.38，将Maven的依赖信息复制到项目中的pom.xml的dependencies结点下</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704101354921-1283041689.png" alt="img"></p>
+<p>当然也可去另外一个网站：<a href="http://search.maven.org/，这里以log4j为例子搜索如下：" target="_blank" rel="noopener">http://search.maven.org/，这里以log4j为例子搜索如下：</a></p>
+<p> <img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704103350811-1961605068.png" alt="img"></p>
+<p>有一些依赖也可以直接去官网查找，如MyBatis3：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704103828014-110508441.png" alt="img"></p>
+<p>项目的pom.xml文件如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">    &lt;groupId&gt;com.zhangguo&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;Spring061&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.0.1&lt;/version&gt;</span><br><span class="line">    &lt;packaging&gt;war&lt;/packaging&gt;</span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;5.1.38&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;log4j-core&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;2.6.1&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.mybatis&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mybatis&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;3.4.1&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;junit&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;junit&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;4.10&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>引用结果：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704104048577-1879174385.png" alt="img"></p>
+<p>如果在网速不稳定的情况下，下载包很有可能失败，可以试试强制项目重新下载；可以使用下载工具将jar包下载后手复制到本地资源库中。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704104226296-1633233417.png" alt="img"></p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704104313749-26654762.png" alt="img"></p>
+<h2 id="2-2、准备数据"><a href="#2-2、准备数据" class="headerlink" title="2.2、准备数据"></a>2.2、准备数据</h2><p>打开MySQL数据库，创建一个表，这里以booktypes表为例。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704104600296-740165932.png" alt="img"></p>
+<p>sql脚本如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">Navicat MySQL Data Transfer</span><br><span class="line"></span><br><span class="line">Source Server         : localhost</span><br><span class="line">Source Server Version : 50536</span><br><span class="line">Source Host           : localhost:3306</span><br><span class="line">Source Database       : db2</span><br><span class="line"></span><br><span class="line">Target Server Type    : MYSQL</span><br><span class="line">Target Server Version : 50536</span><br><span class="line">File Encoding         : 65001</span><br><span class="line"></span><br><span class="line">Date: 2016-07-04 10:49:56</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">SET FOREIGN_KEY_CHECKS=0;</span><br><span class="line"></span><br><span class="line">-- ----------------------------</span><br><span class="line">-- Table structure for `booktypes`</span><br><span class="line">-- ----------------------------</span><br><span class="line">DROP TABLE IF EXISTS `booktypes`;</span><br><span class="line">CREATE TABLE `booktypes` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT &apos;类型编号&apos;,</span><br><span class="line">  `typeName` varchar(100) NOT NULL COMMENT &apos;类型名称&apos;,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br><span class="line">-- ----------------------------</span><br><span class="line">-- Records of booktypes</span><br><span class="line">-- ----------------------------</span><br><span class="line">INSERT INTO `booktypes` VALUES (&apos;1&apos;, &apos;计算机软件开发&apos;);</span><br><span class="line">INSERT INTO `booktypes` VALUES (&apos;2&apos;, &apos;计算机网络工程&apos;);</span><br><span class="line">INSERT INTO `booktypes` VALUES (&apos;3&apos;, &apos;神话小说&apos;);</span><br><span class="line">INSERT INTO `booktypes` VALUES (&apos;4&apos;, &apos;科幻小说&apos;);</span><br><span class="line">INSERT INTO `booktypes` VALUES (&apos;5&apos;, &apos;外语&apos;);</span><br><span class="line">INSERT INTO `booktypes` VALUES (&apos;6&apos;, &apos;测试类型&apos;);</span><br><span class="line">INSERT INTO `booktypes` VALUES (&apos;7&apos;, &apos;91&apos;);</span><br><span class="line">INSERT INTO `booktypes` VALUES (&apos;8&apos;, &apos;92&apos;);</span><br><span class="line">INSERT INTO `booktypes` VALUES (&apos;9&apos;, &apos;93&apos;);</span><br><span class="line">INSERT INTO `booktypes` VALUES (&apos;91&apos;, &apos;建筑设计&apos;);</span><br><span class="line">INSERT INTO `booktypes` VALUES (&apos;92&apos;, &apos;工业设计&apos;);</span><br><span class="line">INSERT INTO `booktypes` VALUES (&apos;93&apos;, &apos;船舶制造&apos;);</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<h2 id="2-3、创建java-Bean"><a href="#2-3、创建java-Bean" class="headerlink" title="2.3、创建java Bean"></a>2.3、创建java Bean</h2><p>在包com.zhangguo.Spring61.entities下添加类BookType类型。</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangguo.Spring61.entities;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 图书类型</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class BookType &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 编号</span><br><span class="line">     */</span><br><span class="line">    private int id;</span><br><span class="line">    /**</span><br><span class="line">     * 类型名</span><br><span class="line">     */</span><br><span class="line">    private String typeName;</span><br><span class="line"></span><br><span class="line">    public int getId() &#123;</span><br><span class="line">        return id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setId(int id) &#123;</span><br><span class="line">        this.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getTypeName() &#123;</span><br><span class="line">        return typeName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setTypeName(String typeName) &#123;</span><br><span class="line">        this.typeName = typeName;</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public String toString() &#123;</span><br><span class="line">        return this.getId()+&quot;\t&quot;+this.getTypeName();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<h2 id="2-4、创建实例与表的映射文件"><a href="#2-4、创建实例与表的映射文件" class="headerlink" title="2.4、创建实例与表的映射文件"></a>2.4、创建实例与表的映射文件</h2><p>这里用接口+XML的形式完成，BookType数据访问接口如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangguo.Spring61.mapping;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import com.zhangguo.Spring61.entities.BookType;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 图书类型数据访问接口</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public interface BookTypeDAO &#123;</span><br><span class="line">    /*</span><br><span class="line">     * 获得所有图书类型</span><br><span class="line">     */</span><br><span class="line">    public List&lt;BookType&gt; getAllBookTypes();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>BookTypeMapper.xml文件如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</span><br><span class="line">&lt;!--命名空间应该是对应接口的包名+类名 --&gt;</span><br><span class="line">&lt;mapper namespace=&quot;com.zhangguo.Spring61.mapping.BookTypeDAO&quot;&gt;</span><br><span class="line">    &lt;!--id应该是接口中的方法，结果类型如没有配置别名则应该使用全名称 --&gt;</span><br><span class="line">    &lt;select id=&quot;getAllBookTypes&quot; resultType=&quot;BookType&quot;&gt;</span><br><span class="line">        select id,typeName from booktypes</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<h2 id="2-5、创建MyBatisCfg-xml文件"><a href="#2-5、创建MyBatisCfg-xml文件" class="headerlink" title="2.5、创建MyBatisCfg.xml文件"></a>2.5、创建MyBatisCfg.xml文件</h2><p>MyBatisCfg.xml文件用于配置MyBatis的运行环境，内容如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE configuration</span><br><span class="line">  PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span><br><span class="line">  &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;!-- 指定数据库连接信息的位置 --&gt;</span><br><span class="line">    &lt;properties resource=&quot;db.properties&quot;&gt;&lt;/properties&gt;</span><br><span class="line">    &lt;!--类型别名，默认引入com.zhangguo.Spring61.entities下的所有类 --&gt;</span><br><span class="line">    &lt;typeAliases&gt;</span><br><span class="line">        &lt;package name=&quot;com.zhangguo.Spring61.entities&quot;/&gt;</span><br><span class="line">    &lt;/typeAliases&gt;</span><br><span class="line">    &lt;environments default=&quot;development&quot;&gt;</span><br><span class="line">        &lt;environment id=&quot;development&quot;&gt;</span><br><span class="line">            &lt;transactionManager type=&quot;JDBC&quot; /&gt;</span><br><span class="line">            &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">                &lt;property name=&quot;driver&quot; value=&quot;$&#123;driver&#125;&quot; /&gt;</span><br><span class="line">                &lt;property name=&quot;url&quot; value=&quot;$&#123;url&#125;&quot; /&gt;</span><br><span class="line">                &lt;property name=&quot;username&quot; value=&quot;$&#123;username&#125;&quot; /&gt;</span><br><span class="line">                &lt;property name=&quot;password&quot; value=&quot;$&#123;password&#125;&quot; /&gt;</span><br><span class="line">            &lt;/dataSource&gt;</span><br><span class="line">        &lt;/environment&gt;</span><br><span class="line">    &lt;/environments&gt;</span><br><span class="line">    &lt;mappers&gt;</span><br><span class="line">        &lt;!--引入映射文件 --&gt;</span><br><span class="line">        &lt;mapper resource=&quot;com/zhangguo/Spring61/mapping/BookTypeMapper.xml&quot; /&gt;</span><br><span class="line">    &lt;/mappers&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>因为配置中依赖了db.properties文件，该文件用于指定数据库的连接信息，内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">driver=com.mysql.jdbc.Driver</span><br><span class="line">url=jdbc:mysql://localhost:3306/db2</span><br><span class="line">username=root</span><br><span class="line">password=root</span><br></pre></td></tr></table></figure>
+<h2 id="2-6、实现数据访问功能"><a href="#2-6、实现数据访问功能" class="headerlink" title="2.6、实现数据访问功能"></a>2.6、实现数据访问功能</h2><p>为了更加方便的复用MyBatis实现数据访问不需要频繁的创建SQLSessionFactory和SQLSession对象，封装一个MyBatisUtil工具类如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangguo.Spring61.dao;</span><br><span class="line"></span><br><span class="line">import java.io.InputStream;</span><br><span class="line"></span><br><span class="line">import org.apache.ibatis.session.SqlSession;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactoryBuilder;</span><br><span class="line"></span><br><span class="line">public abstract class MyBatisUtil &#123;</span><br><span class="line">    </span><br><span class="line">    //GC不理static</span><br><span class="line">    private static SqlSessionFactory factory=null;</span><br><span class="line">    public static SqlSessionFactory getSqlSessionFactory()&#123;</span><br><span class="line">        if(factory==null)&#123;</span><br><span class="line">        // 获得环境配置文件流</span><br><span class="line">        InputStream config = MyBatisUtil.class.getClassLoader().getResourceAsStream(&quot;MyBatisCfg.xml&quot;);</span><br><span class="line">        // 创建sql会话工厂</span><br><span class="line">        factory = new SqlSessionFactoryBuilder().build(config);</span><br><span class="line">        &#125;</span><br><span class="line">        return factory;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //获得会话</span><br><span class="line">    public static SqlSession getSession()&#123;</span><br><span class="line">        return getSqlSessionFactory().openSession(true);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     * 获得得sql会话</span><br><span class="line">     * @param isAutoCommit 是否自动提交，如果为false则需要sqlSession.commit();rollback();</span><br><span class="line">     * @return sql会话</span><br><span class="line">     */</span><br><span class="line">    public static SqlSession getSession(boolean isAutoCommit)&#123;</span><br><span class="line">        return getSqlSessionFactory().openSession(isAutoCommit);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>创建类BookTypeDAOImpl实现接口BookTypeDAO，这里要通过MyBatis实现数据访问功能，内容如下： </p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangguo.Spring61.dao;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import org.apache.ibatis.session.SqlSession;</span><br><span class="line"></span><br><span class="line">import com.zhangguo.Spring61.entities.BookType;</span><br><span class="line">import com.zhangguo.Spring61.mapping.BookTypeDAO;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 实现图书类型数据访问</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class BookTypeDAOImpl implements BookTypeDAO &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public List&lt;BookType&gt; getAllBookTypes() &#123;</span><br><span class="line">        //获得会话对象</span><br><span class="line">        SqlSession session=MyBatisUtil.getSession();</span><br><span class="line">        try &#123;</span><br><span class="line">            //通过MyBatis实现接口BookTypeDAO，返回实例</span><br><span class="line">            BookTypeDAO bookTypeDAO=session.getMapper(BookTypeDAO.class);</span><br><span class="line">            return bookTypeDAO.getAllBookTypes();</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            session.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<h2 id="2-7、测试运行"><a href="#2-7、测试运行" class="headerlink" title="2.7、测试运行"></a>2.7、测试运行</h2><p>新建一个JUnit Test Case测试用例，如下所示：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704134506655-474099253.png" alt="img"></p>
+<p> 测试用例TestBookTypeDAOImpl.java文件如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangguo.Spring61.test;</span><br><span class="line"></span><br><span class="line">import static org.junit.Assert.*;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import org.junit.BeforeClass;</span><br><span class="line">import org.junit.Test;</span><br><span class="line"></span><br><span class="line">import com.zhangguo.Spring61.dao.BookTypeDAOImpl;</span><br><span class="line">import com.zhangguo.Spring61.entities.BookType;</span><br><span class="line">import com.zhangguo.Spring61.mapping.BookTypeDAO;</span><br><span class="line"></span><br><span class="line">public class TestBookTypeDAOImpl &#123;</span><br><span class="line"></span><br><span class="line">    static BookTypeDAO bookTypeDao;</span><br><span class="line">    @BeforeClass</span><br><span class="line">    public static void beforeClass()</span><br><span class="line">    &#123;</span><br><span class="line">        bookTypeDao=new BookTypeDAOImpl();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Test</span><br><span class="line">    public void testGetAllBookTypes() &#123;</span><br><span class="line">        List&lt;BookType&gt; booktypes=bookTypeDao.getAllBookTypes();</span><br><span class="line">        for (BookType bookType : booktypes) &#123;</span><br><span class="line">            System.out.println(bookType);</span><br><span class="line">        &#125;</span><br><span class="line">        assertNotNull(booktypes);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>测试结果：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704135430702-55163282.png" alt="img"></p>
+<h2 id="2-8、整合log4j2"><a href="#2-8、整合log4j2" class="headerlink" title="2.8、整合log4j2"></a>2.8、整合log4j2</h2><p>上面的测试虽然通过，但是有一个错误提示“ERROR StatusLogger No log4j2 configuration file found. Using default configuration: logging only errors to the console.”，大意是：日志记录器没有找到log4j2的配置文件。在源码的根目录下创建一个log4j2.xml配置文件，文件内容如下所示：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;Configuration status=&quot;off&quot; monitorInterval=&quot;1800&quot;&gt;    </span><br><span class="line">    &lt;Appenders&gt;</span><br><span class="line">        &lt;Console name=&quot;Console&quot; target=&quot;SYSTEM_OUT&quot;&gt;</span><br><span class="line">            &lt;PatternLayout pattern=&quot;%d&#123;HH:mm:ss.SSS&#125; [%t] %-5level %logger&#123;36&#125; - %msg%n&quot; /&gt;</span><br><span class="line">        &lt;/Console&gt;        </span><br><span class="line">    &lt;/Appenders&gt;</span><br><span class="line"></span><br><span class="line">    &lt;Loggers&gt;            </span><br><span class="line">        &lt;Root level=&quot;debug&quot;&gt;</span><br><span class="line">            &lt;AppenderRef ref=&quot;Console&quot; /&gt;</span><br><span class="line">        &lt;/Root&gt;</span><br><span class="line">    &lt;/Loggers&gt;</span><br><span class="line">&lt;/Configuration&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>再运行就会发现log4j2已经在运行了，从控制台可以看到MyBatis的运行状态信息：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704140117889-655905898.png" alt="img"></p>
+<p>程序向数据库发送的SQL请求，及数据库向程序响应的结果就清楚了。</p>
+<p><a href="http://files.cnblogs.com/files/best/Spring061_1.rar" target="_blank" rel="noopener">下载阶段一与阶段二示例</a></p>
+<h1 id="三、使用Spring4-X整合MyBatis3-X初级版"><a href="#三、使用Spring4-X整合MyBatis3-X初级版" class="headerlink" title="三、使用Spring4.X整合MyBatis3.X初级版"></a>三、使用Spring4.X整合MyBatis3.X初级版</h1><p>在MyBatis的github官网（<a href="https://github.com/mybatis/spring）中有一个叫MyBatis" target="_blank" rel="noopener">https://github.com/mybatis/spring）中有一个叫MyBatis</a> Spring Adapter（MyBatis-Spring）的库，暂且翻译成：MyBatis Spring适配器，它的作用是：原话：“MyBatis-Spring adapter is an easy-to-use Spring3 bridge for MyBatis sql mapping framework.”，就是了为更容易的将MyBatis与Spring整合，充分发挥二两结合的优势，它相当于一个桥。</p>
+<p><strong>什么是：MyBatis-Spring?</strong><br>MyBatis-Spring会帮助你将MyBatis代码无缝地整合到Spring中。使用这个类库中的类,Spring将会加载必要的MyBatis工厂类和session类。这个类库也提供一个简单的方式来注入MyBatis数据映射器和SqlSession到业务层的bean中。而且它也会处理事务,翻译MyBatis的异常到Spring的DataAccessException异常(数据访问异常,译者注)中。最终,它并不会依赖于MyBatis,Spring或MyBatis-Spring来构建应用程序代码。</p>
+<h2 id="3-1、修改pom-xml添加依赖"><a href="#3-1、修改pom-xml添加依赖" class="headerlink" title="3.1、修改pom.xml添加依赖"></a>3.1、修改pom.xml添加依赖</h2><p>为了将Spring与MyBatis整合完成，需要依赖MyBatis，因为在上面的示例中已依赖完成，这里就不再需要，主要需依赖的是Spring核心，AOP，JDBC，MyBatis-Spring等jar包。具体的依赖结果pom.xml文件如下所示：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">    &lt;groupId&gt;com.zhangguo&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;Spring061&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.0.1&lt;/version&gt;</span><br><span class="line">    &lt;packaging&gt;war&lt;/packaging&gt;</span><br><span class="line"></span><br><span class="line">    &lt;properties&gt;</span><br><span class="line">        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</span><br><span class="line">        &lt;spring.version&gt;4.3.0.RELEASE&lt;/spring.version&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;!--mysql数据库驱动 --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;5.1.38&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!--log4j日志包 --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;log4j-core&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;2.6.1&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!-- mybatis ORM框架 --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.mybatis&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mybatis&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;3.4.1&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!-- JUnit单元测试工具 --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;junit&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;junit&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;4.10&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!--mybatis-spring适配器 --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.mybatis&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mybatis-spring&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;1.3.0&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!--Spring框架核心库 --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-context&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!-- aspectJ AOP 织入器 --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.aspectj&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;1.8.9&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!--Spring java数据库访问包，在本例中主要用于提供数据源 --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<h2 id="3-2、创建Spring上下文初始化配置文件"><a href="#3-2、创建Spring上下文初始化配置文件" class="headerlink" title="3.2、创建Spring上下文初始化配置文件"></a>3.2、创建Spring上下文初始化配置文件</h2><p>该文件取名为ApplicationContext.xml主要原因是“约束优于配置”的理由，使用Web监听器加载Spring时会默认找该名称的文件。在文件中我们可像以前学习Spring一样配置IOC与AOP，只不过这里整合了一些MyBatis内容。文件内容如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:p=&quot;http://www.springframework.org/schema/p&quot;</span><br><span class="line">    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot; xmlns:context=&quot;http://www.springframework.org/schema/context&quot;</span><br><span class="line">    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans</span><br><span class="line">        http://www.springframework.org/schema/beans/spring-beans.xsd</span><br><span class="line">        http://www.springframework.org/schema/context</span><br><span class="line">        http://www.springframework.org/schema/context/spring-context-4.3.xsd</span><br><span class="line">        http://www.springframework.org/schema/aop</span><br><span class="line">        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--1定义一个jdbc数据源，创建一个驱动管理数据源的bean --&gt;</span><br><span class="line">    &lt;bean id=&quot;jdbcDataSource&quot;</span><br><span class="line">        class=&quot;org.springframework.jdbc.datasource.DriverManagerDataSource&quot;&gt;</span><br><span class="line">        &lt;property name=&quot;driverClassName&quot; value=&quot;com.mysql.jdbc.Driver&quot; /&gt;</span><br><span class="line">        &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/db2&quot; /&gt;</span><br><span class="line">        &lt;property name=&quot;username&quot; value=&quot;root&quot; /&gt;</span><br><span class="line">        &lt;property name=&quot;password&quot; value=&quot;root&quot; /&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--2创建一个sql会话工厂bean，指定数据源--&gt;</span><br><span class="line">    &lt;bean id=&quot;sqlSessionFactory&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt;</span><br><span class="line">        &lt;property name=&quot;dataSource&quot; ref=&quot;jdbcDataSource&quot; /&gt;&lt;!-- 指定数据源 --&gt;</span><br><span class="line">        &lt;property name=&quot;configLocation&quot; value=&quot;classpath:MyBatisCfg.xml&quot;&gt;&lt;/property&gt; &lt;!-- 指定配置文件 --&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--3创建一个booTypeDAO--&gt;</span><br><span class="line">    &lt;bean id=&quot;bookTypeDao&quot; class=&quot;org.mybatis.spring.mapper.MapperFactoryBean&quot;&gt;</span><br><span class="line">        &lt;!--指定映射文件 --&gt;</span><br><span class="line">        &lt;property name=&quot;mapperInterface&quot; value=&quot;com.zhangguo.Spring61.mapping.BookTypeDAO&quot;&gt;&lt;/property&gt;</span><br><span class="line">        &lt;!-- 指定sql会话工厂--&gt;</span><br><span class="line">        &lt;property name=&quot;sqlSessionFactory&quot; ref=&quot;sqlSessionFactory&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line">    &lt;!--下面的配置暂时未使用 --&gt;</span><br><span class="line">    &lt;context:component-scan base-package=&quot;com.zhangguo&quot;&gt;</span><br><span class="line">    &lt;/context:component-scan&gt;</span><br><span class="line">    &lt;aop:aspectj-autoproxy proxy-target-class=&quot;true&quot;&gt;&lt;/aop:aspectj-autoproxy&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>从上面的代码可以看到分别创建了一个驱动管理数据源的对象，会话工厂与实现数据访问的对象通过Spring IOC完成，而不再是硬编码。第2段配置与下面的代码功能基本类似：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">private static SqlSessionFactory factory=null;</span><br><span class="line">public static SqlSessionFactory getSqlSessionFactory()&#123;</span><br><span class="line">    if(factory==null)&#123;</span><br><span class="line">    // 获得环境配置文件流</span><br><span class="line">    InputStream config = MyBatisUtil.class.getClassLoader().getResourceAsStream(&quot;MyBatisCfg.xml&quot;);</span><br><span class="line">    // 创建sql会话工厂</span><br><span class="line">    factory = new SqlSessionFactoryBuilder().build(config);</span><br><span class="line">    &#125;</span><br><span class="line">    return factory;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>第3段配置与下面的java代码基本类似：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SqlSession session = MyBatisUtil.getSession();</span><br><span class="line">try &#123;</span><br><span class="line">    BookTypeDAO bookTypeDAO = session.getMapper(BookTypeDAO.class);</span><br><span class="line">    return bookTypeDAO.getAllBookTypes();</span><br><span class="line">&#125; finally &#123;</span><br><span class="line">    session.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<h2 id="3-3、测试运行"><a href="#3-3、测试运行" class="headerlink" title="3.3、测试运行"></a>3.3、测试运行</h2><p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangguo.Spring61.test;</span><br><span class="line"></span><br><span class="line">import static org.junit.Assert.assertNotNull;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import org.junit.Test;</span><br><span class="line">import org.springframework.context.ApplicationContext;</span><br><span class="line">import org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line"></span><br><span class="line">import com.zhangguo.Spring61.entities.BookType;</span><br><span class="line">import com.zhangguo.Spring61.mapping.BookTypeDAO;</span><br><span class="line"></span><br><span class="line">public class TestMyBatisSpring01 &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void test01() &#123;</span><br><span class="line">        //初始化容器</span><br><span class="line">        ApplicationContext ctx=new ClassPathXmlApplicationContext(&quot;ApplicationContext.xml&quot;);</span><br><span class="line">        //获得bean</span><br><span class="line">        BookTypeDAO bookTypeDao=ctx.getBean(&quot;bookTypeDao&quot;,BookTypeDAO.class);</span><br><span class="line">        //访问数据库</span><br><span class="line">        List&lt;BookType&gt; booktypes=bookTypeDao.getAllBookTypes();</span><br><span class="line">        for (BookType bookType : booktypes) &#123;</span><br><span class="line">            System.out.println(bookType);</span><br><span class="line">        &#125;</span><br><span class="line">        assertNotNull(booktypes);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p> 运行结果：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704161150358-1457543141.png" alt="img"></p>
+<p>小结：此处的整合还是相对基础，更完善的整合内容将在后面的章节实现。另外在MyBatisCfg.xml文件中可以删除运行环境中数据源配置部分的内容，如下图所示。我们当前的示例使用的是Spring提供的数据源，其实也可以使用一第三方的数据源管理，如C3P0，Druid(德鲁伊,阿里巴巴开发)等。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160704161602921-467743347.png" alt="img"></p>
+<p><a href="http://files.cnblogs.com/files/best/Spring061_2.rar" target="_blank" rel="noopener"> 下载第三阶段示例</a></p>
+<h1 id="四、Spring集成MyBatis升级版"><a href="#四、Spring集成MyBatis升级版" class="headerlink" title="四、Spring集成MyBatis升级版"></a>四、Spring集成MyBatis升级版</h1><h2 id="4-1、去掉MyBatisCfg-xml配置文件"><a href="#4-1、去掉MyBatisCfg-xml配置文件" class="headerlink" title="4.1、去掉MyBatisCfg.xml配置文件"></a><strong>4.1、去掉MyBatisCfg.xml配置文件</strong></h2><p>在没有Spring的环境下我们单纯使用MyBatis ORM框架时，我们是通过MyBatisCfg.xml完成sqlSessionFactory的构建工作，如果使用Spring则这部分配置的内容可以完全由Spring容器替代，具体实现如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--创建一个sql会话工厂bean，指定数据源 --&gt;</span><br><span class="line">&lt;bean id=&quot;sqlSessionFactory&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt;</span><br><span class="line">    &lt;!-- 1指定数据源 --&gt;</span><br><span class="line">    &lt;property name=&quot;dataSource&quot; ref=&quot;jdbcDataSource&quot; /&gt;</span><br><span class="line">    &lt;!-- 2类型别名包，默认引入com.zhangguo.Spring61.entities下的所有类 --&gt;</span><br><span class="line">    &lt;property name=&quot;typeAliasesPackage&quot; value=&quot;com.zhangguo.Spring61.entities&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;!-- 3指定sql映射xml文件的路径 --&gt;</span><br><span class="line">    &lt;property name=&quot;mapperLocations&quot;</span><br><span class="line">        value=&quot;classpath:com/zhangguo/Spring61/mapping/*Mapper.xml&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>mapperLocations：它表示我们的Mapper文件存放的位置，当我们的Mapper文件跟对应的Mapper接口处于同一位置的时候可以不用指定该属性的值。</p>
+<p>configLocation：用于指定Mybatis的配置文件位置。如果指定了该属性，那么会以该配置文件的内容作为配置信息构建对应的SqlSessionFactoryBuilder，但是后续属性指定的内容会覆盖该配置文件里面指定的对应内容。</p>
+<p>typeAliasesPackage：它一般对应我们的实体类所在的包，这个时候会自动取对应包中不包括包名的简单类名作为包括包名的别名。多个package之间可以用逗号或者分号等来进行分隔。</p>
+<p>typeAliases：数组类型，用来指定别名的。指定了这个属性后，Mybatis会把这个类型的短名称作为这个类型的别名，前提是该类上没有标注@Alias注解，否则将使用该注解对应的值作为此种类型的别名。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"typeAliases"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.tiantian.mybatis.model.Blog<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.tiantian.mybatis.model.Comment<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>我们修改了applicationContext.xml中的配置，通过容器完成了一个sqlSessionFactory Bean的创建， </p>
+<p>1指定了数据源，</p>
+<p>2指定类型别名包. 这样在sql映射文件中使用类型时可以省去全名称，</p>
+<p>3指定了所有要加载的sql映射xml文件，如果有多个目录，则可以使用如下的形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;property name=&quot;mapperLocations&quot;&gt;</span><br><span class="line">     &lt;list&gt;</span><br><span class="line">         &lt;value&gt;classpath:com/...目录.../*_mapper.xml&lt;/value&gt;</span><br><span class="line">         &lt;value&gt;classpath:com/...目录.../*_resultmap.xml&lt;/value&gt;</span><br><span class="line">     &lt;/list&gt;</span><br><span class="line"> &lt;/property&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>如果需要设置更多的属性则可以参考类型org.mybatis.spring.SqlSessionFactoryBean，如果不使用Spring，也不使用MyBatis配置文件我们照样可以获得一个sqlSessionFactory对象完成对MyBatis ORM框架的使用，因为可以直接实例化一个SqlSessionFactoryBean对象，只是此时该工作被Spring容器替代，按这个思路可以在SqlSessionFactoryBean类中找到更多的属性设置在applicationContext.xml配置中，部分源代码如下所示：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">public class SqlSessionFactoryBean implements FactoryBean&lt;SqlSessionFactory&gt;, InitializingBean, ApplicationListener&lt;ApplicationEvent&gt; &#123;</span><br><span class="line"></span><br><span class="line">  private static final Log LOGGER = LogFactory.getLog(SqlSessionFactoryBean.class);</span><br><span class="line"></span><br><span class="line">  private Resource configLocation;</span><br><span class="line"></span><br><span class="line">  private Configuration configuration;</span><br><span class="line"></span><br><span class="line">  private Resource[] mapperLocations;</span><br><span class="line"></span><br><span class="line">  private DataSource dataSource;</span><br><span class="line"></span><br><span class="line">  private TransactionFactory transactionFactory;</span><br><span class="line"></span><br><span class="line">  private Properties configurationProperties;</span><br><span class="line"></span><br><span class="line">  private SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();</span><br><span class="line"></span><br><span class="line">  private SqlSessionFactory sqlSessionFactory;</span><br><span class="line"></span><br><span class="line">  //EnvironmentAware requires spring 3.1</span><br><span class="line">  private String environment = SqlSessionFactoryBean.class.getSimpleName();</span><br><span class="line"></span><br><span class="line">  private boolean failFast;</span><br><span class="line"></span><br><span class="line">  private Interceptor[] plugins;</span><br><span class="line"></span><br><span class="line">  private TypeHandler&lt;?&gt;[] typeHandlers;</span><br><span class="line"></span><br><span class="line">  private String typeHandlersPackage;</span><br><span class="line"></span><br><span class="line">  private Class&lt;?&gt;[] typeAliases;</span><br><span class="line"></span><br><span class="line">  private String typeAliasesPackage;</span><br><span class="line"></span><br><span class="line">  private Class&lt;?&gt; typeAliasesSuperType;</span><br><span class="line"></span><br><span class="line">  //issue #19. No default provider.</span><br><span class="line">  private DatabaseIdProvider databaseIdProvider;</span><br><span class="line"></span><br><span class="line">  private Class&lt;? extends VFS&gt; vfs;</span><br><span class="line"></span><br><span class="line">  private Cache cache;</span><br><span class="line"></span><br><span class="line">  private ObjectFactory objectFactory;</span><br><span class="line"></span><br><span class="line">  private ObjectWrapperFactory objectWrapperFactory;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果习惯两者结合使用，当然还是可以指定MyBatis配置文件的，增加属性：<code>&lt;property name=&quot;configLocation&quot; value=&quot;classpath:MyBatisCfg.xml&quot;&gt;&lt;/property&gt;</code></p>
+<h2 id="4-2、映射接口类自动扫描配置"><a href="#4-2、映射接口类自动扫描配置" class="headerlink" title="4.2、映射接口类自动扫描配置"></a>4.2、映射接口类自动扫描配置</h2><p>在示例3的applicationContext.xml配置文件中有一段实现BookTypeDAO接口实例的创建工厂，配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 创建一个booTypeDAO --&gt;</span><br><span class="line">&lt;bean id=&quot;bookTypeDao&quot; class=&quot;org.mybatis.spring.mapper.MapperFactoryBean&quot;&gt;</span><br><span class="line">    &lt;!--指定映射文件 --&gt;</span><br><span class="line">    &lt;property name=&quot;mapperInterface&quot; value=&quot;com.zhangguo.Spring61.mapping.BookTypeDAO&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;!-- 指定sql会话工厂 --&gt;</span><br><span class="line">    &lt;property name=&quot;sqlSessionFactory&quot; ref=&quot;sqlSessionFactory&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p> 如果有多个表，则需要配置多段信息，麻烦。我们可以通过自动扫描一次完成，配置如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--自动扫描映射接口--&gt;</span><br><span class="line">&lt;bean class=&quot;org.mybatis.spring.mapper.MapperScannerConfigurer&quot;&gt;</span><br><span class="line">    &lt;!-- 指定sql会话工厂，在上面配置过的 --&gt;</span><br><span class="line">    &lt;property name=&quot;sqlSessionFactoryBeanName&quot; value=&quot;sqlSessionFactory&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;!-- 指定基础包，即自动扫描com.zhangguo.Spring61.mapping这个包以及它的子包下的所有映射接口类 --&gt;</span><br><span class="line">    &lt;property name=&quot;basePackage&quot; value=&quot;com.zhangguo.Spring61.mapping&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p> 需要注意的是这里的sql会话工厂的指定可以使用sqlSessionFactoryBeanName属性指定，也可以使用sqlSessionFactory属性指定，但建==议大家使用sqlSessionFactoryBeanName，否则会因为加载的先后顺序问题引起读不到properties文件的内容==。其它属性的设置可以查看源码后再定义。</p>
+<p>这样MapperScannerConfigurer就会扫描指定basePackage下面的所有接口，并把它们注册为一个个MapperFactoryBean对象。basePackage下面的并不全是我们定义的Mapper接口，为此MapperScannerConfigurer还为我们提供了另外两个可以缩小搜索和注册范围的属性。一个是annotationClass，另一个是markerInterface。<br>annotationClass：当指定了annotationClass的时候，MapperScannerConfigurer将只注册使用了annotationClass注解标记的接口。<br>markerInterface：markerInterface是用于指定一个接口的，当指定了markerInterface之后，MapperScannerConfigurer将只注册继承自markerInterface的接口。</p>
+<p>sqlSessionFactory： 已废弃 。当使用多个数据源时就需要通过sqlSessionFactory来指定注册MapperFactoryBean的时候需要使用的SqlSessionFactory，因为在没有指定sqlSessionFactory的时候，会以Autowired的方式自动注入一个。换言之当我们只使用一个数据源的时候，即只定义了一个SqlSessionFactory的时候我们就可以不给MapperScannerConfigurer指定SqlSessionFactory。<br>sqlSessionFactoryBeanName：它的功能跟sqlSessionFactory是一样的，只是它指定的是定义好的SqlSessionFactory对应的bean名称。<br>sqlSessionTemplate： 已废弃 。它的功能也是相当于sqlSessionFactory的，MapperFactoryBean最终还是使用的SqlSession的getMapper方法取的对应的Mapper对象。当定义有多个SqlSessionTemplate的时候才需要指定它。对于一个MapperFactoryBean来说SqlSessionFactory和SqlSessionTemplate只需要其中一个就可以了，当两者都指定了的时候，SqlSessionFactory会被忽略。<br>sqlSessionTemplateBeanName：指定需要使用的sqlSessionTemplate对应的bean名称。</p>
+<h2 id="4-3、引入属性配置文件db-properties"><a href="#4-3、引入属性配置文件db-properties" class="headerlink" title="4.3、引入属性配置文件db.properties"></a>4.3、引入属性配置文件db.properties</h2><p>从示例3的配置代码中可以发现数据库连接字符信息同时出现在两个位置，分别是applicationContext.xml与db.properties文件中，如下所示：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--定义一个jdbc数据源，创建一个驱动管理数据源的bean --&gt;</span><br><span class="line">&lt;bean id=&quot;jdbcDataSource&quot;</span><br><span class="line">    class=&quot;org.springframework.jdbc.datasource.DriverManagerDataSource&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;driverClassName&quot; value=&quot;com.mysql.jdbc.Driver&quot; /&gt;</span><br><span class="line">    &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/db2&quot; /&gt;</span><br><span class="line">    &lt;property name=&quot;username&quot; value=&quot;root&quot; /&gt;</span><br><span class="line">    &lt;property name=&quot;password&quot; value=&quot;root&quot; /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">driver=com.mysql.jdbc.Driver</span><br><span class="line">url=jdbc:mysql://localhost:3306/db2</span><br><span class="line">username=root</span><br><span class="line">password=root</span><br></pre></td></tr></table></figure>
+<p>根据我们写代码的原则“Write once only once”，连接字符信息应该只存在一个位置，我们可以采用下面的方法整合：</p>
+<p>修改后的db.properties文件内容如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#jdbc</span><br><span class="line">jdbc.driver=com.mysql.jdbc.Driver</span><br><span class="line">jdbc.url=jdbc:mysql://localhost:3306/db2?useUnicode=true&amp;characterEncoding=UTF-8</span><br><span class="line">jdbc.uid=root</span><br><span class="line">jdbc.pwd=root</span><br><span class="line"></span><br><span class="line">#other ..</span><br><span class="line">other.msg=hello</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>修改后的 applicationContext.xml文件内容如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:p=&quot;http://www.springframework.org/schema/p&quot;</span><br><span class="line">    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot; xmlns:context=&quot;http://www.springframework.org/schema/context&quot;</span><br><span class="line">    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans</span><br><span class="line">        http://www.springframework.org/schema/beans/spring-beans.xsd</span><br><span class="line">        http://www.springframework.org/schema/context</span><br><span class="line">        http://www.springframework.org/schema/context/spring-context-4.3.xsd</span><br><span class="line">        http://www.springframework.org/schema/aop</span><br><span class="line">        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--属性占位文件引入，可以通过$&#123;属性名&#125;获得属性文件中的内容--&gt;</span><br><span class="line">    &lt;context:property-placeholder location=&quot;classpath:db.properties&quot;/&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;!--定义一个jdbc数据源，创建一个驱动管理数据源的bean --&gt;</span><br><span class="line">    &lt;bean id=&quot;jdbcDataSource&quot;</span><br><span class="line">        class=&quot;org.springframework.jdbc.datasource.DriverManagerDataSource&quot;&gt;</span><br><span class="line">        &lt;property name=&quot;driverClassName&quot; value=&quot;$&#123;jdbc.driver&#125;&quot; /&gt;</span><br><span class="line">        &lt;property name=&quot;url&quot; value=&quot;$&#123;jdbc.url&#125;&quot; /&gt;</span><br><span class="line">        &lt;property name=&quot;username&quot; value=&quot;$&#123;jdbc.uid&#125;&quot; /&gt;</span><br><span class="line">        &lt;property name=&quot;password&quot; value=&quot;$&#123;jdbc.pwd&#125;&quot; /&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--创建一个sql会话工厂bean，指定数据源 --&gt;</span><br><span class="line">    &lt;bean id=&quot;sqlSessionFactory&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt;</span><br><span class="line">        &lt;!-- 指定数据源 --&gt;</span><br><span class="line">        &lt;property name=&quot;dataSource&quot; ref=&quot;jdbcDataSource&quot; /&gt;</span><br><span class="line">        &lt;!--类型别名包，默认引入com.zhangguo.Spring61.entities下的所有类 --&gt;</span><br><span class="line">        &lt;property name=&quot;typeAliasesPackage&quot; value=&quot;com.zhangguo.Spring61.entities&quot;&gt;&lt;/property&gt;</span><br><span class="line">        &lt;!--指定sql映射xml文件的路径 --&gt;</span><br><span class="line">        &lt;property name=&quot;mapperLocations&quot;</span><br><span class="line">            value=&quot;classpath:com/zhangguo/Spring61/mapping/*Mapper.xml&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;!--自动扫描映射接口--&gt;</span><br><span class="line">    &lt;bean class=&quot;org.mybatis.spring.mapper.MapperScannerConfigurer&quot;&gt;</span><br><span class="line">        &lt;!-- 指定sql会话工厂，在上面配置过的 --&gt;</span><br><span class="line">        &lt;property name=&quot;sqlSessionFactoryBeanName&quot; value=&quot;sqlSessionFactory&quot;&gt;&lt;/property&gt;</span><br><span class="line">        &lt;!-- 指定基础包，即自动扫描com.zhangguo.Spring61.mapping这个包以及它的子包下的所有映射接口类 --&gt;</span><br><span class="line">        &lt;property name=&quot;basePackage&quot; value=&quot;com.zhangguo.Spring61.mapping&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;!--下面的配置暂时未使用 --&gt;</span><br><span class="line">    &lt;context:component-scan base-package=&quot;com.zhangguo.Spring61&quot;&gt;</span><br><span class="line">    &lt;/context:component-scan&gt;</span><br><span class="line">    &lt;aop:aspectj-autoproxy proxy-target-class=&quot;true&quot;&gt;&lt;/aop:aspectj-autoproxy&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>测试运行代码如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangguo.Spring61.test;</span><br><span class="line"></span><br><span class="line">import static org.junit.Assert.assertNotNull;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import org.junit.Test;</span><br><span class="line">import org.springframework.context.ApplicationContext;</span><br><span class="line">import org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line"></span><br><span class="line">import com.zhangguo.Spring61.entities.BookType;</span><br><span class="line">import com.zhangguo.Spring61.mapping.BookTypeDAO;</span><br><span class="line"></span><br><span class="line">public class TestMyBatisSpring01 &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void test01() &#123;</span><br><span class="line">        //初始化容器</span><br><span class="line">        ApplicationContext ctx=new ClassPathXmlApplicationContext(&quot;ApplicationContext.xml&quot;);</span><br><span class="line">        //获得bean</span><br><span class="line">        BookTypeDAO bookTypeDao=ctx.getBean(BookTypeDAO.class);</span><br><span class="line">        //访问数据库</span><br><span class="line">        List&lt;BookType&gt; booktypes=bookTypeDao.getAllBookTypes();</span><br><span class="line">        for (BookType bookType : booktypes) &#123;</span><br><span class="line">            System.out.println(bookType);</span><br><span class="line">        &#125;</span><br><span class="line">        assertNotNull(booktypes);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>测试结果同第3阶段，成功！</p>
+<h2 id="4-4、数据源与连接池"><a href="#4-4、数据源与连接池" class="headerlink" title="4.4、数据源与连接池"></a>4.4、数据源与连接池</h2><p> 通过连接池可以增加数据访问的性能，因为访问数据库时建立连接与释放连接是耗时操作，JDBC默认不带连接池技术，但MyBatis是内置连接池功能的，还有一些第三方知名的连接池技术如：DBCP、C3P0、Druid（德鲁伊）。</p>
+<h3 id="4-4-1、DBCP"><a href="#4-4-1、DBCP" class="headerlink" title="4.4.1、DBCP"></a>4.4.1、DBCP</h3><p>DBCP 是 Apache 软件基金组织下的开源连接池实现，要使用DBCP数据源，需要应用程序应在系统中增加如下两个 jar 文件：Commons-dbcp.jar：连接池的实现、Commons-pool.jar：连接池实现的依赖库，常用属性如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">#连接设置</span><br><span class="line">driverClassName=com.mysql.jdbc.Driver</span><br><span class="line">url=jdbc:mysql://localhost:3306/jdbcstudy</span><br><span class="line">username=root</span><br><span class="line">password=XDP</span><br><span class="line"></span><br><span class="line">#&lt;!-- 初始化连接 --&gt;</span><br><span class="line">initialSize=10</span><br><span class="line">#最大连接数量</span><br><span class="line">maxActive=50</span><br><span class="line">#&lt;!-- 最大空闲连接 --&gt;</span><br><span class="line">maxIdle=20</span><br><span class="line">#&lt;!-- 最小空闲连接 --&gt;</span><br><span class="line">minIdle=5</span><br><span class="line">#&lt;!-- 超时等待时间以毫秒为单位 6000毫秒/1000等于60秒 --&gt;</span><br><span class="line">maxWait=60000</span><br><span class="line">#JDBC驱动建立连接时附带的连接属性属性的格式必须为这样：[属性名=property;] </span><br><span class="line">#注意：&quot;user&quot; 与 &quot;password&quot; 两个属性会被明确地传递，因此这里不需要包含他们。</span><br><span class="line">connectionProperties=useUnicode=true;characterEncoding=UTF8</span><br><span class="line">#指定由连接池所创建的连接的自动提交（auto-commit）状态。</span><br><span class="line">defaultAutoCommit=true</span><br><span class="line">#driver default 指定由连接池所创建的连接的只读（read-only）状态。</span><br><span class="line">#如果没有设置该值，则“setReadOnly”方法将不被调用。（某些驱动并不支持只读模式，如：Informix）</span><br><span class="line">defaultReadOnly=</span><br><span class="line">#driver default 指定由连接池所创建的连接的事务级别（TransactionIsolation）。</span><br><span class="line">#可用值为下列之一：（详情可见javadoc。）NONE,READ_UNCOMMITTED, READ_COMMITTED, REPEATABLE_READ, SERIALIZABLE</span><br><span class="line">defaultTransactionIsolation=READ_UNCOMMITTED</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p> 在与Spring整合时设置：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;dataSource&quot; class=&quot;org.apache.commons.dbcp.BasicDataSource&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;driverClassName&quot; value=&quot;com.mysql.jdbc.Driver&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/hlp?useUnicode=true&amp;amp;characterEncoding=UTF-8&amp;amp;zeroDateTimeBehavior=convertToNull&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;property name=&quot;username&quot; value=&quot;root&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;property name=&quot;password&quot; value=&quot;1234&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;property name=&quot;maxActive&quot; value=&quot;100&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;property name=&quot;maxIdle&quot; value=&quot;30&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;property name=&quot;maxWait&quot; value=&quot;500&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;property name=&quot;defaultAutoCommit&quot; value=&quot;true&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p> 使用上面的代码替换原数据源的创建。</p>
+<h3 id="4-4-2、C3P0"><a href="#4-4-2、C3P0" class="headerlink" title="4.4.2、C3P0"></a>4.4.2、C3P0</h3><p>C3P0是一个开源的JDBC连接池，它实现了数据源和JNDI绑定，支持JDBC3规范和JDBC2的标准扩展。目前使用它的开源项目有Hibernate，Spring等。C3P0数据源在项目开发中使用得比较多。dbcp没有自动回收空闲连接的功能，而c3p0有自动回收空闲连接功能。</p>
+<p>在pom.xml中添加依赖：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--c3p0 连接池 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;c3p0&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;c3p0&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.9.1.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p> 在与Spring整合时修改applicationContext.xml，设置如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--定义一个jdbc数据源，创建一个驱动管理数据源的bean --&gt;</span><br><span class="line">&lt;bean id=&quot;jdbcDataSource&quot;</span><br><span class="line">    class=&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot; destroy-method=&quot;close&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;driverClass&quot; value=&quot;$&#123;jdbc.driver&#125;&quot; /&gt;</span><br><span class="line">    &lt;property name=&quot;jdbcUrl&quot; value=&quot;$&#123;jdbc.url&#125;&quot; /&gt;</span><br><span class="line">    &lt;property name=&quot;user&quot; value=&quot;$&#123;jdbc.uid&#125;&quot; /&gt;</span><br><span class="line">    &lt;property name=&quot;password&quot; value=&quot;$&#123;jdbc.pwd&#125;&quot; /&gt;</span><br><span class="line">    &lt;property name=&quot;acquireIncrement&quot; value=&quot;5&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;property name=&quot;initialPoolSize&quot; value=&quot;10&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;property name=&quot;minPoolSize&quot; value=&quot;5&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;property name=&quot;maxPoolSize&quot; value=&quot;20&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>在测试的代码中设置断点，查看连接数，显示结果如下：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160705142636046-1554973151.png" alt="img"></p>
+<p>关于c3p0属性的细节与查看连接数据的方法请查看我的另一篇文章：<a href="http://www.cnblogs.com/best/archive/2013/05/09/3069839.html" target="_blank" rel="noopener">Hibernate整合C3P0实现连接池</a>。 常用属性如下：</p>
+<p><img src="http://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt="img"> c3p0常用属性 +展开</p>
+<h3 id="4-4-3、Druid（德鲁伊）"><a href="#4-4-3、Druid（德鲁伊）" class="headerlink" title="4.4.3、Druid（德鲁伊）"></a>4.4.3、Druid（德鲁伊）</h3><p>Druid首先是一个数据库连接池，但它不仅仅是一个数据库连接池，它还包含一个ProxyDriver，一系列内置的JDBC组件库，一个SQL Parser。阿里巴巴是一个重度使用关系数据库的公司，我们在生产环境中大量的使用Druid，通过长期在极高负载的生产环境中实际使用、修改和完善，让Druid逐步发展成最好的数据库连接池。Druid在监控、可扩展性、稳定性和性能方面都有明显的优势。</p>
+<p>在与Spring整合时设置：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 配置数据源，使用的是alibaba的Druid(德鲁伊)数据源 --&gt;</span><br><span class="line">    &lt;bean name=&quot;dataSource&quot; class=&quot;com.alibaba.druid.pool.DruidDataSource&quot; init-method=&quot;init&quot; destroy-method=&quot;close&quot;&gt;</span><br><span class="line">        &lt;property name=&quot;url&quot; value=&quot;$&#123;jdbc_url&#125;&quot; /&gt;</span><br><span class="line">        &lt;property name=&quot;username&quot; value=&quot;$&#123;jdbc_username&#125;&quot; /&gt;</span><br><span class="line">        &lt;property name=&quot;password&quot; value=&quot;$&#123;jdbc_password&#125;&quot; /&gt;</span><br><span class="line">        &lt;!-- 初始化连接大小 --&gt;</span><br><span class="line">        &lt;property name=&quot;initialSize&quot; value=&quot;0&quot; /&gt;</span><br><span class="line">        &lt;!-- 连接池最大使用连接数量 --&gt;</span><br><span class="line">        &lt;property name=&quot;maxActive&quot; value=&quot;20&quot; /&gt;</span><br><span class="line">        &lt;!-- 连接池最大空闲 --&gt;</span><br><span class="line">        &lt;property name=&quot;maxIdle&quot; value=&quot;20&quot; /&gt;</span><br><span class="line">        &lt;!-- 连接池最小空闲 --&gt;</span><br><span class="line">        &lt;property name=&quot;minIdle&quot; value=&quot;0&quot; /&gt;</span><br><span class="line">        &lt;!-- 获取连接最大等待时间 --&gt;</span><br><span class="line">        &lt;property name=&quot;maxWait&quot; value=&quot;60000&quot; /&gt;</span><br><span class="line">        &lt;!-- </span><br><span class="line">        &lt;property name=&quot;poolPreparedStatements&quot; value=&quot;true&quot; /&gt; </span><br><span class="line">        &lt;property name=&quot;maxPoolPreparedStatementPerConnectionSize&quot; value=&quot;33&quot; /&gt; </span><br><span class="line">        --&gt;</span><br><span class="line">        &lt;property name=&quot;validationQuery&quot; value=&quot;$&#123;validationQuery&#125;&quot; /&gt;</span><br><span class="line">        &lt;property name=&quot;testOnBorrow&quot; value=&quot;false&quot; /&gt;</span><br><span class="line">        &lt;property name=&quot;testOnReturn&quot; value=&quot;false&quot; /&gt;</span><br><span class="line">        &lt;property name=&quot;testWhileIdle&quot; value=&quot;true&quot; /&gt;</span><br><span class="line">        &lt;!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 --&gt;</span><br><span class="line">        &lt;property name=&quot;timeBetweenEvictionRunsMillis&quot; value=&quot;60000&quot; /&gt;</span><br><span class="line">        &lt;!-- 配置一个连接在池中最小生存的时间，单位是毫秒 --&gt;</span><br><span class="line">        &lt;property name=&quot;minEvictableIdleTimeMillis&quot; value=&quot;25200000&quot; /&gt;</span><br><span class="line">        &lt;!-- 打开removeAbandoned功能 --&gt;</span><br><span class="line">        &lt;property name=&quot;removeAbandoned&quot; value=&quot;true&quot; /&gt;</span><br><span class="line">        &lt;!-- 1800秒，也就是30分钟 --&gt;</span><br><span class="line">        &lt;property name=&quot;removeAbandonedTimeout&quot; value=&quot;1800&quot; /&gt;</span><br><span class="line">        &lt;!-- 关闭abanded连接时输出错误日志 --&gt;</span><br><span class="line">        &lt;property name=&quot;logAbandoned&quot; value=&quot;true&quot; /&gt;</span><br><span class="line">        &lt;!-- 监控数据库 --&gt;</span><br><span class="line">        &lt;!-- &lt;property name=&quot;filters&quot; value=&quot;stat&quot; /&gt; --&gt;</span><br><span class="line">        &lt;property name=&quot;filters&quot; value=&quot;mergeStat&quot; /&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p> 使用上面的代码替换原数据源的创建。</p>
+<p> maven依赖方式：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;druid&lt;/artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.0.20&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p> github:<a href="https://github.com/alibaba/druid，阿里的其它开源框架：https://github.com/alibaba" target="_blank" rel="noopener">https://github.com/alibaba/druid，阿里的其它开源框架：https://github.com/alibaba</a></p>
+<h2 id="4-5、使用SqlSession"><a href="#4-5、使用SqlSession" class="headerlink" title="4.5、使用SqlSession"></a>4.5、使用SqlSession</h2><p>Mybatis-Spring为我们提供了一个实现了SqlSession接口的SqlSessionTemplate类，它是线程安全的，可以被多个Dao同时使用。同时它还跟Spring的事务进行了关联，确保当前被使用的SqlSession是一个已经和Spring的事务进行绑定了的。而且它还可以自己管理Session的提交和关闭。当使用了Spring的事务管理机制后，SqlSession还可以跟着Spring的事务一起提交和回滚。修改applicationContext.xml文件，增加一个bean。</p>
+<p>SqlSessionTemplate 是 MyBatis-Spring 的核心。 这个类负责管理 MyBatis 的 SqlSession, 调用 MyBatis 的 SQL 方法, 翻译异常。 SqlSessionTemplate 是线程安全的, 可以被多个 DAO 所共享使用。<br>当调用 SQL 方法时, 包含从映射器 getMapper()方法返回的方法, SqlSessionTemplate 将会保证使用的 SqlSession 是和当前 Spring 的事务相关的。此外,它管理 session 的生命 周期,包含必要的关闭,提交或回滚操作。<br>SqlSessionTemplate 实现了 SqlSession 接口,这就是说,在代码中无需对 MyBatis 的 SqlSession 进行替换。 SqlSessionTemplate 通常是被用来替代默认的 MyBatis 实现的 DefaultSqlSession , 因为模板可以参与到 Spring 的事务中并且被多个注入的映射器类所使 用时也是线程安全的。相同应用程序中两个类之间的转换可能会引起数据一致性的问题。<br>SqlSessionTemplate 对象可以使用 SqlSessionFactory 作为构造方法的参数来创建。</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 创建一个sqlSession对象 --&gt;</span><br><span class="line">&lt;bean id=&quot;sqlSession&quot; class=&quot;org.mybatis.spring.SqlSessionTemplate&quot;&gt;</span><br><span class="line">    &lt;constructor-arg index=&quot;0&quot; ref=&quot;sqlSessionFactory&quot; /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--创建一个BTDImpl对象 --&gt;</span><br><span class="line">&lt;bean id=&quot;bTDImpl&quot; class=&quot;com.zhangguo.Spring61.dao.BTDImpl&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;sqlSession&quot; ref=&quot;sqlSession&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>新增一个BTDImpl类，实现接口BookTypeDAO，具体如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangguo.Spring61.dao;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line">import org.apache.ibatis.session.SqlSession;</span><br><span class="line">import com.zhangguo.Spring61.entities.BookType;</span><br><span class="line">import com.zhangguo.Spring61.mapping.BookTypeDAO;</span><br><span class="line"></span><br><span class="line">public class BTDImpl implements BookTypeDAO &#123;</span><br><span class="line">    private SqlSession sqlSession;</span><br><span class="line"></span><br><span class="line">    public void setSqlSession(SqlSession sqlSession) &#123;</span><br><span class="line">        this.sqlSession = sqlSession;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public List&lt;BookType&gt; getAllBookTypes() &#123;</span><br><span class="line">        return sqlSession.selectList(&quot;com.zhangguo.Spring61.mapping.BookTypeDAO.getAllBookTypes&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>使用Spring的依赖注入在DAO中直接使用SqlSessionTemplate来访问数据库了。</p>
+<p>测试代码：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangguo.Spring61.test;</span><br><span class="line"></span><br><span class="line">import static org.junit.Assert.assertNotNull;</span><br><span class="line">import java.util.List;</span><br><span class="line">import org.junit.Test;</span><br><span class="line">import org.springframework.context.ApplicationContext;</span><br><span class="line">import org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line">import com.zhangguo.Spring61.dao.BTDImpl;</span><br><span class="line">import com.zhangguo.Spring61.entities.BookType;</span><br><span class="line"></span><br><span class="line">public class TestMyBatisSpring02 &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void test01() &#123;</span><br><span class="line">        //初始化容器</span><br><span class="line">        ApplicationContext ctx=new ClassPathXmlApplicationContext(&quot;ApplicationContext.xml&quot;);</span><br><span class="line">        //获得bean</span><br><span class="line">        BTDImpl bTDImpl=ctx.getBean(&quot;bTDImpl&quot;,BTDImpl.class);</span><br><span class="line">        //访问数据库</span><br><span class="line">        List&lt;BookType&gt; booktypes=bTDImpl.getAllBookTypes();</span><br><span class="line">        for (BookType bookType : booktypes) &#123;</span><br><span class="line">            System.out.println(bookType);</span><br><span class="line">        &#125;</span><br><span class="line">        assertNotNull(booktypes);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>运行结果：</p>
+<p> <img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160706093826686-1023376134.png" alt="img"></p>
+<p>也可以通过自动装配实现，使配置更加简单，在配置文件中可以删除“创建一个BTDImpl对象”这一段，在类BTDImpl中增加注解，代码如下：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangguo.Spring61.dao;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import javax.annotation.Resource;</span><br><span class="line"></span><br><span class="line">import org.apache.ibatis.session.SqlSession;</span><br><span class="line">import org.springframework.stereotype.Repository;</span><br><span class="line"></span><br><span class="line">import com.zhangguo.Spring61.entities.BookType;</span><br><span class="line">import com.zhangguo.Spring61.mapping.BookTypeDAO;</span><br><span class="line"></span><br><span class="line">@Repository</span><br><span class="line">public class BTDImpl implements BookTypeDAO &#123;</span><br><span class="line">    @Resource</span><br><span class="line">    private SqlSession sqlSession;</span><br><span class="line"></span><br><span class="line">    public void setSqlSession(SqlSession sqlSession) &#123;</span><br><span class="line">        this.sqlSession = sqlSession;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public List&lt;BookType&gt; getAllBookTypes() &#123;</span><br><span class="line">        return sqlSession.selectList(&quot;com.zhangguo.Spring61.mapping.BookTypeDAO.getAllBookTypes&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p> 测试方法获得bean要修改成：BTDImpl bTDImpl=ctx.getBean(BTDImpl.class);，运行结果同上。</p>
+<p> 实在太乱了，应大家的要求，打算在另外一篇文章中再继续写。</p>
+<h1 id="五、示例下载"><a href="#五、示例下载" class="headerlink" title="五、示例下载"></a>五、示例下载</h1><p><a href="http://files.cnblogs.com/files/best/Spring061_3.rar" target="_blank" rel="noopener">点击下载</a></p>
+<p>分类: <a href="http://www.cnblogs.com/best/category/846203.html" target="_blank" rel="noopener">Spring</a>,<a href="http://www.cnblogs.com/best/category/313046.html" target="_blank" rel="noopener">数据库</a></p>
+<p>标签: <a href="http://www.cnblogs.com/best/tag/java/" target="_blank" rel="noopener">java</a>, <a href="http://www.cnblogs.com/best/tag/Maven/" target="_blank" rel="noopener">Maven</a>, <a href="http://www.cnblogs.com/best/tag/MyBatis/" target="_blank" rel="noopener">MyBatis</a>, <a href="http://www.cnblogs.com/best/tag/Spring/" target="_blank" rel="noopener">Spring</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/11/Spring/Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）二/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/11/Spring/Spring学习总结（四）——表达式语言 Spring Expression Language/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/04/11/Spring/Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）一/" data-title data-url="http://yoursite.com/2018/04/11/Spring/Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）一/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring学习总结（五）——Spring整合MyBatis（Maven-MySQL）一"><span class="nav-number">1.</span> <span class="nav-text">Spring学习总结（五）——Spring整合MyBatis（Maven+MySQL）一</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一、-使用Maven创建一个Web项目"><span class="nav-number">2.</span> <span class="nav-text">一、 使用Maven创建一个Web项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、使用MyBatis完成MySQL数据库访问"><span class="nav-number">3.</span> <span class="nav-text">二、使用MyBatis完成MySQL数据库访问</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1、添加依赖"><span class="nav-number">3.1.</span> <span class="nav-text">2.1、添加依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2、准备数据"><span class="nav-number">3.2.</span> <span class="nav-text">2.2、准备数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3、创建java-Bean"><span class="nav-number">3.3.</span> <span class="nav-text">2.3、创建java Bean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4、创建实例与表的映射文件"><span class="nav-number">3.4.</span> <span class="nav-text">2.4、创建实例与表的映射文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5、创建MyBatisCfg-xml文件"><span class="nav-number">3.5.</span> <span class="nav-text">2.5、创建MyBatisCfg.xml文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6、实现数据访问功能"><span class="nav-number">3.6.</span> <span class="nav-text">2.6、实现数据访问功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7、测试运行"><span class="nav-number">3.7.</span> <span class="nav-text">2.7、测试运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-8、整合log4j2"><span class="nav-number">3.8.</span> <span class="nav-text">2.8、整合log4j2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、使用Spring4-X整合MyBatis3-X初级版"><span class="nav-number">4.</span> <span class="nav-text">三、使用Spring4.X整合MyBatis3.X初级版</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1、修改pom-xml添加依赖"><span class="nav-number">4.1.</span> <span class="nav-text">3.1、修改pom.xml添加依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2、创建Spring上下文初始化配置文件"><span class="nav-number">4.2.</span> <span class="nav-text">3.2、创建Spring上下文初始化配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3、测试运行"><span class="nav-number">4.3.</span> <span class="nav-text">3.3、测试运行</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、Spring集成MyBatis升级版"><span class="nav-number">5.</span> <span class="nav-text">四、Spring集成MyBatis升级版</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1、去掉MyBatisCfg-xml配置文件"><span class="nav-number">5.1.</span> <span class="nav-text">4.1、去掉MyBatisCfg.xml配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2、映射接口类自动扫描配置"><span class="nav-number">5.2.</span> <span class="nav-text">4.2、映射接口类自动扫描配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3、引入属性配置文件db-properties"><span class="nav-number">5.3.</span> <span class="nav-text">4.3、引入属性配置文件db.properties</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4、数据源与连接池"><span class="nav-number">5.4.</span> <span class="nav-text">4.4、数据源与连接池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-1、DBCP"><span class="nav-number">5.4.1.</span> <span class="nav-text">4.4.1、DBCP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-2、C3P0"><span class="nav-number">5.4.2.</span> <span class="nav-text">4.4.2、C3P0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-3、Druid（德鲁伊）"><span class="nav-number">5.4.3.</span> <span class="nav-text">4.4.3、Druid（德鲁伊）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5、使用SqlSession"><span class="nav-number">5.5.</span> <span class="nav-text">4.5、使用SqlSession</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、示例下载"><span class="nav-number">6.</span> <span class="nav-text">五、示例下载</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

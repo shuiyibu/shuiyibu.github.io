@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="redis,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="coding: utf-8import jsonimport threadingimport timeimport unittestimport urlparseimport uuid QUIT = False 代码清单 2-1def check_token(conn, token):    return conn.hget(‘login:’, token)   # 尝试获取并返回令牌对应的用户">
+<meta name="keywords" content="redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Redis构建Web应用">
+<meta property="og:url" content="http://yoursite.com/2018/06/06/redis/笔记/redis实战/使用Redis构建Web应用/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="coding: utf-8import jsonimport threadingimport timeimport unittestimport urlparseimport uuid QUIT = False 代码清单 2-1def check_token(conn, token):    return conn.hget(‘login:’, token)   # 尝试获取并返回令牌对应的用户">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-05T06:34:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Redis构建Web应用">
+<meta name="twitter:description" content="coding: utf-8import jsonimport threadingimport timeimport unittestimport urlparseimport uuid QUIT = False 代码清单 2-1def check_token(conn, token):    return conn.hget(‘login:’, token)   # 尝试获取并返回令牌对应的用户">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/06/redis/笔记/redis实战/使用Redis构建Web应用/">
+
+
+
+
+
+  <title>使用Redis构建Web应用 | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/06/redis/笔记/redis实战/使用Redis构建Web应用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">使用Redis构建Web应用</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-06T12:43:18+08:00">
+                2018-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/06/redis/笔记/redis实战/使用Redis构建Web应用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/06/06/redis/笔记/redis实战/使用Redis构建Web应用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="coding: utf-8"></a>coding: utf-8</h1><p>import json<br>import threading<br>import time<br>import unittest<br>import urlparse<br>import uuid</p>
+<p>QUIT = False</p>
+<h1 id="代码清单-2-1"><a href="#代码清单-2-1" class="headerlink" title="代码清单 2-1"></a>代码清单 2-1</h1><h1 id><a href="#" class="headerlink" title></a><start id="_1311_14471_8266"></start></h1><p>def check_token(conn, token):<br>    return conn.hget(‘login:’, token)   # 尝试获取并返回令牌对应的用户。</p>
+<h1 id="-1"><a href="#-1" class="headerlink" title></a><end id="_1311_14471_8266"></end></h1><h1 id="代码清单-2-2"><a href="#代码清单-2-2" class="headerlink" title="代码清单 2-2"></a>代码清单 2-2</h1><h1 id="-2"><a href="#-2" class="headerlink" title></a><start id="_1311_14471_8265"></start></h1><p>def update_token(conn, token, user, item=None):</p>
+<pre><code># 获取当前时间戳。
+timestamp = time.time()
+# 维持令牌与已登录用户之间的映射。
+conn.hset(&apos;login:&apos;, token, user)
+# 记录令牌最后一次出现的时间。
+conn.zadd(&apos;recent:&apos;, token, timestamp)
+if item:
+    # 记录用户浏览过的商品。
+    conn.zadd(&apos;viewed:&apos; + token, item, timestamp)
+    # 移除旧的记录，只保留用户最近浏览过的25个商品。
+    conn.zremrangebyrank(&apos;viewed:&apos; + token, 0, -26)
+</code></pre><h1 id="-3"><a href="#-3" class="headerlink" title></a><end id="_1311_14471_8265"></end></h1><h1 id="代码清单-2-3"><a href="#代码清单-2-3" class="headerlink" title="代码清单 2-3"></a>代码清单 2-3</h1><h1 id="-4"><a href="#-4" class="headerlink" title></a><start id="_1311_14471_8270"></start></h1><p>QUIT = False<br>LIMIT = 10000000</p>
+<p>def clean_sessions(conn):<br>    while not QUIT:</p>
+<pre><code># 找出目前已有令牌的数量。
+size = conn.zcard(&apos;recent:&apos;)
+# 令牌数量未超过限制，休眠并在之后重新检查。
+if size &lt;= LIMIT:
+    time.sleep(1)
+    continue
+
+#  获取需要移除的令牌ID。
+end_index = min(size - LIMIT, 100)
+tokens = conn.zrange(&apos;recent:&apos;, 0, end_index-1)
+
+# 为那些将要被删除的令牌构建键名。
+session_keys = []
+for token in tokens:
+    session_keys.append(&apos;viewed:&apos; + token)
+
+# 移除最旧的那些令牌。
+conn.delete(*session_keys)
+conn.hdel(&apos;login:&apos;, *tokens)
+conn.zrem(&apos;recent:&apos;, *tokens)
+</code></pre><h1 id="-5"><a href="#-5" class="headerlink" title></a><end id="_1311_14471_8270"></end></h1><h1 id="代码清单-2-4"><a href="#代码清单-2-4" class="headerlink" title="代码清单 2-4"></a>代码清单 2-4</h1><h1 id="-6"><a href="#-6" class="headerlink" title></a><start id="_1311_14471_8279"></start></h1><p>def add_to_cart(conn, session, item, count):<br>    if count &lt;= 0:</p>
+<pre><code>    # 从购物车里面移除指定的商品。
+    conn.hrem(&apos;cart:&apos; + session, item)
+else:
+    # 将指定的商品添加到购物车。
+    conn.hset(&apos;cart:&apos; + session, item, count)
+</code></pre><h1 id="-7"><a href="#-7" class="headerlink" title></a><end id="_1311_14471_8279"></end></h1><h1 id="代码清单-2-5"><a href="#代码清单-2-5" class="headerlink" title="代码清单 2-5"></a>代码清单 2-5</h1><h1 id="-8"><a href="#-8" class="headerlink" title></a><start id="_1311_14471_8271"></start></h1><p>def clean_full_sessions(conn):<br>    while not QUIT:<br>        size = conn.zcard(‘recent:’)<br>        if size &lt;= LIMIT:<br>            time.sleep(1)<br>            continue</p>
+<pre><code>end_index = min(size - LIMIT, 100)
+sessions = conn.zrange(&apos;recent:&apos;, 0, end_index-1)
+
+session_keys = []
+for sess in sessions:
+    session_keys.append(&apos;viewed:&apos; + sess)
+    session_keys.append(&apos;cart:&apos; + sess)   # 新增加的这行代码用于删除旧会话对应用户的购物车。
+
+conn.delete(*session_keys)
+conn.hdel(&apos;login:&apos;, *sessions)
+conn.zrem(&apos;recent:&apos;, *sessions)
+</code></pre><h1 id="-9"><a href="#-9" class="headerlink" title></a><end id="_1311_14471_8271"></end></h1><h1 id="代码清单-2-6"><a href="#代码清单-2-6" class="headerlink" title="代码清单 2-6"></a>代码清单 2-6</h1><h1 id="-10"><a href="#-10" class="headerlink" title></a><start id="_1311_14471_8291"></start></h1><p>def cache_request(conn, request, callback):</p>
+<pre><code># 对于不能被缓存的请求，直接调用回调函数。
+if not can_cache(conn, request):
+    return callback(request)
+
+# 将请求转换成一个简单的字符串键，方便之后进行查找。
+page_key = &apos;cache:&apos; + hash_request(request)
+# 尝试查找被缓存的页面。
+content = conn.get(page_key)
+
+if not content:
+    # 如果页面还没有被缓存，那么生成页面。
+    content = callback(request)
+    # 将新生成的页面放到缓存里面。
+    conn.setex(page_key, content, 300)
+
+# 返回页面。
+return content
+</code></pre><h1 id="-11"><a href="#-11" class="headerlink" title></a><end id="_1311_14471_8291"></end></h1><h1 id="代码清单-2-7"><a href="#代码清单-2-7" class="headerlink" title="代码清单 2-7"></a>代码清单 2-7</h1><h1 id="-12"><a href="#-12" class="headerlink" title></a><start id="_1311_14471_8287"></start></h1><p>def schedule_row_cache(conn, row_id, delay):</p>
+<pre><code># 先设置数据行的延迟值。
+conn.zadd(&apos;delay:&apos;, row_id, delay)
+# 立即缓存数据行。
+conn.zadd(&apos;schedule:&apos;, row_id, time.time())
+</code></pre><h1 id="-13"><a href="#-13" class="headerlink" title></a><end id="_1311_14471_8287"></end></h1><h1 id="代码清单-2-8"><a href="#代码清单-2-8" class="headerlink" title="代码清单 2-8"></a>代码清单 2-8</h1><h1 id="-14"><a href="#-14" class="headerlink" title></a><start id="_1311_14471_8292"></start></h1><p>def cache_rows(conn):<br>    while not QUIT:</p>
+<pre><code># 尝试获取下一个需要被缓存的数据行以及该行的调度时间戳，
+# 命令会返回一个包含零个或一个元组（tuple）的列表。
+next = conn.zrange(&apos;schedule:&apos;, 0, 0, withscores=True)
+now = time.time()
+if not next or next[0][1] &gt; now:
+    # 暂时没有行需要被缓存，休眠50毫秒后重试。
+    time.sleep(.05)
+    continue
+
+row_id = next[0][0]
+# 获取下一次调度前的延迟时间。
+delay = conn.zscore(&apos;delay:&apos;, row_id)
+if delay &lt;= 0:
+    # 不必再缓存这个行，将它从缓存中移除。
+    conn.zrem(&apos;delay:&apos;, row_id)
+    conn.zrem(&apos;schedule:&apos;, row_id)
+    conn.delete(&apos;inv:&apos; + row_id)
+    continue
+
+# 读取数据行。
+row = Inventory.get(row_id)
+# 更新调度时间并设置缓存值。
+conn.zadd(&apos;schedule:&apos;, row_id, now + delay)
+conn.set(&apos;inv:&apos; + row_id, json.dumps(row.to_dict()))
+</code></pre><h1 id="-15"><a href="#-15" class="headerlink" title></a><end id="_1311_14471_8292"></end></h1><h1 id="代码清单-2-9"><a href="#代码清单-2-9" class="headerlink" title="代码清单 2-9"></a>代码清单 2-9</h1><h1 id="-16"><a href="#-16" class="headerlink" title></a><start id="_1311_14471_8298"></start></h1><p>def update_token(conn, token, user, item=None):<br>    timestamp = time.time()<br>    conn.hset(‘login:’, token, user)<br>    conn.zadd(‘recent:’, token, timestamp)<br>    if item:<br>        conn.zadd(‘viewed:’ + token, item, timestamp)<br>        conn.zremrangebyrank(‘viewed:’ + token, 0, -26)<br>        conn.zincrby(‘viewed:’, item, -1)                   # 这行代码是新添加的。</p>
+<h1 id="-17"><a href="#-17" class="headerlink" title></a><end id="_1311_14471_8298"></end></h1><h1 id="代码清单-2-10"><a href="#代码清单-2-10" class="headerlink" title="代码清单 2-10"></a>代码清单 2-10</h1><h1 id="-18"><a href="#-18" class="headerlink" title></a><start id="_1311_14471_8288"></start></h1><p>def rescale_viewed(conn):<br>    while not QUIT:</p>
+<pre><code># 删除所有排名在20 000名之后的商品。
+conn.zremrangebyrank(&apos;viewed:&apos;, 20000, -1)
+# 将浏览次数降低为原来的一半
+conn.zinterstore(&apos;viewed:&apos;, {&apos;viewed:&apos;: .5})
+# 5分钟之后再执行这个操作。
+time.sleep(300)
+</code></pre><h1 id="-19"><a href="#-19" class="headerlink" title></a><end id="_1311_14471_8288"></end></h1><h1 id="代码清单-2-11"><a href="#代码清单-2-11" class="headerlink" title="代码清单 2-11"></a>代码清单 2-11</h1><h1 id="-20"><a href="#-20" class="headerlink" title></a><start id="_1311_14471_8289"></start></h1><p>def can_cache(conn, request):</p>
+<pre><code># 尝试从页面里面取出商品ID。
+item_id = extract_item_id(request)
+# 检查这个页面能否被缓存以及这个页面是否为商品页面。
+if not item_id or is_dynamic(request):
+    return False
+# 取得商品的浏览次数排名。
+rank = conn.zrank(&apos;viewed:&apos;, item_id)
+# 根据商品的浏览次数排名来判断是否需要缓存这个页面。
+return rank is not None and rank &lt; 10000
+</code></pre><h1 id="-21"><a href="#-21" class="headerlink" title></a><end id="_1311_14471_8289"></end></h1><p>#————— 以下是用于测试代码的辅助函数 ——————————–</p>
+<p>def extract_item_id(request):<br>    parsed = urlparse.urlparse(request)<br>    query = urlparse.parse_qs(parsed.query)<br>    return (query.get(‘item’) or [None])[0]</p>
+<p>def is_dynamic(request):<br>    parsed = urlparse.urlparse(request)<br>    query = urlparse.parse_qs(parsed.query)<br>    return ‘_’ in query</p>
+<p>def hash_request(request):<br>    return str(hash(request))</p>
+<p>class Inventory(object):<br>    def <strong>init</strong>(self, id):<br>        self.id = id</p>
+<pre><code>@classmethod
+def get(cls, id):
+    return Inventory(id)
+
+def to_dict(self):
+    return {&apos;id&apos;:self.id, &apos;data&apos;:&apos;data to cache...&apos;, &apos;cached&apos;:time.time()}
+</code></pre><p>class TestCh02(unittest.TestCase):<br>    def setUp(self):<br>        import redis<br>        self.conn = redis.Redis(db=15)</p>
+<pre><code>def tearDown(self):
+    conn = self.conn
+    to_del = (
+        conn.keys(&apos;login:*&apos;) + conn.keys(&apos;recent:*&apos;) + conn.keys(&apos;viewed:*&apos;) +
+        conn.keys(&apos;cart:*&apos;) + conn.keys(&apos;cache:*&apos;) + conn.keys(&apos;delay:*&apos;) +
+        conn.keys(&apos;schedule:*&apos;) + conn.keys(&apos;inv:*&apos;))
+    if to_del:
+        self.conn.delete(*to_del)
+    del self.conn
+    global QUIT, LIMIT
+    QUIT = False
+    LIMIT = 10000000
+    print
+    print
+
+def test_login_cookies(self):
+    conn = self.conn
+    global LIMIT, QUIT
+    token = str(uuid.uuid4())
+
+    update_token(conn, token, &apos;username&apos;, &apos;itemX&apos;)
+    print &quot;We just logged-in/updated token:&quot;, token
+    print &quot;For user:&quot;, &apos;username&apos;
+    print
+
+    print &quot;What username do we get when we look-up that token?&quot;
+    r = check_token(conn, token)
+    print r
+    print
+    self.assertTrue(r)
+
+
+    print &quot;Let&apos;s drop the maximum number of cookies to 0 to clean them out&quot;
+    print &quot;We will start a thread to do the cleaning, while we stop it later&quot;
+
+    LIMIT = 0
+    t = threading.Thread(target=clean_sessions, args=(conn,))
+    t.setDaemon(1) # to make sure it dies if we ctrl+C quit
+    t.start()
+    time.sleep(1)
+    QUIT = True
+    time.sleep(2)
+    if t.isAlive():
+        raise Exception(&quot;The clean sessions thread is still alive?!?&quot;)
+
+    s = conn.hlen(&apos;login:&apos;)
+    print &quot;The current number of sessions still available is:&quot;, s
+    self.assertFalse(s)
+
+def test_shoppping_cart_cookies(self):
+    conn = self.conn
+    global LIMIT, QUIT
+    token = str(uuid.uuid4())
+
+    print &quot;We&apos;ll refresh our session...&quot;
+    update_token(conn, token, &apos;username&apos;, &apos;itemX&apos;)
+    print &quot;And add an item to the shopping cart&quot;
+    add_to_cart(conn, token, &quot;itemY&quot;, 3)
+    r = conn.hgetall(&apos;cart:&apos; + token)
+    print &quot;Our shopping cart currently has:&quot;, r
+    print
+
+    self.assertTrue(len(r) &gt;= 1)
+
+    print &quot;Let&apos;s clean out our sessions and carts&quot;
+    LIMIT = 0
+    t = threading.Thread(target=clean_full_sessions, args=(conn,))
+    t.setDaemon(1) # to make sure it dies if we ctrl+C quit
+    t.start()
+    time.sleep(1)
+    QUIT = True
+    time.sleep(2)
+    if t.isAlive():
+        raise Exception(&quot;The clean sessions thread is still alive?!?&quot;)
+
+    r = conn.hgetall(&apos;cart:&apos; + token)
+    print &quot;Our shopping cart now contains:&quot;, r
+
+    self.assertFalse(r)
+
+def test_cache_request(self):
+    conn = self.conn
+    token = str(uuid.uuid4())
+
+    def callback(request):
+        return &quot;content for &quot; + request
+
+    update_token(conn, token, &apos;username&apos;, &apos;itemX&apos;)
+    url = &apos;http://test.com/?item=itemX&apos;
+    print &quot;We are going to cache a simple request against&quot;, url
+    result = cache_request(conn, url, callback)
+    print &quot;We got initial content:&quot;, repr(result)
+    print
+
+    self.assertTrue(result)
+
+    print &quot;To test that we&apos;ve cached the request, we&apos;ll pass a bad callback&quot;
+    result2 = cache_request(conn, url, None)
+    print &quot;We ended up getting the same response!&quot;, repr(result2)
+
+    self.assertEquals(result, result2)
+
+    self.assertFalse(can_cache(conn, &apos;http://test.com/&apos;))
+    self.assertFalse(can_cache(conn, &apos;http://test.com/?item=itemX&amp;_=1234536&apos;))
+
+def test_cache_rows(self):
+    import pprint
+    conn = self.conn
+    global QUIT
+
+    print &quot;First, let&apos;s schedule caching of itemX every 5 seconds&quot;
+    schedule_row_cache(conn, &apos;itemX&apos;, 5)
+    print &quot;Our schedule looks like:&quot;
+    s = conn.zrange(&apos;schedule:&apos;, 0, -1, withscores=True)
+    pprint.pprint(s)
+    self.assertTrue(s)
+
+    print &quot;We&apos;ll start a caching thread that will cache the data...&quot;
+    t = threading.Thread(target=cache_rows, args=(conn,))
+    t.setDaemon(1)
+    t.start()
+
+    time.sleep(1)
+    print &quot;Our cached data looks like:&quot;
+    r = conn.get(&apos;inv:itemX&apos;)
+    print repr(r)
+    self.assertTrue(r)
+    print
+    print &quot;We&apos;ll check again in 5 seconds...&quot;
+    time.sleep(5)
+    print &quot;Notice that the data has changed...&quot;
+    r2 = conn.get(&apos;inv:itemX&apos;)
+    print repr(r2)
+    print
+    self.assertTrue(r2)
+    self.assertTrue(r != r2)
+
+    print &quot;Let&apos;s force un-caching&quot;
+    schedule_row_cache(conn, &apos;itemX&apos;, -1)
+    time.sleep(1)
+    r = conn.get(&apos;inv:itemX&apos;)
+    print &quot;The cache was cleared?&quot;, not r
+    print
+    self.assertFalse(r)
+
+    QUIT = True
+    time.sleep(2)
+    if t.isAlive():
+        raise Exception(&quot;The database caching thread is still alive?!?&quot;)
+
+# We aren&apos;t going to bother with the top 10k requests are cached, as
+# we already tested it as part of the cached requests test.
+</code></pre><p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    unittest.main()</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/06/redis/笔记/初识redis/" rel="next" title="初识redis">
+                <i class="fa fa-chevron-left"></i> 初识redis
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/06/redis/笔记/宿主机远程连接虚拟机redis/" rel="prev" title="宿主机远程连接虚拟机redis">
+                宿主机远程连接虚拟机redis <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/06/06/redis/笔记/redis实战/使用Redis构建Web应用/" data-title="使用Redis构建Web应用" data-url="http://yoursite.com/2018/06/06/redis/笔记/redis实战/使用Redis构建Web应用/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#coding-utf-8"><span class="nav-number">1.</span> <span class="nav-text">coding: utf-8</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-2-1"><span class="nav-number">2.</span> <span class="nav-text">代码清单 2-1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-1"><span class="nav-number">4.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-2-2"><span class="nav-number">5.</span> <span class="nav-text">代码清单 2-2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-2"><span class="nav-number">6.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-3"><span class="nav-number">7.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-2-3"><span class="nav-number">8.</span> <span class="nav-text">代码清单 2-3</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-4"><span class="nav-number">9.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-5"><span class="nav-number">10.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-2-4"><span class="nav-number">11.</span> <span class="nav-text">代码清单 2-4</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-6"><span class="nav-number">12.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-7"><span class="nav-number">13.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-2-5"><span class="nav-number">14.</span> <span class="nav-text">代码清单 2-5</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-8"><span class="nav-number">15.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-9"><span class="nav-number">16.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-2-6"><span class="nav-number">17.</span> <span class="nav-text">代码清单 2-6</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-10"><span class="nav-number">18.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-11"><span class="nav-number">19.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-2-7"><span class="nav-number">20.</span> <span class="nav-text">代码清单 2-7</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-12"><span class="nav-number">21.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-13"><span class="nav-number">22.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-2-8"><span class="nav-number">23.</span> <span class="nav-text">代码清单 2-8</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-14"><span class="nav-number">24.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-15"><span class="nav-number">25.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-2-9"><span class="nav-number">26.</span> <span class="nav-text">代码清单 2-9</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-16"><span class="nav-number">27.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-17"><span class="nav-number">28.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-2-10"><span class="nav-number">29.</span> <span class="nav-text">代码清单 2-10</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-18"><span class="nav-number">30.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-19"><span class="nav-number">31.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码清单-2-11"><span class="nav-number">32.</span> <span class="nav-text">代码清单 2-11</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-20"><span class="nav-number">33.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-21"><span class="nav-number">34.</span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">34.0.1.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

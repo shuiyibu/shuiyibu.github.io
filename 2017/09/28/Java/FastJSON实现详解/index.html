@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="FastJSON,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="摘要：“快”作为程序员追逐的终极目标之一，而FastJSON则很好的证明了这一特性。本期《问底》，静行将带大家见证它序列化和反序列化的实现过程，一起领略它的“快”感。 还记得电影《功夫》中火云邪神的一句话：天下功夫，无坚不破，唯快不破。在程序员的世界中，“快”一直是大家苦苦修炼，竞相追逐的终极目标之一，甚至到了“不择手段”、“锱铢必较”的地步。一直使用json游离于各种编程语言和系统之间。一个偶然">
+<meta name="keywords" content="FastJSON">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FastJSON实现详解">
+<meta property="og:url" content="http://yoursite.com/2017/09/28/Java/FastJSON实现详解/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="摘要：“快”作为程序员追逐的终极目标之一，而FastJSON则很好的证明了这一特性。本期《问底》，静行将带大家见证它序列化和反序列化的实现过程，一起领略它的“快”感。 还记得电影《功夫》中火云邪神的一句话：天下功夫，无坚不破，唯快不破。在程序员的世界中，“快”一直是大家苦苦修炼，竞相追逐的终极目标之一，甚至到了“不择手段”、“锱铢必较”的地步。一直使用json游离于各种编程语言和系统之间。一个偶然">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cms.csdnimg.cn/article/201409/25/542381f7453e1.jpg">
+<meta property="og:image" content="http://cms.csdnimg.cn/article/201409/25/54238974f2942.jpg">
+<meta property="og:image" content="http://cms.csdnimg.cn/article/201409/25/542389e95fe2f.jpg">
+<meta property="og:updated_time" content="2018-04-11T08:09:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="FastJSON实现详解">
+<meta name="twitter:description" content="摘要：“快”作为程序员追逐的终极目标之一，而FastJSON则很好的证明了这一特性。本期《问底》，静行将带大家见证它序列化和反序列化的实现过程，一起领略它的“快”感。 还记得电影《功夫》中火云邪神的一句话：天下功夫，无坚不破，唯快不破。在程序员的世界中，“快”一直是大家苦苦修炼，竞相追逐的终极目标之一，甚至到了“不择手段”、“锱铢必较”的地步。一直使用json游离于各种编程语言和系统之间。一个偶然">
+<meta name="twitter:image" content="http://cms.csdnimg.cn/article/201409/25/542381f7453e1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/28/Java/FastJSON实现详解/">
+
+
+
+
+
+  <title>FastJSON实现详解 | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/28/Java/FastJSON实现详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">FastJSON实现详解</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-28T17:30:29+08:00">
+                2017-09-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/FastJSON/" itemprop="url" rel="index">
+                    <span itemprop="name">FastJSON</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/28/Java/FastJSON实现详解/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/28/Java/FastJSON实现详解/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>摘要：</strong>“快”作为程序员追逐的终极目标之一，而FastJSON则很好的证明了这一特性。本期《问底》，静行将带大家见证它序列化和反序列化的实现过程，一起领略它的“快”感。</p>
+<h2 id="还记得电影《功夫》中火云邪神的一句话：天下功夫，无坚不破，唯快不破。在程序员的世界中，“快”一直是大家苦苦修炼，竞相追逐的终极目标之一，甚至到了“不择手段”、“锱铢必较”的地步。"><a href="#还记得电影《功夫》中火云邪神的一句话：天下功夫，无坚不破，唯快不破。在程序员的世界中，“快”一直是大家苦苦修炼，竞相追逐的终极目标之一，甚至到了“不择手段”、“锱铢必较”的地步。" class="headerlink" title="还记得电影《功夫》中火云邪神的一句话：天下功夫，无坚不破，唯快不破。在程序员的世界中，“快”一直是大家苦苦修炼，竞相追逐的终极目标之一，甚至到了“不择手段”、“锱铢必较”的地步。"></a>还记得电影《功夫》中火云邪神的一句话：天下功夫，无坚不破，唯快不破。在程序员的世界中，“快”一直是大家苦苦修炼，竞相追逐的终极目标之一，甚至到了“不择手段”、“锱铢必较”的地步。</h2><p>一直使用json游离于各种编程语言和系统之间。一个偶然的机会碰到了Fastjson，被他的无依赖、易使用、应用广等特性深深吸引的同时，更被他出奇的“快”所震惊，在java界犹如一骑绝尘，旁人只能望其项背。很自然的一个想法涌上心头：FastJSON为何如此之快？于是定神来拔一拔其实现，一则膜拜大师的杰作，二则虚心偷技，三则方便来者学习。</p>
+<p>本篇接下来的内容是基于FastJSON 1.1.40，着重讲述其序列化、反序列化实现，最后分析FastJSON为何如此“fast”的原因。</p>
+<h2 id="1-序列化"><a href="#1-序列化" class="headerlink" title="1. 序列化"></a><strong>1. 序列化</strong></h2><p>所谓序列化，就是将java各种对象转化为json串。不多说，先上图。</p>
+<p><a href="http://cms.csdnimg.cn/article/201409/25/542381f7453e1.jpg" target="_blank" rel="noopener"><img src="http://cms.csdnimg.cn/article/201409/25/542381f7453e1.jpg" alt="img"> </a></p>
+<h3 id="序列化入口"><a href="#序列化入口" class="headerlink" title=" 序列化入口"></a><strong> 序列化入口</strong></h3><p>平常我们经常用到的是JSON.toJSONString()这个静态方法来实现序列化。其实JSON是一个抽象类，该类实现了JSONAware（转为json串）和JSONStreamAware（将json串写入Appendable中）的接口，同时又是JSONArray（内部实现就是个List）和JSONObject（内部实现就是个Map）的父类。JSON.toJSONString()方法内部实现基本相同，为做某些特定配置，对外暴露的接口可能不同。该方法的实现实际托付给了JSONSerializer类。</p>
+<h3 id="序列化组合器"><a href="#序列化组合器" class="headerlink" title="序列化组合器"></a><strong>序列化组合器</strong></h3><p>JSONSerializer类相当于一个序列化组合器，它将上层调用、序列化配置、具体类型序列化实现、序列化字符串拼接等功能组合在一起，方便外部统一调用。该类有几个重要的成员，SerializeConfig、SerializeWriter、各种Filter列表、DateFormat、SerialContext等，还有每次对各个具体对象序列化的ObjectSerializer（非JSONSerializer的成员变量）。下面就来挨个说明其各自功能。</p>
+<p><strong>1.  SerializeConfig</strong></p>
+<p>SerializeConfig是全局唯一的，它继承自IdentityHashMap，IdentityHashMap是一个长度默认为1024的Hash桶，每个桶存放相同Hash的Entry（可看做链表节点，包含key、value、next指针、hash值）做成的单向链表，IdentityHashMap实现了HashMap的功能，但能避免HashMap并发时的死循环。</p>
+<p>SerializeConfig的主要功能是配置并记录每种Java类型对应的序列化类（ObjectSerializer接口的实现类），比如Boolean.class使用BooleanCodec（看命名就知道该类将序列化和反序列化实现写到一起了）作为序列化实现类，float[].class使用FloatArraySerializer作为序列化实现类。这些序列化实现类，有的是FastJSON中默认实现的（比如Java基本类），有的是通过ASM框架生成的（比如用户自定义类），有的甚至是用户自定义的序列化类（比如Date类型框架默认实现是转为毫秒，应用需要转为秒）。当然，这就涉及到是使用ASM生成序列化类还是使用JavaBean的序列化类类序列化的问题，这里判断根据就是是否Android环境（环境变量”java.vm.name”为”dalvik”或”lemur”就是Android环境），但判断不仅这里一处，后续还有更具体的判断。</p>
+<p><strong>2.  SerializeWriter</strong></p>
+<p>SerializeWriter继承自Java的Writer，其实就是个转为FastJSON而生的StringBuilder，完成高性能的字符串拼接。该类成员如下：</p>
+<ul>
+<li>char buf[]</li>
+</ul>
+<ul>
+<li>static ThreadLocal&gt; bufLocal</li>
+</ul>
+<ul>
+<li>int features</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;span&gt;QuoteFieldNames | SkipTransientField | WriteEnumUsingToString | SortField&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+<p> 表示含义为：双引号filedName and 忽略transientField and enum类型使用String写入 and 排序输出field。 支持的所有特征在SerializerFeature类中，用户可在调用时显示配置，也可通过JSONFiled或JSONType注入配置。</p>
+<ul>
+<li>Writer</li>
+</ul>
+<p>举个例子吧，writeStringWithDoubleQuote()表示用字符串用双引号写入，看看如何拼接字符串的。</p>
+<p><strong>3.  Filter列表</strong></p>
+<p>SerializeWriter中有很多Filter列表，可视为在生成json串的各阶段、各地方定制序列化，大致如下：</p>
+<ul>
+<li>BeforeFilter ：序列化时在最前面添加内容</li>
+<li>AfterFilter ：序列化时在最后面添加内容</li>
+<li>PropertyFilter ：根据PropertyName和PropertyValue来判断是否序列化</li>
+<li>ValueFilter ：修改Value</li>
+<li>NameFilter ：修改key</li>
+<li>PropertyPreFilter ：根据PropertyName判断是否序列化</li>
+</ul>
+<p><strong>4.  DateFormat</strong></p>
+<p>指定日期格式。若不指定，FastJSON会自动识别如下日期格式：</p>
+<ul>
+<li>ISO-8601日期格式</li>
+<li>yyyy-MM-dd</li>
+<li>yyyy-MM-dd HH:mm:ss</li>
+<li>yyyy-MM-dd HH:mm:ss.SSS</li>
+<li>毫秒数值</li>
+<li>毫秒字符串</li>
+<li>.Net Json日期格式</li>
+<li>new Date()</li>
+</ul>
+<p><strong>5.  SerialContext</strong></p>
+<p>序列化上下文，在引用或循环引用中使用，该值会放入references的Hash桶（IdentityHashMap）缓存。</p>
+<p><strong>6.  ObjectSerializer  </strong></p>
+<p>ObjectSerializer只有一个接口方法，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">void write(JSONSerializer serializer,Objectobject,Object</span><br><span class="line">    fieldName,Type fieldType);</span><br></pre></td></tr></table></figure>
+<p>可见，将JSONSerializer传入了ObjectSerializer中，而JSONSerializer有SerializeWriter成员，在每个具体ObjectSerializer实现中，直接使用SerializeWriter拼接字符串即可；Object即是待序列化的对象；fieldName则主要用于组合类引用时设置序列化上下文；而fieldType主要是为了泛型处理。</p>
+<p>JSONSerializer中通过public ObjectSerializer getObjectWriter(Class clazz)函数获取类对应的序列化类（即实现ObjectSerializer接口的类），大致逻辑如下：</p>
+<p><a href="http://cms.csdnimg.cn/article/201409/25/54238974f2942.jpg" target="_blank" rel="noopener"><img src="http://cms.csdnimg.cn/article/201409/25/54238974f2942.jpg" alt="img"> </a></p>
+<p>整个过程是先获取已实现基础类对应的序列化类，再通过类加载器获取自定义的AutowiredObjectSerializer序列化类，最后获取通过createJavaBeanSerializer()创建的序列化类。通过该方法会获取两种序列化类，一种是直接的JavaBeanSerializer（根据类的get方法、public filed等JavaBean特征序列化），另一种是createASMSerializer（通过ASM框架生成的序列化字节码），优先使用第二种。选择JavaBeanSerializer的条件为：</p>
+<ul>
+<li>该clazz为非public类</li>
+<li>该clazz的类加载器在ASMClassLoader的外部，或者clazz就是 Serializable.class，或者clazz就是Object.class</li>
+<li>JSONType的注解指明不适用ASM</li>
+<li>createASMSerializer加载失败</li>
+</ul>
+<p>结合前面的讨论，可以得出使用ASM的条件：非Android系统、非基础类、非自定义的AutowiredObjectSerializer、非以上所列的使用JavaBeanSerializer条件。</p>
+<p>具体基础类的序列化方法、JavaBeanSerializer的序列化方法和ASM生成的序列化方法可以参见代码，这里就不做一一讲解了。</p>
+<h2 id="2-反序列化"><a href="#2-反序列化" class="headerlink" title="2. 反序列化"></a><strong>2. 反序列化</strong></h2><p>所谓反序列化，就是将json串转化为对应的java对象。还是先上图。</p>
+<p><a href="http://cms.csdnimg.cn/article/201409/25/542389e95fe2f.jpg" target="_blank" rel="noopener"><img src="http://cms.csdnimg.cn/article/201409/25/542389e95fe2f.jpg" alt="img"> </a></p>
+<p>同样是JSON类作为反序列化入口，实现了parse()、parseObject()、parseArray()等将json串转换为java对象的静态方法。这些方法的实现，实际托付给了DefaultJSONParser类。</p>
+<p>DefaultJSONParser类相当于序列化的JSONSerializer类，是个功能组合器，它将上层调用、反序列化配置、反序列化实现、词法解析等功能组合在一起，相当于设计模式中的外观模式，供外部统一调用。同样，我们来分析该类的几个重要成员，看看他是如何实现纷繁的反序列化功能的。</p>
+<p><strong>1.  ParserConfig</strong></p>
+<p>同SerializeConfig，该类也是全局唯一的解析配置，其中的boolean asmEnable同样判断是否为Andriod环境。与SerializeConfig不同的是，配置类和对应反序列类的IdentityHashMap是该类的私有成员，构造函数的时候就将基础反序列化类加载进入IdentityHashMap中。</p>
+<p><strong>2.  JSONLexer </strong></p>
+<p>JSONLexer是个接口类，定义了各种当前状态和操作接口。JSONLexerBase是对JSONLexer实现的抽象类，类似于序列化的SerializeWriter类，专门解析json字符串，并做了很多优化。实际使用的是JSONLexerBase的两个子类JSONScanner和JSONLexerBase，前者是对整个字符串的反序列化，后者是接Reader直接序列化。简析JSONLexerBase的某些成员：</p>
+<ul>
+<li>int token</li>
+</ul>
+<p>由于json串具有一定格式，字符串会根据某些特定的字符来自解释所表示的意义，那么这些特定的字符或所处位置的字符在FastJSON中就叫一个token，比如”(“，”{“，”[“，”,”，”:”，key，value等，这些都定义在JSONToken类中。</p>
+<ul>
+<li>char[] sbuf</li>
+</ul>
+<p>解析器通过扫描输入字符串，将匹配得到的最细粒度的key、value会放到sbuf中。</p>
+<ul>
+<li>static ThreadLocal&gt; SBUF_REF_LOCAL</li>
+</ul>
+<p>上面sbuf的空间不释放，在下次需要的时候直接拿出来使用，从避免的内存的频繁分配和gc。</p>
+<ul>
+<li>features</li>
+</ul>
+<p>反序列化特性的配置，同序列化的feature是通过int的位或来实现其特性开启还是关闭的。默认配置是： AutoCloseSource | UseBigDecimal | AllowUnQuotedFieldNames | AllowSingleQuotes | AllowArbitraryCommas | AllowArbitraryCommas | SortFeidFastMatch | IgnoreNotMatch ，表示检查json串的完整性 and 转换数值使用BigDecimal and 允许接受不使用引号的filedName and 允许接受使用单引号的key和value and 允许接受连续多个”,”的json串 and 使用排序后的field做快速匹配 and 忽略不匹配的key/value对。当然，这些参数也是可以通过其他途径配置的。</p>
+<ul>
+<li>hasSpecial</li>
+</ul>
+<p>对转义符的处理，比如’\0’，’\’等。</p>
+<p>词法解析器是基于预测的算法从左到右一次遍历的。由于json串具有自身的特点，比如为key的token后最有可能是”:”，”:”之后可能是value的token或为”{“的token或为”[“的token等等，从而可以根据前一个token预判下一个token的可能，进而得知每个token的含义。分辨出各个token后，就可以获取具体值了，比如scanString获取key值，scanFieldString根据fieldName获取fieldValue，scanTrue获取java的true等等。其中，一般会对key进行缓存，放入SymbolTable（类似于IdentityHashMap）中，猜想这样做的目的是：应用解析的json串一般key就那么多，每次生成开销太多，干脆缓存着，用的就是就来取，还是空间换时间的技巧。</p>
+<p><strong>3.  List&lt; ExtraTypeProvider &gt;和List&lt; ExtraProcessor &gt;</strong></p>
+<p>视为对其他类型的处理和其他自定义处理而留的口子，用户可以自己实现对应接口即可。</p>
+<p><strong>4.  DateFormat</strong></p>
+<p>同序列化的DateFormat，不多说了。</p>
+<p><strong>5.  ParseContext 和 List&lt; ResolveTask &gt;</strong></p>
+<p>ParseContext同序列化的SerialContext，为引用甚至循环引用做准备。</p>
+<p>List&lt; ResolveTask &gt;当然就是处理这种多层次甚至多重引用记录的list了。</p>
+<p><strong>6.  SymbolTable</strong></p>
+<p>上面提到的key缓存。</p>
+<p><strong>7.  ObjectDeserializer</strong></p>
+<p>跟ObjectSerializer也是相似的。先根据fieldType获取已缓存的解析器，如果没有则根据fieldClass获取已缓存的解析器，否则根据注解的JSONType获取解析器，否则通过当前线程加载器加载的AutowiredObjectDeserializer查找解析器，否则判断是否为几种常用泛型（比如Collection、Map等），最后通过createJavaBeanDeserializer来创建对应的解析器。当然，这里又分为JavaBeanDeserializer和asmFactory.createJavaBeanDeserializer两种。使用asm的条件如下：</p>
+<ul>
+<li>非Android系统</li>
+<li>该类及其除Object之外的所有父类为是public的</li>
+<li>泛型参数非空</li>
+<li>非asmFactory加载器之外的加载器加载的类</li>
+<li>非接口类</li>
+<li>类的setter函数不大于200</li>
+<li>类有默认构造函数</li>
+<li>类不能含有仅有getter的filed</li>
+<li>类不能含有非public的field</li>
+<li>类不能含有非静态的成员类</li>
+<li>类本身不是非静态的成员类</li>
+</ul>
+<p>使用ASM生成的反序列化器具有较高的反序列化性能，比如对排序的json串可按顺序匹配解析，从而减少读取的token数，但如上要求也是蛮严格的。综上，FastJSON反序列化也支持基础反序列化器、JavaBeanDeserializer反序列化器和ASM构造的反序列化器，这里也不做一一讲解了。</p>
+<h2 id="3-Why-So-Fast"><a href="#3-Why-So-Fast" class="headerlink" title="3. Why So Fast"></a>3. Why So Fast</h2><p>FastJSON真的很快，读后受益匪浅。个人总结了下快的原因（不一定完整）：</p>
+<p><strong>1.  专业的心做专业的事</strong></p>
+<p>不论是序列化还是反序列化，FastJSON针对每种类型都有与之对应的序列化和反序列化方法，就针对这种类型来做，优化性能自然更具针对性。自编符合json的SerializeWriter和JSONLexer，就连ASM框架也给简化掉了，只保留所需部分。不得不叹其用心良苦。</p>
+<p><strong>2.  无处不在的缓存</strong></p>
+<p>空间换时间的想法为程序员屡试不爽，而作者将该方法用到任何细微之处：类对应的序列化器/反序列化器全部存起来，方便取用；解析的key存起来，表面重复内存分配等等。</p>
+<p><strong>3.  不厌其烦的重复代码</strong></p>
+<p>我不知道是否作者故意为之，程序中出现了很多类似的代码，比如特殊字符处理、不同函数对相同token的处理等。这样虽对于程序员寻求规整相违背，不过二进制代码却很喜欢，无形之中减少了许多函数调用。</p>
+<p><strong>4.  不走寻常路</strong></p>
+<p>对于JavaBean，可以通过发射实现序列化和反序列化（FastJSON已有实现），但默认使用的是ASM框架生成对应字节码。为了性能，无所不用其极。</p>
+<p><strong>5.  一点点改变有很大的差别</strong></p>
+<p>排序对输出仅是一点小小的改变，丝毫不影响json的使用，但却被作者用在了解析的快速匹配上，而不用挨个拎出key。</p>
+<p><strong>6.  从规律中找性能</strong></p>
+<p>上面也讲到，FastJSON读取token基于预测的。json串自身的规律性被作者逮个正着，预测下一个将出现的token处理比迷迷糊糊拿到一个token再分情况处理更快捷。</p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>不喜欢虎头蛇尾的结局。不过写到这里，除了承认自己对FastJSON代码某些地方还没看懂或理解有偏颇之外，不敢说太多了。</p>
+<p><strong>关于作者：阿里巴巴集团CDO数据开发平台高级工程师，2010年加入阿里巴巴，长期从事各存储系统（mysql、oracle、odps、hadoop、sqlserver、rds、drds、hbase、oceanbase、db2、ots、tair等）间实时和离线的数据同步工作，打造阿里巴巴云上云下的数据同步通道。</strong></p>
+<p><strong>更多《问底》内容</strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/FastJSON/" rel="tag"># FastJSON</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/28/Linux/一个SSH 公钥登录失败的问题及解决经验/" rel="next" title="Linux笔记">
+                <i class="fa fa-chevron-left"></i> Linux笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/28/Database/大型网站架构系列：分布式消息队列（一）/" rel="prev" title="大型网站架构系列：分布式消息队列">
+                大型网站架构系列：分布式消息队列 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2017/09/28/Java/FastJSON实现详解/" data-title="FastJSON实现详解" data-url="http://yoursite.com/2017/09/28/Java/FastJSON实现详解/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#还记得电影《功夫》中火云邪神的一句话：天下功夫，无坚不破，唯快不破。在程序员的世界中，“快”一直是大家苦苦修炼，竞相追逐的终极目标之一，甚至到了“不择手段”、“锱铢必较”的地步。"><span class="nav-number">1.</span> <span class="nav-text">还记得电影《功夫》中火云邪神的一句话：天下功夫，无坚不破，唯快不破。在程序员的世界中，“快”一直是大家苦苦修炼，竞相追逐的终极目标之一，甚至到了“不择手段”、“锱铢必较”的地步。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-序列化"><span class="nav-number">2.</span> <span class="nav-text">1. 序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#序列化入口"><span class="nav-number">2.1.</span> <span class="nav-text"> 序列化入口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#序列化组合器"><span class="nav-number">2.2.</span> <span class="nav-text">序列化组合器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-反序列化"><span class="nav-number">3.</span> <span class="nav-text">2. 反序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Why-So-Fast"><span class="nav-number">4.</span> <span class="nav-text">3. Why So Fast</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束语"><span class="nav-number">5.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

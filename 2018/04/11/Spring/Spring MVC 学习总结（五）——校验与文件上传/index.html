@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="一江烟雨任平生">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Spring MVC 学习总结（五）——校验与文件上传目录  一、Spring MVC验证器Validator   1.1、定义验证器 1.2、执行校验 1.3、在UI中添加错误标签 1.4、测试运行   二、JSR303验证器   2.1、添加hibernate-validator依赖  2.2、注解Bean   2.2.1、空值检查 2.2.2、Booelan检查 2.2.3、长度检查 2.2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2018/04/11/Spring/Spring MVC 学习总结（五）——校验与文件上传/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Spring MVC 学习总结（五）——校验与文件上传目录  一、Spring MVC验证器Validator   1.1、定义验证器 1.2、执行校验 1.3、在UI中添加错误标签 1.4、测试运行   二、JSR303验证器   2.1、添加hibernate-validator依赖  2.2、注解Bean   2.2.1、空值检查 2.2.2、Booelan检查 2.2.3、长度检查 2.2">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719104031810-1350305594.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719104112326-566915428.png">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719140708341-1407175507.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719152018544-2028967909.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719161042638-1792987.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160726205824309-429450167.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719163410404-518511678.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719163441794-1544376755.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719163514560-848856344.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160720084840185-1081416834.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160720093947435-242654303.png">
+<meta property="og:updated_time" content="2018-04-11T08:57:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="Spring MVC 学习总结（五）——校验与文件上传目录  一、Spring MVC验证器Validator   1.1、定义验证器 1.2、执行校验 1.3、在UI中添加错误标签 1.4、测试运行   二、JSR303验证器   2.1、添加hibernate-validator依赖  2.2、注解Bean   2.2.1、空值检查 2.2.2、Booelan检查 2.2.3、长度检查 2.2">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719104031810-1350305594.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/11/Spring/Spring MVC 学习总结（五）——校验与文件上传/">
+
+
+
+
+
+  <title> | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/11/Spring/Spring MVC 学习总结（五）——校验与文件上传/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline"></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T16:57:44+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/11/Spring/Spring MVC 学习总结（五）——校验与文件上传/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/04/11/Spring/Spring MVC 学习总结（五）——校验与文件上传/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Spring-MVC-学习总结（五）——校验与文件上传"><a href="#Spring-MVC-学习总结（五）——校验与文件上传" class="headerlink" title="Spring MVC 学习总结（五）——校验与文件上传"></a><a href="http://www.cnblogs.com/best/p/5709680.html" target="_blank" rel="noopener">Spring MVC 学习总结（五）——校验与文件上传</a></h1><p><strong>目录</strong></p>
+<ul>
+<li><p><a href="http://www.cnblogs.com/best/p/5709680.html#_label0" target="_blank" rel="noopener">一、Spring MVC验证器Validator</a></p>
+</li>
+<li><ul>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_0_0" target="_blank" rel="noopener">1.1、定义验证器</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_0_1" target="_blank" rel="noopener">1.2、执行校验</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_0_2" target="_blank" rel="noopener">1.3、在UI中添加错误标签</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_0_3" target="_blank" rel="noopener">1.4、测试运行</a></li>
+</ul>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5709680.html#_label1" target="_blank" rel="noopener">二、JSR303验证器</a></p>
+</li>
+<li><ul>
+<li><p><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_1_0" target="_blank" rel="noopener">2.1、添加hibernate-validator依赖</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_1_1" target="_blank" rel="noopener">2.2、注解Bean</a></p>
+</li>
+<li><ul>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_1_1_0" target="_blank" rel="noopener">2.2.1、空值检查</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_1_1_1" target="_blank" rel="noopener">2.2.2、Booelan检查</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_1_1_2" target="_blank" rel="noopener">2.2.3、长度检查</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_1_1_3" target="_blank" rel="noopener">2.2.4、日期检查</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_1_1_4" target="_blank" rel="noopener">2.2.5、正则</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_1_1_5" target="_blank" rel="noopener">2.2.6、数值检查</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_1_1_6" target="_blank" rel="noopener">2.2.7、范围</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_1_1_7" target="_blank" rel="noopener">2.2.8、其它注解</a></li>
+</ul>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_1_2" target="_blank" rel="noopener">2.3、注解控制器参数</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_1_3" target="_blank" rel="noopener">2.4、在UI中添加错误标签</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_1_4" target="_blank" rel="noopener">2.5、测试运行</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5709680.html#_label2" target="_blank" rel="noopener">三、使用jQuery扩展插件Validate实现前端校验</a></p>
+</li>
+<li><ul>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_2_0" target="_blank" rel="noopener">3.1、jQuery扩展插件validate—1基本使用方法</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_2_1" target="_blank" rel="noopener">3.2、jQuery扩展插件validate—2通过参数设置验证规则</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_2_2" target="_blank" rel="noopener">3.3、jQuery扩展插件validate—3通过参数设置错误信息</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_2_3" target="_blank" rel="noopener">3.4、jQuery扩展插件validate—4设置错误提示的样式</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_2_4" target="_blank" rel="noopener">3.5、jQuery扩展插件validate—5添加自定义验证方法</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_2_5" target="_blank" rel="noopener">3.6、jQuery扩展插件validate—6radio、checkbox、select的验证</a></li>
+</ul>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5709680.html#_label3" target="_blank" rel="noopener">四、文件上传</a></p>
+</li>
+<li><ul>
+<li><p><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_3_0" target="_blank" rel="noopener">4.1、Servlet3.0以下的通过commons-fileupload上传</a></p>
+</li>
+<li><ul>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_3_0_0" target="_blank" rel="noopener">4.1.1、添加上传依赖包</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_3_0_1" target="_blank" rel="noopener">4.1.2、新增上传页面</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_3_0_2" target="_blank" rel="noopener">4.1.3、修改配置文件，增加上传配置</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_3_0_3" target="_blank" rel="noopener">4.1.4、增加控制器与Action</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_3_0_4" target="_blank" rel="noopener">4.1.5、测试运行</a></li>
+</ul>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5709680.html#_lab2_3_1" target="_blank" rel="noopener"> 4.2、Servlet3.0以上文件上传</a></p>
+</li>
+<li><ul>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_3_1_0" target="_blank" rel="noopener">4.2.1、修改web.xml配置上传参数</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_3_1_1" target="_blank" rel="noopener">4.2.2、修改pom.xml依赖信息</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_3_1_2" target="_blank" rel="noopener">4.2.3、修改springmvc-servlet.xml配置信息</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_3_1_3" target="_blank" rel="noopener">4.2.4、定义视图</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_3_1_4" target="_blank" rel="noopener">4.2.5、定义Action</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5709680.html#_label3_3_1_5" target="_blank" rel="noopener">4.2.6、测试运行</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5709680.html#_label4" target="_blank" rel="noopener"> 五、示例下载</a></p>
+</li>
+</ul>
+<p>Spring MVC不仅是在架构上改变了项目，使代码变得可复用、可维护与可扩展，其实在功能上也加强了不少。 验证与文件上传是许多项目中不可缺少的一部分。在项目中验证非常重要，首先是安全性考虑，如防止注入攻击，XSS等；其次还可以确保数据的完整性，如输入的格式，内容，长度，大小等。Spring MVC可以使用验证器Validator与JSR303完成后台验证功能。这里也会介绍方便的前端验证方法。</p>
+<h1 id="一、Spring-MVC验证器Validator"><a href="#一、Spring-MVC验证器Validator" class="headerlink" title="一、Spring MVC验证器Validator"></a>一、Spring MVC验证器Validator</h1><p>Spring MVC验证器Validator是一个接口，通过实现该接口来定义对实体对象的验证，接口如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.springframework.validation;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Spring MVC内置的验证器接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Validator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 是否可以验证该类型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">supports</span><span class="params">(Class&lt;?&gt; clazz)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 执行验证 target表示要验证的对象 error表示错误信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">validate</span><span class="params">(Object target, Errors errors)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="1-1、定义验证器"><a href="#1-1、定义验证器" class="headerlink" title="1.1、定义验证器"></a>1.1、定义验证器</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.springmvc51.entities;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.validation.Errors;</span><br><span class="line"><span class="keyword">import</span> org.springframework.validation.ValidationUtils;</span><br><span class="line"><span class="keyword">import</span> org.springframework.validation.Validator;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 产品验证器</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductValidator</span> <span class="keyword">implements</span> <span class="title">Validator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//当前验证器可以验证的类型</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">supports</span><span class="params">(Class&lt;?&gt; clazz)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Product.class.isAssignableFrom(clazz);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//执行校验</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">validate</span><span class="params">(Object target, Errors errors)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//将要验证的对象转换成Product类型</span></span><br><span class="line">        Product entity=(Product)target;</span><br><span class="line">        <span class="comment">//如果产品名称为空或为空格，使用工具类</span></span><br><span class="line">        ValidationUtils.rejectIfEmptyOrWhitespace(errors, <span class="string">"name"</span>, <span class="string">"required"</span>, <span class="string">"产品名称必须填写"</span>);</span><br><span class="line">        <span class="comment">//价格，手动判断</span></span><br><span class="line">        <span class="keyword">if</span>(entity.getPrice()&lt;<span class="number">0</span>)&#123;</span><br><span class="line">            errors.rejectValue(<span class="string">"price"</span>, <span class="string">"product.price.gtZero"</span>, <span class="string">"产品价格必须大于等于0"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//产品类型必须选择</span></span><br><span class="line">        <span class="keyword">if</span>(entity.getProductType().getId()==<span class="number">0</span>)&#123;</span><br><span class="line">            errors.rejectValue(<span class="string">"productType.id"</span>, <span class="string">"product.productType.id.required"</span>, <span class="string">"请选择产品类型"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ValidationUtils是一个工具类，中间有一些方可以用于判断内容是否有误。</p>
+<h2 id="1-2、执行校验"><a href="#1-2、执行校验" class="headerlink" title="1.2、执行校验"></a>1.2、执行校验</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 新增保存，如果新增成功转回列表页，如果失败回新增页，保持页面数据</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/addSave"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addSave</span><span class="params">(Model model, Product product, BindingResult bindingResult)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建一个产品验证器</span></span><br><span class="line">        ProductValidator validator = <span class="keyword">new</span> ProductValidator();</span><br><span class="line">        <span class="comment">// 执行验证，将验证的结果给bindingResult，该类型继承Errors</span></span><br><span class="line">        validator.validate(product, bindingResult);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获得所有的字段错误信息，非必要</span></span><br><span class="line">        <span class="keyword">for</span> (FieldError fielderror : bindingResult.getFieldErrors()) &#123;</span><br><span class="line">            System.out.println(fielderror.getField() + <span class="string">"，"</span> + fielderror.getCode() + <span class="string">"，"</span> + fielderror.getDefaultMessage());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 是否存在错误，如果没有，执行添加</span></span><br><span class="line">        <span class="keyword">if</span> (!bindingResult.hasErrors()) &#123;</span><br><span class="line">            <span class="comment">// 根据类型的编号获得类型对象</span></span><br><span class="line">            product.setProductType(productTypeService.getProductTypeById(product.getProductType().getId()));</span><br><span class="line">            productService.addProduct(product);</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"redirect:/"</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 与form绑定的模型</span></span><br><span class="line">            model.addAttribute(<span class="string">"product"</span>, product);</span><br><span class="line">            <span class="comment">// 用于生成下拉列表</span></span><br><span class="line">            model.addAttribute(<span class="string">"productTypes"</span>, productTypeService.getAllProductTypes());</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"product/add"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>注意在参数中增加了一个BindingResult类型的对象，该类型继承自Errors，获得绑定结果，承载错误信息，该对象中有一些方法可以获得完整的错误信息，可以使用hasErrors方法判断是否产生了错误。</p>
+<h2 id="1-3、在UI中添加错误标签"><a href="#1-3、在UI中添加错误标签" class="headerlink" title="1.3、在UI中添加错误标签"></a>1.3、在UI中添加错误标签</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">language</span>=<span class="string">"java"</span> <span class="attr">contentType</span>=<span class="string">"text/html; charset=UTF-8"</span> <span class="attr">pageEncoding</span>=<span class="string">"UTF-8"</span>%&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%@taglib</span> <span class="attr">prefix</span>=<span class="string">"c"</span> <span class="attr">uri</span>=<span class="string">"http://java.sun.com/jsp/jstl/core"</span>%&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%@taglib</span> <span class="attr">prefix</span>=<span class="string">"form"</span> <span class="attr">uri</span>=<span class="string">"http://www.springframework.org/tags/form"</span> %&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html;charset=UTF-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"styles/main.css"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>新增产品<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h2</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>新增产品<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">form:form</span> <span class="attr">action</span>=<span class="string">"addSave"</span> <span class="attr">modelAttribute</span>=<span class="string">"product"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">fieldset</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">legend</span>&gt;</span>产品<span class="tag">&lt;/<span class="name">legend</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"name"</span>&gt;</span>产品名称：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">form:input</span> <span class="attr">path</span>=<span class="string">"name"</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">form:errors</span> <span class="attr">path</span>=<span class="string">"name"</span> <span class="attr">cssClass</span>=<span class="string">"error"</span>&gt;</span><span class="tag">&lt;/<span class="name">form:errors</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"title"</span>&gt;</span>产品类型：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">form:select</span> <span class="attr">path</span>=<span class="string">"productType.id"</span>&gt;</span></span><br><span class="line">                     <span class="tag">&lt;<span class="name">form:option</span> <span class="attr">value</span>=<span class="string">"0"</span>&gt;</span>--请选择--<span class="tag">&lt;/<span class="name">form:option</span>&gt;</span></span><br><span class="line">                     <span class="tag">&lt;<span class="name">form:options</span> <span class="attr">items</span>=<span class="string">"$&#123;productTypes&#125;"</span>  <span class="attr">itemLabel</span>=<span class="string">"name"</span> <span class="attr">itemValue</span>=<span class="string">"id"</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">form:select</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">form:errors</span> <span class="attr">path</span>=<span class="string">"productType.id"</span> <span class="attr">cssClass</span>=<span class="string">"error"</span>&gt;</span><span class="tag">&lt;/<span class="name">form:errors</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"price"</span>&gt;</span>产品价格：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">form:input</span> <span class="attr">path</span>=<span class="string">"price"</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">form:errors</span> <span class="attr">path</span>=<span class="string">"price"</span> <span class="attr">cssClass</span>=<span class="string">"error"</span>&gt;</span><span class="tag">&lt;/<span class="name">form:errors</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"保存"</span> <span class="attr">class</span>=<span class="string">"btn out"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">fieldset</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">form:form</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color: red"</span>&gt;</span>$&#123;message&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&lt;c:url value="</span>/" /&gt;</span>"  class="abtn out"&gt;返回列表<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>发生错误时解析的结果：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html;charset=UTF-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"styles/main.css"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>新增产品<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h2</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>新增产品<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">"product"</span> <span class="attr">action</span>=<span class="string">"addSave"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">fieldset</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">legend</span>&gt;</span>产品<span class="tag">&lt;/<span class="name">legend</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"name"</span>&gt;</span>产品名称：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"name"</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">""</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"name.errors"</span> <span class="attr">class</span>=<span class="string">"error"</span>&gt;</span>产品名称必须填写<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"title"</span>&gt;</span>产品类型：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"productType.id"</span> <span class="attr">name</span>=<span class="string">"productType.id"</span>&gt;</span></span><br><span class="line">                     <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"0"</span> <span class="attr">selected</span>=<span class="string">"selected"</span>&gt;</span>--请选择--<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">                     <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"11"</span>&gt;</span>数码电子<span class="tag">&lt;/<span class="name">option</span>&gt;</span><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"21"</span>&gt;</span>鞋帽服饰<span class="tag">&lt;/<span class="name">option</span>&gt;</span><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"31"</span>&gt;</span>图书音像<span class="tag">&lt;/<span class="name">option</span>&gt;</span><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"41"</span>&gt;</span>五金家电<span class="tag">&lt;/<span class="name">option</span>&gt;</span><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"51"</span>&gt;</span>生鲜水果<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"productType.id.errors"</span> <span class="attr">class</span>=<span class="string">"error"</span>&gt;</span>请选择产品类型<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"price"</span>&gt;</span>产品价格：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"price"</span> <span class="attr">name</span>=<span class="string">"price"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"-10.0"</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"price.errors"</span> <span class="attr">class</span>=<span class="string">"error"</span>&gt;</span>产品价格必须大于等于0<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"保存"</span> <span class="attr">class</span>=<span class="string">"btn out"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">fieldset</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color: red"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"/SpringMVC51/"</span>  <span class="attr">class</span>=<span class="string">"abtn out"</span>&gt;</span>返回列表<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="1-4、测试运行"><a href="#1-4、测试运行" class="headerlink" title="1.4、测试运行"></a>1.4、测试运行</h2><p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719104031810-1350305594.png" alt="img"></p>
+<p>控制台输出：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719104112326-566915428.png" alt="img"></p>
+<h1 id="二、JSR303验证器"><a href="#二、JSR303验证器" class="headerlink" title="二、JSR303验证器"></a>二、JSR303验证器</h1><p>JSR是<code>Java Specification Requests</code>的缩写，意思是Java 规范提案。是指向JCP(Java Community Process)提出新增一个标准化技术规范的正式请求。任何人都可以提交JSR，以向Java平台增添新的API和服务。JSR已成为Java界的一个重要标准。<a href="https://jcp.org/en/home/index" target="_blank" rel="noopener">https://jcp.org/en/home/index</a></p>
+<p>JSR 303 – Bean Validation 是一个数据验证的规范。JSR303只是一个标准，是一验证规范，对这个标准的实现有：</p>
+<p><a href="http://hibernate.org/validator/" target="_blank" rel="noopener">hibernate-validator</a>，<a href="http://bval.apache.org/" target="_blank" rel="noopener">Apache BVal</a>等。这里我们使用hibernate-validator实现校验。</p>
+<h2 id="2-1、添加hibernate-validator依赖"><a href="#2-1、添加hibernate-validator依赖" class="headerlink" title="2.1、添加hibernate-validator依赖"></a>2.1、添加hibernate-validator依赖</h2><p>修改配置pom.xml配置文件，添加依赖。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--JSR303 Bean校验--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.hibernate<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hibernate-validator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.2.2.Final<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719140708341-1407175507.png" alt="img"></p>
+<h2 id="2-2、注解Bean"><a href="#2-2、注解Bean" class="headerlink" title="2.2、注解Bean"></a>2.2、注解Bean</h2><p> 在bean中设置验证规则，示例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.springmvc51.entities;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.Serializable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.validation.constraints.NotNull;</span><br><span class="line"><span class="keyword">import</span> javax.validation.constraints.Pattern;</span><br><span class="line"><span class="keyword">import</span> javax.validation.constraints.Size;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.hibernate.validator.constraints.Range;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 产品</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Product</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 编号</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 名称</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Size</span>(min=<span class="number">1</span>,max=<span class="number">50</span>,message=<span class="string">"名称长度必须介于&#123;2&#125;-&#123;1&#125;之间"</span>)</span><br><span class="line">    <span class="meta">@Pattern</span>(regexp=<span class="string">"^[\\w\\u4e00-\\u9fa5]&#123;0,10&#125;$"</span>,message=<span class="string">"格式错误，必须是字母数字与中文"</span>)</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 价格</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Range</span>(min=<span class="number">0</span>,max=<span class="number">1000000</span>,message=<span class="string">"价格只允许在&#123;2&#125;-&#123;1&#125;之间"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> price;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 产品类型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> ProductType productType;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Product</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        productType=<span class="keyword">new</span> ProductType();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Product</span><span class="params">(String name, <span class="keyword">double</span> price)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.price = price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Product</span><span class="params">(<span class="keyword">int</span> id, String name, <span class="keyword">double</span> price, ProductType type)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.price = price;</span><br><span class="line">        <span class="keyword">this</span>.productType = type;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"编号(id)："</span> + <span class="keyword">this</span>.getId() + <span class="string">"，名称(name)："</span> + <span class="keyword">this</span>.getName() + <span class="string">"，价格(price)："</span> + <span class="keyword">this</span>.getPrice()</span><br><span class="line">                + <span class="string">"，类型(productType.Name)："</span> + <span class="keyword">this</span>.getProductType().getName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getPrice</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPrice</span><span class="params">(<span class="keyword">double</span> price)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.price = price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ProductType <span class="title">getProductType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> productType;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setProductType</span><span class="params">(ProductType productType)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.productType = productType;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更多的验证注解如下所示：</p>
+<h3 id="2-2-1、空值检查"><a href="#2-2-1、空值检查" class="headerlink" title="2.2.1、空值检查"></a>2.2.1、空值检查</h3><p>@Null       验证对象是否为null</p>
+<p>@NotNull    验证对象是否不为null, 无法查检长度为0的字符串</p>
+<p>@NotBlank 检查约束字符串是不是Null还有被Trim的长度是否大于0,只对字符串,且会去掉前后空格.</p>
+<p>==@NotEmpty== 检查约束元素是否为NULL或者是EMPTY.</p>
+<h3 id="2-2-2、Booelan检查"><a href="#2-2-2、Booelan检查" class="headerlink" title="2.2.2、Booelan检查"></a>2.2.2、Booelan检查</h3><p>@AssertTrue     验证 Boolean 对象是否为 true </p>
+<p>@AssertFalse    验证 Boolean 对象是否为 false </p>
+<h3 id="2-2-3、长度检查"><a href="#2-2-3、长度检查" class="headerlink" title="2.2.3、长度检查"></a>2.2.3、长度检查</h3><p>@Size(min=, max=) 验证对象（Array,Collection,Map,String）长度是否在给定的范围之内 </p>
+<p>@Length(min=, max=) Validates that the annotated string is between min and max included.</p>
+<h3 id="2-2-4、日期检查"><a href="#2-2-4、日期检查" class="headerlink" title="2.2.4、日期检查"></a>2.2.4、日期检查</h3><p>@Past         验证 Date 和 Calendar 对象是否在当前时间之前 </p>
+<p>@Future     验证 Date 和 Calendar 对象是否在当前时间之后 </p>
+<h3 id="2-2-5、正则"><a href="#2-2-5、正则" class="headerlink" title="2.2.5、正则"></a>2.2.5、正则</h3><p>@Pattern    验证 String 对象是否符合正则表达式的规则</p>
+<h3 id="2-2-6、数值检查"><a href="#2-2-6、数值检查" class="headerlink" title="2.2.6、数值检查"></a>2.2.6、数值检查</h3><p>建议使用在Stirng,Integer类型，==不建议使用在int类型上==，因为表单值为“”时无法转换为int，但可以转换为String为””,Integer为null</p>
+<p>@Min            验证 Number 和 String 对象是否大等于指定的值 </p>
+<p>@Max            验证 Number 和 String 对象是否小等于指定的值 </p>
+<p>@DecimalMax 被标注的值必须不大于约束中指定的最大值. 这个约束的参数是一个通过BigDecimal定义的最大值的字符串表示.小数存在精度</p>
+<p>@DecimalMin 被标注的值必须不小于约束中指定的最小值. 这个约束的参数是一个通过BigDecimal定义的最小值的字符串表示.小数存在精度</p>
+<p>@Digits     验证 Number 和 String 的构成是否合法 </p>
+<p>@Digits(integer=,fraction=) 验证字符串是否是符合指定格式的数字，interger指定整数精度，fraction指定小数精度。</p>
+<h3 id="2-2-7、范围"><a href="#2-2-7、范围" class="headerlink" title="2.2.7、范围"></a>2.2.7、范围</h3><p>@Range(min=, max=) 检查被注解对象的值是否处于min与max之间，==闭区间==，包含min与max值</p>
+<p>@Range(min=10000,max=50000,message=”必须介于{2}-{1}之间”)</p>
+<h3 id="2-2-8、其它注解"><a href="#2-2-8、其它注解" class="headerlink" title="2.2.8、其它注解"></a>2.2.8、其它注解</h3><p>@Valid 递归的对关联对象进行校验, 如果关联对象是个集合或者数组,那么对其中的元素进行递归校验,如果是一个map,则对其中的值部分进行校验.(是否进行递归验证)，该注解使用在Action的参数上。</p>
+<p>@CreditCardNumber信用卡验证</p>
+<p>@Email  验证是否是邮件地址，如果为null,不进行验证，算通过验证。</p>
+<p>@==ScriptAssert==(lang= ,script=, alias=)</p>
+<p>@URL(protocol=,host=, port=,regexp=, flags=)</p>
+<h2 id="2-3、注解控制器参数"><a href="#2-3、注解控制器参数" class="headerlink" title="2.3、注解控制器参数"></a>2.3、注解控制器参数</h2><p>在需要使用Bean验证的参数对象上注解@Valid，触发验证，示例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.springmvc51.controllers;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> javax.validation.Valid;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.ui.Model;</span><br><span class="line"><span class="keyword">import</span> org.springframework.validation.BindingResult;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ResponseBody;</span><br><span class="line"><span class="keyword">import</span> com.zhangguo.springmvc51.entities.Product;</span><br><span class="line"><span class="keyword">import</span> com.zhangguo.springmvc51.services.ProductService;</span><br><span class="line"><span class="keyword">import</span> com.zhangguo.springmvc51.services.ProductTypeService;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/goods"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GoodsController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    ProductService productService;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    ProductTypeService productTypeService;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 新增，渲染出新增界面</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/add"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">add</span><span class="params">(Model model)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 与form绑定的模型</span></span><br><span class="line">        model.addAttribute(<span class="string">"product"</span>, <span class="keyword">new</span> Product());</span><br><span class="line">        <span class="comment">// 用于生成下拉列表</span></span><br><span class="line">        model.addAttribute(<span class="string">"productTypes"</span>, productTypeService.getAllProductTypes());</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"product/addGoods"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 新增保存，如果新增成功转回列表页，如果失败回新增页，保持页面数据</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/addGoodsSave"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addSave</span><span class="params">(Model model, @Valid Product product, BindingResult bindingResult)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 是否存在错误，如果没有，执行添加</span></span><br><span class="line">        <span class="keyword">if</span> (!bindingResult.hasErrors()) &#123;</span><br><span class="line">            <span class="comment">// 根据类型的编号获得类型对象</span></span><br><span class="line">            product.setProductType(productTypeService.getProductTypeById(product.getProductType().getId()));</span><br><span class="line">            productService.addProduct(product);</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"redirect:/"</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 与form绑定的模型</span></span><br><span class="line">            model.addAttribute(<span class="string">"product"</span>, product);</span><br><span class="line">            <span class="comment">// 用于生成下拉列表</span></span><br><span class="line">            model.addAttribute(<span class="string">"productTypes"</span>, productTypeService.getAllProductTypes());</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"product/addGoods"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/products"</span>)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Product&gt; <span class="title">getProduct</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> productService.getAllProducts();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-4、在UI中添加错误标签"><a href="#2-4、在UI中添加错误标签" class="headerlink" title="2.4、在UI中添加错误标签"></a>2.4、在UI中添加错误标签</h2><p>这里与Spring MVC Validator基本一致，在product目录下新增一个名为addGoods.jsp的页面，脚本如下所示：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">language</span>=<span class="string">"java"</span> <span class="attr">contentType</span>=<span class="string">"text/html; charset=UTF-8"</span> <span class="attr">pageEncoding</span>=<span class="string">"UTF-8"</span>%&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%@taglib</span> <span class="attr">prefix</span>=<span class="string">"c"</span> <span class="attr">uri</span>=<span class="string">"http://java.sun.com/jsp/jstl/core"</span>%&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%@taglib</span> <span class="attr">prefix</span>=<span class="string">"form"</span> <span class="attr">uri</span>=<span class="string">"http://www.springframework.org/tags/form"</span> %&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html;charset=UTF-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"&lt;c:url value="</span>/<span class="attr">styles</span>/<span class="attr">main.css</span>" /&gt;</span>" type="text/css" rel="stylesheet" /&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>新增产品<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h2</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>新增产品<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">form:form</span> <span class="attr">action</span>=<span class="string">"addGoodsSave"</span> <span class="attr">modelAttribute</span>=<span class="string">"product"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">fieldset</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">legend</span>&gt;</span>产品<span class="tag">&lt;/<span class="name">legend</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"name"</span>&gt;</span>产品名称：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">form:input</span> <span class="attr">path</span>=<span class="string">"name"</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">form:errors</span> <span class="attr">path</span>=<span class="string">"name"</span> <span class="attr">cssClass</span>=<span class="string">"error"</span>&gt;</span><span class="tag">&lt;/<span class="name">form:errors</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"title"</span>&gt;</span>产品类型：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">form:select</span> <span class="attr">path</span>=<span class="string">"productType.id"</span>&gt;</span></span><br><span class="line">                     <span class="tag">&lt;<span class="name">form:option</span> <span class="attr">value</span>=<span class="string">"0"</span>&gt;</span>--请选择--<span class="tag">&lt;/<span class="name">form:option</span>&gt;</span></span><br><span class="line">                     <span class="tag">&lt;<span class="name">form:options</span> <span class="attr">items</span>=<span class="string">"$&#123;productTypes&#125;"</span>  <span class="attr">itemLabel</span>=<span class="string">"name"</span> <span class="attr">itemValue</span>=<span class="string">"id"</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">form:select</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">form:errors</span> <span class="attr">path</span>=<span class="string">"productType.id"</span> <span class="attr">cssClass</span>=<span class="string">"error"</span>&gt;</span><span class="tag">&lt;/<span class="name">form:errors</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"price"</span>&gt;</span>产品价格：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">form:input</span> <span class="attr">path</span>=<span class="string">"price"</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">form:errors</span> <span class="attr">path</span>=<span class="string">"price"</span> <span class="attr">cssClass</span>=<span class="string">"error"</span>&gt;</span><span class="tag">&lt;/<span class="name">form:errors</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"保存"</span> <span class="attr">class</span>=<span class="string">"btn out"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">fieldset</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">form:form</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color: red"</span>&gt;</span>$&#123;message&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&lt;c:url value="</span>/" /&gt;</span>"  class="abtn out"&gt;返回列表<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-5、测试运行"><a href="#2-5、测试运行" class="headerlink" title="2.5、测试运行"></a>2.5、测试运行</h2><p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719152018544-2028967909.png" alt="img"></p>
+<p>小结：从上面的示例可以看出这种验证更加方便直观，一次定义反复使用，以编辑更新时验证同样可以使用；另外验证的具体信息可以存放在配置文件中，如message.properties，这样便于国际化与修改。</p>
+<h1 id="三、使用jQuery扩展插件Validate实现前端校验"><a href="#三、使用jQuery扩展插件Validate实现前端校验" class="headerlink" title="三、使用jQuery扩展插件Validate实现前端校验"></a>三、使用jQuery扩展插件Validate实现前端校验</h1><p>jquery.validate是基于jQuery的一个B/S客户端验证插件，借助jQuery的优势，我们可以迅速验证一些常见的输入,大大提高了开发效率，下面是很多年前本人做的学习笔记：</p>
+<h2 id="3-1、jQuery扩展插件validate—1基本使用方法"><a href="#3-1、jQuery扩展插件validate—1基本使用方法" class="headerlink" title="3.1、jQuery扩展插件validate—1基本使用方法"></a><a href="http://www.cnblogs.com/best/archive/2011/09/05/2167723.html" target="_blank" rel="noopener">3.1、jQuery扩展插件validate—1基本使用方法</a></h2><h2 id="3-2、jQuery扩展插件validate—2通过参数设置验证规则"><a href="#3-2、jQuery扩展插件validate—2通过参数设置验证规则" class="headerlink" title="3.2、jQuery扩展插件validate—2通过参数设置验证规则"></a><a href="http://www.cnblogs.com/best/archive/2011/09/05/2167733.html" target="_blank" rel="noopener">3.2、jQuery扩展插件validate—2通过参数设置验证规则</a></h2><h2 id="3-3、jQuery扩展插件validate—3通过参数设置错误信息"><a href="#3-3、jQuery扩展插件validate—3通过参数设置错误信息" class="headerlink" title="3.3、jQuery扩展插件validate—3通过参数设置错误信息"></a><a href="http://www.cnblogs.com/best/archive/2011/09/05/2167742.html" target="_blank" rel="noopener">3.3、jQuery扩展插件validate—3通过参数设置错误信息</a></h2><h2 id="3-4、jQuery扩展插件validate—4设置错误提示的样式"><a href="#3-4、jQuery扩展插件validate—4设置错误提示的样式" class="headerlink" title="3.4、jQuery扩展插件validate—4设置错误提示的样式"></a><a href="http://www.cnblogs.com/best/archive/2011/09/05/2167756.html" target="_blank" rel="noopener">3.4、jQuery扩展插件validate—4设置错误提示的样式</a></h2><h2 id="3-5、jQuery扩展插件validate—5添加自定义验证方法"><a href="#3-5、jQuery扩展插件validate—5添加自定义验证方法" class="headerlink" title="3.5、jQuery扩展插件validate—5添加自定义验证方法"></a><a href="http://www.cnblogs.com/best/archive/2011/09/05/2167773.html" target="_blank" rel="noopener">3.5、jQuery扩展插件validate—5添加自定义验证方法</a></h2><h2 id="3-6、jQuery扩展插件validate—6radio、checkbox、select的验证"><a href="#3-6、jQuery扩展插件validate—6radio、checkbox、select的验证" class="headerlink" title="3.6、jQuery扩展插件validate—6radio、checkbox、select的验证"></a><a href="http://www.cnblogs.com/best/archive/2011/09/05/2167779.html" target="_blank" rel="noopener">3.6、jQuery扩展插件validate—6radio、checkbox、select的验证</a></h2><p><a href="http://files.cnblogs.com/best/Validate_20110905_1.rar" target="_blank" rel="noopener">示例下载</a></p>
+<p>注意：validate只是使验证变得方便，简单，本质还是使用js，==不论多么强大的js验证，当用户把js禁用或使用机器直接发起请求时都不能确保数据的完整性，所有不要把希望寄托在客户端验证，个人认为每一个客户端验证都要服务器进行再次验证==。</p>
+<h1 id="四、文件上传"><a href="#四、文件上传" class="headerlink" title="四、文件上传"></a>四、文件上传</h1><p>在Spring MVC中有两种实现上传文件的办法，第一种是Servlet3.0以下的版本通过commons-fileupload与commons-io完成的通用上传，第二种是Servlet3.0以上的版本的Spring内置标准上传，不需借助第3方组件。通用上传也兼容Servlet3.0以上的版本。</p>
+<h2 id="4-1、Servlet3-0以下的通过commons-fileupload上传"><a href="#4-1、Servlet3-0以下的通过commons-fileupload上传" class="headerlink" title="4.1、Servlet3.0以下的通过commons-fileupload上传"></a>4.1、Servlet3.0以下的通过commons-fileupload上传</h2><h3 id="4-1-1、添加上传依赖包"><a href="#4-1-1、添加上传依赖包" class="headerlink" title="4.1.1、添加上传依赖包"></a>4.1.1、添加上传依赖包</h3><p>因为需要借助第三方上传组件commons-fileupload与commons-io，所以要修改pom.xml文件添加依赖，依赖的内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--文件上传 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>commons-io<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-io<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>commons-fileupload<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-fileupload<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p> 依赖成功后的结果：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719161042638-1792987.png" alt="img"></p>
+<h3 id="4-1-2、新增上传页面"><a href="#4-1-2、新增上传页面" class="headerlink" title="4.1.2、新增上传页面"></a>4.1.2、新增上传页面</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">language</span>=<span class="string">"java"</span> <span class="attr">contentType</span>=<span class="string">"text/html; charset=UTF-8"</span> <span class="attr">pageEncoding</span>=<span class="string">"UTF-8"</span>%&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">taglib</span> <span class="attr">prefix</span>=<span class="string">"c"</span> <span class="attr">uri</span>=<span class="string">"http://java.sun.com/jsp/jstl/core"</span> %&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=UTF-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>上传文件<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>上传文件<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"fileSave"</span> <span class="attr">method</span>=<span class="string">"post"</span>  <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"files"</span>&gt;</span>文件：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"files"</span> <span class="attr">id</span>=<span class="string">"files"</span> <span class="attr">multiple</span>=<span class="string">"multiple"</span> /&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">button</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">     $&#123;message&#125;</span><br><span class="line">   <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果有成功上传，页面中有几个关键点要注意：method的值必为Post；enctype必须为multipart/form-data，该类型的编码格式专门用于二进制数据类型；上传表单元素必须拥有name属性；</p>
+<h3 id="4-1-3、修改配置文件，增加上传配置"><a href="#4-1-3、修改配置文件，增加上传配置" class="headerlink" title="4.1.3、修改配置文件，增加上传配置"></a>4.1.3、修改配置文件，增加上传配置</h3><p>默认情总下Spring MVC对文件上传的视图内容是不能解析的，要配置一个特别的解析器解析上传的内容，修改springmvc-servlet.xml配置文件，增加如下配置内容：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"multipartResolver"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">class</span>=<span class="string">"org.springframework.web.multipart.commons.CommonsMultipartResolver"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"defaultEncoding"</span> <span class="attr">value</span>=<span class="string">"utf-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxUploadSize"</span> <span class="attr">value</span>=<span class="string">"10485760000"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxInMemorySize"</span> <span class="attr">value</span>=<span class="string">"40960"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>增加了一个类型为<code>CommonsMultipartResolver</code>类型的解析器，各属性的意义：</p>
+<ul>
+<li><code>defaultEncoding</code>：默认编码格式</li>
+<li><code>maxUploadSize</code>：上传文件最大限制（字节byte）</li>
+<li><code>maxInMemorySize</code>：缓冲区大小</li>
+</ul>
+<p>当Spring的前置中心控制器检查到客户端发送了一个多分部请求，定义在上下文中的解析器将被激活并接手处理。解析器将当前的HttpServletRequest包装成一个支持多部分文件上传的<code>MultipartHttpServletRequest</code>对象。在控制器中可以获得上传的文件信息。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160726205824309-429450167.png" alt="img"></p>
+<p><code>CommonsMultipartResolver</code>用于通用的文件上传，支持各种版本的Servlet。</p>
+<p><code>StandardServletMultipartResolver</code>用于Servlet3.0以上的版本上传文件。</p>
+<h3 id="4-1-4、增加控制器与Action"><a href="#4-1-4、增加控制器与Action" class="headerlink" title="4.1.4、增加控制器与Action"></a>4.1.4、增加控制器与Action</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.springmvc51.controllers;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.ui.Model;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMethod;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.multipart.MultipartFile;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/up"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UpFileController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/file"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">file</span><span class="params">(Model model)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"up/upfile"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RequestMapping</span>(value=<span class="string">"/fileSave"</span>,method=RequestMethod.POST)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">fileSave</span><span class="params">(Model model,MultipartFile[] files,HttpServletRequest request)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//文件存放的位置</span></span><br><span class="line">        String path=request.getServletContext().getRealPath(<span class="string">"/files"</span>);</span><br><span class="line">        <span class="keyword">for</span> (MultipartFile file : files) &#123;</span><br><span class="line">            System.out.println(file.getOriginalFilename());</span><br><span class="line">            System.out.println(file.getSize());</span><br><span class="line">            System.out.println(<span class="string">"--------------------------"</span>);</span><br><span class="line">            File tempFile=<span class="keyword">new</span> File(path, file.getOriginalFilename());</span><br><span class="line">            file.transferTo(tempFile);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        System.out.println(path);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"up/upfile"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意这里定义的是一个数组，可以接受多个文件上传，如果单文件上传可以修改为MultipartFile类型；另外上传文件的细节在这里并没有花时间处理，比如文件重名的问题，路径问题，关于重名最简单的办法是重新命名为GUID文件名。</p>
+<h3 id="4-1-5、测试运行"><a href="#4-1-5、测试运行" class="headerlink" title="4.1.5、测试运行"></a>4.1.5、测试运行</h3><p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719163410404-518511678.png" alt="img"></p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719163441794-1544376755.png" alt="img"></p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160719163514560-848856344.png" alt="img"></p>
+<h2 id="4-2、Servlet3-0以上文件上传"><a href="#4-2、Servlet3-0以上文件上传" class="headerlink" title="4.2、Servlet3.0以上文件上传"></a>4.2、Servlet3.0以上文件上传</h2><p>Servlet3.0以上的版本不再需要第三方组件Commons.io和commons-fileupload，上传的方式与4.1提到基本一样，但配置稍有区别，可以使用@MultipartConfig注解在Servlet上进行配置上传，也可以在web.xml上进行配置。</p>
+<h3 id="4-2-1、修改web-xml配置上传参数"><a href="#4-2-1、修改web-xml配置上传参数" class="headerlink" title="4.2.1、修改web.xml配置上传参数"></a>4.2.1、修改web.xml配置上传参数</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns</span>=<span class="string">"http://java.sun.com/xml/ns/javaee"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">id</span>=<span class="string">"WebApp_ID"</span> <span class="attr">version</span>=<span class="string">"3.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath*:springmvc-servlet.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>1<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--Servlet3.0以上文件上传配置 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">multipart-config</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">max-file-size</span>&gt;</span>5242880<span class="tag">&lt;/<span class="name">max-file-size</span>&gt;</span><span class="comment">&lt;!--上传单个文件的最大限制5MB --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">max-request-size</span>&gt;</span>20971520<span class="tag">&lt;/<span class="name">max-request-size</span>&gt;</span><span class="comment">&lt;!--请求的最大限制20MB，一次上传多个文件时一共的大小 --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">file-size-threshold</span>&gt;</span>0<span class="tag">&lt;/<span class="name">file-size-threshold</span>&gt;</span><span class="comment">&lt;!--当文件的大小超过临界值时将写入磁盘 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">multipart-config</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>characterEncodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.CharacterEncodingFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>encoding<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>forceEncoding<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>characterEncodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>file-size-threshold</code>：数字类型，当文件大小超过指定的大小后将写入到硬盘上。默认是0，表示所有大小的文件上传后都会作为一个临时文件写入到硬盘上。</li>
+<li><code>location</code>：指定上传文件存放的目录。当我们指定了location后，我们在调用Part的write(String fileName)方法把文件写入到硬盘的时候可以，文件名称可以不用带路径，但是如果fileName带了绝对路径，那将以fileName所带路径为准把文件写入磁盘，不建议指定。</li>
+<li><code>max-file-size</code>：数值类型，表示单个文件的最大大小。默认为-1，表示不限制。当有单个文件的大小超过了max-file-size指定的值时将抛出IllegalStateException异常。</li>
+<li><code>max-request-size</code>：数值类型，表示一次上传文件的最大大小。默认为-1，表示不限制。当上传时所有文件的大小超过了max-request-size时也将抛出IllegalStateException异常。</li>
+</ul>
+<h3 id="4-2-2、修改pom-xml依赖信息"><a href="#4-2-2、修改pom-xml依赖信息" class="headerlink" title="4.2.2、修改pom.xml依赖信息"></a>4.2.2、修改pom.xml依赖信息</h3><p>把pom.xml中对文件上传第三方的依赖删除，删除依赖保存后的结果：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160720084840185-1081416834.png" alt="img"></p>
+<h3 id="4-2-3、修改springmvc-servlet-xml配置信息"><a href="#4-2-3、修改springmvc-servlet-xml配置信息" class="headerlink" title="4.2.3、修改springmvc-servlet.xml配置信息"></a>4.2.3、修改springmvc-servlet.xml配置信息</h3><p>将原有的文件上传通用解析器更换为标准解析器，修改后的配置如下所示：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--文件上传解析器 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"multipartResolver"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">class</span>=<span class="string">"org.springframework.web.multipart.support.StandardServletMultipartResolver"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>定义了一个标准的文件上传解析器，更多属性可以查看这个类的源码。这步非常关键，否则上传会失败。另外id不要换成别的名称，更换后可能会上传失败。</p>
+<h3 id="4-2-4、定义视图"><a href="#4-2-4、定义视图" class="headerlink" title="4.2.4、定义视图"></a>4.2.4、定义视图</h3><p>在views/up/下定义名称为file3.jsp文件，内容如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">language</span>=<span class="string">"java"</span> <span class="attr">contentType</span>=<span class="string">"text/html; charset=UTF-8"</span> <span class="attr">pageEncoding</span>=<span class="string">"UTF-8"</span>%&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">taglib</span> <span class="attr">prefix</span>=<span class="string">"c"</span> <span class="attr">uri</span>=<span class="string">"http://java.sun.com/jsp/jstl/core"</span> %&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=UTF-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>上传文件 - Servlet3.0<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>上传文件 - Servlet3.0<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"file3Save"</span> <span class="attr">method</span>=<span class="string">"post"</span>  <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"files"</span>&gt;</span>文件：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"files"</span> <span class="attr">id</span>=<span class="string">"files"</span> <span class="attr">multiple</span>=<span class="string">"multiple"</span> /&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">button</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">     $&#123;message&#125;</span><br><span class="line">   <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>multiple=&quot;multiple&quot;</code>这个属性是HTML5新增加的属性，一些旧版的浏览器可能不支持，使用JavaScript可以处理一下。</p>
+<h3 id="4-2-5、定义Action"><a href="#4-2-5、定义Action" class="headerlink" title="4.2.5、定义Action"></a>4.2.5、定义Action</h3><p>在UpFileController中定义两个action，一个叫file3用于展示上传页面，一个叫file3Save用于处理上传文，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.springmvc51.controllers;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.ui.Model;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMethod;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.multipart.MultipartFile;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/up"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UpFileController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/file"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">file</span><span class="params">(Model model)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"up/upfile"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RequestMapping</span>(value=<span class="string">"/fileSave"</span>,method=RequestMethod.POST)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">fileSave</span><span class="params">(Model model,MultipartFile[] files,HttpServletRequest request)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//文件存放的位置</span></span><br><span class="line">        String path=request.getServletContext().getRealPath(<span class="string">"/files"</span>);</span><br><span class="line">        <span class="keyword">for</span> (MultipartFile file : files) &#123;</span><br><span class="line">            System.out.println(file.getOriginalFilename());</span><br><span class="line">            System.out.println(file.getSize());</span><br><span class="line">            System.out.println(<span class="string">"--------------------------"</span>);</span><br><span class="line">            File tempFile=<span class="keyword">new</span> File(path, file.getOriginalFilename());</span><br><span class="line">            file.transferTo(tempFile);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        System.out.println(path);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"up/upfile"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/file3"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">file3</span><span class="params">(Model model)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"up/upfile3"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RequestMapping</span>(value=<span class="string">"/file3Save"</span>,method=RequestMethod.POST)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">file3Save</span><span class="params">(Model model,MultipartFile[] files,HttpServletRequest request)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//文件存放的位置</span></span><br><span class="line">        String path=request.getSession().getServletContext().getRealPath(<span class="string">"/files"</span>);</span><br><span class="line">        System.out.println(path);</span><br><span class="line">        String msg=<span class="string">""</span>;</span><br><span class="line">        <span class="keyword">for</span> (MultipartFile file : files) &#123;</span><br><span class="line">            <span class="comment">//保存文件</span></span><br><span class="line">            File tempFile=<span class="keyword">new</span> File(path, file.getOriginalFilename());</span><br><span class="line">            file.transferTo(tempFile);</span><br><span class="line">            msg+=<span class="string">"&lt;img src='../files/"</span>+file.getOriginalFilename()+<span class="string">"' width='200' /&gt;"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        model.addAttribute(<span class="string">"message"</span>, msg);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"up/upfile3"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-2-6、测试运行"><a href="#4-2-6、测试运行" class="headerlink" title="4.2.6、测试运行"></a>4.2.6、测试运行</h3><p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160720093947435-242654303.png" alt="img"></p>
+<h1 id="五、示例下载"><a href="#五、示例下载" class="headerlink" title="五、示例下载"></a>五、示例下载</h1><p><a href="http://files.cnblogs.com/files/best/SpringMVC51.rar" target="_blank" rel="noopener"> 点击下载</a></p>
+<p><a href="https://github.com/zhangguo5/Spring_MVC_051" target="_blank" rel="noopener">github直接预览或下载</a></p>
+<p>分类: <a href="http://www.cnblogs.com/best/category/851369.html" target="_blank" rel="noopener">Spring MVC</a></p>
+<p>标签: <a href="http://www.cnblogs.com/best/tag/Spring/" target="_blank" rel="noopener">Spring</a>, <a href="http://www.cnblogs.com/best/tag/Spring%20MVC/" target="_blank" rel="noopener">Spring MVC</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/11/Spring/Spring MVC 学习总结（一）——MVC概要与环境配置/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/11/Spring/Spring MVC 学习总结（四）——视图与综合示例/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/04/11/Spring/Spring MVC 学习总结（五）——校验与文件上传/" data-title data-url="http://yoursite.com/2018/04/11/Spring/Spring MVC 学习总结（五）——校验与文件上传/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-MVC-学习总结（五）——校验与文件上传"><span class="nav-number">1.</span> <span class="nav-text">Spring MVC 学习总结（五）——校验与文件上传</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一、Spring-MVC验证器Validator"><span class="nav-number">2.</span> <span class="nav-text">一、Spring MVC验证器Validator</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1、定义验证器"><span class="nav-number">2.1.</span> <span class="nav-text">1.1、定义验证器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2、执行校验"><span class="nav-number">2.2.</span> <span class="nav-text">1.2、执行校验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3、在UI中添加错误标签"><span class="nav-number">2.3.</span> <span class="nav-text">1.3、在UI中添加错误标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4、测试运行"><span class="nav-number">2.4.</span> <span class="nav-text">1.4、测试运行</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、JSR303验证器"><span class="nav-number">3.</span> <span class="nav-text">二、JSR303验证器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1、添加hibernate-validator依赖"><span class="nav-number">3.1.</span> <span class="nav-text">2.1、添加hibernate-validator依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2、注解Bean"><span class="nav-number">3.2.</span> <span class="nav-text">2.2、注解Bean</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1、空值检查"><span class="nav-number">3.2.1.</span> <span class="nav-text">2.2.1、空值检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2、Booelan检查"><span class="nav-number">3.2.2.</span> <span class="nav-text">2.2.2、Booelan检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-3、长度检查"><span class="nav-number">3.2.3.</span> <span class="nav-text">2.2.3、长度检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-4、日期检查"><span class="nav-number">3.2.4.</span> <span class="nav-text">2.2.4、日期检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-5、正则"><span class="nav-number">3.2.5.</span> <span class="nav-text">2.2.5、正则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-6、数值检查"><span class="nav-number">3.2.6.</span> <span class="nav-text">2.2.6、数值检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-7、范围"><span class="nav-number">3.2.7.</span> <span class="nav-text">2.2.7、范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-8、其它注解"><span class="nav-number">3.2.8.</span> <span class="nav-text">2.2.8、其它注解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3、注解控制器参数"><span class="nav-number">3.3.</span> <span class="nav-text">2.3、注解控制器参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4、在UI中添加错误标签"><span class="nav-number">3.4.</span> <span class="nav-text">2.4、在UI中添加错误标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5、测试运行"><span class="nav-number">3.5.</span> <span class="nav-text">2.5、测试运行</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、使用jQuery扩展插件Validate实现前端校验"><span class="nav-number">4.</span> <span class="nav-text">三、使用jQuery扩展插件Validate实现前端校验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1、jQuery扩展插件validate—1基本使用方法"><span class="nav-number">4.1.</span> <span class="nav-text">3.1、jQuery扩展插件validate—1基本使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2、jQuery扩展插件validate—2通过参数设置验证规则"><span class="nav-number">4.2.</span> <span class="nav-text">3.2、jQuery扩展插件validate—2通过参数设置验证规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3、jQuery扩展插件validate—3通过参数设置错误信息"><span class="nav-number">4.3.</span> <span class="nav-text">3.3、jQuery扩展插件validate—3通过参数设置错误信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4、jQuery扩展插件validate—4设置错误提示的样式"><span class="nav-number">4.4.</span> <span class="nav-text">3.4、jQuery扩展插件validate—4设置错误提示的样式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5、jQuery扩展插件validate—5添加自定义验证方法"><span class="nav-number">4.5.</span> <span class="nav-text">3.5、jQuery扩展插件validate—5添加自定义验证方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6、jQuery扩展插件validate—6radio、checkbox、select的验证"><span class="nav-number">4.6.</span> <span class="nav-text">3.6、jQuery扩展插件validate—6radio、checkbox、select的验证</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、文件上传"><span class="nav-number">5.</span> <span class="nav-text">四、文件上传</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1、Servlet3-0以下的通过commons-fileupload上传"><span class="nav-number">5.1.</span> <span class="nav-text">4.1、Servlet3.0以下的通过commons-fileupload上传</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-1、添加上传依赖包"><span class="nav-number">5.1.1.</span> <span class="nav-text">4.1.1、添加上传依赖包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-2、新增上传页面"><span class="nav-number">5.1.2.</span> <span class="nav-text">4.1.2、新增上传页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-3、修改配置文件，增加上传配置"><span class="nav-number">5.1.3.</span> <span class="nav-text">4.1.3、修改配置文件，增加上传配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-4、增加控制器与Action"><span class="nav-number">5.1.4.</span> <span class="nav-text">4.1.4、增加控制器与Action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-5、测试运行"><span class="nav-number">5.1.5.</span> <span class="nav-text">4.1.5、测试运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2、Servlet3-0以上文件上传"><span class="nav-number">5.2.</span> <span class="nav-text">4.2、Servlet3.0以上文件上传</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-1、修改web-xml配置上传参数"><span class="nav-number">5.2.1.</span> <span class="nav-text">4.2.1、修改web.xml配置上传参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-2、修改pom-xml依赖信息"><span class="nav-number">5.2.2.</span> <span class="nav-text">4.2.2、修改pom.xml依赖信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-3、修改springmvc-servlet-xml配置信息"><span class="nav-number">5.2.3.</span> <span class="nav-text">4.2.3、修改springmvc-servlet.xml配置信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-4、定义视图"><span class="nav-number">5.2.4.</span> <span class="nav-text">4.2.4、定义视图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-5、定义Action"><span class="nav-number">5.2.5.</span> <span class="nav-text">4.2.5、定义Action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-6、测试运行"><span class="nav-number">5.2.6.</span> <span class="nav-text">4.2.6、测试运行</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、示例下载"><span class="nav-number">6.</span> <span class="nav-text">五、示例下载</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

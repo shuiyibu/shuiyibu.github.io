@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ThreadPoolExcutor,ScheduledThreadPoolExecutor,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="通过前面几篇的学习，我们知道创建线程的方式有两种，一种是实现Runnable接口，另一种是继承Thread，但是这两种方式都有个缺点，那就是在任务执行完成之后无法获取返回结果，那如果我们想要获取返回结果该如何实现呢？还记上一篇Executor框架结构中提到的Callable接口和Future接口吗？，是的，从JAVA SE 5.0开始引入了Callable和Future，通过它们构建的线程，在任务">
+<meta name="keywords" content="ThreadPoolExcutor,ScheduledThreadPoolExecutor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java多线程：Callable、Future和FutureTask浅析（多线程编程之四）">
+<meta property="og:url" content="http://yoursite.com/2018/05/09/Java/Java多线程：Callable、Future和FutureTask浅析（多线程编程之四）/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="通过前面几篇的学习，我们知道创建线程的方式有两种，一种是实现Runnable接口，另一种是继承Thread，但是这两种方式都有个缺点，那就是在任务执行完成之后无法获取返回结果，那如果我们想要获取返回结果该如何实现呢？还记上一篇Executor框架结构中提到的Callable接口和Future接口吗？，是的，从JAVA SE 5.0开始引入了Callable和Future，通过它们构建的线程，在任务">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://img-blog.csdn.net/20160315145622668?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20160315145950422?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20160315150014001?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2018-05-09T07:05:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java多线程：Callable、Future和FutureTask浅析（多线程编程之四）">
+<meta name="twitter:description" content="通过前面几篇的学习，我们知道创建线程的方式有两种，一种是实现Runnable接口，另一种是继承Thread，但是这两种方式都有个缺点，那就是在任务执行完成之后无法获取返回结果，那如果我们想要获取返回结果该如何实现呢？还记上一篇Executor框架结构中提到的Callable接口和Future接口吗？，是的，从JAVA SE 5.0开始引入了Callable和Future，通过它们构建的线程，在任务">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20160315145622668?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/09/Java/Java多线程：Callable、Future和FutureTask浅析（多线程编程之四）/">
+
+
+
+
+
+  <title>Java多线程：Callable、Future和FutureTask浅析（多线程编程之四） | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/Java/Java多线程：Callable、Future和FutureTask浅析（多线程编程之四）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Java多线程：Callable、Future和FutureTask浅析（多线程编程之四）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-09T10:22:15+08:00">
+                2018-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/09/Java/Java多线程：Callable、Future和FutureTask浅析（多线程编程之四）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/05/09/Java/Java多线程：Callable、Future和FutureTask浅析（多线程编程之四）/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>通过前面几篇的学习，我们知道创建线程的方式有两种，一种是实现<code>Runnable</code>接口，另一种是继承<code>Thread</code>，但是这两种方式都有个缺点，那就是在任务执行完成之后无法获取返回结果，那如果我们想要获取返回结果该如何实现呢？还记上一篇<code>Executor</code>框架结构中提到的<code>Callable</code>接口和<code>Future</code>接口吗？，是的，从JAVA SE 5.0开始引入了<code>Callable</code>和<code>Future</code>，通过它们构建的线程，在任务执行完成后就可以获取执行结果，今天我们就来聊聊线程创建的第三种方式，那就是实现<code>Callable</code>接口。<br><a id="more"></a><br><img src="https://img-blog.csdn.net/20160315145622668?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="Overview"></p>
+<h2 id="Callable-lt-V-gt-接口"><a href="#Callable-lt-V-gt-接口" class="headerlink" title="Callable&lt;V&gt;接口"></a><code>Callable&lt;V&gt;</code>接口</h2><p>我们先回顾一下<code>java.lang.Runnable</code>接口，就声明了<code>run()</code>,其返回值为<code>void</code>，当然就无法获取结果了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>而Callable的接口定义如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Callable</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">      <span class="function">V   <span class="title">call</span><span class="params">()</span>   <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>该接口声明了一个名称为<code>call()</code>的方法，同时这个方法可以有返回值<code>V</code>，也可以抛出异常。嗯，对该接口我们先了解这么多就行，下面我们来说明如何使用，前篇文章我们说过，无论是<code>Runnable</code>接口的实现类还是<code>Callable</code>接口的实现类，都可以被<code>ThreadPoolExecutor</code>或<code>ScheduledThreadPoolExecutor</code>执行，<code>ThreadPoolExecutor</code>或<code>ScheduledThreadPoolExecutor</code>都实现了<code>ExcutorService</code>接口，而因此<code>Callable</code>需要和<code>Executor</code>框架中的<code>ExcutorService</code>结合使用，我们先看看<code>ExecutorService</code>提供的方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Callable&lt;T&gt; task)</span></span>;</span><br><span class="line">&lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Runnable task, T result)</span></span>;</span><br><span class="line">Future&lt;?&gt; submit(Runnable task);</span><br></pre></td></tr></table></figure></p>
+<p>第一个方法：<code>submit</code>提交一个实现<code>Callable</code>接口的任务，并且返回封装了异步计算结果的<code>Future</code>。<br>第二个方法：<code>submit</code>提交一个实现<code>Runnable</code>接口的任务，并且指定了在调用<code>Future</code>的<code>get</code>方法时返回的<code>result</code>对象。<br>第三个方法：<code>submit</code>提交一个实现<code>Runnable</code>接口的任务，并且返回封装了异步计算结果的<code>Future</code>。</p>
+<p>因此我们只要创建好我们的线程对象（实现<code>Callable</code>接口或者<code>Runnable</code>接口），然后通过上面3个方法提交给线程池去执行即可。还有点要注意的是，除了我们自己实现<code>Callable</code>对象外，我们还可以使用工厂类<code>Executors</code>来把一个<code>Runnable</code>对象包装成<code>Callable</code>对象。<code>Executors</code>工厂类提供的方法如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Callable&lt;Object&gt; <span class="title">callable</span><span class="params">(Runnable task)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; Callable&lt;T&gt; <span class="title">callable</span><span class="params">(Runnable task, T result)</span></span></span><br></pre></td></tr></table></figure></p>
+<h2 id="Future-lt-V-gt-接口"><a href="#Future-lt-V-gt-接口" class="headerlink" title="Future&lt;V&gt;接口"></a><code>Future&lt;V&gt;</code>接口</h2><p><code>Future&lt;V&gt;</code>接口是用来获取异步计算结果的，说白了就是对具体的<code>Runnable</code>或者<code>Callable</code>对象任务执行的结果进行获取(<code>get()</code>),取消(<code>cancel()</code>),判断是否完成等操作。我们看看<code>Future</code>接口的源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Future</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">cancel</span><span class="params">(<span class="keyword">boolean</span> mayInterruptIfRunning)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isCancelled</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isDone</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">V <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException, ExecutionException</span>;</span><br><span class="line">    <span class="function">V <span class="title">get</span><span class="params">(<span class="keyword">long</span> timeout, TimeUnit unit)</span> <span class="keyword">throws</span> InterruptedException, ExecutionException, TimeoutException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>方法解析：</p>
+<ul>
+<li><code>V get()</code> ：获取异步执行的结果，如果没有结果可用，此方法会阻塞直到异步计算完成。</li>
+<li><code>V get(Long timeout , TimeUnit unit)</code> ：获取异步执行结果，如果没有结果可用，此方法会阻塞，但是会有时间限制，如果阻塞时间超过设定的<code>timeout</code>时间，该方法将抛出异常。</li>
+<li><code>boolean isDone()</code> ：如果任务执行结束，无论是正常结束或是中途取消还是发生异常，都返回<code>true</code>。</li>
+<li><code>boolean isCanceller()</code> ：如果任务完成前被取消，则返回<code>true</code>。</li>
+<li><code>boolean cancel(boolean mayInterruptRunning)</code> ：如果任务还没开始，执行<code>cancel(...)</code>方法将返回<code>false</code>；如果任务已经启动，执行<code>cancel(true)</code>方法将以中断执行此任务线程的方式来试图停止任务，如果停止成功，返回<code>true</code>；当任务已经启动，执行<code>cancel(false)</code>方法将不会对正在执行的任务线程产生影响(让线程正常执行到完成)，此时返回<code>false</code>；当任务已经完成，执行<code>cancel(...)</code>方法将返回<code>false</code>。<code>mayInterruptRunning</code>参数表示是否中断执行中的线程。</li>
+</ul>
+<p>通过方法分析我们也知道实际上<code>Future</code>提供了3种功能：<br>（1）能够中断执行中的任务<br>（2）判断任务是否执行完成<br>（3）获取任务执行完成后额结果。</p>
+<p>但是我们必须明白Future只是一个接口，我们<strong>无法直接创建对象</strong>，因此就需要其实现类<code>FutureTask</code>登场啦。</p>
+<h2 id="FutureTask类"><a href="#FutureTask类" class="headerlink" title="FutureTask类"></a><code>FutureTask</code>类</h2><p>我们先来看看<code>FutureTask</code>的实现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FutureTask</span>&lt;<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">RunnableFuture</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br></pre></td></tr></table></figure></p>
+<p><code>FutureTask</code>类实现了<code>RunnableFuture</code>接口，我们看一下<code>RunnableFuture</code>接口的实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RunnableFuture</span>&lt;<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">Runnable</span>, <span class="title">Future</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>分析：<code>FutureTask</code>除了实现了<code>Future</code>接口外还实现了<code>Runnable</code>接口，因此<code>FutureTask</code>也可以直接提交给<code>Executor</code>执行。 当然也可以调用线程直接执行（<code>FutureTask.run()</code>）。接下来我们根据<code>FutureTask.run()</code>的执行时机来分析其所处的3种状态：<br>（1）未启动，<code>FutureTask.run()</code>方法还没有被执行之前，<code>FutureTask</code>处于未启动状态，当创建一个<code>FutureTask</code>，而且没有执行<code>FutureTask.run()</code>方法前，这个<code>FutureTask</code>也处于未启动状态。<br>（2）已启动，<code>FutureTask.run()</code>被执行的过程中，<code>FutureTask</code>处于已启动状态。<br>（3）已完成，<code>FutureTask.run()</code>方法执行完正常结束，或者被取消或者抛出异常而结束，<code>FutureTask</code>都处于完成状态。<br><img src="https://img-blog.csdn.net/20160315145950422?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="FutureTask"><br>下面我们再来看看<code>FutureTask</code>的方法执行示意图（方法和<code>Future</code>接口基本是一样的，这里就不过多描述了）<br><img src="https://img-blog.csdn.net/20160315150014001?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="FutureTaskExec"></p>
+<p>分析：<br>（1）当<code>FutureTask</code>处于未启动或已启动状态时，如果此时我们执行<code>FutureTask.get()</code>方法将导致调用线程阻塞；当<code>FutureTask</code>处于已完成状态时，执行<code>FutureTask.get()</code>方法将导致调用线程立即返回结果或者抛出异常。<br>（2）当<code>FutureTask</code>处于未启动状态时，执行<code>FutureTask.cancel()</code>方法将导致此任务永远不会执行。<br>当<code>FutureTask</code>处于已启动状态时，执行<code>cancel(true)</code>方法将以中断执行此任务线程的方式来试图停止任务，如果任务取消成功，<code>cancel(...)</code>返回<code>true</code>；但如果执行<code>cancel(false)</code>方法将不会对正在执行的任务线程产生影响(让线程正常执行到完成)，此时<code>cancel(...)</code>返回<code>false</code>。<br>当任务已经完成，执行<code>cancel(...)</code>方法将返回<code>false</code>。<br>最后我们给出<code>FutureTask</code>的两种构造函数：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">FutureTask</span><span class="params">(Callable&lt;V&gt; callable)</span> </span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">FutureTask</span><span class="params">(Runnable runnable, V result)</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Callable-lt-V-gt-Future-lt-V-gt-FutureTask的使用"><a href="#Callable-lt-V-gt-Future-lt-V-gt-FutureTask的使用" class="headerlink" title="Callable&lt;V&gt;/Future&lt;V&gt;/FutureTask的使用"></a><code>Callable&lt;V&gt;/Future&lt;V&gt;/FutureTask</code>的使用</h2><p>通过上面的介绍，我们对<code>Callable</code>，<code>Future</code>，<code>FutureTask</code>都有了比较清晰的了解了，那么它们到底有什么用呢？我们前面说过通过这样的方式去创建线程的话，最大的好处就是能够返回结果，加入有这样的场景，我们现在需要计算一个数据，而这个数据的计算比较耗时，而我们后面的程序也要用到这个数据结果，那么这个<code>Callable</code>岂不是最好的选择？我们可以开设一个线程去执行计算，而主线程继续做其他事，而后面需要使用到这个数据时，我们再使用<code>Future</code>获取不就可以了吗？下面我们就来编写一个这样的实例</p>
+<h3 id="使用Callable-Future获取执行结果"><a href="#使用Callable-Future获取执行结果" class="headerlink" title="使用Callable+Future获取执行结果"></a>使用<code>Callable</code>+<code>Future</code>获取执行结果</h3><p><code>Callable</code>实现类如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zejian.Executor;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Callable;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zejian</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@time</span> 2016年3月15日 下午2:02:42</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@decrition</span> Callable接口实例</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CallableDemo</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> sum;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Callable子线程开始计算啦！"</span>);</span><br><span class="line">        Thread.sleep(<span class="number">2000</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span> ;i&lt;<span class="number">5000</span>;i++)&#123;</span><br><span class="line">            sum=sum+i;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"Callable子线程计算结束！"</span>);</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>Callable</code>执行测试类如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zejian.Executor;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Future;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zejian</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@time</span> 2016年3月15日 下午2:05:43</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@decrition</span> callable执行测试类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CallableTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建线程池</span></span><br><span class="line">        ExecutorService es = Executors.newSingleThreadExecutor();</span><br><span class="line">        <span class="comment">//创建Callable对象任务</span></span><br><span class="line">        CallableDemo calTask=<span class="keyword">new</span> CallableDemo();</span><br><span class="line">        <span class="comment">//提交任务并获取执行结果</span></span><br><span class="line">        Future&lt;Integer&gt; future =es.submit(calTask);</span><br><span class="line">        <span class="comment">//关闭线程池</span></span><br><span class="line">        es.shutdown();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">        System.out.println(<span class="string">"主线程在执行其他任务"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(future.get()!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="comment">//输出获取到的结果</span></span><br><span class="line">            System.out.println(<span class="string">"future.get()--&gt;"</span>+future.get());</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="comment">//输出获取到的结果</span></span><br><span class="line">            System.out.println(<span class="string">"future.get()未获取到结果"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"主线程在执行完成"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Callable子线程开始计算啦！</span><br><span class="line">主线程在执行其他任务</span><br><span class="line">Callable子线程计算结束！</span><br><span class="line">future.get()--&gt;12497500</span><br><span class="line">主线程在执行完成</span><br></pre></td></tr></table></figure></p>
+<h3 id="使用Callable-FutureTask获取执行结果"><a href="#使用Callable-FutureTask获取执行结果" class="headerlink" title="使用Callable+FutureTask获取执行结果"></a>使用Callable+FutureTask获取执行结果</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zejian.Executor;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Future;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.FutureTask;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zejian</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@time</span> 2016年3月15日 下午2:05:43</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@decrition</span> callable执行测试类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CallableTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"><span class="comment">//      //创建线程池</span></span><br><span class="line"><span class="comment">//      ExecutorService es = Executors.newSingleThreadExecutor();</span></span><br><span class="line"><span class="comment">//      //创建Callable对象任务</span></span><br><span class="line"><span class="comment">//      CallableDemo calTask=new CallableDemo();</span></span><br><span class="line"><span class="comment">//      //提交任务并获取执行结果</span></span><br><span class="line"><span class="comment">//      Future&lt;Integer&gt; future =es.submit(calTask);</span></span><br><span class="line"><span class="comment">//      //关闭线程池</span></span><br><span class="line"><span class="comment">//      es.shutdown();</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//创建线程池</span></span><br><span class="line">        ExecutorService es = Executors.newSingleThreadExecutor();</span><br><span class="line">        <span class="comment">//创建Callable对象任务</span></span><br><span class="line">        CallableDemo calTask=<span class="keyword">new</span> CallableDemo();</span><br><span class="line">        <span class="comment">//创建FutureTask</span></span><br><span class="line">        FutureTask&lt;Integer&gt; futureTask=<span class="keyword">new</span> FutureTask&lt;&gt;(calTask);</span><br><span class="line">        <span class="comment">//执行任务</span></span><br><span class="line">        es.submit(futureTask);</span><br><span class="line">        <span class="comment">//关闭线程池</span></span><br><span class="line">        es.shutdown();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">        System.out.println(<span class="string">"主线程在执行其他任务"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(futureTask.get()!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="comment">//输出获取到的结果</span></span><br><span class="line">            System.out.println(<span class="string">"futureTask.get()--&gt;"</span>+futureTask.get());</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="comment">//输出获取到的结果</span></span><br><span class="line">            System.out.println(<span class="string">"futureTask.get()未获取到结果"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"主线程在执行完成"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Callable子线程开始计算啦！</span><br><span class="line">主线程在执行其他任务</span><br><span class="line">Callable子线程计算结束！</span><br><span class="line">futureTask.get()--&gt;12497500</span><br><span class="line">主线程在执行完成</span><br></pre></td></tr></table></figure></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://blog.csdn.net/javazejian/article/details/50896505" target="_blank" rel="noopener">https://blog.csdn.net/javazejian/article/details/50896505</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ThreadPoolExcutor/" rel="tag"># ThreadPoolExcutor</a>
+          
+            <a href="/tags/ScheduledThreadPoolExecutor/" rel="tag"># ScheduledThreadPoolExecutor</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/08/Java/ThreadPoolExecutor-ScheduledThreadPoolExecutor浅析/" rel="next" title="ThreadPoolExecutor&ScheduledThreadPoolExecutor浅析">
+                <i class="fa fa-chevron-left"></i> ThreadPoolExecutor&ScheduledThreadPoolExecutor浅析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/09/Java/Transient关键字、Volatile关键字介绍和序列化、反序列化机制、单例类序列化/" rel="prev" title="Transient关键字、Volatile关键字介绍和序列化、反序列化机制、单例类序列化">
+                Transient关键字、Volatile关键字介绍和序列化、反序列化机制、单例类序列化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/05/09/Java/Java多线程：Callable、Future和FutureTask浅析（多线程编程之四）/" data-title="Java多线程：Callable、Future和FutureTask浅析（多线程编程之四）" data-url="http://yoursite.com/2018/05/09/Java/Java多线程：Callable、Future和FutureTask浅析（多线程编程之四）/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Callable-lt-V-gt-接口"><span class="nav-number">1.</span> <span class="nav-text">Callable&lt;V&gt;接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Future-lt-V-gt-接口"><span class="nav-number">2.</span> <span class="nav-text">Future&lt;V&gt;接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FutureTask类"><span class="nav-number">3.</span> <span class="nav-text">FutureTask类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Callable-lt-V-gt-Future-lt-V-gt-FutureTask的使用"><span class="nav-number">4.</span> <span class="nav-text">Callable&lt;V&gt;/Future&lt;V&gt;/FutureTask的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Callable-Future获取执行结果"><span class="nav-number">4.1.</span> <span class="nav-text">使用Callable+Future获取执行结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Callable-FutureTask获取执行结果"><span class="nav-number">4.2.</span> <span class="nav-text">使用Callable+FutureTask获取执行结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

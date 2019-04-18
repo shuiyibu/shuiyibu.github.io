@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Oracle,Database,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Oracle 字符集的查看和修改](http://www.cnblogs.com/rootq/articles/2049324.html)一、什么是Oracle字符集 Oracle字符集是一个字节数据的解释的符号集合,有大小之分,有相互的包容关系。ORACLE 支持国家语言的体系结构允许你使用本地化语言来存储，处理，检索数据。它使数据库工具，错误消息，排序次序，日期，时间，货币，数字，和日历自动适">
+<meta name="keywords" content="Oracle,Database">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle 字符集的查看和修改">
+<meta property="og:url" content="http://yoursite.com/2017/09/28/Database/Oracle 字符集的查看和修改/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Oracle 字符集的查看和修改](http://www.cnblogs.com/rootq/articles/2049324.html)一、什么是Oracle字符集 Oracle字符集是一个字节数据的解释的符号集合,有大小之分,有相互的包容关系。ORACLE 支持国家语言的体系结构允许你使用本地化语言来存储，处理，检索数据。它使数据库工具，错误消息，排序次序，日期，时间，货币，数字，和日历自动适">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-11T08:05:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle 字符集的查看和修改">
+<meta name="twitter:description" content="Oracle 字符集的查看和修改](http://www.cnblogs.com/rootq/articles/2049324.html)一、什么是Oracle字符集 Oracle字符集是一个字节数据的解释的符号集合,有大小之分,有相互的包容关系。ORACLE 支持国家语言的体系结构允许你使用本地化语言来存储，处理，检索数据。它使数据库工具，错误消息，排序次序，日期，时间，货币，数字，和日历自动适">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/28/Database/Oracle 字符集的查看和修改/">
+
+
+
+
+
+  <title>Oracle 字符集的查看和修改 | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/28/Database/Oracle 字符集的查看和修改/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Oracle 字符集的查看和修改</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-28T17:30:29+08:00">
+                2017-09-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Database/" itemprop="url" rel="index">
+                    <span itemprop="name">Database</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/28/Database/Oracle 字符集的查看和修改/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/28/Database/Oracle 字符集的查看和修改/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Oracle-字符集的查看和修改-http-www-cnblogs-com-rootq-articles-2049324-html"><a href="#Oracle-字符集的查看和修改-http-www-cnblogs-com-rootq-articles-2049324-html" class="headerlink" title="Oracle 字符集的查看和修改](http://www.cnblogs.com/rootq/articles/2049324.html)"></a>Oracle 字符集的查看和修改](<a href="http://www.cnblogs.com/rootq/articles/2049324.html" target="_blank" rel="noopener">http://www.cnblogs.com/rootq/articles/2049324.html</a>)</h1><p><strong>一、什么是</strong>Oracle字符集</p>
+<p>Oracle字符集是一个字节数据的解释的符号集合,有大小之分,有相互的包容关系。ORACLE 支持国家语言的体系结构允许你使用本地化语言来存储，处理，检索数据。它使<a href="http://www.cnblogs.com/rootq/admin/..:;" target="_blank" rel="noopener">数据库</a>工具，错误消息，排序次序，日期，时间，货币，数字，和日历自动适应本地化语言和平台。</p>
+<p> 影响Oracle数据库字符集最重要的参数是NLS_LANG参数。</p>
+<p>它的格式如下: <code>NLS_LANG = language_territory.charset</code></p>
+<p>它有三个组成部分(语言、地域和字符集)，每个成分控制了NLS子集的特性。</p>
+<p>其中:</p>
+<ul>
+<li><code>Language</code>： 指定服务器消息的语言， 影响提示信息是中文还是英文</li>
+<li><code>Territory</code>： 指定服务器的日期和数字格式，</li>
+<li><code>Charset</code>：  指定字符集。</li>
+</ul>
+<p>如: AMERICAN _ AMERICA. ZHS16GBK</p>
+<p>从NLS_LANG的组成我们可以看出，真正影响数据库字符集的其实是第三部分。</p>
+<p>所以两个数据库之间的字符集只要第三部分一样就可以相互导入导出数据，前面影响的只是提示信息是中文还是英文。</p>
+<p>二．字符集的相关知识：</p>
+<p><strong>2.1 **</strong>字符集<strong><br>实质就是按照一定的字符编码方案，对一组特定的符号，分别赋予不同数值编码的集合。Oracle数据库最早支持的编码方案是US7ASCII。<br>​    Oracle的字符集命名遵循以下命名规则:<br>​    即: &lt;语言&gt;&lt;比特位数&gt;&lt;编码&gt;<br>​    比如: ZHS16GBK表示采用GBK编码格式、16位（两个字节）简体中文字符集
+</strong>2.2 <strong><strong>字符编码方案**</strong></strong></p>
+<p>2.2.1 单字节编码<br>​    （1）单字节7位字符集，可以定义128个字符，最常用的字符集为US7ASCII<br>​    （2）单字节8位字符集，可以定义256个字符，适合于欧洲大部分国家<br>​             例如：WE8ISO8859P1(西欧、8位、ISO标准8859P1编码)</p>
+<p>2.2.2 多字节编码<br>​    （1）变长多字节编码<br>​    某些字符用一个字节表示，其它字符用两个或多个字符表示，变长多字节编码常用于对亚洲语言的支持，   例如日语、汉语、印地语等<br>​    例如：AL32UTF8（其中AL代表ALL,指适用于所有语言）、zhs16cgb231280<br>​    （2）定长多字节编码<br>​    每一个字符都使用固定长度字节的编码方案，目前oracle唯一支持的定长多字节编码是AF16UTF16，也是仅用于国家字符集</p>
+<p>2.2.3 unicode编码<br>​    Unicode是一个涵盖了目前全世界使用的所有已知字符的单一编码方案，也就是说Unicode为每一个字符提供唯一的编码。UTF-16是unicode的16位编码方式，是一种定长多字节编码，用2个字节表示一个unicode字符，AF16UTF16是UTF-16编码字符集。<br>​    UTF-8是unicode的8位编码方式，是一种变长多字节编码，这种编码可以用1、2、3个字节表示一个unicode字符，AL32UTF8，UTF8、UTFE是UTF-8编码字符集<br><strong>2.3 **</strong>字符集超级<strong><br>​    当一种字符集（字符集A）的编码数值包含所有另一种字符集（字符集B）的编码数值，并且两种字符集相同编码数值代表相同的字符时，则字符集A是字符集B的超级，或称字符集B是字符集A的子集。<br>​    Oracle8i和oracle9i官方文档资料中备有子集-超级对照表（subset-superset pairs），例如：WE8ISO8859P1是WE8MSWIN1252的子集。由于US7ASCII是最早的Oracle数据库编码格式，因此有许多字符集是US7ASCII的超集，例如WE8ISO8859P1、ZHS16CGB231280、ZHS16GBK都是US7ASCII的超集。
+</strong>2.4 <em>**</em>数据库字符集（oracle服务器端字符集）</p>
+<p>数据库字符集在创建数据库时指定，<strong>在创建后通常不能更改</strong>。在创建数据库时，可以指定字符集(CHARACTER SET)和国家字符集(NATIONAL CHARACTER SET)。</p>
+<p>2.4.1字符集<br>​    (1)用来存储CHAR, VARCHAR2, CLOB, LONG等类型数据<br>​    (2)用来标示诸如表名、列名以及PL/SQL变量等<br>​    (3)用来存储SQL和PL/SQL程序单元等</p>
+<p>2.4.2国家字符集：</p>
+<ul>
+<li>用以存储NCHAR, NVARCHAR2, NCLOB等类型数据</li>
+<li>国家字符集实质上是为oracle选择的附加字符集，主要作用是为了增强oracle的字符处理能力，因为NCHAR数据类型可以提供对亚洲使用定长多字节编码的支持，而数据库字符集则不能。国家字符集在oracle9i中进行了重新定义，只能在unicode编码中的AF16UTF16和UTF8中选择，默认值是AF16UTF16</li>
+</ul>
+<p>2.4.3查询字符集参数<br>​    可以查询以下数据字典或视图查看字符集设置情况<br>​    nls_database_parameters、props$、v$nls_parameters<br>​    查询结果中NLS_CHARACTERSET表示字符集，NLS_NCHAR_CHARACTERSET表示国家字符集</p>
+<p>2.4.4修改数据库字符集<br>​    按照上文所说，数据库字符集在创建后原则上不能更改。不过有2种方法可行。</p>
+<ol>
+<li><p>如果需要修改字符集，通常需要导出数据库数据，重建数据库，再导入数据库数据的方式来转换。</p>
+</li>
+<li><p>通过ALTER DATABASE CHARACTER SET语句修改字符集，但创建数据库后修改字符集是有限制的，==<strong>只有新的字符集是当前字符集的超集时才能修改数据库字符集</strong>==，例如UTF8是US7ASCII的超集，修改数据库字符集可使用ALTER DATABASE CHARACTER SET UTF8。</p>
+</li>
+</ol>
+<p><strong>2.5 **</strong>客户端字符集（<strong><strong>NLS_LANG</strong></strong>参数）<strong>**</strong></p>
+<p>2.5.1客户端字符集含义<br>​    客户端字符集定义了客户端字符数据的编码方式，任何发自或发往客户端的字符数据均使用客户端定义的字符集编码,客户端可以看作是能与数据库直接连接的各种应用，例如sqlplus,exp/imp等。客户端字符集是通过设置NLS_LANG参数来设定的。</p>
+<p>2.5.2 NLS_LANG参数格式<br>​    NLS_LANG=_.<br>​    Language: 显示oracle消息,校验，日期命名<br>​    Territory：指定默认日期、数字、货币等格式<br>​    Client character set：指定客户端将使用的字符集<br>​    例如：NLS_LANG=AMERICAN_AMERICA.US7ASCII<br>​    AMERICAN是语言，AMERICA是地区，US7ASCII是客户端字符集</p>
+<p>2.5.3客户端字符集设置方法<br>​     1)UNIX环境<br>​         $NLS_LANG=“simplified chinese”_china.zhs16gbk<br>​         $export NLS_LANG<br>​         编辑oracle用户的profile文件<br>​    2)Windows环境<br>​         编辑注册表<br>​         Regedit.exe —》 HKEY_LOCAL_MACHINE —》SOFTWARE —》 ORACLE-HOME</p>
+<p>2.5.4 NLS参数查询<br>​    Oracle提供若干NLS参数定制数据库和用户机以适应本地格式，例如有NLS_LANGUAGE,NLS_DATE_FORMAT,NLS_CALENDER等，可以通过查询以下数据字典或v$视图查看。<br>NLS_DATABASE_PARAMETERS:显示数据库当前NLS参数取值，包括数据库字符集取值<br>NLS_SESSION_PARAMETERS：  显示由NLS_LANG 设置的参数，或经过alter session 改变后的参数值（不包括由NLS_LANG 设置的客户端字符集）<br>NLS_INSTANCE_PARAMETE： 显示由参数文件init.ora 定义的参数</p>
+<p>V$NLS_PARAMETERS：显示数据库当前NLS参数取值</p>
+<p>2.5.5修改NLS参数<br>​    使用下列方法可以修改NLS参数<br>​    （1）修改实例启动时使用的初始化参数文件<br>​    （2）修改环境变量NLS_LANG<br>​    （3）使用ALTER SESSION语句，在oracle会话中修改<br>​    （4）使用某些SQL函数<br>​    NLS作用优先级别：Sql function &gt; alter session &gt; 环境变量或注册表 &gt; 参数文件 &gt; 数据库默认参数</p>
+<p><strong>三．**</strong>EXP/IMP <strong><strong>与</strong></strong> <strong><strong>字符集**</strong></strong></p>
+<p>3.1 EXP/IMP<br>​    Export 和 Import 是一对读写Oracle数据的工具。Export 将 Oracle 数据库中的数据输出到操作系统文件中, Import 把这些文件中的数据读到Oracle 数据库中，由于使用exp/imp进行数据迁移时，数据从源数据库到目标数据库的过程中有四个环节涉及到字符集，如果这四个环节的字符集不一致，将会发生字符集转换。<br>EXP<br>​     <strong><strong>____</strong></strong> <strong><strong><strong><strong>_</strong></strong></strong></strong> <strong><strong><strong>_</strong></strong></strong><br>​     |imp导入文件|&lt;-|环境变量NLS_LANG|&lt;-|数据库字符集|<br>​      ————   —————–   ————-</p>
+<p>IMP<br>​     <strong><strong>____</strong></strong> <strong><strong><strong><strong>_</strong></strong></strong></strong> <strong><strong><strong>_</strong></strong></strong><br>​     |imp导入文件|-&gt;|环境变量NLS_LANG|-&gt;|数据库字符集|<br>​      ————   —————–   ————-</p>
+<p>四个字符集是<br>   （1）源数据库字符集<br>   （2）Export过程中用户会话字符集（通过NLS_LANG设定）<br>   （3）Import过程中用户会话字符集（通过NLS_LANG设定）<br>   （4）目标数据库字符集<br>3.2导出的转换过程<br>​    在Export过程中，如果源数据库字符集与Export用户会话字符集不一致，会发生字符集转换，并在导出文件的头部几个字节中存储Export用户会话字符集的ID号。在这个转换过程中可能发生数据的丢失。</p>
+<p>例:如果源数据库使用ZHS16GBK，而Export用户会话字符集使用US7ASCII，由于ZHS16GBK是16位字符集,而US7ASCII是7位字符集，这个转换过程中，中文字符在US7ASCII中不能够找到对等的字符，所以所有中文字符都会丢失而变成“?? ”形式，这样转换后生成的Dmp文件已经发生了数据丢失。<br>因此如果想正确导出源数据库数据，则Export过程中用户会话字符集应等于源数据库字符集或是源数据库字符集的超集<br>3.3导入的转换过程<br>​    （1）确定导出数据库字符集环境<br>​             通过读取导出文件头，可以获得导出文件的字符集设置<br>​    （2）确定导入session的字符集，即导入Session使用的NLS_LANG环境变量<br>​    （3）IMP读取导出文件<br>​             读取导出文件字符集ID，和导入进程的NLS_LANG进行比较<br>​    （4）如果导出文件字符集和导入Session字符集相同，那么在这一步骤内就不需要转换，             如果不同，就需要把数据转换为导入Session使用的字符集。可以看出，导入数据到数据库过程中发生两次字符集转换</p>
+<p>​    第一次:导入文件字符集与导入Session使用的字符集之间的转换，如果这个转换过程不能正确完成，Import向目标数据库的导入过程也就不能完成。<br>​    第二次:导入Session字符集与数据库字符集之间的转换。</p>
+<p><strong>四**</strong>. <strong><strong>查看数据库字符集**</strong></strong></p>
+<p>涉及三方面的字符集，</p>
+<p>\1. oracel <a href="http://www.cnblogs.com/rootq/admin/..:;" target="_blank" rel="noopener"><strong>server</strong></a>端的字符集;</p>
+<p>\2. oracle client端的字符集;</p>
+<p>\3. dmp文件的字符集。</p>
+<p>在做数据导入的时候，需要这三个字符集都一致才能正确导入。</p>
+<p>4.1 查询oracle server端的字符集</p>
+<p>有很多种方法可以查出oracle server端的字符集，比较直观的查询方法是以下这种:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; select userenv('language') from dual;</span><br><span class="line"></span><br><span class="line">USERENV('LANGUAGE')</span><br><span class="line"></span><br><span class="line">\<span class="comment">----------------------------------------------------</span></span><br><span class="line"></span><br><span class="line">SIMPLIFIED CHINESE_CHINA.ZHS16GBK</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SQL&gt;select userenv(‘language’) from dual;</span><br><span class="line"></span><br><span class="line">AMERICAN _ AMERICA. ZHS16GBK</span><br></pre></td></tr></table></figure>
+<h2 id="4-2-如何查询dmp文件的字符集"><a href="#4-2-如何查询dmp文件的字符集" class="headerlink" title="4.2 如何查询dmp文件的字符集"></a>4.2 如何查询dmp文件的字符集</h2><p>用oracle的exp工具导出的dmp文件也包含了字符集信息，dmp文件的第2和第3个字节记录了dmp文件的字符集。如果dmp文件不大，比如只有几M或几十M，可以用UltraEdit打开(16进制方式)，看第2第3个字节的内容，如0354，然后用以下<a href="http://www.cnblogs.com/rootq/admin/..:;" target="_blank" rel="noopener"><strong>SQL</strong></a>查出它对应的字符集:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; select nls_charset_name(to_number(&apos;0354&apos;,&apos;xxxx&apos;)) from dual;</span><br><span class="line"></span><br><span class="line">ZHS16GBK</span><br></pre></td></tr></table></figure>
+<p>如果dmp文件很大，比如有2G以上(这也是最常见的情况)，用文本编辑器打开很慢或者完全打不开，可以用以下命令(在unix主机上):</p>
+<p>cat exp.dmp |od -x|head -1|awk ‘{print $2 $3}’|cut -c 3-6</p>
+<p>然后用上述SQL也可以得到它对应的字符集。</p>
+<p>4.3 查询oracle client端的字符集</p>
+<p>在windows平台下，就是注册表里面相应OracleHome的NLS_LANG。还可以在dos窗口里面自己设置，</p>
+<p>比如: set nls_lang=AMERICAN_AMERICA.ZHS16GBK</p>
+<p>这样就只影响这个窗口里面的环境变量。</p>
+<p>在unix平台下，就是环境变量NLS_LANG。</p>
+<p>$echo $NLS_LANG</p>
+<p>AMERICAN_AMERICA.ZHS16GBK</p>
+<p>如果检查的结果发现server端与client端字符集不一致，请统一修改为同server端相同的字符集。</p>
+<p><strong>补充：<em>**</em></strong></p>
+<p>(1).数据库服务器字符集</p>
+<p>select * from nls_database_parameters</p>
+<p>来源于props$，是表示数据库的字符集。</p>
+<p>(2).客户端字符集环境</p>
+<p>select * from nls_instance_parameters</p>
+<p>其来源于v$parameter，表示客户端的字符集的设置，可能是参数文件，环境变量或者是注册表</p>
+<p>(3).会话字符集环境</p>
+<p>select * from nls_session_parameters</p>
+<p>来源于v$nls_parameters，表示会话自己的设置，可能是会话的环境变量或者是alter session完成，如果会话没有特殊的设置，将与nls_instance_parameters一致。</p>
+<p>(4).客户端的字符集要求与服务器一致，才能正确显示数据库的非Ascii字符。</p>
+<p>如果多个设置存在的时候，NLS作用优先级别：Sql function &gt; alter session &gt; 环境变量或注册表 &gt; 参数文件 &gt; 数据库默认参数</p>
+<p>字符集要求一致，但是语言设置却可以不同，语言设置建议用英文。如字符集是zhs16gbk，则nls_lang可以是American_America.zhs16gbk。</p>
+<p><strong>五．**</strong> <strong><strong>修改</strong></strong>oracle<strong><strong>的字符集**</strong></strong></p>
+<p>按照上文所说，数据库字符集在创建后原则上不能更改。因此，在设计和安装之初考虑使用哪一种字符集十分重要。对数据库server而言，错误的修改字符集将会导致很多不可测的后果，可能会严重影响数据库的正常运行，所以在修改之前一定要确认两种字符集是否存在子集和超集的关系。一般来说，除非万不得已，我们不建议修改oracle数据库server端的字符集。特别说明，我们最常用的两种字符集ZHS16GBK和ZHS16CGB231280之间不存在子集和超集关系，因此理论上讲这两种字符集之间的相互转换不受支持。</p>
+<p>不过修改字符集有2种方法可行。</p>
+<ol>
+<li><p>通常需要导出数据库数据，重建数据库，再导入数据库数据的方式来转换。</p>
+</li>
+<li><p>通过ALTER DATABASE CHARACTER SET语句修改字符集，但创建数据库后修改字符集是有限制的，只有新的字符集是当前字符集的超集时才能修改数据库字符集，例如UTF8是US7ASCII的超集，修改数据库字符集可使用ALTER DATABASE CHARACTER SET UTF8。</p>
+<hr>
+</li>
+</ol>
+<p><strong>5.1 **</strong>修改<strong><strong>server</strong></strong>端字符集<strong><strong>(</strong></strong>不建议使用<strong>**)</strong></p>
+<hr>
+<ol>
+<li>关闭数据库</li>
+</ol>
+<p>SQL&gt;SHUTDOWN IMMEDIATE</p>
+<ol start="2">
+<li>启动到Mount</li>
+</ol>
+<p>SQL&gt;STARTUP MOUNT;</p>
+<p>SQL&gt;ALTER SYSTEM ENABLE RESTRICTED SESSION;</p>
+<p>SQL&gt;ALTER SYSTEM SET JOB_QUEUE_PROCESSES=0;</p>
+<p>SQL&gt;ALTER SYSTEM SET AQ_TM_PROCESSES=0;</p>
+<p>SQL&gt;ALTER DATABASE OPEN;</p>
+<p>–这里可以从父集到子集</p>
+<p>SQL&gt;ALTER DATABASE CHARACTER SET ZHS16GBK;</p>
+<p>SQL&gt;ALTER DATABASE NATIONAL CHARACTER SET ZHS16GBK;</p>
+<p>–如果是从子集到父集，需要使用INTERNAL_USE 参数，跳过超子集检测</p>
+<p>SQL&gt;ALTER DATABASE CHARACTER SET INTERNAL_USE AL32UTF8;</p>
+<p>SQL&gt;ALTER DATABASE NATIONAL CHARACTER SET INTERNAL_USE AL32UTF8;</p>
+<p>SQL&gt;SHUTDOWN IMMEDIATE;</p>
+<p>SQL&gt;STARTUP</p>
+<p>注意：如果没有大对象，在使用过程中进行语言转换没有什么影响，（切记设定的字符集必须是ORACLE支持，不然不能start） 按上面的做法就可以。</p>
+<p>若出现‘ORA-12717: Cannot ALTER DATABASE NATIONAL CHARACTER SET when NCLOB data exists’ 这样的提示信息，</p>
+<p>要解决这个问题有两种方法</p>
+<ol>
+<li><p>利用INTERNAL_USE 关键字修改区域设置,</p>
+</li>
+<li><p>利用re-create,但是re-create有点复杂,所以请用internal_use</p>
+</li>
+</ol>
+<p>SQL&gt;SHUTDOWN IMMEDIATE;</p>
+<p>SQL&gt;STARTUP MOUNT EXCLUSIVE;</p>
+<p>SQL&gt;ALTER SYSTEM ENABLE RESTRICTED SESSION;</p>
+<p>SQL&gt;ALTER SYSTEM SET JOB_QUEUE_PROCESSES=0;</p>
+<p>SQL&gt;ALTER SYSTEM SET AQ_TM_PROCESSES=0;</p>
+<p>SQL&gt;ALTER DATABASE OPEN;</p>
+<p>SQL&gt;ALTER DATABASE NATIONAL CHARACTER SET <strong>INTERNAL_USE </strong>UTF8;</p>
+<p>SQL&gt;SHUTDOWN immediate;</p>
+<p>SQL&gt;startup;</p>
+<p>如果按上面的做法做,National charset的区域设置就没有问题</p>
+<p><strong>5.2 **</strong>修改<strong><strong>dmp</strong></strong>文件字符集<strong>**</strong></p>
+<p>上文说过，dmp文件的第2第3字节记录了字符集信息，因此直接修改dmp文件的第2第3字节的内容就可以‘骗’过oracle的检查。这样做理论上也仅是从子集到超集可以修改，但很多情况下在没有子集和超集关系的情况下也可以修改，我们常用的一些字符集，如US7ASCII，WE8ISO8859P1，ZHS16CGB231280，ZHS16GBK基本都可以改。因为改的只是dmp文件，所以影响不大。</p>
+<p>具体的修改方法比较多，最简单的就是直接用UltraEdit修改dmp文件的第2和第3个字节。</p>
+<p>比如想将dmp文件的字符集改为ZHS16GBK，可以用以下SQL查出该种字符集对应的16进制代码: SQL&gt; select to_char(nls_charset_id(‘ZHS16GBK’), ‘xxxx’) from dual;</p>
+<p>0354</p>
+<p>然后将dmp文件的2、3字节修改为0354即可。</p>
+<p>如果dmp文件很大，用ue无法打开，就需要用程序的方法了。</p>
+<p><strong>5.3**</strong>客户端字符集设置方法**<br>​     1)UNIX环境<br>​         $NLS_LANG=“simplified chinese”_china.zhs16gbk<br>​         $export NLS_LANG<br>​         编辑oracle用户的profile文件<br>​    2)Windows环境<br>​         编辑注册表<br>​         Regedit.exe —》 HKEY_LOCAL_MACHINE —》SOFTWARE —》 ORACLE-HOME</p>
+<p> 或者在窗口设置：</p>
+<p>​        set nls_lang=AMERICAN_AMERICA.ZHS16GBK</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Oracle/" rel="tag"># Oracle</a>
+          
+            <a href="/tags/Database/" rel="tag"># Database</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/28/Network/HTTP cookies 详解/" rel="next" title="HTTP cookies 详解">
+                <i class="fa fa-chevron-left"></i> HTTP cookies 详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/28/Spring/@Scheduled注解/" rel="prev" title="大型网站架构系列：分布式消息队列">
+                大型网站架构系列：分布式消息队列 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2017/09/28/Database/Oracle 字符集的查看和修改/" data-title="Oracle 字符集的查看和修改" data-url="http://yoursite.com/2017/09/28/Database/Oracle 字符集的查看和修改/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Oracle-字符集的查看和修改-http-www-cnblogs-com-rootq-articles-2049324-html"><span class="nav-number">1.</span> <span class="nav-text">Oracle 字符集的查看和修改](http://www.cnblogs.com/rootq/articles/2049324.html)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-如何查询dmp文件的字符集"><span class="nav-number">1.1.</span> <span class="nav-text">4.2 如何查询dmp文件的字符集</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

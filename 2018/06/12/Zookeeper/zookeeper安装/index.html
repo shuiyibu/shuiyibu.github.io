@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="zookeeper,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="DD1234567[dylanlang@localhost ~]$  lsb_release -aLSB Version:    :core-4.1-amd64:core-4.1-noarch:cxx-4.1-amd64:cxx-4.1-noarch:desktop-4.1-amd64:desktop-4.1-noarch:languages-4.1-amd64:languages-4.1-no">
+<meta name="keywords" content="zookeeper">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zookeeper安装">
+<meta property="og:url" content="http://yoursite.com/2018/06/12/Zookeeper/zookeeper安装/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="DD1234567[dylanlang@localhost ~]$  lsb_release -aLSB Version:    :core-4.1-amd64:core-4.1-noarch:cxx-4.1-amd64:cxx-4.1-noarch:desktop-4.1-amd64:desktop-4.1-noarch:languages-4.1-amd64:languages-4.1-no">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-13T13:02:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zookeeper安装">
+<meta name="twitter:description" content="DD1234567[dylanlang@localhost ~]$  lsb_release -aLSB Version:    :core-4.1-amd64:core-4.1-noarch:cxx-4.1-amd64:cxx-4.1-noarch:desktop-4.1-amd64:desktop-4.1-noarch:languages-4.1-amd64:languages-4.1-no">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/12/Zookeeper/zookeeper安装/">
+
+
+
+
+
+  <title>zookeeper安装 | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/12/Zookeeper/zookeeper安装/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">zookeeper安装</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-12T21:53:59+08:00">
+                2018-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/zookeeper/" itemprop="url" rel="index">
+                    <span itemprop="name">zookeeper</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/12/Zookeeper/zookeeper安装/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/06/12/Zookeeper/zookeeper安装/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<p>DD<br><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[dylanlang@localhost ~]$  lsb_release -a</span><br><span class="line">LSB Version:    :core-<span class="number">4.1</span>-amd64:core-<span class="number">4.1</span>-noarch:cxx-<span class="number">4.1</span>-amd64:cxx-<span class="number">4.1</span>-noarch:desktop-<span class="number">4.1</span>-amd64:desktop-<span class="number">4.1</span>-noarch:languages-<span class="number">4.1</span>-amd64:languages-<span class="number">4.1</span>-noarch:printing-<span class="number">4.1</span>-amd64:printing-<span class="number">4.1</span>-noarch</span><br><span class="line">Distributor ID: CentOS</span><br><span class="line">Description:    CentOS Linux release <span class="number">7.4</span>.<span class="number">1708</span> (Core) </span><br><span class="line">Release:        <span class="number">7.4</span>.<span class="number">1708</span></span><br><span class="line">Codename:       Core</span><br><span class="line">[dylanlang@localhost ~]$</span><br></pre></td></tr></table></figure></p>
+<h2 id="下载Zookeeper"><a href="#下载Zookeeper" class="headerlink" title="下载Zookeeper"></a>下载Zookeeper</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[dylanlang@localhost learning]$ mkdir zookeeper</span><br><span class="line">[dylanlang@localhost learning]$ cd zookeeper/</span><br><span class="line">[dylanlang@localhost zookeeper]$ wget http://mirrors.hust.edu.cn/apache/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>.tar.gz</span><br><span class="line">--<span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">21</span>:<span class="number">53</span>:<span class="number">23</span>--  http://mirrors.hust.edu.cn/apache/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>.tar.gz</span><br><span class="line">正在解析主机 mirrors.hust.edu.cn (mirrors.hust.edu.cn)... <span class="number">202.114</span>.<span class="number">18.160</span></span><br><span class="line">正在连接 mirrors.hust.edu.cn (mirrors.hust.edu.cn)|<span class="number">202.114</span>.<span class="number">18.160</span>|:<span class="number">80</span>... 已连接。</span><br><span class="line">已发出 HTTP 请求，正在等待回应... <span class="number">200</span> OK</span><br><span class="line">长度：<span class="number">35042811</span> (<span class="number">33</span>M) [application/octet-stream]</span><br><span class="line">正在保存至: “zookeeper-<span class="number">3.4</span>.<span class="number">10</span>.tar.gz”</span><br><span class="line"></span><br><span class="line"><span class="number">100</span>%[==========================================================================================================================================================================&gt;] <span class="number">35</span>,<span class="number">042</span>,<span class="number">811</span>   <span class="number">110</span>KB/s 用时 <span class="number">5</span>m <span class="number">8</span>s  </span><br><span class="line"></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">21</span>:<span class="number">58</span>:<span class="number">31</span> (<span class="number">111</span> KB/s) - 已保存 “zookeeper-<span class="number">3.4</span>.<span class="number">10</span>.tar.gz” [<span class="number">35042811</span>/<span class="number">35042811</span>])</span><br><span class="line"></span><br><span class="line">[dylanlang@localhost zookeeper]$ ls</span><br><span class="line">zookeeper-<span class="number">3.4</span>.<span class="number">10</span>.tar.gz</span><br><span class="line">[dylanlang@localhost zookeeper]$</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[dylanlang@localhost conf]$ ls</span><br><span class="line">configuration.xsl  log4j.properties  zoo_sample.cfg</span><br><span class="line">[dylanlang@localhost conf]$ cat zoo_sample.cfg </span><br><span class="line"><span class="comment"># The number of milliseconds of each tick</span></span><br><span class="line">tickTime=<span class="number">2000</span></span><br><span class="line"><span class="comment"># The number of ticks that the initial </span></span><br><span class="line"><span class="comment"># synchronization phase can take</span></span><br><span class="line">initLimit=<span class="number">10</span></span><br><span class="line"><span class="comment"># The number of ticks that can pass between </span></span><br><span class="line"><span class="comment"># sending a request and getting an acknowledgement</span></span><br><span class="line">syncLimit=<span class="number">5</span></span><br><span class="line"><span class="comment"># the directory where the snapshot is stored.</span></span><br><span class="line"><span class="comment"># do not use /tmp for storage, /tmp here is just </span></span><br><span class="line"><span class="comment"># example sakes.</span></span><br><span class="line">dataDir=/tmp/zookeeper</span><br><span class="line"><span class="comment"># the port at which the clients will connect</span></span><br><span class="line">clientPort=<span class="number">2181</span></span><br><span class="line"><span class="comment"># the maximum number of client connections.</span></span><br><span class="line"><span class="comment"># increase this if you need to handle more clients</span></span><br><span class="line"><span class="comment">#maxClientCnxns=60</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Be sure to read the maintenance section of the </span></span><br><span class="line"><span class="comment"># administrator guide before turning on autopurge.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_maintenance</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># The number of snapshots to retain in dataDir</span></span><br><span class="line"><span class="comment">#autopurge.snapRetainCount=3</span></span><br><span class="line"><span class="comment"># Purge task interval in hours</span></span><br><span class="line"><span class="comment"># Set to "0" to disable auto purge feature</span></span><br><span class="line"><span class="comment">#autopurge.purgeInterval=1</span></span><br><span class="line">[dylanlang@localhost conf]$</span><br></pre></td></tr></table></figure>
+<h2 id="启动服务端"><a href="#启动服务端" class="headerlink" title="启动服务端"></a>启动服务端</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[dylanlang@localhost zookeeper-<span class="number">3.4</span>.<span class="number">10</span>]$ bin/zkServer.sh start</span><br><span class="line">ZooKeeper JMX enabled by default</span><br><span class="line">Using config: /home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../conf/zoo.cfg</span><br><span class="line">Starting zookeeper ... STARTED</span><br><span class="line">[dylanlang@localhost zookeeper-<span class="number">3.4</span>.<span class="number">10</span>]$</span><br></pre></td></tr></table></figure>
+<h2 id="启动客户端"><a href="#启动客户端" class="headerlink" title="启动客户端"></a>启动客户端</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[dylanlang@localhost zookeeper-<span class="number">3.4</span>.<span class="number">10</span>]$ bin/zkCli.sh -server <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span></span><br><span class="line">Connecting to <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">647</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:zookeeper.version=<span class="number">3.4</span>.<span class="number">10</span>-<span class="number">39</span>d3a4f269333c922ed3db283be479f9deacaa0f, built on <span class="number">03</span>/<span class="number">23</span>/<span class="number">2017</span> <span class="number">10</span>:<span class="number">13</span> GMT</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">666</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:host.name=localhost</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">666</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.version=<span class="number">1.8</span>.<span class="number">0</span>_131</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">668</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.vendor=Oracle Corporation</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">669</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.home=/usr/lib/jvm/java-<span class="number">1.8</span>.<span class="number">0</span>-openjdk-<span class="number">1.8</span>.<span class="number">0.131</span>-<span class="number">11</span>.b12.el7.x86_64/jre</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">669</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.class.path=/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../build/classes:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../build/lib/*.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/slf4j-log4j12-<span class="number">1.6</span>.<span class="number">1</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/slf4j-api-<span class="number">1.6</span>.<span class="number">1</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/netty-<span class="number">3.10</span>.<span class="number">5</span>.Final.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/log4j-<span class="number">1.2</span>.<span class="number">16</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/jline-<span class="number">0.9</span>.<span class="number">94</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../zookeeper-<span class="number">3.4</span>.<span class="number">10</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../src/java/lib/*.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../conf:</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">669</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.library.path=/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">669</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.io.tmpdir=/tmp</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">669</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.compiler=&lt;NA&gt;</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">669</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:os.name=Linux</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">669</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:os.arch=amd64</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">669</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:os.version=<span class="number">3.10</span>.<span class="number">0</span>-<span class="number">693</span>.el7.x86_64</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">669</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:user.name=dylanlang</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">669</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:user.home=/home/dylanlang</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">670</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:user.dir=/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">671</span> [myid:] - INFO  [main:ZooKeeper@<span class="number">438</span>] - Initiating client connection, connectString=<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span> sessionTimeout=<span class="number">30000</span> watcher=org.apache.zookeeper.ZooKeeperMain<span class="variable">$MyWatcher</span>@<span class="number">7</span>aec35a</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">33</span>,<span class="number">714</span> [myid:] - INFO  [main-SendThread(<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>):ClientCnxn<span class="variable">$SendThread</span>@<span class="number">1032</span>] - Opening socket connection to server <span class="number">127.0</span>.<span class="number">0.1</span>/<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>. Will not attempt to authenticate using SASL (unknown error)</span><br><span class="line">Welcome to ZooKeeper!</span><br><span class="line">JLine support is enabled</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">35</span>,<span class="number">417</span> [myid:] - INFO  [main-SendThread(<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>):ClientCnxn<span class="variable">$SendThread</span>@<span class="number">876</span>] - Socket connection established to <span class="number">127.0</span>.<span class="number">0.1</span>/<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>, initiating session</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">12</span> <span class="number">22</span>:<span class="number">19</span>:<span class="number">35</span>,<span class="number">683</span> [myid:] - INFO  [main-SendThread(<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>):ClientCnxn<span class="variable">$SendThread</span>@<span class="number">1299</span>] - Session establishment complete on server <span class="number">127.0</span>.<span class="number">0.1</span>/<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>, sessionid = <span class="number">0</span>x163f459dd660000, negotiated timeout = <span class="number">30000</span></span><br><span class="line"></span><br><span class="line">WATCHER::</span><br><span class="line"></span><br><span class="line">WatchedEvent state:SyncConnected type:None path:null</span><br><span class="line">[zk: <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>(CONNECTED) <span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="输入help"><a href="#输入help" class="headerlink" title="输入help"></a>输入help</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[zk: <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>(CONNECTED) <span class="number">0</span>] help</span><br><span class="line">ZooKeeper -server host:port cmd args</span><br><span class="line">        stat path [watch]</span><br><span class="line">        set path <span class="keyword">data</span> [version]</span><br><span class="line">        ls path [watch]</span><br><span class="line">        delquota [-n|-b] path</span><br><span class="line">        ls2 path [watch]</span><br><span class="line">        setAcl path acl</span><br><span class="line">        setquota -n|-b val path</span><br><span class="line">        history </span><br><span class="line">        redo cmdno</span><br><span class="line">        printwatches on|off</span><br><span class="line">        delete path [version]</span><br><span class="line">        sync path</span><br><span class="line">        listquota path</span><br><span class="line">        rmr path</span><br><span class="line">        get path [watch]</span><br><span class="line">        create [-s] [-e] path <span class="keyword">data</span> acl</span><br><span class="line">        addauth scheme auth</span><br><span class="line">        quit </span><br><span class="line">        getAcl path</span><br><span class="line">        close </span><br><span class="line">        connect host:port</span><br></pre></td></tr></table></figure>
+<h2 id="查看节点"><a href="#查看节点" class="headerlink" title="查看节点"></a>查看节点</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[zk: 127.0.0.1:2181(CONNECTED) 1] ls /</span><br><span class="line">[zookeeper]</span><br><span class="line">[zk: 127.0.0.1:2181(CONNECTED) 2]</span><br></pre></td></tr></table></figure>
+<h2 id="创建节点"><a href="#创建节点" class="headerlink" title="创建节点"></a>创建节点</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[zk: <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>(CONNECTED) <span class="number">2</span>] create /zk_test my_data</span><br><span class="line">Created /zk_test</span><br><span class="line">[zk: <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>(CONNECTED) <span class="number">3</span>] ls /</span><br><span class="line">[zookeeper, zk_test]</span><br><span class="line">[zk: <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>(CONNECTED) <span class="number">4</span>] GET /zk_test</span><br><span class="line">ZooKeeper -server host:port cmd args</span><br><span class="line">        stat path [watch]</span><br><span class="line">        set path <span class="keyword">data</span> [version]</span><br><span class="line">        ls path [watch]</span><br><span class="line">        delquota [-n|-b] path</span><br><span class="line">        ls2 path [watch]</span><br><span class="line">        setAcl path acl</span><br><span class="line">        setquota -n|-b val path</span><br><span class="line">        history </span><br><span class="line">        redo cmdno</span><br><span class="line">        printwatches on|off</span><br><span class="line">        delete path [version]</span><br><span class="line">        sync path</span><br><span class="line">        listquota path</span><br><span class="line">        rmr path</span><br><span class="line">        get path [watch]</span><br><span class="line">        create [-s] [-e] path <span class="keyword">data</span> acl</span><br><span class="line">        addauth scheme auth</span><br><span class="line">        quit </span><br><span class="line">        getAcl path</span><br><span class="line">        close </span><br><span class="line">        connect host:port</span><br><span class="line">[zk: <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>(CONNECTED) <span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+<p>##<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[zk: 127.0.0.1:2181(CONNECTED) 5] set /zk_test junk</span><br><span class="line">cZxid = 0x2</span><br><span class="line">ctime = Tue Jun 12 22:26:41 CST 2018</span><br><span class="line">mZxid = 0x3</span><br><span class="line">mtime = Tue Jun 12 22:34:29 CST 2018</span><br><span class="line">pZxid = 0x2</span><br><span class="line">cversion = 0</span><br><span class="line">dataVersion = 1</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0x0</span><br><span class="line">dataLength = 4</span><br><span class="line">numChildren = 0</span><br><span class="line">[zk: 127.0.0.1:2181(CONNECTED) 6] delete /zk_test</span><br><span class="line">[zk: 127.0.0.1:2181(CONNECTED) 7] ls /</span><br><span class="line">[zookeeper]</span><br><span class="line">[zk: 127.0.0.1:2181(CONNECTED) 8]</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[dylanlang@localhost zookeeper-3.4.10]$ export ZOOKEEPER_HOME=&quot;/home/dylanlang/learning/zookeeper/zookeeper-3.4.10&quot;</span><br><span class="line">[dylanlang@localhost zookeeper-3.4.10]$ echo $ZOOKEEPER_HOME</span><br><span class="line">/home/dylanlang/learning/zookeeper/zookeeper-3.4.10</span><br><span class="line">[dylanlang@localhost zookeeper-3.4.10]$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[dylanlang@localhost zookeeper-3.4.10]$ vi createClusterDir.sh</span><br><span class="line"> 1 createClusterDir.sh                                                                    X</span><br><span class="line"> mkdir $ZOOKEEPER_HOME/pseudo_conf</span><br><span class="line"> mkdir $ZOOKEEPER_HOME/pseudo_conf/zk1</span><br><span class="line"> mkdir $ZOOKEEPER_HOME/pseudo_conf/zk2</span><br><span class="line"> mkdir $ZOOKEEPER_HOME/pseudo_conf/zk3</span><br><span class="line"> mkdir $ZOOKEEPER_HOME/pseudo_conf/zk1/data</span><br><span class="line"> mkdir $ZOOKEEPER_HOME/pseudo_conf/zk2/data</span><br><span class="line"> mkdir $ZOOKEEPER_HOME/pseudo_conf/zk3/data</span><br><span class="line"> touch $ZOOKEEPER_HOME/pseudo_conf/zk1/data/myid</span><br><span class="line"> touch $ZOOKEEPER_HOME/pseudo_conf/zk2/data/myid</span><br><span class="line"> touch $ZOOKEEPER_HOME/pseudo_conf/zk3/data/myid</span><br><span class="line"> echo 1 &gt; $ZOOKEEPER_HOME/pseudo_conf/zk1/data/myid</span><br><span class="line"> echo 2 &gt; $ZOOKEEPER_HOME/pseudo_conf/zk2/data/myid</span><br><span class="line"> echo 3 &gt; $ZOOKEEPER_HOME/pseudo_conf/zk3/data/myid</span><br><span class="line"> touch $ZOOKEEPER_HOME/pseudo_conf/zk1/zk1.cfg</span><br><span class="line"> touch $ZOOKEEPER_HOME/pseudo_conf/zk2/zk2.cfg</span><br><span class="line"> touch $ZOOKEEPER_HOME/pseudo_conf/zk3/zk3.cfg</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[dylanlang@localhost zookeeper-3.4.10]$ tree pseudo_conf/</span><br><span class="line">pseudo_conf/</span><br><span class="line">├── zk1</span><br><span class="line">│   ├── data</span><br><span class="line">│   │   └── myid</span><br><span class="line">│   └── zk1.cfg</span><br><span class="line">├── zk2</span><br><span class="line">│   ├── data</span><br><span class="line">│   │   └── myid</span><br><span class="line">│   └── zk2.cfg</span><br><span class="line">└── zk3</span><br><span class="line">    ├── data</span><br><span class="line">    │   └── myid</span><br><span class="line">    └── zk3.cfg</span><br><span class="line"></span><br><span class="line">6 directories, 6 files</span><br></pre></td></tr></table></figure>
+<h2 id="启动zk1"><a href="#启动zk1" class="headerlink" title="启动zk1"></a>启动zk1</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[dylanlang@localhost ~/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/pseudo_conf/zk1]$../../bin/zkServer.sh start ./zk1.cfg </span><br><span class="line">ZooKeeper JMX enabled by default</span><br><span class="line">Using config: ./zk1.cfg</span><br><span class="line">Starting zookeeper ... STARTED</span><br></pre></td></tr></table></figure>
+<p>因为我们设置了集群中有3台机器，现在只启动了其中一台，因为Zookeeper目前还是不可以用的，查看当前目录下的zookeeper.out文件，有类似以下内容<br><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">[dylanlang@localhost ~/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/pseudo_conf/zk1]<span class="variable">$ls</span></span><br><span class="line"><span class="keyword">data</span>  zk1.cfg  zookeeper.out</span><br><span class="line">[dylanlang@localhost ~/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/pseudo_conf/zk1]<span class="variable">$cat</span> zookeeper.out </span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">761</span> [myid:] - INFO  [main:QuorumPeerConfig@<span class="number">134</span>] - Reading configuration from: ./zk1.cfg</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">782</span> [myid:] - INFO  [main:QuorumPeer<span class="variable">$QuorumServer</span>@<span class="number">167</span>] - Resolved hostname: <span class="number">127.0</span>.<span class="number">0.1</span> to address: /<span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">782</span> [myid:] - INFO  [main:QuorumPeer<span class="variable">$QuorumServer</span>@<span class="number">167</span>] - Resolved hostname: <span class="number">127.0</span>.<span class="number">0.1</span> to address: /<span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">782</span> [myid:] - INFO  [main:QuorumPeer<span class="variable">$QuorumServer</span>@<span class="number">167</span>] - Resolved hostname: <span class="number">127.0</span>.<span class="number">0.1</span> to address: /<span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">783</span> [myid:] - INFO  [main:QuorumPeerConfig@<span class="number">396</span>] - Defaulting to majority quorums</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">784</span> [myid:<span class="number">1</span>] - INFO  [main:DatadirCleanupManager@<span class="number">78</span>] - autopurge.snapRetainCount set to <span class="number">3</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">784</span> [myid:<span class="number">1</span>] - INFO  [main:DatadirCleanupManager@<span class="number">79</span>] - autopurge.purgeInterval set to <span class="number">0</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">784</span> [myid:<span class="number">1</span>] - INFO  [main:DatadirCleanupManager@<span class="number">101</span>] - Purge task is not scheduled.</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">796</span> [myid:<span class="number">1</span>] - INFO  [main:QuorumPeerMain@<span class="number">127</span>] - Starting quorum peer</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">803</span> [myid:<span class="number">1</span>] - INFO  [main:NIOServerCnxnFactory@<span class="number">89</span>] - binding to port <span class="number">0.0</span>.<span class="number">0.0</span>/<span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">2181</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">816</span> [myid:<span class="number">1</span>] - INFO  [main:QuorumPeer@<span class="number">1134</span>] - minSessionTimeout set to -<span class="number">1</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">816</span> [myid:<span class="number">1</span>] - INFO  [main:QuorumPeer@<span class="number">1145</span>] - maxSessionTimeout set to -<span class="number">1</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">817</span> [myid:<span class="number">1</span>] - INFO  [main:QuorumPeer@<span class="number">1419</span>] - QuorumPeer communication is not secured!</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">817</span> [myid:<span class="number">1</span>] - INFO  [main:QuorumPeer@<span class="number">1448</span>] - quorum.cnxn.threads.size set to <span class="number">20</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">818</span> [myid:<span class="number">1</span>] - INFO  [main:QuorumPeer@<span class="number">624</span>] - currentEpoch not found! Creating with a reasonable default of <span class="number">0</span>. This should only happen when you are upgrading your installation</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">828</span> [myid:<span class="number">1</span>] - INFO  [main:QuorumPeer@<span class="number">639</span>] - acceptedEpoch not found! Creating with a reasonable default of <span class="number">0</span>. This should only happen when you are upgrading your installation</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">839</span> [myid:<span class="number">1</span>] - INFO  [ListenerThread:QuorumCnxManager<span class="variable">$Listener</span>@<span class="number">739</span>] - My election bind port: /<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2223</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">846</span> [myid:<span class="number">1</span>] - INFO  [QuorumPeer[myid=<span class="number">1</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2181</span>:QuorumPeer@<span class="number">865</span>] - LOOKING</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">846</span> [myid:<span class="number">1</span>] - INFO  [QuorumPeer[myid=<span class="number">1</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2181</span>:FastLeaderElection@<span class="number">818</span>] - New election. My id =  <span class="number">1</span>, proposed zxid=<span class="number">0</span>x0</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">850</span> [myid:<span class="number">1</span>] - INFO  [WorkerReceiver[myid=<span class="number">1</span>]:FastLeaderElection@<span class="number">600</span>] - Notification: <span class="number">1</span> (message format version), <span class="number">1</span> (n.leader), <span class="number">0</span>x0 (n.zxid), <span class="number">0</span>x1 (n.round), LOOKING (n.state), <span class="number">1</span> (n.sid), <span class="number">0</span>x0 (n.peerEpoch) LOOKING (my state)</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">882</span> [myid:<span class="number">1</span>] - WARN  [WorkerSender[myid=<span class="number">1</span>]:QuorumCnxManager@<span class="number">588</span>] - Cannot open channel to <span class="number">2</span> at election address /<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">3334</span></span><br><span class="line">java.net.ConnectException: 拒绝连接 (Connection refused)</span><br><span class="line">        at java.net.PlainSocketImpl.socketConnect(Native Method)</span><br><span class="line">        at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:<span class="number">350</span>)</span><br><span class="line">        at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:<span class="number">206</span>)</span><br><span class="line">        at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:<span class="number">188</span>)</span><br><span class="line">        at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:<span class="number">392</span>)</span><br><span class="line">        at java.net.Socket.connect(Socket.java:<span class="number">589</span>)</span><br><span class="line">        at org.apache.zookeeper.server.quorum.QuorumCnxManager.connectOne(QuorumCnxManager.java:<span class="number">562</span>)</span><br><span class="line">        at org.apache.zookeeper.server.quorum.QuorumCnxManager.toSend(QuorumCnxManager.java:<span class="number">538</span>)</span><br><span class="line">        at org.apache.zookeeper.server.quorum.FastLeaderElection<span class="variable">$Messenger</span><span class="variable">$WorkerSender</span>.process(FastLeaderElection.java:<span class="number">452</span>)</span><br><span class="line">        at org.apache.zookeeper.server.quorum.FastLeaderElection<span class="variable">$Messenger</span><span class="variable">$WorkerSender</span>.run(FastLeaderElection.java:<span class="number">433</span>)</span><br><span class="line">        at java.lang.Thread.run(Thread.java:<span class="number">748</span>)</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">884</span> [myid:<span class="number">1</span>] - INFO  [WorkerSender[myid=<span class="number">1</span>]:QuorumPeer<span class="variable">$QuorumServer</span>@<span class="number">167</span>] - Resolved hostname: <span class="number">127.0</span>.<span class="number">0.1</span> to address: /<span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">56</span>,<span class="number">884</span> [myid:<span class="number">1</span>] - WARN  [WorkerSender[myid=<span class="number">1</span>]:QuorumCnxManager@<span class="number">588</span>] - Cannot open channel to <span class="number">3</span> at election address /<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">4445</span></span><br></pre></td></tr></table></figure></p>
+<p>可以看到zk1尝试连接其他的zookeeper server，但是由于其他的都没启动，所以连接失败。</p>
+<h2 id="启动zk2"><a href="#启动zk2" class="headerlink" title="启动zk2"></a>启动zk2</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">[dylanlang@localhost ~/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/pseudo_conf/zk2]$../../bin/zkServer.sh start ./zk2.cfg </span><br><span class="line">ZooKeeper JMX enabled by default</span><br><span class="line">Using config: ./zk2.cfg</span><br><span class="line">Starting zookeeper ... STARTED</span><br><span class="line">[dylanlang@localhost ~/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/pseudo_conf/zk2]<span class="variable">$cat</span> zookeeper.out </span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">575</span> [myid:] - INFO  [main:QuorumPeerConfig@<span class="number">134</span>] - Reading configuration from: ./zk2.cfg</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">591</span> [myid:] - INFO  [main:QuorumPeer<span class="variable">$QuorumServer</span>@<span class="number">167</span>] - Resolved hostname: <span class="number">127.0</span>.<span class="number">0.1</span> to address: /<span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">591</span> [myid:] - INFO  [main:QuorumPeer<span class="variable">$QuorumServer</span>@<span class="number">167</span>] - Resolved hostname: <span class="number">127.0</span>.<span class="number">0.1</span> to address: /<span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">591</span> [myid:] - INFO  [main:QuorumPeer<span class="variable">$QuorumServer</span>@<span class="number">167</span>] - Resolved hostname: <span class="number">127.0</span>.<span class="number">0.1</span> to address: /<span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">592</span> [myid:] - INFO  [main:QuorumPeerConfig@<span class="number">396</span>] - Defaulting to majority quorums</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">593</span> [myid:<span class="number">2</span>] - INFO  [main:DatadirCleanupManager@<span class="number">78</span>] - autopurge.snapRetainCount set to <span class="number">3</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">594</span> [myid:<span class="number">2</span>] - INFO  [main:DatadirCleanupManager@<span class="number">79</span>] - autopurge.purgeInterval set to <span class="number">0</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">594</span> [myid:<span class="number">2</span>] - INFO  [main:DatadirCleanupManager@<span class="number">101</span>] - Purge task is not scheduled.</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">600</span> [myid:<span class="number">2</span>] - INFO  [main:QuorumPeerMain@<span class="number">127</span>] - Starting quorum peer</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">612</span> [myid:<span class="number">2</span>] - INFO  [main:NIOServerCnxnFactory@<span class="number">89</span>] - binding to port <span class="number">0.0</span>.<span class="number">0.0</span>/<span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">2183</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">623</span> [myid:<span class="number">2</span>] - INFO  [main:QuorumPeer@<span class="number">1134</span>] - minSessionTimeout set to -<span class="number">1</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">623</span> [myid:<span class="number">2</span>] - INFO  [main:QuorumPeer@<span class="number">1145</span>] - maxSessionTimeout set to -<span class="number">1</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">624</span> [myid:<span class="number">2</span>] - INFO  [main:QuorumPeer@<span class="number">1419</span>] - QuorumPeer communication is not secured!</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">624</span> [myid:<span class="number">2</span>] - INFO  [main:QuorumPeer@<span class="number">1448</span>] - quorum.cnxn.threads.size set to <span class="number">20</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">626</span> [myid:<span class="number">2</span>] - INFO  [main:QuorumPeer@<span class="number">624</span>] - currentEpoch not found! Creating with a reasonable default of <span class="number">0</span>. This should only happen when you are upgrading your installation</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">631</span> [myid:<span class="number">2</span>] - INFO  [main:QuorumPeer@<span class="number">639</span>] - acceptedEpoch not found! Creating with a reasonable default of <span class="number">0</span>. This should only happen when you are upgrading your installation</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">660</span> [myid:<span class="number">2</span>] - INFO  [ListenerThread:QuorumCnxManager<span class="variable">$Listener</span>@<span class="number">739</span>] - My election bind port: /<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">3334</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">663</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:QuorumPeer@<span class="number">865</span>] - LOOKING</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">664</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:FastLeaderElection@<span class="number">818</span>] - New election. My id =  <span class="number">2</span>, proposed zxid=<span class="number">0</span>x0</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">737</span> [myid:<span class="number">2</span>] - WARN  [WorkerSender[myid=<span class="number">2</span>]:QuorumCnxManager@<span class="number">588</span>] - Cannot open channel to <span class="number">3</span> at election address /<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">4445</span></span><br><span class="line">java.net.ConnectException: 拒绝连接 (Connection refused)</span><br><span class="line">        at java.net.PlainSocketImpl.socketConnect(Native Method)</span><br><span class="line">        at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:<span class="number">350</span>)</span><br><span class="line">        at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:<span class="number">206</span>)</span><br><span class="line">        at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:<span class="number">188</span>)</span><br><span class="line">        at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:<span class="number">392</span>)</span><br><span class="line">        at java.net.Socket.connect(Socket.java:<span class="number">589</span>)</span><br><span class="line">        at org.apache.zookeeper.server.quorum.QuorumCnxManager.connectOne(QuorumCnxManager.java:<span class="number">562</span>)</span><br><span class="line">        at org.apache.zookeeper.server.quorum.QuorumCnxManager.toSend(QuorumCnxManager.java:<span class="number">538</span>)</span><br><span class="line">        at org.apache.zookeeper.server.quorum.FastLeaderElection<span class="variable">$Messenger</span><span class="variable">$WorkerSender</span>.process(FastLeaderElection.java:<span class="number">452</span>)</span><br><span class="line">        at org.apache.zookeeper.server.quorum.FastLeaderElection<span class="variable">$Messenger</span><span class="variable">$WorkerSender</span>.run(FastLeaderElection.java:<span class="number">433</span>)</span><br><span class="line">        at java.lang.Thread.run(Thread.java:<span class="number">748</span>)</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">739</span> [myid:<span class="number">2</span>] - INFO  [WorkerSender[myid=<span class="number">2</span>]:QuorumPeer<span class="variable">$QuorumServer</span>@<span class="number">167</span>] - Resolved hostname: <span class="number">127.0</span>.<span class="number">0.1</span> to address: /<span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">739</span> [myid:<span class="number">2</span>] - INFO  [WorkerReceiver[myid=<span class="number">2</span>]:FastLeaderElection@<span class="number">600</span>] - Notification: <span class="number">1</span> (message format version), <span class="number">2</span> (n.leader), <span class="number">0</span>x0 (n.zxid), <span class="number">0</span>x1 (n.round), LOOKING (n.state), <span class="number">2</span> (n.sid), <span class="number">0</span>x0 (n.peerEpoch) LOOKING (my state)</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">742</span> [myid:<span class="number">2</span>] - INFO  [WorkerReceiver[myid=<span class="number">2</span>]:FastLeaderElection@<span class="number">600</span>] - Notification: <span class="number">1</span> (message format version), <span class="number">1</span> (n.leader), <span class="number">0</span>x0 (n.zxid), <span class="number">0</span>x1 (n.round), LOOKING (n.state), <span class="number">1</span> (n.sid), <span class="number">0</span>x0 (n.peerEpoch) LOOKING (my state)</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">744</span> [myid:<span class="number">2</span>] - INFO  [WorkerReceiver[myid=<span class="number">2</span>]:FastLeaderElection@<span class="number">600</span>] - Notification: <span class="number">1</span> (message format version), <span class="number">2</span> (n.leader), <span class="number">0</span>x0 (n.zxid), <span class="number">0</span>x1 (n.round), LOOKING (n.state), <span class="number">1</span> (n.sid), <span class="number">0</span>x0 (n.peerEpoch) LOOKING (my state)</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">945</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:QuorumPeer@<span class="number">947</span>] - LEADING</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">947</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Leader@<span class="number">62</span>] - TCP NoDelay set to: true</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">950</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Environment@<span class="number">100</span>] - Server environment:zookeeper.version=<span class="number">3.4</span>.<span class="number">10</span>-<span class="number">39</span>d3a4f269333c922ed3db283be479f9deacaa0f, built on <span class="number">03</span>/<span class="number">23</span>/<span class="number">2017</span> <span class="number">10</span>:<span class="number">13</span> GMT</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">950</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Environment@<span class="number">100</span>] - Server environment:host.name=localhost</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">950</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Environment@<span class="number">100</span>] - Server environment:java.version=<span class="number">1.8</span>.<span class="number">0</span>_131</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">951</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Environment@<span class="number">100</span>] - Server environment:java.vendor=Oracle Corporation</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">951</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Environment@<span class="number">100</span>] - Server environment:java.home=/usr/lib/jvm/java-<span class="number">1.8</span>.<span class="number">0</span>-openjdk-<span class="number">1.8</span>.<span class="number">0.131</span>-<span class="number">11</span>.b12.el7.x86_64/jre</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">951</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Environment@<span class="number">100</span>] - Server environment:java.class.path=/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../build/classes:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../build/lib/*.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/slf4j-log4j12-<span class="number">1.6</span>.<span class="number">1</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/slf4j-api-<span class="number">1.6</span>.<span class="number">1</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/netty-<span class="number">3.10</span>.<span class="number">5</span>.Final.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/log4j-<span class="number">1.2</span>.<span class="number">16</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/jline-<span class="number">0.9</span>.<span class="number">94</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../zookeeper-<span class="number">3.4</span>.<span class="number">10</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../src/java/lib/*.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../conf:</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">951</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Environment@<span class="number">100</span>] - Server environment:java.library.path=/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">951</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Environment@<span class="number">100</span>] - Server environment:java.io.tmpdir=/tmp</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">951</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Environment@<span class="number">100</span>] - Server environment:java.compiler=&lt;NA&gt;</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">951</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Environment@<span class="number">100</span>] - Server environment:os.name=Linux</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">951</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Environment@<span class="number">100</span>] - Server environment:os.arch=amd64</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">951</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Environment@<span class="number">100</span>] - Server environment:os.version=<span class="number">3.10</span>.<span class="number">0</span>-<span class="number">693</span>.el7.x86_64</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">951</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Environment@<span class="number">100</span>] - Server environment:user.name=dylanlang</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">951</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Environment@<span class="number">100</span>] - Server environment:user.home=/home/dylanlang</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">951</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Environment@<span class="number">100</span>] - Server environment:user.dir=/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/pseudo_conf/zk2</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">952</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:ZooKeeperServer@<span class="number">173</span>] - Created server with tickTime <span class="number">2000</span> minSessionTimeout <span class="number">4000</span> maxSessionTimeout <span class="number">40000</span> datadir ./<span class="keyword">data</span>/version-<span class="number">2</span> snapdir ./<span class="keyword">data</span>/version-<span class="number">2</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">54</span>,<span class="number">977</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Leader@<span class="number">371</span>] - LEADING - LEADER ELECTION TOOK - <span class="number">313</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">55</span>,<span class="number">980</span> [myid:<span class="number">2</span>] - INFO  [LearnerHandler-/<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">46642</span>:LearnerHandler@<span class="number">346</span>] - Follower sid: <span class="number">1</span> : info : org.apache.zookeeper.server.quorum.QuorumPeer<span class="variable">$QuorumServer</span>@<span class="number">3</span>b861946</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">55</span>,<span class="number">988</span> [myid:<span class="number">2</span>] - INFO  [LearnerHandler-/<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">46642</span>:LearnerHandler@<span class="number">401</span>] - Synchronizing with Follower sid: <span class="number">1</span> maxCommittedLog=<span class="number">0</span>x0 minCommittedLog=<span class="number">0</span>x0 peerLastZxid=<span class="number">0</span>x0</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">55</span>,<span class="number">988</span> [myid:<span class="number">2</span>] - INFO  [LearnerHandler-/<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">46642</span>:LearnerHandler@<span class="number">410</span>] - leader and follower are <span class="keyword">in</span> sync, zxid=<span class="number">0</span>x0</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">55</span>,<span class="number">988</span> [myid:<span class="number">2</span>] - INFO  [LearnerHandler-/<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">46642</span>:LearnerHandler@<span class="number">475</span>] - Sending DIFF</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">55</span>,<span class="number">994</span> [myid:<span class="number">2</span>] - INFO  [LearnerHandler-/<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">46642</span>:LearnerHandler@<span class="number">535</span>] - Received NEWLEADER-ACK message from <span class="number">1</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">55</span>,<span class="number">994</span> [myid:<span class="number">2</span>] - INFO  [QuorumPeer[myid=<span class="number">2</span>]/<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">2183</span>:Leader@<span class="number">961</span>] - Have quorum of supporters, sids: [ <span class="number">1</span>,<span class="number">2</span> ]; starting up and setting last processed zxid: <span class="number">0</span>x100000000</span><br></pre></td></tr></table></figure>
+<h2 id="启动用zkCli-sh去连接ZK服务"><a href="#启动用zkCli-sh去连接ZK服务" class="headerlink" title="启动用zkCli.sh去连接ZK服务"></a>启动用zkCli.sh去连接ZK服务</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[dylanlang@localhost ~/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>]$ ./bin/zkCli.sh -server <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>,<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2182</span>,<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2183</span></span><br><span class="line">Connecting to <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>,<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2182</span>,<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2183</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">354</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:zookeeper.version=<span class="number">3.4</span>.<span class="number">10</span>-<span class="number">39</span>d3a4f269333c922ed3db283be479f9deacaa0f, built on <span class="number">03</span>/<span class="number">23</span>/<span class="number">2017</span> <span class="number">10</span>:<span class="number">13</span> GMT</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">356</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:host.name=localhost</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">356</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.version=<span class="number">1.8</span>.<span class="number">0</span>_131</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">358</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.vendor=Oracle Corporation</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">358</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.home=/usr/lib/jvm/java-<span class="number">1.8</span>.<span class="number">0</span>-openjdk-<span class="number">1.8</span>.<span class="number">0.131</span>-<span class="number">11</span>.b12.el7.x86_64/jre</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">358</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.class.path=/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../build/classes:/home/dylanlang/learning/zookeeperild/lib/*.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/slf4j-log4j12-<span class="number">1.6</span>.<span class="number">1</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/slf4j-api-<span class="number">1.6</span>.<span class="number">1</span>.jar:/home/dylanlang/learnin0/bin/../lib/netty-<span class="number">3.10</span>.<span class="number">5</span>.Final.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/log4j-<span class="number">1.2</span>.<span class="number">16</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/jline-<span class="number">0.9</span>.<span class="number">94</span>.jar:/home/dylankeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../zookeeper-<span class="number">3.4</span>.<span class="number">10</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../src/java/lib/*.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../conf:</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">358</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.library.path=/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">358</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.io.tmpdir=/tmp</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">358</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.compiler=&lt;NA&gt;</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">358</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:os.name=Linux</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">358</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:os.arch=amd64</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">358</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:os.version=<span class="number">3.10</span>.<span class="number">0</span>-<span class="number">693</span>.el7.x86_64</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">358</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:user.name=dylanlang</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">358</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:user.home=/home/dylanlang</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">358</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:user.dir=/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">360</span> [myid:] - INFO  [main:ZooKeeper@<span class="number">438</span>] - Initiating client connection, connectString=<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>,<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2182</span>,<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2183</span> sessionTimeout=<span class="number">30000</span> watcher=org.apache.zookeeper.ZooKe</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">382</span> [myid:] - INFO  [main-SendThread(<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>):ClientCnxn<span class="variable">$SendThread</span>@<span class="number">1032</span>] - Opening socket connection to server <span class="number">127.0</span>.<span class="number">0.1</span>/<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>. Will not attempt to authenticate using SAS</span><br><span class="line">Welcome to ZooKeeper!</span><br><span class="line">JLine support is enabled</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">494</span> [myid:] - INFO  [main-SendThread(<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>):ClientCnxn<span class="variable">$SendThread</span>@<span class="number">876</span>] - Socket connection established to <span class="number">127.0</span>.<span class="number">0.1</span>/<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>, initiating session</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">13</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">55</span>,<span class="number">526</span> [myid:] - INFO  [main-SendThread(<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>):ClientCnxn<span class="variable">$SendThread</span>@<span class="number">1299</span>] - Session establishment complete on server <span class="number">127.0</span>.<span class="number">0.1</span>/<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>, sessionid = <span class="number">0</span>x163f735eaf70000, negoti</span><br><span class="line"></span><br><span class="line">WATCHER::</span><br><span class="line"></span><br><span class="line">WatchedEvent state:SyncConnected type:None path:null</span><br><span class="line">[zk: <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>,<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2182</span>,<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2183</span>(CONNECTED) <span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[dylanlang@localhost ~/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/pseudo_conf/zk2]$ ../../bin/zkCli.sh -server <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>,<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2182</span>,<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2183</span></span><br><span class="line">Connecting to <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>,<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2182</span>,<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2183</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">863</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:zookeeper.version=<span class="number">3.4</span>.<span class="number">10</span>-<span class="number">39</span>d3a4f269333c922ed3db283be479f9deacaa0f, built on <span class="number">03</span>/<span class="number">23</span>/<span class="number">2017</span> <span class="number">10</span>:<span class="number">13</span> GMT</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">874</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:host.name=localhost</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">874</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.version=<span class="number">1.8</span>.<span class="number">0</span>_131</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">875</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.vendor=Oracle Corporation</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">875</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.home=/usr/lib/jvm/java-<span class="number">1.8</span>.<span class="number">0</span>-openjdk-<span class="number">1.8</span>.<span class="number">0.131</span>-<span class="number">11</span>.b12.el7.x86_64/jre</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">875</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.class.path=/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../build/classes:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../build/lib/*.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/slf4j-log4j12-<span class="number">1.6</span>.<span class="number">1</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/slf4j-api-<span class="number">1.6</span>.<span class="number">1</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/netty-<span class="number">3.10</span>.<span class="number">5</span>.Final.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/log4j-<span class="number">1.2</span>.<span class="number">16</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../lib/jline-<span class="number">0.9</span>.<span class="number">94</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../zookeeper-<span class="number">3.4</span>.<span class="number">10</span>.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../src/java/lib/*.jar:/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/bin/../conf:</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">875</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.library.path=/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">875</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.io.tmpdir=/tmp</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">875</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:java.compiler=&lt;NA&gt;</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">875</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:os.name=Linux</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">875</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:os.arch=amd64</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">876</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:os.version=<span class="number">3.10</span>.<span class="number">0</span>-<span class="number">693</span>.el7.x86_64</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">876</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:user.name=dylanlang</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">876</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:user.home=/home/dylanlang</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">876</span> [myid:] - INFO  [main:Environment@<span class="number">100</span>] - Client environment:user.dir=/home/dylanlang/learning/zookeeper/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/pseudo_conf/zk2</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">876</span> [myid:] - INFO  [main:ZooKeeper@<span class="number">438</span>] - Initiating client connection, connectString=<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>,<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2182</span>,<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2183</span> sessionTimeout=<span class="number">30000</span> watcher=org.apache.zookeeper.ZooKeeperMain<span class="variable">$MyWatcher</span>@<span class="number">7</span>aec35a</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">02</span>,<span class="number">893</span> [myid:] - INFO  [main-SendThread(<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2183</span>):ClientCnxn<span class="variable">$SendThread</span>@<span class="number">1032</span>] - Opening socket connection to server <span class="number">127.0</span>.<span class="number">0.1</span>/<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2183</span>. Will not attempt to authenticate using SASL (unknown error)</span><br><span class="line">Welcome to ZooKeeper!</span><br><span class="line">JLine support is enabled</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">03</span>,<span class="number">025</span> [myid:] - INFO  [main-SendThread(<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2183</span>):ClientCnxn<span class="variable">$SendThread</span>@<span class="number">876</span>] - Socket connection established to <span class="number">127.0</span>.<span class="number">0.1</span>/<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2183</span>, initiating session</span><br><span class="line"><span class="number">2018</span>-<span class="number">06</span>-<span class="number">14</span> <span class="number">16</span>:<span class="number">09</span>:<span class="number">03</span>,<span class="number">154</span> [myid:] - INFO  [main-SendThread(<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2183</span>):ClientCnxn<span class="variable">$SendThread</span>@<span class="number">1299</span>] - Session establishment complete on server <span class="number">127.0</span>.<span class="number">0.1</span>/<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2183</span>, sessionid = <span class="number">0</span>x363fd4c42140000, negotiated timeout = <span class="number">30000</span></span><br><span class="line"></span><br><span class="line">WATCHER::</span><br><span class="line"></span><br><span class="line">WatchedEvent state:SyncConnected type:None path:null</span><br><span class="line">[zk: <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2181</span>,<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2182</span>,<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">2183</span>(CONNECTED) <span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>启动zkCli时，控制台打印出类似以下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2018-06-14 16:09:02,876 [myid:] - INFO  [main:ZooKeeper@438] - Initiating client connection, connectString=127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183 sessionTimeout=30000 watcher=org.apache.zookeeper.ZooKeeperMain$MyWatcher@7aec35a</span><br><span class="line">&gt;Socket connection established to 127.0.0.1/127.0.0.1:2183, initiating session</span><br><span class="line">2018-06-14 16:09:03,154 [myid:] - INFO  [main-SendThread(127.0.0.1:2183):ClientCnxn$SendThread@1299] - Session establishment complete on server 127.0.0.1/127.0.0.1:2183, sessionid = 0x363fd4c42140000, negotiated timeout = 30000</span><br></pre></td></tr></table></figure></p>
+<p>说明当前连接的是zk1，如果停止zkCli，再启动zkCli，重复几次这样的操作。我们会看到客户端连接连接的端口号在zk1(2181)和zk2(2182)之间切换，如果连接了zk3(2183)，就会提示连接失败信息，并自动尝试去连接其他的server。</p>
+<h2 id="master-worker"><a href="#master-worker" class="headerlink" title="master-worker"></a>master-worker</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">[dylanlang@localhost ~/learning/zookeeper/zookeeper-3.4.10]$ bin/zkCli.sh -server 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183</span><br><span class="line">Connecting to 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183</span><br><span class="line">2018-06-14 16:41:49,868 [myid:] - INFO  [main:Environment@100] - Client environment:zookeeper.version=3.4.10-39d3a4f269333c922ed3db283be479f9deacaa0f, built on 0</span><br><span class="line">2018-06-14 16:41:49,870 [myid:] - INFO  [main:Environment@100] - Client environment:host.name=localhost</span><br><span class="line">2018-06-14 16:41:49,870 [myid:] - INFO  [main:Environment@100] - Client environment:java.version=1.8.0_131</span><br><span class="line">2018-06-14 16:41:49,872 [myid:] - INFO  [main:Environment@100] - Client environment:java.vendor=Oracle Corporation</span><br><span class="line">2018-06-14 16:41:49,872 [myid:] - INFO  [main:Environment@100] - Client environment:java.home=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64/jre</span><br><span class="line">2018-06-14 16:41:49,872 [myid:] - INFO  [main:Environment@100] - Client environment:java.class.path=/home/dylanlang/learning/zookeeper/zookeeper-3.4.10/bin/../bu/zookeeper-3.4.10/bin/../build/lib/*.jar:/home/dylanlang/learning/zookeeper/zookeeper-3.4.10/bin/../lib/slf4j-log4j12-1.6.1.jar:/home/dylanlang/learning/zookeepejar:/home/dylanlang/learning/zookeeper/zookeeper-3.4.10/bin/../lib/netty-3.10.5.Final.jar:/home/dylanlang/learning/zookeeper/zookeeper-3.4.10/bin/../lib/log4j-1.okeeper-3.4.10/bin/../lib/jline-0.9.94.jar:/home/dylanlang/learning/zookeeper/zookeeper-3.4.10/bin/../zookeeper-3.4.10.jar:/home/dylanlang/learning/zookeeper/zoodylanlang/learning/zookeeper/zookeeper-3.4.10/bin/../conf:</span><br><span class="line">2018-06-14 16:41:49,872 [myid:] - INFO  [main:Environment@100] - Client environment:java.library.path=/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/li</span><br><span class="line">2018-06-14 16:41:49,872 [myid:] - INFO  [main:Environment@100] - Client environment:java.io.tmpdir=/tmp</span><br><span class="line">2018-06-14 16:41:49,872 [myid:] - INFO  [main:Environment@100] - Client environment:java.compiler=&lt;NA&gt;</span><br><span class="line">2018-06-14 16:41:49,872 [myid:] - INFO  [main:Environment@100] - Client environment:os.name=Linux</span><br><span class="line">2018-06-14 16:41:49,872 [myid:] - INFO  [main:Environment@100] - Client environment:os.arch=amd64</span><br><span class="line">2018-06-14 16:41:49,872 [myid:] - INFO  [main:Environment@100] - Client environment:os.version=3.10.0-693.el7.x86_64</span><br><span class="line">2018-06-14 16:41:49,872 [myid:] - INFO  [main:Environment@100] - Client environment:user.name=dylanlang</span><br><span class="line">2018-06-14 16:41:49,872 [myid:] - INFO  [main:Environment@100] - Client environment:user.home=/home/dylanlang</span><br><span class="line">2018-06-14 16:41:49,873 [myid:] - INFO  [main:Environment@100] - Client environment:user.dir=/home/dylanlang/learning/zookeeper/zookeeper-3.4.10</span><br><span class="line">2018-06-14 16:41:49,873 [myid:] - INFO  [main:ZooKeeper@438] - Initiating client connection, connectString=127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183 sessionTieperMain$MyWatcher@7aec35a</span><br><span class="line">2018-06-14 16:41:49,899 [myid:] - INFO  [main-SendThread(127.0.0.1:2183):ClientCnxn$SendThread@1032] - Opening socket connection to server 127.0.0.1/127.0.0.1:21L (unknown error)</span><br><span class="line">Welcome to ZooKeeper!</span><br><span class="line">JLine support is enabled</span><br><span class="line">2018-06-14 16:41:49,994 [myid:] - INFO  [main-SendThread(127.0.0.1:2183):ClientCnxn$SendThread@876] - Socket connection established to 127.0.0.1/127.0.0.1:2183,</span><br><span class="line">2018-06-14 16:41:50,045 [myid:] - INFO  [main-SendThread(127.0.0.1:2183):ClientCnxn$SendThread@1299] - Session establishment complete on server 127.0.0.1/127.0.0ated timeout = 30000</span><br><span class="line"></span><br><span class="line">WATCHER::</span><br><span class="line"></span><br><span class="line">WatchedEvent state:SyncConnected type:None path:null</span><br><span class="line">#创建主节点</span><br><span class="line">[zk: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183(CONNECTED) 0] create -e /master &quot;master1.example.com:2223&quot;</span><br><span class="line">Created /master</span><br><span class="line">#监控临时节点使用stat命令</span><br><span class="line">[zk: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183(CONNECTED) 1] stat /master true</span><br><span class="line">cZxid = 0x800000003</span><br><span class="line">ctime = Thu Jun 14 16:42:39 CST 2018</span><br><span class="line">mZxid = 0x800000003</span><br><span class="line">mtime = Thu Jun 14 16:42:39 CST 2018</span><br><span class="line">pZxid = 0x800000003</span><br><span class="line">cversion = 0</span><br><span class="line">dataVersion = 0</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0x363fd7443ae0000</span><br><span class="line">dataLength = 24</span><br><span class="line">numChildren = 0</span><br><span class="line">[zk: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183(CONNECTED) 2] create /workers &quot;&quot;</span><br><span class="line">Created /workers</span><br><span class="line">[zk: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183(CONNECTED) 3] create /tasks &quot;&quot;</span><br><span class="line">Created /tasks</span><br><span class="line">[zk: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183(CONNECTED) 4] create /assign &quot;&quot;</span><br><span class="line">Created /assign</span><br><span class="line">#监控workers目录</span><br><span class="line">[zk: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183(CONNECTED) 5] ls /workers true</span><br><span class="line">[]</span><br><span class="line">#监控tasks目录</span><br><span class="line">[zk: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183(CONNECTED) 6] ls /tasks true</span><br><span class="line">[]</span><br><span class="line">[zk: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183(CONNECTED) 7] create -e /workers/worker1.example.com &quot;worker1.example.com:2224&quot;</span><br><span class="line"></span><br><span class="line">WATCHER::</span><br><span class="line"></span><br><span class="line">WatchedEvent state:SyncConnected type:NodeChildrenChanged path:/workers</span><br><span class="line">Created /workers/worker1.example.com</span><br><span class="line">[zk: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183(CONNECTED) 8] create /assign/worker.example.com &quot;&quot;</span><br><span class="line">Created /assign/worker.example.com</span><br><span class="line">#监控持久节点使用ls命令</span><br><span class="line">[zk: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183(CONNECTED) 9] ls /assign/worker.example.com true</span><br><span class="line">[]</span><br><span class="line">[zk: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183(CONNECTED) 10] create -s /tasks/task- &quot;cmd&quot;</span><br><span class="line"></span><br><span class="line">WATCHER::</span><br><span class="line"></span><br><span class="line">WatchedEvent state:SyncConnected type:NodeChildrenChanged path:/tasks</span><br><span class="line">Created /tasks/task-0000000000</span><br><span class="line">[zk: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183(CONNECTED) 11] create /assign/worker.example.com/task-0000000000 &quot;&quot;</span><br><span class="line"></span><br><span class="line">WATCHER::</span><br><span class="line"></span><br><span class="line">WatchedEvent state:SyncConnected type:NodeChildrenChanged path:/assign/worker.example.com</span><br><span class="line">Created /assign/worker.example.com/task-0000000000</span><br><span class="line">[zk: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183(CONNECTED) 12]</span><br></pre></td></tr></table></figure>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/zookeeper/" rel="tag"># zookeeper</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/12/史上最全Vim快捷键键位图（入门到进阶）/" rel="next" title="史上最全Vim快捷键键位图（入门到进阶）">
+                <i class="fa fa-chevron-left"></i> 史上最全Vim快捷键键位图（入门到进阶）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/13/Linux-命令提示符显示当前完整路径/" rel="prev" title="Linux 命令提示符显示当前完整路径">
+                Linux 命令提示符显示当前完整路径 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/06/12/Zookeeper/zookeeper安装/" data-title="zookeeper安装" data-url="http://yoursite.com/2018/06/12/Zookeeper/zookeeper安装/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载Zookeeper"><span class="nav-number">1.</span> <span class="nav-text">下载Zookeeper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动服务端"><span class="nav-number">2.</span> <span class="nav-text">启动服务端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动客户端"><span class="nav-number">3.</span> <span class="nav-text">启动客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入help"><span class="nav-number">4.</span> <span class="nav-text">输入help</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看节点"><span class="nav-number">5.</span> <span class="nav-text">查看节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建节点"><span class="nav-number">6.</span> <span class="nav-text">创建节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动zk1"><span class="nav-number">7.</span> <span class="nav-text">启动zk1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动zk2"><span class="nav-number">8.</span> <span class="nav-text">启动zk2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动用zkCli-sh去连接ZK服务"><span class="nav-number">9.</span> <span class="nav-text">启动用zkCli.sh去连接ZK服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群配置"><span class="nav-number">10.</span> <span class="nav-text">集群配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#master-worker"><span class="nav-number">11.</span> <span class="nav-text">master-worker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">12.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

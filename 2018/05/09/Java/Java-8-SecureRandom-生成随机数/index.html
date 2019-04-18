@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SecureRandom,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="public class SecureRandom extends Random此类提供加密的强随机数生成器 (RNG)。许多实现都是伪随机数生成器 (PRNG) 形式，这意味着它们将使用确定的算法根据实际的随机种子生成伪随机序列。其他实现可以生成实际的随机数，而另一些实现则可能结合使用这两项技术。 加密的强随机数至少要遵从《FIPS 140-2, Security Requirements f">
+<meta name="keywords" content="SecureRandom">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java SecureRandom 生成随机数">
+<meta property="og:url" content="http://yoursite.com/2018/05/09/Java/Java-8-SecureRandom-生成随机数/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="public class SecureRandom extends Random此类提供加密的强随机数生成器 (RNG)。许多实现都是伪随机数生成器 (PRNG) 形式，这意味着它们将使用确定的算法根据实际的随机种子生成伪随机序列。其他实现可以生成实际的随机数，而另一些实现则可能结合使用这两项技术。 加密的强随机数至少要遵从《FIPS 140-2, Security Requirements f">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-09T14:27:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java SecureRandom 生成随机数">
+<meta name="twitter:description" content="public class SecureRandom extends Random此类提供加密的强随机数生成器 (RNG)。许多实现都是伪随机数生成器 (PRNG) 形式，这意味着它们将使用确定的算法根据实际的随机种子生成伪随机序列。其他实现可以生成实际的随机数，而另一些实现则可能结合使用这两项技术。 加密的强随机数至少要遵从《FIPS 140-2, Security Requirements f">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/09/Java/Java-8-SecureRandom-生成随机数/">
+
+
+
+
+
+  <title>Java SecureRandom 生成随机数 | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/Java/Java-8-SecureRandom-生成随机数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Java SecureRandom 生成随机数</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-09T17:20:57+08:00">
+                2018-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/09/Java/Java-8-SecureRandom-生成随机数/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/05/09/Java/Java-8-SecureRandom-生成随机数/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<p><code>public class SecureRandom extends Random</code>此类提供加密的强随机数生成器 (RNG)。许多实现都是伪随机数生成器 (PRNG) 形式，这意味着它们将使用确定的算法根据实际的随机种子生成伪随机序列。其他实现可以生成实际的随机数，而另一些实现则可能结合使用这两项技术。</p>
+<p>加密的强随机数至少要遵从<code>《FIPS 140-2, Security Requirements for Cryptographic Modules 》</code>中 4.9.1 部分指定的统计随机数生成器测试。另外，<code>SecureRandom</code> 还必须产生非确定性输出，因此，正如以下文章中所描述的那样，要求种子材料必须是不可预知的，<code>SecureRandom</code> 的输出必须是加密的强序列：<code>《RFC 1750:Randomness Recommendations for Security 》</code>。</p>
+<p>与 <code>Java Security</code> 中其他基于算法的类一样，<code>SecureRandom</code> 也提供了与实现无关的算法，因此，调用方（应用程序代码）会请求特定的 <code>RNG</code> 算法并将它传回到该算法的 <code>SecureRandom</code> 对象中。如果需要，还可以通过特定的提供程序请求特定的算法。请参见 <code>getInstance</code> 方法。</p>
+<p>因此，有以下两种请求 SecureRandom 对象的方法：仅指定算法名称，或者既指定算法名称又指定包提供程序。</p>
+<p>如果仅指定算法名称，如下所示：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SecureRandom random = SecureRandom.getInstance(<span class="string">"SHA1PRNG"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>系统将确定环境中是否有所请求的算法实现，是否有多个，是否有首选实现。</p>
+<p>如果既指定了算法名称又指定了包提供程序，如下所示：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SecureRandom random = SecureRandom.getInstance(<span class="string">"SHA1PRNG"</span>, <span class="string">"SUN"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>系统将确定在所请求的包中是否有算法实现；如果没有，则抛出异常。<br><code>SecureRandom</code> 实现尝试完全随机化生成器本身的内部状态，除非调用方在调用 <code>getInstance</code> 方法之后又调用了 <code>setSeed</code> 方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SecureRandom random = SecureRandom.getInstance(<span class="string">"SHA1PRNG"</span>);</span><br><span class="line">random.setSeed(seed);</span><br></pre></td></tr></table></figure></p>
+<p>在调用方从 <code>getInstance</code> 调用中获得 <code>SecureRandom</code> 对象之后，它可以调用 <code>nextBytes</code> 来生成随机字节：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">byte</span> bytes[] = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">20</span>];</span><br><span class="line">random.nextBytes(bytes);</span><br></pre></td></tr></table></figure></p>
+<p>调用方还可以调用 <code>generateSeed</code> 方法来生成给定的种子字节数（例如，为其他随机数量生成器提供种子）：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">byte</span> seed[] = random.generateSeed(<span class="number">20</span>);</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/enhancements-8.html" target="_blank" rel="noopener">Java 8的SecureRandom API</a>对原有的有几个变化</p>
+<p>根据<a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/enhancements-8.html" target="_blank" rel="noopener">Oracle</a>，已经做出了以下有趣的变化：</p>
+<ul>
+<li>对于类<code>UNIX</code>平台，已经引入了两个新的实现，它们提供了阻塞和非阻塞行为：<code>NativePRNGBlocking</code>和<code>NativePRNGNonBlocking</code>。</li>
+<li>所述<code>getInstanceStrong()</code>方法是在JDK 8中引入此方法返回的每个平台上可用的最强<code>SecureRandom</code>实现的一个实例。</li>
+</ul>
+<p>我们来看看这些变化，看看它们对应用程序的意义。请注意，这些详细信息仅适用于与<code>SUN</code>和<code>SunMSCAPI</code> <code>Java</code>加密扩展提供程序一起分发的<code>Oracle</code> <code>JDK</code> / <code>JRE</code>。</p>
+<h3 id="新的实现：NativePRNGBlocking-NativePRNGNonBlocking"><a href="#新的实现：NativePRNGBlocking-NativePRNGNonBlocking" class="headerlink" title="新的实现：NativePRNGBlocking / NativePRNGNonBlocking"></a>新的实现：NativePRNGBlocking / NativePRNGNonBlocking</h3><p>NativePRNG在Solaris / Linux / MacOS上的行为是sun.security.provider.NativePRNG.generateSeed()可能会阻塞，因为它使用/ dev / random，但是使用nextBytes()，nextLong()等获取输出将永远不会因为他们使用/ dev / urandom（这对于默认环境设置是正确的）。NativePRNG仍然是这样的，但现在有两个额外的实现：</p>
+<ul>
+<li>NativePRNGBlocking对所有以下操作使用/ dev / random：<ul>
+<li>初始播种：这将使用/ dev / random中的20个字节初始化内部SHA1PRNG 实例</li>
+<li>调用nextBytes()，nextInt()等：这提供了内部SHA1PRNG  实例（见上文）的输出和从/ dev / random读取的数据的XOR</li>
+<li>调用getSeed()：这提供从/ dev / random读取的数据</li>
+</ul>
+</li>
+<li>类似地，NativePRNGNonBlocking对所有以下操作使用/ dev / urandom：<ul>
+<li>初始种子：这将使用/ dev / urandom中的20个字节初始化内部SHA1PRNG实例</li>
+<li>调用nextBytes()，nextInt()等：这提供了内部SHA1PRNG 实例（见上文）的输出的XOR 和从/ dev / urandom读取的数据</li>
+<li>调用getSeed()：这提供从/ dev / urandom读取的数据</li>
+</ul>
+</li>
+</ul>
+<p>在系统收集更多熵时，您不希望应用程序阻止的任何应用程序中，NativePRNGBlocking将会遇到问题。从它获取任何类型的输出可能会导致应用程序的线程挂起。在桌面应用程序中用于生成本地加密密钥（例如）是很好的，但在Web应用程序中几乎不可行。</p>
+<p>请注意，NativePRNGBlocking在其熵使用方面可能会有些浪费。出于性能原因，它将从/ dev / random 一次读取nextBytes()，nextInt()等）的32字节数据。在100毫秒内未被使用的任何数据将被丢弃。因此，对nextBoolean()的每次调用都会给出一位输出，但是实现可能实际上会使用256位的熵来（并且大部分丢弃）。</p>
+<h3 id="SecureRandom-getInstanceStrong-方法"><a href="#SecureRandom-getInstanceStrong-方法" class="headerlink" title="SecureRandom.getInstanceStrong()方法"></a>SecureRandom.getInstanceStrong()方法</h3><p>此方法使用java.security文件中的securerandom.strongAlgorithms属性来选择一个SecureRandom实现。</p>
+<p>如果您只是使用旧机制获得最高优先级的SecureRandom实现（即新的java.security.SecureRandom()），那么您将根据您的平台获得以下实现：</p>
+<p>[表“2”未找到/]</p>
+<p>如果您使用SecureRandom.getInstanceStrong()，则使用以下默认值：</p>
+<p>[表“3”未找到/]</p>
+<p>由于这种默认行为，您应该避免在可用性很重要的Solaris / Linux / MacOS上运行的任何服务器端代码中使用SecureRandom.getInstanceStrong()。</p>
+<p>当为了加密而在Java中生成随机数时，许多开发人员经常使用<a href="https://docs.oracle.com/javase/7/docs/api/java/security/SecureRandom.html" target="_blank" rel="noopener"><code>java.security.SecureRandom</code>该类</a>。虽然<code>java.security.SecureRandom</code>该类旨在生成加密安全的随机数，但API中有几个细微之处，如果使用不当，则输出可以变得可预测。在Cigital，我们见证了一些这样的情况。以下是正确使用Java <code>java.security.SecureRandom</code>类的指南。</p>
+<p>首先，我们来看看<code>java.security.SecureRandom</code>API的工作原理。本<code>java.security.SecureRandom</code>类没有真正实现一个伪随机数生成器（PRNG）本身。它在其他类中使用PRNG实现来生成随机数。当<code>java.security.SecureRandom</code>创建实例时，实际可以使用一些实际的PRNG 。PRNG是Java加密服务提供商（CSP）的一部分。在Sun的Java实现中，默认情况下使用SUN CSP。在Windows上，SUN CSP默认使用在sun.security.provider.SecureRandom中实现的SHA1PRNG。在Solaris和Linux上，SUN CSP默认是使用sun.security.provider.NativePRNG，它只提供操作系统提供的<code>/dev/urandom</code>PRNG 的输出。但是，如果在Solaris / Linux上，则会修改JRE中的java.security配置文件，以便securerandom。<code>/dev/urandom</code>源设置为除文件之外的其他东西： 然后在Windows上使用sun.security.provider.SecureRandom中实现的SHA1PRNG。当然，应用程序可以选择不使用默认值，并且可以随时指定由特定加密提供程序实现的特定PRNG。在Cigital的经验中，大多数Java应用程序<code>java.security.SecureRandom</code>实际上使用了SUN CSP提供的SHA1PRNG。</p>
+<p>现在，应用程序最终会<code>sun.security.provider.SecureRandom</code>使用以下调用实现的SHA1PRNG 实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//以下将在Windows上创建SUN SHA1PRNG</span><br><span class="line">//默认配置和Sun JRE，以及Solaris / Linux</span><br><span class="line">//如果在java.security中修改securerandom.source</span><br><span class="line">SecureRandom sr1 = new SecureRandom();</span><br><span class="line"></span><br><span class="line">//以下将创建SUN SHA1PRNG如果最高</span><br><span class="line">//优先级CSP是SUN</span><br><span class="line">SecureRandom sr2 = SecureRandom.getInstance（“SHA1PRNG”）;</span><br><span class="line"></span><br><span class="line">//以下将始终创建SUN SHA1PRNG</span><br><span class="line">SecureRandom sr3 = SecureRandom.getInstance（“SHA1PRNG”，“SUN”）;</span><br></pre></td></tr></table></figure>
+<p>请注意，根据Sun的文档，<code>java.security.SecureRandom</code>任何这些调用都不会返回返回的实例。如果在这些调用中的一个<code>java.security.SecureRandom.nextBytes(byte[])</code>被调用之后，则使用由底层操作系统提供的安全机制（从Windows中的JRE 1.4.1开始，在Linux和Solaris中以JRE 1.4.2开始）种下PRNG。如果在调用之前<code>java.security.SecureRandom.setSeed(long)</code>或<code>java.security.SecureRandom.setSeed(byte[])</code>之后调用<code>java.security.SecureRandom.nextBytes(byte[])</code>，则旁路内部播种机制，只有提供的种子才能生成随机数。</p>
+<p>对于那些不熟悉加密PRNG的内部工作的人来说，他们的工作就是采取一个相对较小的随机种子，并使用它来产生对于不知道种子是什么的人来说似乎随机的确定性输出。PRNG试图确保输出不显示有关种子的任何信息，并且观察输出的人不能在不知道种子的情况下预测未来的输出。</p>
+<p>通过绕过SHA1PRNG的内部安全播种机制，您可能会危及PRNG输出的安全性。如果您使用攻击者可能预测的任何内容（例如，创建PRNG实例的时间），那么使用<code>java.security.SecureRandom</code>可能无法提供所需的安全级别。</p>
+<p>最后，无论PRNG如何播种，不应无限期地使用PRNG。PRNG输出的长期安全性有两种方法：</p>
+<ul>
+<li>定期扔掉现有的<code>java.security.SecureRandom</code>实例并创建一个新的实例。这将生成一个新的实例与一个新的种子。</li>
+<li>通过调用<code>java.security.SecureRandom.setSeed</code>（<code>java.security.SecureRandom.generateSeed(int)</code>）来定期向PRNG种子添加新的随机资料。</li>
+</ul>
+<p>总之，使用时请注意以下几点<code>java.security.SecureRandom</code>：</p>
+<ul>
+<li>始终指定您要使用的确切PRNG和提供商。如果您只使用默认PRNG，则可能需要在不同的应用程序安装中使用不同的PRNG，以便正常工作。使用以下代码获取PRNG实例是适当的：<br><code>SecureRandom sr = SecureRandom.getInstance(&quot;SHA1PRNG&quot;, &quot;SUN&quot;);</code></li>
+<li>使用SHA1PRNG时，<code>java.security.SecureRandom.nextBytes(byte[])</code>在创建新的PRNG实例后，请始终立即调用。这将使PRNG牢牢扎根。如果出于测试目的，您需要可预测的输出，忽略此规则并且使用硬编码/可预测值播种PRNG可能是适当的。</li>
+<li>至少在Windows上使用JRE 1.4.1，至少在Solaris和Linux上使用JRE 1.4.2。早期版本不能安全地播放SHA1PRNG。</li>
+<li>观察使用一个种子生成的大量PRNG输出可以定期重新设定您的PRNG，这样可以让攻击者确定种子，从而预测未来的所有输出。<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3></li>
+<li><a href="https://blog.csdn.net/Hatsune_Miku_/article/details/73446836" target="_blank" rel="noopener">https://blog.csdn.net/Hatsune_Miku_/article/details/73446836</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SecureRandom/" rel="tag"># SecureRandom</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/09/Java/MyCat-读写分离-数据库分库分表-中间件-安装部署，及简单使用/" rel="next" title="MyCat 读写分离 数据库分库分表 中间件 安装部署，及简单使用">
+                <i class="fa fa-chevron-left"></i> MyCat 读写分离 数据库分库分表 中间件 安装部署，及简单使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/10/java总结---基本概念/" rel="prev" title="java总结---基本概念">
+                java总结---基本概念 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/05/09/Java/Java-8-SecureRandom-生成随机数/" data-title="Java SecureRandom 生成随机数" data-url="http://yoursite.com/2018/05/09/Java/Java-8-SecureRandom-生成随机数/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#新的实现：NativePRNGBlocking-NativePRNGNonBlocking"><span class="nav-number">1.</span> <span class="nav-text">新的实现：NativePRNGBlocking / NativePRNGNonBlocking</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SecureRandom-getInstanceStrong-方法"><span class="nav-number">2.</span> <span class="nav-text">SecureRandom.getInstanceStrong()方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">3.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

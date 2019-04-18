@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="一江烟雨任平生">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="什么是Ext JSExt JS是一个流行的JavaScript框架，它为使用跨浏览器功能构建Web应用程序提供了丰富的UI。 Ext JS基本上用于创建桌面应用程序它支持所有现代浏览器，如IE6 +，FF，Chrome，safari 6+ 等。而sencha，sencha touch的另一个产品用于移动应用程序。 Ext JS基于MVC / MVVM架构。 最新版本的Ext JS 6是一个单一的平">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2017/11/10/ExtJS/Untitled/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="什么是Ext JSExt JS是一个流行的JavaScript框架，它为使用跨浏览器功能构建Web应用程序提供了丰富的UI。 Ext JS基本上用于创建桌面应用程序它支持所有现代浏览器，如IE6 +，FF，Chrome，safari 6+ 等。而sencha，sencha touch的另一个产品用于移动应用程序。 Ext JS基于MVC / MVVM架构。 最新版本的Ext JS 6是一个单一的平">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-10T12:52:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="什么是Ext JSExt JS是一个流行的JavaScript框架，它为使用跨浏览器功能构建Web应用程序提供了丰富的UI。 Ext JS基本上用于创建桌面应用程序它支持所有现代浏览器，如IE6 +，FF，Chrome，safari 6+ 等。而sencha，sencha touch的另一个产品用于移动应用程序。 Ext JS基于MVC / MVVM架构。 最新版本的Ext JS 6是一个单一的平">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/10/ExtJS/Untitled/">
+
+
+
+
+
+  <title> | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/10/ExtJS/Untitled/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline"></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-10T20:52:56+08:00">
+                2017-11-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/11/10/ExtJS/Untitled/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/11/10/ExtJS/Untitled/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="什么是Ext-JS"><a href="#什么是Ext-JS" class="headerlink" title="什么是Ext JS"></a>什么是Ext JS</h2><p>Ext JS是一个流行的JavaScript框架，它为使用跨浏览器功能构建Web应用程序提供了丰富的UI。 Ext JS基本上用于创建桌面应用程序它支持所有现代浏览器，如IE6 +，FF，Chrome，safari 6+ 等。而sencha，sencha touch的另一个产品用于移动应用程序。</p>
+<p>Ext JS基于MVC / MVVM架构。 最新版本的Ext JS 6是一个单一的平台，可以用于桌面和移动应用程序，而不需要为不同的平台提供不同的代码。</p>
+<h2 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h2><h3 id="Ext-JS-1-1"><a href="#Ext-JS-1-1" class="headerlink" title="Ext JS 1.1"></a>Ext JS 1.1</h3><p>Ext JS的第一个版本是由Jack Slocum在2006年开发的。它是一组实用程序类，它是YUI的扩展。 他将该库命名为YUI-ext。</p>
+<h3 id="Ext-JS-2-0"><a href="#Ext-JS-2-0" class="headerlink" title="Ext JS 2.0"></a>Ext JS 2.0</h3><p>Ext JS 2.0版于2007年发布。此版本具有用于桌面应用程序的新API文档，但功能有限。 此版本与以前版本的Ext JS没有向后兼容性。</p>
+<h3 id="Ext-JS-3-0"><a href="#Ext-JS-3-0" class="headerlink" title="Ext JS 3.0"></a>Ext JS 3.0</h3><p>Ext JS版本3.0是在2009年发布的。这个版本添加了新的功能作为图表和列表视图，但是以速度为代价。 它向后兼容2.0版本。</p>
+<h3 id="Ext-JS-4-0"><a href="#Ext-JS-4-0" class="headerlink" title="Ext JS 4.0"></a>Ext JS 4.0</h3><p>Ext JS 3发布后，Ext JS的开发人员面临着提高速度的主要挑战。 Ext JS 4.0版本发布于2011年。它具有完整的修订结构，其后是MVC架构和一个快速的应用程序。</p>
+<h3 id="Ext-JS-5-0"><a href="#Ext-JS-5-0" class="headerlink" title="Ext JS 5.0"></a>Ext JS 5.0</h3><p>Ext JS版本5.0是在2014年发布的。这个版本的主要变化是将MVC架构改为MVVM架构。 它包括在启用触摸的设备上构建桌面应用程序的功能，双向数据绑定，响应式布局和更多功能。</p>
+<h3 id="Ext-JS-6-0"><a href="#Ext-JS-6-0" class="headerlink" title="Ext JS 6.0"></a>Ext JS 6.0</h3><p>Ext JS 6合并了Ext JS（用于桌面应用程序）和sencha touch（用于移动应用程序）框架。</p>
+<h2 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h2><p>这些是Ext JS的突出特性</p>
+<ol>
+<li>可定制的UI小部件与丰富的UI集合，如网格，枢轴网格，表单，图表，树木。</li>
+<li>新版本与旧版本的代码兼容性。</li>
+<li>灵活的布局管理器有助于组织跨多个浏览器，设备和屏幕大小的数据和内容显示。</li>
+<li>高级数据包将UI小部件与数据层分离。 数据包允许客户端使用高度功能的模型收集数据，这些模型支持排序和过滤等功能。</li>
+<li>它是协议不可知的，并且可以从任何后端源访问数据。</li>
+<li>可定制的主题Ext JS窗口小部件提供了跨平台一致的多个现成主题。</li>
+</ol>
+<h2 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h2><p>Sencha Ext JS是业务级Web应用程序开发的领先标准。 Ext JS提供了为桌面和平板电脑构建强大应用程序所需的工具。</p>
+<ol>
+<li>简化针对现代和传统浏览器的跨平台开发，跨桌面，平板电脑和智能手机。</li>
+<li>通过IDE插件集成到企业开发环境中，提高开发团队的生产力。</li>
+<li>降低Web应用程序开发的成本。</li>
+<li>授权团队创建具有吸引力的用户体验的应用程序。</li>
+<li>它有一组小部件使UI强大和容易。</li>
+<li>它遵循MVC架构这样高度可读的代码。</li>
+</ol>
+<h2 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h2><ol>
+<li>库的大小大约500 KB，这使得初始加载时间更多，并使应用程序缓慢。</li>
+<li>HTML已满</li>
+<li>标签使其复杂和难以调试。</li>
+<li>根据一般公共许可政策，它是免费的开源应用程序，但支付商业应用程序。</li>
+<li>有些时候加载甚至简单的东西需要很少的代码行，这在简单的html或Jquery更简单。</li>
+<li>需要相当经验的开发人员开发Ext JS应用程序。</li>
+</ol>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>这些是sencha提供的用于Ext JS应用程序开发的工具，主要用于生产级别。<br><strong>Sencha Cmd</strong><br>Sencha CMD是一个提供Ext JS代码缩小，脚手架，生产构建生成功能的工具。</p>
+<p><strong>Sencha IDE Plugins</strong></p>
+<p>Sencha IDE插件，它将Sencha框架集成到IntelliJ，WebStorm IDE中。 这有助于通过提供代码完成，代码检查，代码导航，代码生成，代码重构，模板创建和拼写检查等功能来提高开发人员的生产力。</p>
+<p><strong>Sencha Inspector</strong></p>
+<p>从sencha <a href="https://www.sencha.com/" target="_blank" rel="noopener">https://www.sencha.com</a>下载Ext JS库文件的试用版本 。 您将从您的注册邮件ID上的网站获取试用版，这将是一个名为ext-6.0.1-trial的压缩文件夹。</p>
+<p>解压缩文件夹，你会发现各种JavaScript和CSS文件，你将包括在我们的应用程序。 主要包括以下文件:</p>
+<p>您可以在文件夹\ ext-6.0.1-trial \ ext-6.0.1 \ build下找到的</p>
+<p><strong>（1）Javascript文件</strong> JS文件是:</p>
+<table>
+<thead>
+<tr>
+<th>文件和描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ext.js </strong>这是核心文件，其中包含运行应用程序的所有功能。</td>
+</tr>
+<tr>
+<td><strong>ext-all.js </strong>此文件包含在文件中<strong>没有注释</strong>的所有缩小的代码</td>
+</tr>
+<tr>
+<td><strong>ext-all-debug.js </strong>这是ext-all.js的未分级版本，用于调试目的。</td>
+</tr>
+<tr>
+<td><strong>ext-all-dev.js </strong>此文件也未分级，用于开发目的，因为它包含所有注释和控制台日志，以检查任何错误/问题</td>
+</tr>
+<tr>
+<td><strong>ext-all.js </strong>这个文件用于生产目的，主要是因为它比任何其他小得多。</td>
+</tr>
+</tbody>
+</table>
+<p>您可以将这些文件添加到您的项目JS文件夹，或者您可以给出文件驻留在系统中的直接路径。</p>
+<p><strong>（2）CSS文件</strong>有多个基于主题的文件，您可以在文件夹<code>\\ ext-6.0.1-trial \\ ext-6.0.1 \\ build \\ classic \\ theme-classic \\ resources \\ theme-classic-all.css</code></p>
+<ul>
+<li>如果我们要使用桌面应用程序，那么我们可以使用文件夹<code>\\ ext-6.0.1-trial \\ ext-6.0.1 \\ build \\ classic</code>下的经典主题</li>
+<li>如果我们要使用移动应用程序，那么我们将使用现代主题，可以在文件夹<code>\\ ext-6.0.1-trial \\ ext-6.0.1 \\ build \\ modern</code>下找到</li>
+</ul>
+<p>这些库文件将添加到Ext JS应用程序中，如下所示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">   &lt;head&gt;</span><br><span class="line">      &lt;link rel = &quot;stylesheet&quot; type =&quot;text/css&quot; href= &quot;..\ext-6.0.1-trial\ext-6.0.1uild\classic\theme-classic\resources\theme-classic-all.css&quot; /&gt;</span><br><span class="line">      &lt;script type =&quot;text/javascript&quot; src = &quot;..\ext-6.0.1-trial\ext-6.0.1uild\ext-all.js&quot; &gt; &lt;/script&gt;</span><br><span class="line">      &lt;script type =&quot;text/javascript&quot; src = &quot;app.js&quot; &gt; &lt;/script&gt; </span><br><span class="line">   &lt;/head&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>您将在app.js文件中保留ExtJS应用程序代码。</p>
+<h2 id="CDN设置"><a href="#CDN设置" class="headerlink" title="CDN设置"></a>CDN设置</h2><p>CDN是内容交付网络，您不需要下载Ext JS库文件，您可以直接添加ExtJS的CDN链接到您的程序，如下所示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">   &lt;head&gt;</span><br><span class="line">      &lt;link rel = &quot;stylesheet&quot; type =&quot;text/css&quot; href= &quot;https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/classic/theme-crisp/resources/theme-crisp-all.css&quot; / &gt;</span><br><span class="line">      &lt;script type =&quot;text/javascript&quot; src = &quot;https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/ext-all.js&quot; &gt; &lt;/script&gt;</span><br><span class="line">      &lt;script type =&quot;text/javascript&quot; src = &quot;app.js&quot; &gt; &lt;/script&gt; </span><br><span class="line">   &lt;/head&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>## </p>
+<h2 id="热门编辑"><a href="#热门编辑" class="headerlink" title="热门编辑"></a>热门编辑</h2><p>因为它是一个用于开发Web应用程序的JavaScript框架，在我们的项目中，我们将有HTML，JS文件和编写您的Ext JS程序，您将需要一个文本编辑器。 市场上甚至有多个IDE可用。 但现在，您可以考虑以下之一：</p>
+<p>记事本：在Windows机器上，您可以使用任何简单的文本编辑器，如记事本（推荐用于本教程），记事本++，sublime。</p>
+<p>Eclipse：是由Eclipse开源社区开发的一个IDE，可以从</p>
+<p><a href="http://www.eclipse.org/" target="_blank" rel="noopener">http://www.eclipse.org/</a></p>
+<p>下载。</p>
+<h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><p>Ext JS支持跨浏览器兼容性，它支持所有主要浏览器：</p>
+<p>IE 6及以上</p>
+<p>Firefox 3.6及更高版本</p>
+<p>Chrome10及更高版本</p>
+<p>Safari 4及以上</p>
+<p>Opera 11及以上</p>
+<p>您可以使用任何浏览器运行Ext JS应用程序。</p>
+<h1 id="Ext-js-命名约定"><a href="#Ext-js-命名约定" class="headerlink" title="Ext.js 命名约定"></a>Ext.js 命名约定</h1><p>命名约定是标识符要遵循的一组规则。</p>
+<p>它使得代码对于其他程序员也更可读和可理解。</p>
+<p>Ext JS中的命名约定遵循标准JavaScript约定，这不是强制性的，而是遵循的良好做法。</p>
+<p>它应该遵循camel case语法命名类，方法，变量和属性。</p>
+<p>如果name与两个单词组合，则第二个单词将始终以大写字母开头。 doLayout（），StudentForm，firstName等。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>惯例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Class Name</td>
+<td>它应该以大写字母开头，然后是camel case E.g. StudentClass</td>
+</tr>
+<tr>
+<td>Method Name</td>
+<td>它应该以小写字母开头，然后是camel case E.g. doLayout()</td>
+</tr>
+<tr>
+<td>Variable Name</td>
+<td>它应该以小写字母开头，然后是camel case E.g. firstName</td>
+</tr>
+<tr>
+<td>Constant Name</td>
+<td>它应该是只有大写，例如 E.g. COUNT, MAX_VALUE</td>
+</tr>
+<tr>
+<td>Property Name</td>
+<td>它应该以小写字母开头，然后是camel case e.g. enableColumnResize = true</td>
+</tr>
+</tbody>
+</table>
+<h1 id="Ext-js-架构"><a href="#Ext-js-架构" class="headerlink" title="Ext.js 架构"></a>Ext.js 架构</h1><p>Ext JS遵循MVC / MVVM架构。</p>
+<p><strong>MVC - </strong>模型视图控制器体系结构（版本4）</p>
+<p><strong>MVVM - </strong>模型视图Viewmodel（版本5）</p>
+<p>这种架构不是程序的强制性，但最好的做法是遵循这种结构，使您的代码高度可维护和组织。</p>
+<h2 id="项目结构使用Ext-JS应用程序"><a href="#项目结构使用Ext-JS应用程序" class="headerlink" title="项目结构使用Ext JS应用程序"></a>项目结构使用Ext JS应用程序</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">----------src</span><br><span class="line">----------resources</span><br><span class="line">-------------------CSS files</span><br><span class="line">-------------------Images</span><br><span class="line">----------JavaScript</span><br><span class="line">--------------------App Folder</span><br><span class="line">-------------------------------Controller</span><br><span class="line">------------------------------------Contoller.js</span><br><span class="line">-------------------------------Model</span><br><span class="line">------------------------------------Model.js</span><br><span class="line">-------------------------------Store</span><br><span class="line">------------------------------------Store.js</span><br><span class="line">-------------------------------View</span><br><span class="line">------------------------------------View.js</span><br><span class="line">-------------------------------Utils</span><br><span class="line">------------------------------------Utils.js</span><br><span class="line">--------------------------------app.js</span><br><span class="line">-----------HTML files</span><br></pre></td></tr></table></figure>
+<p>Ext JS应用程序文件夹将驻留在您的项目的JavaScript文件夹中。</p>
+<p>应用程序将包含控制器，视图，模型，存储，实用程序文件与app.js.</p>
+<p><strong>app.js:</strong>程式流程开始的主要档案，应该使用＆lt; script＆gt; 标签。 应用程序调用应用程序的控制器的其余功能。</p>
+<p><strong>Controller.js:</strong>它是Ext JS MVC架构的控制器文件。 这包含应用程序的所有控制，事件侦听器的最大功能的代码。 它具有为该应用程序中使用的所有其他文件定义的路径，例如store，view，model，require，mixins。</p>
+<p><strong>View.js:</strong>它包含应用程序的界面部分，显示给用户。 Ext JS使用各种UI丰富的视图，可以根据需要在这里扩展和自定义。</p>
+<p><strong>Store.js:</strong>它包含本地缓存的数据，它将在模型对象的帮助下在视图上呈现。 存储使用代理获取数据，代理具有为服务定义的路径以获取后端数据。</p>
+<p><strong>Model.js:</strong>它包含绑定要查看的商店数据的对象。 它有后端数据对象到视图dataIndex的映射。 在store的帮助下获取数据。</p>
+<p><strong>Utils.js:</strong>它不包括在MVC架构中，但是最好的做法是使代码清晰，不太复杂，更加可读。 我们可以在这个文件中编写方法，并在控制器或视图渲染器中调用它们。 这对代码可重用性目的也很有帮助。</p>
+<p>在MVVM架构中，控制器被ViewModel替代。</p>
+<p><strong>ViewModel:</strong>它基本上是药物视图和模型之间的变化。 它将数据从模型绑定到视图。 同时它没有与视图的任何直接交互它只有模型的知识。</p>
+<h3 id="怎么运行的"><a href="#怎么运行的" class="headerlink" title="怎么运行的"></a>怎么运行的</h3><p>例如，如果我们在UI中的两三个地方使用一个模型对象，如果我们在UI的一个地方更改值，我们可以看到，甚至没有保存更改模型更改的值，因此反映在UI中的所有地方 在哪里使用模型。</p>
+<p>它使开发人员更加轻松和简单，因为不需要额外的编码绑定数据。</p>
+<h1 id="Ext-js-第一个程序"><a href="#Ext-js-第一个程序" class="headerlink" title="Ext.js 第一个程序"></a>Ext.js 第一个程序</h1><p>由 star333 创建，youj 最后一次修改 2016-12-28</p>
+<p>本章列出了在Ext JS中首先编写Hello World程序的步骤:</p>
+<h3 id="步骤1"><a href="#步骤1" class="headerlink" title="步骤1"></a>步骤1</h3><p>在我们选择的编辑器中创建index.htm页面。 将所需的库文件包含在html页面的head部分，如下所述:</p>
+<p><strong>index.htm</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">   &lt;head&gt;</span><br><span class="line">      &lt;link href=&quot;https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/classic/theme-classic/resources/theme-classic-all.css&quot; rel=&quot;stylesheet&quot; /&gt;</span><br><span class="line">      &lt;script type=&quot;text/javascript&quot; src=&quot;/attachments/tuploads/extjs/ext-all.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">      &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">         Ext.onReady(function() &#123;</span><br><span class="line">         Ext.create(&apos;Ext.Panel&apos;, &#123;</span><br><span class="line">            renderTo: &apos;helloWorldPanel&apos;,</span><br><span class="line">            height: 200,</span><br><span class="line">            width: 600,</span><br><span class="line">            title: &apos;Hello world&apos;,</span><br><span class="line">            html: &apos;First Ext JS Hello World Program&apos;</span><br><span class="line">            &#125;);</span><br><span class="line">         &#125;);</span><br><span class="line">      &lt;/script&gt;</span><br><span class="line">   &lt;/head&gt;</span><br><span class="line">   &lt;body&gt;</span><br><span class="line">      &lt;div id=&quot;helloWorldPanel&quot; /&gt;</span><br><span class="line">   &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="Explanation"><a href="#Explanation" class="headerlink" title="Explanation"></a>Explanation</h4><ul>
+<li>Ext.onReady（）方法将在Ext JS准备好渲染Ext JS元素时调用。</li>
+<li>Ext.create（）方法用于在Ext JS中创建对象，这里我们创建一个简单的面板类Ext.Panel的对象。</li>
+<li>Ext.Panel是Ext JS中用于创建面板的预定义类。</li>
+<li>每个Ext JS类都有不同的属性来执行一些基本的功能。</li>
+</ul>
+<p><strong>Ext.Panel类有以下各种属性:</strong></p>
+<ul>
+<li><strong>renderTo </strong>是此面板<strong>必须</strong>呈现的元素。 \’helloWorldPanel\’是Index.html文件中的div id。</li>
+<li><strong>Height </strong>和宽度属性用于提供面板的自定义尺寸。</li>
+<li><strong>Title </strong>属性是为面板提供标题。</li>
+<li><strong>Html </strong>属性是要在面板中显示的html内容。</li>
+</ul>
+<h3 id="第2步"><a href="#第2步" class="headerlink" title="第2步"></a>第2步</h3><p>在标准浏览器中打开index.htm文件，您将在浏览器上获得以下输出。</p>
+<h1 id="Ext-js-Class-系统"><a href="#Ext-js-Class-系统" class="headerlink" title="Ext.js Class 系统"></a>Ext.js Class 系统</h1><p>Ext JS是一个JavaScript框架，它具有面向对象编程的功能。<br>Ext是封装Ext JS中所有类的命名空间。</p>
+<p><strong>在Ext JS中定义类</strong></p>
+<p>Ext提供了300多个类，我们可以用于各种功能。</p>
+<p>Ext.define（）用于在Ext JS中定义类。</p>
+<p><strong>语法:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ext.define(class name, class members/properties, callback function);</span><br></pre></td></tr></table></figure>
+<p>类名称是根据应用程序结构的类名称。 <code>appName.folderName.ClassName</code><br><code>studentApp.view.StudentView</code>。</p>
+<p>类属性/成员 - 定义类的行为。</p>
+<p>回调函数是可选的。 当类正确加载时，会调用它。</p>
+<p><strong>Ext JS类定义示例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Ext.define(studentApp.view.StudentDetailsGrid, &#123;</span><br><span class="line">   extend : &apos;Ext.grid.GridPanel&apos;,</span><br><span class="line">   id : &apos;studentsDetailsGrid&apos;,</span><br><span class="line">   store : &apos;StudentsDetailsGridStore&apos;,</span><br><span class="line">   renderTo : &apos;studentsDetailsRenderDiv&apos;,</span><br><span class="line">   layout : &apos;fit&apos;,</span><br><span class="line">   columns : [&#123;</span><br><span class="line">      text : &apos;Student Name&apos;,</span><br><span class="line">      dataIndex : &apos;studentName&apos;</span><br><span class="line">   &#125;,&#123;</span><br><span class="line">      text : &apos;ID&apos;,</span><br><span class="line">      dataIndex : &apos;studentId&apos;</span><br><span class="line">   &#125;,&#123;</span><br><span class="line">      text : &apos;Department&apos;,</span><br><span class="line">      dataIndex : &apos;department&apos;</span><br><span class="line">   &#125;]</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><strong>创建对象</strong></p>
+<p>像其他基于OOPS的语言一样，我们也可以在Ext JS中创建对象。</p>
+<p>不同的方式创建对象在Ext JS。</p>
+<p>使用new关键字:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var studentObject = new student();</span><br><span class="line">studentObject.getStudentName();</span><br></pre></td></tr></table></figure>
+<p>使用Ext.create（）:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Ext.create(&apos;Ext.Panel&apos;, &#123;</span><br><span class="line">   renderTo : &apos;helloWorldPanel&apos;,</span><br><span class="line">   height : 100,</span><br><span class="line">   width : 100,</span><br><span class="line">   title : &apos;Hello world&apos;,</span><br><span class="line">   html : 	&apos;First Ext JS Hello World Program&apos;		</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><strong>Ext JS中的继承</strong></p>
+<p>继承是将类A中定义的功能用于类B的原理。</p>
+<p>在Ext JS继承可以使用两种方法 。</p>
+<p>Ext.extend:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Ext.define(studentApp.view.StudentDetailsGrid, &#123;</span><br><span class="line">   extend : &apos;Ext.grid.GridPanel&apos;,</span><br><span class="line">   ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这里我们的自定义类StudentDetailsGrid使用Ext JS类GridPanel的基本功能。</p>
+<p>使用Mixins:</p>
+<p>Mixins是在没有扩展的情况下在类B中使用类A的不同方式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mixins : &#123;</span><br><span class="line">   commons : &apos;DepartmentApp.utils.DepartmentUtils&apos;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>Mixins我们添加在控制器中，我们声明所有其他类，如存储，视图等。在这种方式，我们可以调用DepartmentUtils类，并在控制器或在这个应用程序中使用其功能。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/05/Shell/iptables超全详解/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/10/Shell/nohup命令/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2017/11/10/ExtJS/Untitled/" data-title data-url="http://yoursite.com/2017/11/10/ExtJS/Untitled/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Ext-JS"><span class="nav-number">1.</span> <span class="nav-text">什么是Ext JS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#历史"><span class="nav-number">2.</span> <span class="nav-text">历史</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ext-JS-1-1"><span class="nav-number">2.1.</span> <span class="nav-text">Ext JS 1.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ext-JS-2-0"><span class="nav-number">2.2.</span> <span class="nav-text">Ext JS 2.0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ext-JS-3-0"><span class="nav-number">2.3.</span> <span class="nav-text">Ext JS 3.0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ext-JS-4-0"><span class="nav-number">2.4.</span> <span class="nav-text">Ext JS 4.0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ext-JS-5-0"><span class="nav-number">2.5.</span> <span class="nav-text">Ext JS 5.0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ext-JS-6-0"><span class="nav-number">2.6.</span> <span class="nav-text">Ext JS 6.0</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征"><span class="nav-number">3.</span> <span class="nav-text">特征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#好处"><span class="nav-number">4.</span> <span class="nav-text">好处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#限制"><span class="nav-number">5.</span> <span class="nav-text">限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具"><span class="nav-number">6.</span> <span class="nav-text">工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CDN设置"><span class="nav-number">7.</span> <span class="nav-text">CDN设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#热门编辑"><span class="nav-number">8.</span> <span class="nav-text">热门编辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器"><span class="nav-number">9.</span> <span class="nav-text">浏览器</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Ext-js-命名约定"><span class="nav-number"></span> <span class="nav-text">Ext.js 命名约定</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ext-js-架构"><span class="nav-number"></span> <span class="nav-text">Ext.js 架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#项目结构使用Ext-JS应用程序"><span class="nav-number">1.</span> <span class="nav-text">项目结构使用Ext JS应用程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#怎么运行的"><span class="nav-number">1.1.</span> <span class="nav-text">怎么运行的</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ext-js-第一个程序"><span class="nav-number"></span> <span class="nav-text">Ext.js 第一个程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤1"><span class="nav-number">0.1.</span> <span class="nav-text">步骤1</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Explanation"><span class="nav-number">0.1.1.</span> <span class="nav-text">Explanation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第2步"><span class="nav-number">0.2.</span> <span class="nav-text">第2步</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ext-js-Class-系统"><span class="nav-number"></span> <span class="nav-text">Ext.js Class 系统</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

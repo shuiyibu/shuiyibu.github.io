@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="一江烟雨任平生">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="越来越多的流程和数据密集型应用程序将被用于云环境中。云的概念正在发生改变，被定位成所有类型的 IT 需求的一站式解决方案。随着目前的数据收集呈指数级增长，高质量的数据分析算法也在不断增长。云计算引发的基础架构优化正通过许多机制得到不断增加，例如：  Consolidation Centralization Federation Virtualization Containerization Com">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2017/11/10/Aerospike/以 Aerospike 的内存速度满足大数据分析需求/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="越来越多的流程和数据密集型应用程序将被用于云环境中。云的概念正在发生改变，被定位成所有类型的 IT 需求的一站式解决方案。随着目前的数据收集呈指数级增长，高质量的数据分析算法也在不断增长。云计算引发的基础架构优化正通过许多机制得到不断增加，例如：  Consolidation Centralization Federation Virtualization Containerization Com">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/figure1.png">
+<meta property="og:image" content="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/listing2.jpg">
+<meta property="og:image" content="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/listing3.jpg">
+<meta property="og:image" content="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/listing4.jpg">
+<meta property="og:image" content="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/listing5.jpg">
+<meta property="og:image" content="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/listing6.jpg">
+<meta property="og:image" content="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/listing7.jpg">
+<meta property="og:image" content="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/listing23.jpg">
+<meta property="og:image" content="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/listing24.jpg">
+<meta property="og:updated_time" content="2017-11-10T12:53:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="越来越多的流程和数据密集型应用程序将被用于云环境中。云的概念正在发生改变，被定位成所有类型的 IT 需求的一站式解决方案。随着目前的数据收集呈指数级增长，高质量的数据分析算法也在不断增长。云计算引发的基础架构优化正通过许多机制得到不断增加，例如：  Consolidation Centralization Federation Virtualization Containerization Com">
+<meta name="twitter:image" content="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/figure1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/10/Aerospike/以 Aerospike 的内存速度满足大数据分析需求/">
+
+
+
+
+
+  <title> | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/10/Aerospike/以 Aerospike 的内存速度满足大数据分析需求/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline"></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-10T20:53:08+08:00">
+                2017-11-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/11/10/Aerospike/以 Aerospike 的内存速度满足大数据分析需求/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/11/10/Aerospike/以 Aerospike 的内存速度满足大数据分析需求/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>越来越多的流程和数据密集型应用程序将被用于云环境中。云的概念正在发生改变，被定位成所有类型的 IT 需求的一站式解决方案。随着目前的数据收集呈指数级增长，高质量的数据分析算法也在不断增长。云计算引发的基础架构优化正通过许多机制得到不断增加，例如：</p>
+<ul>
+<li>Consolidation</li>
+<li>Centralization</li>
+<li>Federation</li>
+<li>Virtualization</li>
+<li>Containerization</li>
+<li>Commoditization</li>
+<li>Industrialization</li>
+</ul>
+<p>我们有许多基于策略和软件定义的抽象、自动化、标准化和简化；这些提供了自适应的、随开即用的和优化的基础架构（服务器、存储器和网络元素）。为了在具有弹性的云中优雅地托管和运行应用程序，为了满足大数据世界的各种需求，我们提供了一些良好的 IT 解决方案：多种用途的内存计算、NoSQL 和 NewSQL 数据库，以及并行文件系统。</p>
+<p>Aerospike 是一个从头开始构建的开源数据库，能够让有限的闪存、处理器和网络得到最大的应用。它<strong>旨在不牺牲可靠性和高吞吐量的情况下提供可预测的低延迟</strong> — 提供了高可用性和 ACID 保证。Aerospike 是：</p>
+<ul>
+<li>一个内存中的 NoSQL 数据库和键/值存储，能够以线速运行。</li>
+<li>能够极大地减少您的工作负载，因为无需整合用于分片（sharding）和集群更改的逻辑。</li>
+<li>一个改变游戏规则的数据库解决方案，消除了关于数据丢失或停机时间的担心。</li>
+<li>以内存中的速度、全球规模和企业级可靠性来运作。</li>
+<li>必须立刻提供感受和响应的实时大数据或上下文驱动的应用程序的理想选择。</li>
+</ul>
+<p>在本文中，将了解如何将 Aerospike 迁移到 IBM SoftLayer 云环境，并将其配置为满足您的需求。一个示例应用程序展示了 Aerospike 在利用数据密集型工作负载方面的能力。</p>
+<h2 id="实时分析的内存计算需求"><a href="#实时分析的内存计算需求" class="headerlink" title="实时分析的内存计算需求"></a>实时分析的内存计算需求</h2><p>Systems, Applications and Products in Data Processing (SAP) SE 公司一直倡导用其 HANA 平台来管理整个公司，包括</p>
+<ul>
+<li>任务关键型事务处理应用程序，比如 ERP 和 CRM。</li>
+<li>分析以前由单独的数据库管理系统 (DBMS) 处理的需求，这些系统以数据仓库和数据集市为基础。</li>
+</ul>
+<p>IBM 提供了 BLU Acceleration® for DB2®，后者将柱状压缩和内存处理相结合，以便加快分析。Teradata 引入了一项 Intelligent Memory 功能，能够将最常被查询的数据自动移入到 RAM 中，确保尽可能快地查询响应。</p>
+<p>Aerospike 无疑导致出现了促进内存 NoSQL 数据库的产品包。还带来了 SAP 的所有内存 HANA 平台与 Aerospike 之间的显著技术差异，并宣称其内存选项的部署是无中断的（没有翻录和替换现有的应用程序）。我们的重点是探索商业背景下对速度的需求。一些商家声称，内存速度需求是真实存在的，而且后续商业利益可能是巨大的。</p>
+<h2 id="关于-Aerospike"><a href="#关于-Aerospike" class="headerlink" title="关于 Aerospike"></a>关于 Aerospike</h2><p>Aerospike 服务器向外扩展，形成一个无共享的集群，透明地对数据进行分区，并跨节点并行处理数据。集群中的节点都是相同的；您可以从使用两个硬件开始，随后添加更多的硬件。集群可以进行线性扩展。</p>
+<h3 id="用例"><a href="#用例" class="headerlink" title="用例"></a>用例</h3><p>Aerospike 是一个键/值存储，<strong>通常被用作缓存，或被用作具有持久性的存储</strong>，比如上下文存储。上下文存储可用于：</p>
+<ul>
+<li>服务器端会话存储</li>
+<li>cookie 存储</li>
+<li>设备 ID 存储</li>
+<li>ID 映射</li>
+<li>用户首选项或用户配置文件，以便获得实时推荐和个性化 Web 门户上的用户体验</li>
+<li>电子商务</li>
+<li>旅游网站</li>
+</ul>
+<p>Aerospike 还是可供实时竞价平台选择的数据库，这些平台可以显示广告、移动设备内容、视频、社交媒体、游戏、本地广告和 Internet TV。</p>
+<ul>
+<li><p><strong>对于大数据应用程序</strong></p>
+<p>在人们访问网站并使用移动应用程序来单击、滑动或执行类似操作时，他们留下了一些数据线索，其中包括：页面视图和来自他们的可穿戴设备（比如活动追踪器）的传感器数据；以及他们自己的事物，比如他们自己家中的光线、烟雾和温度传感器。新一代的应用程序正在使用此类数据或上下文来预测需求和作出预测。</p>
+</li>
+<li><p><strong>对于上下文驱动应用程序</strong></p>
+<p>上下文驱动的应用程序包括数字广告、多渠道营销、电子邮件营销、动态内容服务、身份管理、跨渠道支持和忠诚度管理平台。家喻户晓的应用包括：旅游门户网站、电子商务门户网站（具有动态的产品定价和库存管理）、电子商务搜索和个性化产品推荐、网络安全性、欺诈检测和类似的应用。</p>
+</li>
+</ul>
+<h3 id="用-Aerospike-实现大数据分析"><a href="#用-Aerospike-实现大数据分析" class="headerlink" title="用 Aerospike 实现大数据分析"></a>用 Aerospike 实现大数据分析</h3><p>如今的 Web 规模的企业级应用程序架构通常包含 Aerospike，<strong>Aerospike 落后于 Web 应用程序层，但超越了遗留的 DBMS 或 HDFS 集群</strong> 。大量（PB 字节）的档案和历史数据被存储在低成本的旋转驱动器上。来自 “HDFS 分析” 的洞察或数据段被定期移动到 Aerospike 中。然后，这些洞察与存储在 RAM 或 Aerospike 上的闪存中的数 TB 的实时数据相结合。应用程序使用这些丰富的用户上下文以及 Aerospike 中的 “<strong>热分析</strong>”（即大规模分布式聚合）来制定最好的决策和提供建议。</p>
+<p>您还可以配置 Aerospike 来存储最新的数据，自动删除时间久远或过期的数据。图 1 显示了基于 Aerospike 的大数据分析的架构。</p>
+<p><img src="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/figure1.png" alt="设备、应用服务器、事务、分析"></p>
+<h5 id="图-1-基于-Aerospike-的大数据分析的架构"><a href="#图-1-基于-Aerospike-的大数据分析的架构" class="headerlink" title="图 1. 基于 Aerospike 的大数据分析的架构"></a>图 1. 基于 Aerospike 的大数据分析的架构</h5><p>Aerospike 是一个<strong>行存储器</strong>，数据被存储在记录（键/值）中，组成了集合和命名空间（表）。每个 128K-2MB 的记录都可以包含可立即更改的值（地图、列表、整数、字符串和 blob 类型）。</p>
+<h2 id="示例应用程序"><a href="#示例应用程序" class="headerlink" title="示例应用程序"></a>示例应用程序</h2><p>我们的示例应用程序表明，键/值存储顶部的 Aerospike 数据结构是使用 Aerospike 将应用程序编写为唯一数据库的有效方式。该示例应用程序描述了一个类似 Twitter 的应用程序的设计与实现。代码很容易理解，但非常可靠，可用作使用 Aerospike 技术的基础。您还可以使用该示例应用程序作为实现扩展的种子应用程序。</p>
+<p>示例应用程序的前提条件：</p>
+<ul>
+<li>Aerospike 服务器</li>
+<li>Aerospike Java™ 包客户端</li>
+</ul>
+<h3 id="在-IBM-SoftLayer-云中使用-Aerospike-的最低要求"><a href="#在-IBM-SoftLayer-云中使用-Aerospike-的最低要求" class="headerlink" title="在 IBM SoftLayer 云中使用 Aerospike 的最低要求"></a>在 IBM SoftLayer 云中使用 Aerospike 的最低要求</h3><ul>
+<li><p><strong>内存 (RAM)</strong></p>
+<p>您需要 4 GB 的 RAM。因为索引被存储在内存中，所以内存量会限制硬件可以存储的行数。Aerospike 对内存的使用非常高效，对于索引而言，每一行（对象或记录）只需 64 字节的内存。每 GB 的内存可以索引 1600 万行，4 GB 内存配置可以索引 6400 万对象。要进行开发，您至少要提供 2 GB 的 RAM。</p>
+</li>
+<li><p><strong>CPU</strong></p>
+<p>您需要一个四核的 CPU。虽然在 CPU 上没有直接的依赖关系，但您可能会发现，CPU 会随着系统中断而迅速饱和。我们的示例使用了 8 GB 的 RAM，因为我们将在单个节点上安装 Aerospike 实例和 Aerospike 管理控制台。（在不同的节点中，都会有安装 Aerospike 和管理控制台的选项，所以，如果需要的话，我们可以选择两个节点的选项）。您需要通过 <a href="https://manage.softlayer.com/" target="_blank" rel="noopener">SoftLayer</a> 门户从 IBM SoftLayer 云中获得一个 VM。VM 的最低配置是 8 GB 的 RAM、25 GB 磁盘存储和两个内核。该 VM 能够在所有主要 Linux 发行版本中正常工作。我们概念验证 (PoC) 示例应用程序是使用 CentOS 64 位来实现的。</p>
+</li>
+<li><p><strong>主机名</strong></p>
+<p>aerospikepoc.softlayer.com地址：10.76.60.39 / 184.173.49.2</p>
+</li>
+<li><p><strong>用户</strong></p>
+<p>root / xxxxxx</p>
+</li>
+</ul>
+<h2 id="安装-Aerospike"><a href="#安装-Aerospike" class="headerlink" title="安装 Aerospike"></a>安装 Aerospike</h2><p>要安装 Aerospike，请打开您的 VM 会话，然后按照下面的步骤进行操作。</p>
+<ol>
+<li><p>在命令行中，输入清单 1 中的命令。</p>
+<h5 id="清单-1-获得-aerospike-tgz-文件"><a href="#清单-1-获得-aerospike-tgz-文件" class="headerlink" title="清单 1. 获得 aerospike.tgz 文件"></a>清单 1. 获得 aerospike.tgz 文件</h5><p><code>cd /usr</code></p>
+<p><code></code>wget -O aerospike.tgz ‘<a href="http://aerospike.com/download/server/latest/artifact/el6&#39;`" target="_blank" rel="noopener">http://aerospike.com/download/server/latest/artifact/el6&#39;`</a></p>
+<p>您的屏幕将会显示 HTTP 请求和连接信息，如下例所示。</p>
+<p>​</p>
+<p><a href="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/index.html#N10112" target="_blank" rel="noopener">点击查看大图</a></p>
+</li>
+<li><p>您会在主机中的 /usr 目录下看到 aerospike.tgz 文件，如图 2 所示。</p>
+<h5 id="图-2-usr-目录中的-aerospike-tgz-文件"><a href="#图-2-usr-目录中的-aerospike-tgz-文件" class="headerlink" title="图 2. /usr 目录中的 aerospike.tgz 文件"></a>图 2. /usr 目录中的 aerospike.tgz 文件</h5><p>​</p>
+</li>
+</ol>
+<p>在安装 Aerospike <em>之前</em>，您必须：</p>
+<ol>
+<li><p>关闭 SELinux。在命令行中，输入 <code>SELINUX=disabled</code>，如下所示。<img src="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/listing2.jpg" alt="通过 usr 根目录输入的 selinux=disabled "><img src="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/listing3.jpg" alt="selinuxtype=targeted 显示在屏幕上"></p>
+</li>
+<li><p>关闭 IPTables。在命令行中，输入 <code>chkconfig iptables off</code>，如下所示，然后输入 <code>iptable stop</code>。<img src="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/listing4.jpg" alt="chkconfig iptables off 已输入"></p>
+</li>
+<li><p>打开 NTP。在命令行中，输入清单 2 中所示的命令。</p>
+<h5 id="清单-2-打开-NTP"><a href="#清单-2-打开-NTP" class="headerlink" title="清单 2. 打开 NTP"></a>清单 2. 打开 NTP</h5><p><code>sudo /sbin/chkconfig ntpd on`</code>sudo ntpdate pool.ntp.org<code></code>/etc/init.d/ntpd start`</p>
+</li>
+<li><p>转到 Aerospike 目录。在命令行中，输入 <code>cd /usr</code> 命令。<img src="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/listing5.jpg" alt="[root@aerospikepoc user] 命令行"></p>
+</li>
+<li><p>解压缩 aerospike.tgz。在命令行中，输入 <code>tar -xvf aerospike.tgz</code> 命令。您会看到一个由包中的工具、文件和许可组成的简要列表。<img src="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/listing6.jpg" alt="工具和许可安装"><img src="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/listing7.jpg" alt="aerospike-server-community-3.4.1-e16"></p>
+</li>
+</ol>
+<h3 id="安装并启动-Aerospike-服务器和工具"><a href="#安装并启动-Aerospike-服务器和工具" class="headerlink" title="安装并启动 Aerospike 服务器和工具"></a>安装并启动 Aerospike 服务器和工具</h3><p>要安装 Aerospike 服务器和工具包：</p>
+<ol>
+<li><p>在命令行中，输入清单 3 中的命令。</p>
+<h5 id="清单-3-开始-Aerospike-安装"><a href="#清单-3-开始-Aerospike-安装" class="headerlink" title="清单 3. 开始 Aerospike 安装"></a>清单 3. 开始 Aerospike 安装</h5><p><code>cd /usr/aerospike-server-community-3.4.1-el6`</code>./asinstall`</p>
+<p>在安装了 Python、许可、文件和群组之后，您会在屏幕上看到消息。</p>
+<p>​</p>
+<p>​</p>
+<p>在完成安装之后，服务器应该已经做好准备，可以开始使用默认配置文件。（参见目录结构，了解有关的更多详细信息。）</p>
+</li>
+<li><p>Aerospike 使用了几个目录来存储工具、系统文件和数据文件。要获得所使用的目录的描述，或者想要手动管理文件（通常通过 Aerospike 工具来管理它们），请在命令行中输入 <code>/opt/aerospike</code>。</p>
+</li>
+</ol>
+<p>aerospike 目录是在通过 Linux 包管理来安装 Aerospike 包时由 Aerospike 包创建和管理的。它包含几个子目录，其中一些是由工具包创建的，另外一些则是由服务器包创建的，并在运行服务器期间进行维护。如下所示，子目录还包括 bin、data、doc、examples、lib、cmd、sys 和 usr。</p>
+<p>要启动 Aerospike 服务器，请在命令行中输入清单 4 中的命令。</p>
+<h5 id="清单-4-启动-Aerospike-服务器"><a href="#清单-4-启动-Aerospike-服务器" class="headerlink" title="清单 4. 启动 Aerospike 服务器"></a>清单 4. 启动 Aerospike 服务器</h5><p><code>cd /etc/init.d`</code>./aerospike start`</p>
+<p>在屏幕上，您会看到一个与下列清单类似的清单：abrt-ccpp、abrtd、abrt-oops、acpid、aerospike、atd、auditd、blk-availability、cpuspeed、crond、functions、haldaemon、halt、htcacheclean、HTTPd、ip6tables、iptables 和 irqbalanc。</p>
+<p>要检查服务器状态，请在命令行中输入 <code>/aerospike status</code>。</p>
+<h3 id="安装-Aerospike-客户端-Java-包"><a href="#安装-Aerospike-客户端-Java-包" class="headerlink" title="安装 Aerospike 客户端 Java 包"></a>安装 Aerospike 客户端 Java 包</h3><p>要安装 Aerospike 客户端 Java 包，可以使用 WinSCP 工具将 aerospike-client-java-3.0.33.tgz 包复制到 /usr 目录。要解压缩该包，请在命令行中输入 <code>tar -xvf aerospike-client-java-3.0.33.tgz</code>。</p>
+<h3 id="安装-Aerospike-Management-Console-手册"><a href="#安装-Aerospike-Management-Console-手册" class="headerlink" title="安装 Aerospike Management Console 手册"></a>安装 Aerospike Management Console 手册</h3><p>从 <a href="http://www.aerospike.com/docs/amc/" target="_blank" rel="noopener">Aerospike 文档</a> 网站下载包含 Aerospike Management Console (AMC) 手册的文件，然后通过输入清单 5 中的命令，使用 WinSCP 工具将它移动到 /usr 目录。</p>
+<h5 id="清单-5-将文档放入-usr-目录"><a href="#清单-5-将文档放入-usr-目录" class="headerlink" title="清单 5. 将文档放入 /usr 目录"></a>清单 5. 将文档放入 /usr 目录</h5><p><code>cd /usr `</code>yum install aerospike-amc-community-3.5.0-el5.x86_64.rpm`</p>
+<p>您会看到已安装的插件和已解析的依赖关系。</p>
+<h3 id="启动-AMC-服务器"><a href="#启动-AMC-服务器" class="headerlink" title="启动 AMC 服务器"></a>启动 AMC 服务器</h3><p>要启动 AMC 服务器，请转到 amc 目录，并在命令行中输入清单 6 中的命令。</p>
+<h5 id="清单-6-启动-AMC-服务器"><a href="#清单-6-启动-AMC-服务器" class="headerlink" title="清单 6. 启动 AMC 服务器"></a>清单 6. 启动 AMC 服务器</h5><p><code>cd /etc/init.d`</code>./amc start`</p>
+<p>要检查 AMC 服务器的状态，请在命令行中输入 <code>./amc status</code>。输出显示 AMC 正在运行。</p>
+<p>现在，您可以通过输入清单 7 中的命令来启动 Aerospike 服务器。</p>
+<h5 id="清单-7-启动-Aerospike-服务器"><a href="#清单-7-启动-Aerospike-服务器" class="headerlink" title="清单 7. 启动 Aerospike 服务器"></a>清单 7. 启动 Aerospike 服务器</h5><p><code>cd /etc/init.d`</code>./aerospike start<code></code>./aerospike status`</p>
+<p>然后，在您的浏览器中使用 URL <strong><a href="http://184.173.49.2:8081" target="_blank" rel="noopener">http://184.173.49.2:8081</a></strong>；这会打开如图 3 中所示的窗口。</p>
+<h5 id="图-3-连接到一个节点"><a href="#图-3-连接到一个节点" class="headerlink" title="图 3. 连接到一个节点"></a>图 3. 连接到一个节点</h5><p>输入您的 <code>Host Name</code> 或 <code>IP</code>，然后单击 <strong>Connect</strong> 来查看 Aerospike 仪表板，该仪表板已显示在图 4 和图 5 中。</p>
+<h5 id="图-4-Aerospike-仪表板"><a href="#图-4-Aerospike-仪表板" class="headerlink" title="图 4. Aerospike 仪表板"></a>图 4. Aerospike 仪表板</h5><p><a href="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/index.html#N10239" target="_blank" rel="noopener">点击查看大图</a></p>
+<h5 id="图-5-Aerospike-仪表板（续）"><a href="#图-5-Aerospike-仪表板（续）" class="headerlink" title="图 5. Aerospike 仪表板（续）"></a>图 5. Aerospike 仪表板（续）</h5><p><a href="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/index.html#N10242" target="_blank" rel="noopener">点击查看大图</a></p>
+<h2 id="使用-Aerospike"><a href="#使用-Aerospike" class="headerlink" title="使用 Aerospike"></a>使用 Aerospike</h2><p>在 Aerospike 主仪表板屏幕的顶部，可以从下面选项中进行选择（企业版会拥有其他页面）：</p>
+<ul>
+<li>Dashboard</li>
+<li>Statistics</li>
+<li>Definitions</li>
+<li>Jobs</li>
+</ul>
+<p>单击窗口右上角的 <strong>Change Cluster</strong> 链接来监视另一个集群。</p>
+<p>您可以通过更改 <strong>Snapshot for last</strong> 值来更改抓取快照的时间间隔。图 6 中的 Statistics 面板显示了结果。</p>
+<h5 id="图-6-Statistics-视图"><a href="#图-6-Statistics-视图" class="headerlink" title="图 6. Statistics 视图"></a>图 6. Statistics 视图</h5><p><a href="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/index.html#N10264" target="_blank" rel="noopener">点击查看大图</a></p>
+<p>选择 Aerospike Dashboard 顶部的 <strong>Definitions</strong> 来查看名称空间的定义，如图 7 所示。</p>
+<h5 id="图-7-Definitions-仪表板"><a href="#图-7-Definitions-仪表板" class="headerlink" title="图 7. Definitions 仪表板"></a>图 7. Definitions 仪表板</h5><p><a href="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/index.html#N10272" target="_blank" rel="noopener">点击查看大图</a></p>
+<p>您可以使用 System Monitor 来检查集群的健康情况。在 VM 命令行中，输入 <code>asmonitor</code> 命令。示例输出显示了一个初始配置文件和集群中的一个主机的创建：10.76.60.39:3000。</p>
+<p>输出显示了监视器的三种类型：</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">info</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>  提供了关于 Aerospike 集群的高级信息。</p>
+<p>  ​</p>
+<p>  <a href="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/index.html#N1028A" target="_blank" rel="noopener">点击查看大图</a></p>
+<ul>
+<li><p><code>latency</code> 提供了集群吞吐量和延迟时间的详细信息。<img src="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/listing23.jpg" alt="Writes replies, read, udf, proxy, query 详细信息"></p>
+</li>
+<li><p><code>printconfig</code> 显示了节点的配置（其实际输出）。<img src="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/listing24.jpg" alt="printconfig 详细信息"></p>
+</li>
+</ul>
+<p>要退出监视器选择，请在 VM 命令行中输入 <code>exit</code> 命令。</p>
+<h3 id="将测试数据添加到-Aerospike"><a href="#将测试数据添加到-Aerospike" class="headerlink" title="将测试数据添加到 Aerospike"></a>将测试数据添加到 Aerospike</h3><p>要将测试数据添加到 Aerospike，请输入清单 8 中的命令。</p>
+<h5 id="清单-8-将测试数据添加到-Aerospike"><a href="#清单-8-将测试数据添加到-Aerospike" class="headerlink" title="清单 8. 将测试数据添加到 Aerospike"></a>清单 8. 将测试数据添加到 Aerospike</h5><p><code>ascli put &lt;`</code>ns<code>&gt; &lt;</code>set<code>&gt; &lt;</code>key<code>&gt; &lt;</code>record<code>&gt;</code>ascli put test testset testkey1 ‘{“name”: “John”}’`</p>
+<p>基于您输入到磁盘中的数据和 RAM 的使用，使用情况可能会发生改变，如图 8 所示。<strong>Cluster Throughput (Hide)</strong> 也将显示一些变化。</p>
+<h5 id="图-8-集群磁盘使用情况"><a href="#图-8-集群磁盘使用情况" class="headerlink" title="图 8. 集群磁盘使用情况"></a>图 8. 集群磁盘使用情况</h5><p><a href="https://www.ibm.com/developerworks/cn/analytics/library/ba-aerospike-trs/index.html#N102D6" target="_blank" rel="noopener">点击查看大图</a></p>
+<h3 id="管理任务"><a href="#管理任务" class="headerlink" title="管理任务"></a>管理任务</h3><p>要启动 Aerospike 服务器，请在命令行中输入 <code>sudo service aerospike start</code>。</p>
+<p>要验证 Aerospike 正在运行，请在命令行中中输入 <code>sudo service aerospike status</code>。</p>
+<h4 id="AMC-服务器任务"><a href="#AMC-服务器任务" class="headerlink" title="AMC 服务器任务"></a>AMC 服务器任务</h4><p>要启动 AMC，请在命令行中中输入 <code>sudo /etc/init.d/amc start</code>。</p>
+<p>要停止 AMC 服务器，请在命令行中输入 <code>sudo /etc/init.d/amc stop</code>。</p>
+<p>要重新启动 AMC 服务器，请在命令行中输入 <code>sudo /etc/init.d/amc restart</code>。</p>
+<p>要查看 AMC 服务器是否正常并正在运行，请在命令行中输入 <code>sudo /etc/init.d/amc status</code>。</p>
+<p>要更改密码，请在命令行中输入清单 9 中的命令。</p>
+<h5 id="清单-9-更改密码"><a href="#清单-9-更改密码" class="headerlink" title="清单 9. 更改密码"></a>清单 9. 更改密码</h5><p><code>sudo /opt/amc/bin/reset_password [-u &lt;`</code>username<code>&gt;] [-p &lt;</code>password<code></code>&gt;]`</p>
+<p>此命令中的选项是：</p>
+<ul>
+<li><code>-u</code>：可选用户名（目前只允许使用 <code>admin</code>）。</li>
+<li><code>-p</code>：可选新密码。如果没有指定，那么默认密码将是 <code>admin</code>。</li>
+</ul>
+<p>要查看服务器日志，请在命令行中输入清单 10 中的命令。</p>
+<h5 id="清单-10-查看服务器日志"><a href="#清单-10-查看服务器日志" class="headerlink" title="清单 10. 查看服务器日志"></a>清单 10. 查看服务器日志</h5><p><code>var/log/aerospike/aerospike.log`</code>grep cake /var/log/aerospike/aerospike.log`</p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>对大量的、流动的和多结构的数据执行实时分析并不容易；我们需要多层面的解决方案和平台。获取关于大数据和快速数据的可行洞察是产品供应商面临的一个关键挑战。</p>
+<p>Aerospike 是一个创新性的解决方案，用于简化和精简实时分析，且不损害任何技术要求。借助 Aerospike，在您踏上大数据实时分析之旅之前，性能、可用性、可扩展性和安全性方面都可以得到充分保证。Aerospike 最重要的优势是系统内存中的 NoSQL 数据库，它允许进行实时数据分析。</p>
+<h4 id="相关主题"><a href="#相关主题" class="headerlink" title="相关主题"></a>相关主题</h4><ul>
+<li>了解有关 <a href="http://www.aerospike.com/" target="_blank" rel="noopener">Aerospike</a> 的更多信息并下载它。</li>
+<li><a href="http://www.ibm.com/developerworks/cn/bigdata/" target="_blank" rel="noopener">developerWorks 大数据和分析专区</a> 提供了针对架构师、开发人员和工程师的各种资源。</li>
+<li>以最适合您的方式 <a href="http://www.ibm.com/developerworks/cn/downloads/" target="_blank" rel="noopener">评估软件</a>：下载一个产品试用版，在线试用一个产品，或者在云环境中使用产品。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/10/Shell/yum本地源配置/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/14/Spring/1. 安装/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2017/11/10/Aerospike/以 Aerospike 的内存速度满足大数据分析需求/" data-title data-url="http://yoursite.com/2017/11/10/Aerospike/以 Aerospike 的内存速度满足大数据分析需求/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#实时分析的内存计算需求"><span class="nav-number">1.</span> <span class="nav-text">实时分析的内存计算需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-Aerospike"><span class="nav-number">2.</span> <span class="nav-text">关于 Aerospike</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用例"><span class="nav-number">2.1.</span> <span class="nav-text">用例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用-Aerospike-实现大数据分析"><span class="nav-number">2.2.</span> <span class="nav-text">用 Aerospike 实现大数据分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#图-1-基于-Aerospike-的大数据分析的架构"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">图 1. 基于 Aerospike 的大数据分析的架构</span></a></li></ol></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#示例应用程序"><span class="nav-number">3.</span> <span class="nav-text">示例应用程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在-IBM-SoftLayer-云中使用-Aerospike-的最低要求"><span class="nav-number">3.1.</span> <span class="nav-text">在 IBM SoftLayer 云中使用 Aerospike 的最低要求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Aerospike"><span class="nav-number">4.</span> <span class="nav-text">安装 Aerospike</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#清单-1-获得-aerospike-tgz-文件"><span class="nav-number">4.0.0.1.</span> <span class="nav-text">清单 1. 获得 aerospike.tgz 文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#图-2-usr-目录中的-aerospike-tgz-文件"><span class="nav-number">4.0.0.2.</span> <span class="nav-text">图 2. /usr 目录中的 aerospike.tgz 文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#清单-2-打开-NTP"><span class="nav-number">4.0.0.3.</span> <span class="nav-text">清单 2. 打开 NTP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装并启动-Aerospike-服务器和工具"><span class="nav-number">4.1.</span> <span class="nav-text">安装并启动 Aerospike 服务器和工具</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#清单-3-开始-Aerospike-安装"><span class="nav-number">4.1.0.1.</span> <span class="nav-text">清单 3. 开始 Aerospike 安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#清单-4-启动-Aerospike-服务器"><span class="nav-number">4.1.0.2.</span> <span class="nav-text">清单 4. 启动 Aerospike 服务器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Aerospike-客户端-Java-包"><span class="nav-number">4.2.</span> <span class="nav-text">安装 Aerospike 客户端 Java 包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Aerospike-Management-Console-手册"><span class="nav-number">4.3.</span> <span class="nav-text">安装 Aerospike Management Console 手册</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#清单-5-将文档放入-usr-目录"><span class="nav-number">4.3.0.1.</span> <span class="nav-text">清单 5. 将文档放入 /usr 目录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动-AMC-服务器"><span class="nav-number">4.4.</span> <span class="nav-text">启动 AMC 服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#清单-6-启动-AMC-服务器"><span class="nav-number">4.4.0.1.</span> <span class="nav-text">清单 6. 启动 AMC 服务器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#清单-7-启动-Aerospike-服务器"><span class="nav-number">4.4.0.2.</span> <span class="nav-text">清单 7. 启动 Aerospike 服务器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#图-3-连接到一个节点"><span class="nav-number">4.4.0.3.</span> <span class="nav-text">图 3. 连接到一个节点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#图-4-Aerospike-仪表板"><span class="nav-number">4.4.0.4.</span> <span class="nav-text">图 4. Aerospike 仪表板</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#图-5-Aerospike-仪表板（续）"><span class="nav-number">4.4.0.5.</span> <span class="nav-text">图 5. Aerospike 仪表板（续）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Aerospike"><span class="nav-number">5.</span> <span class="nav-text">使用 Aerospike</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#图-6-Statistics-视图"><span class="nav-number">5.0.0.1.</span> <span class="nav-text">图 6. Statistics 视图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#图-7-Definitions-仪表板"><span class="nav-number">5.0.0.2.</span> <span class="nav-text">图 7. Definitions 仪表板</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将测试数据添加到-Aerospike"><span class="nav-number">5.1.</span> <span class="nav-text">将测试数据添加到 Aerospike</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#清单-8-将测试数据添加到-Aerospike"><span class="nav-number">5.1.0.1.</span> <span class="nav-text">清单 8. 将测试数据添加到 Aerospike</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#图-8-集群磁盘使用情况"><span class="nav-number">5.1.0.2.</span> <span class="nav-text">图 8. 集群磁盘使用情况</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#管理任务"><span class="nav-number">5.2.</span> <span class="nav-text">管理任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AMC-服务器任务"><span class="nav-number">5.2.1.</span> <span class="nav-text">AMC 服务器任务</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#清单-9-更改密码"><span class="nav-number">5.2.1.1.</span> <span class="nav-text">清单 9. 更改密码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#清单-10-查看服务器日志"><span class="nav-number">5.2.1.2.</span> <span class="nav-text">清单 10. 查看服务器日志</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束语"><span class="nav-number">6.</span> <span class="nav-text">结束语</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#相关主题"><span class="nav-number">6.0.1.</span> <span class="nav-text">相关主题</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

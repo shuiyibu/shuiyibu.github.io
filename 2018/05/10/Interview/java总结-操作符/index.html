@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Spring,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="操作符 &amp;amp;操作符和&amp;amp;&amp;amp;操作符有什么区别?&amp;amp;还可以用作位运算符，当&amp;amp;操作符两边的表达式不是boolean类型时，&amp;amp;表示按位与操作，我们通常使用0x0f来与一个整数进行&amp;amp;运算，来获取该整数的最低4个bit位，例如，0x31 &amp;amp; 0x0f的结果为0x01。 a = a + b 与 a += b 的区别？ https://blog.csdn">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java总结---操作符">
+<meta property="og:url" content="http://yoursite.com/2018/05/10/Interview/java总结-操作符/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="操作符 &amp;amp;操作符和&amp;amp;&amp;amp;操作符有什么区别?&amp;amp;还可以用作位运算符，当&amp;amp;操作符两边的表达式不是boolean类型时，&amp;amp;表示按位与操作，我们通常使用0x0f来与一个整数进行&amp;amp;运算，来获取该整数的最低4个bit位，例如，0x31 &amp;amp; 0x0f的结果为0x01。 a = a + b 与 a += b 的区别？ https://blog.csdn">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-10T12:53:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java总结---操作符">
+<meta name="twitter:description" content="操作符 &amp;amp;操作符和&amp;amp;&amp;amp;操作符有什么区别?&amp;amp;还可以用作位运算符，当&amp;amp;操作符两边的表达式不是boolean类型时，&amp;amp;表示按位与操作，我们通常使用0x0f来与一个整数进行&amp;amp;运算，来获取该整数的最低4个bit位，例如，0x31 &amp;amp; 0x0f的结果为0x01。 a = a + b 与 a += b 的区别？ https://blog.csdn">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/10/Interview/java总结-操作符/">
+
+
+
+
+
+  <title>java总结---操作符 | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/10/Interview/java总结-操作符/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">java总结---操作符</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-10T19:53:03+08:00">
+                2018-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/resume/" itemprop="url" rel="index">
+                    <span itemprop="name">resume</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/10/Interview/java总结-操作符/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/05/10/Interview/java总结-操作符/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<p>操作符</p>
+<h3 id="amp-操作符和-amp-amp-操作符有什么区别"><a href="#amp-操作符和-amp-amp-操作符有什么区别" class="headerlink" title="&amp;操作符和&amp;&amp;操作符有什么区别?"></a>&amp;操作符和&amp;&amp;操作符有什么区别?</h3><p>&amp;还可以用作位运算符，当&amp;操作符两边的表达式不是boolean类型时，&amp;表示按位与操作，我们通常使用0x0f来与一个整数进行&amp;运算，来获取该整数的最低4个bit位，例如，0x31 &amp; 0x0f的结果为0x01。</p>
+<h3 id="a-a-b-与-a-b-的区别？"><a href="#a-a-b-与-a-b-的区别？" class="headerlink" title="a = a + b 与 a += b 的区别？"></a><code>a</code> = <code>a</code> + <code>b</code> 与 <code>a</code> += <code>b</code> 的区别？</h3><ul>
+<li><a href="https://blog.csdn.net/zq602316498/article/details/38777509" target="_blank" rel="noopener">https://blog.csdn.net/zq602316498/article/details/38777509</a></li>
+</ul>
+<p>比较这两种运算符的区别，可以有以下两个方面的比较： 执行效率和类型转换。</p>
+<p>首先说一下执行效率问题</p>
+<p>就单纯的执行这两条语句，不考虑编译器的优化的话，a=a+b的执行效率是低于a+=b的，因为它多进行了一步中间变量的操作，而且会多占用一个变量的空间。而Java编译器默认对其进行了优化，优化之后两条语句都当做 a+=b来执行了，所以实际上是没有任何却别的。</p>
+<p>其次说一下有关类型转换的区别。</p>
+<p>相信大家都碰到过这种情况：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a = <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">float</span> b = <span class="number">6</span>;</span><br><span class="line">        a+=b; <span class="comment">//right</span></span><br><span class="line"><span class="comment">//      a=a+b; //error</span></span><br><span class="line">        a=(<span class="keyword">int</span>) (a+b); <span class="comment">//right</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">当使用a=a+b的时候，会抛出”Exception in thread <span class="string">"main"</span> java.lang.Error: Unresolved compilation problem: Type mismatch: cannot convert from <span class="keyword">float</span> to <span class="keyword">int</span>“的异常，这是可以理解的，如果不使用（<span class="keyword">int</span>）强制类型转换的话，<span class="keyword">float</span> 是不能直接复值给<span class="keyword">int</span> 变量的。</span><br><span class="line">我们将a=a+b注释掉，javac编译完之后，再使用反编译软件（例如XJad）打开Test.class文件，会发现源代码被解析成这样子：</span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Test</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a = <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">float</span> b = <span class="number">6F</span>;</span><br><span class="line">        a = (<span class="keyword">int</span>)((<span class="keyword">float</span>)a + b);</span><br><span class="line">        a = (<span class="keyword">int</span>)((<span class="keyword">float</span>)a + b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">即a+=b进行了强制类型转换，和 a=(<span class="keyword">int</span>)((<span class="keyword">float</span>)a+b)是等价的！</span><br><span class="line">到这里我们就明白了为什么a=a+b会抛出异常了。</span><br><span class="line"></span><br><span class="line">原因：在Java中，在基本类型进行算术运算的时候，会发生小字节类型向大字节类型转换的现象。如图中 <span class="keyword">int</span> 类型和<span class="keyword">float</span>类型进行加法运算时会将 a 先转换为<span class="keyword">float</span>类型，然后再和b相加。这样结果类型变成了<span class="keyword">float</span>类型，如果这时候试图把<span class="keyword">float</span>类型赋值给a时便会抛异常。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">另外，对于<span class="keyword">short</span>，<span class="keyword">byte</span>,<span class="keyword">char</span> 比<span class="keyword">int</span> 字节数小的变量类型来说，运算结果会自动转换为<span class="keyword">int</span>类型，如</span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line"><span class="keyword">byte</span> a = <span class="number">1</span> , b=<span class="number">2</span>;</span><br><span class="line">b=a+b;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">byte</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">short</span> b =<span class="number">2</span>;</span><br><span class="line">b=a+b;</span><br></pre></td></tr></table></figure>
+<p>都会抛出”Exception in thread “main” java.lang.Error: Unresolved compilation problem: Type mismatch: cannot convert from int to byte“类似的异常，可以看出a+b结果变成了int类型。</p>
+<p>这是由于Java编译器会在编译期或者运行期将byte和short类型的数据带符号扩展为相应的int类型数据，将boolean和char类型数据零位扩展为相应的int类型数据。因此，在处理boolean 、byte、short 和 char 类型的数组是，也会用相应的int类型的字节码指令来处理。因此，大多数对于上述类型数据的操作，实际上都是使用相应的 int 类型作为运算类型。</p>
+<p>如果是final 修饰的变量，进行运算的时候则不会出现类型转换异常。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> d = <span class="number">3</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">short</span>  a = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">short</span>  b =<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">short</span> c=a+b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译后使用反编译软件打开后，代码被解析成了这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> d = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Test</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">short</span> a = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">short</span> b = <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">short</span> c = <span class="number">3</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，对于final 修饰的基本类型的变量来说，他们之间的运算直接就被硬编码成了直接赋值语句，连中间结果都没有了，类型转换的异常也就没了。<br>此外，我们可以注意到，对于方法内的final 变量 a , b 来说，编码时被直接省略了。而Test 类的final 成员变量 d 依然保留着final 属性。</p>
+<p>所以说，是否使用final修饰方法中普通变量对JVM来说没有区别！使用final修饰方法中普通变量主要是为了给Java前端编译器(如javac)看的！也就是说方法中被final修饰的普通变量在前端编译时被javac检查并保证该变量不会在作用域内被改变新值，但被编译成字节码后用于修饰方法中普通变量的final就已经不存在了！说的再具体点就是你用或不用final修饰方法中普通变量而生成的字节码文件(.class文件)没有区别。</p>
+<p>PS：对于final 修饰的类成员来说，由于其生命周期在对象销毁之前，所以它占用的应该是堆内存。（这个不确定 –）</p>
+<h3 id="逻辑操作符-amp-与条件操作符-amp-amp-的区别"><a href="#逻辑操作符-amp-与条件操作符-amp-amp-的区别" class="headerlink" title="逻辑操作符 (&amp;,|,^)与条件操作符(&amp;&amp;,||)的区别"></a>逻辑操作符 (&amp;,|,^)与条件操作符(&amp;&amp;,||)的区别</h3><p>在java的逻辑运算符中，有这么四类：&amp;&amp;（短路与），&amp;（与），|（或），||（短路或）。</p>
+<p>&amp;&amp;和&amp;都是表示与，区别是&amp;&amp;只要满足第一个条件，后面条件就不再判断。而&amp;要对所有的条件都进行判断。</p>
+<h3 id="3-0-1-0-3-将会返回什么？true-还是-false？"><a href="#3-0-1-0-3-将会返回什么？true-还是-false？" class="headerlink" title="3*0.1 == 0.3 将会返回什么？true 还是 false？"></a>3*0.1 == 0.3 将会返回什么？<code>true</code> 还是 <code>false</code>？</h3><ul>
+<li><a href="https://www.zhihu.com/question/56545018" target="_blank" rel="noopener">https://www.zhihu.com/question/56545018</a></li>
+<li><a href="https://en.wikipedia.org/wiki/IEEE_754-1985" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/IEEE_754-1985</a><br>因为告诉你用bigdecimal你不用，你要用原子类型</li>
+</ul>
+<h3 id="float-f-3-4-是否正确？"><a href="#float-f-3-4-是否正确？" class="headerlink" title="float f=3.4; 是否正确？"></a><code>float</code> <code>f</code>=3.4; 是否正确？</h3><p>float型float f=3.4是否正确</p>
+<p>不正确。精度不准确,应该用强制类型转换，如下所示：float f=(float)3.4 或float f = 3.4f</p>
+<p>在java里面，没小数点的默认是int,有小数点的默认是 double;</p>
+<p>int 转成 long 系统自动作没有问题，因为后者精度更高<br>double 转成 float 就不能自动做了，所以后面的加上个 f;</p>
+<h3 id="short-s1-1-s1-s1-1-有什么错"><a href="#short-s1-1-s1-s1-1-有什么错" class="headerlink" title="short s1 = 1; s1 = s1 + 1;有什么错?"></a><code>short s1 = 1; s1 = s1 + 1</code>;有什么错?</h3><p>   short s = 32768;</p>
+<ul>
+<li><a href="http://gaolixu.iteye.com/blog/412973" target="_blank" rel="noopener">http://gaolixu.iteye.com/blog/412973</a></li>
+<li><a href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10.1" target="_blank" rel="noopener">https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10.1</a></li>
+<li><a href="https://www.quora.com/What-is-the-default-data-type-of-integer-literals-in-Java" target="_blank" rel="noopener">https://www.quora.com/What-is-the-default-data-type-of-integer-literals-in-Java</a><br>???????????????</li>
+<li><a href="https://blog.csdn.net/u012110719/article/details/46316627" target="_blank" rel="noopener">https://blog.csdn.net/u012110719/article/details/46316627</a></li>
+<li><a href="https://blog.csdn.net/tounaobun/article/details/8557549" target="_blank" rel="noopener">https://blog.csdn.net/tounaobun/article/details/8557549</a><h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/10/Interview/java总结-关键字/" rel="next" title="java总结---关键字">
+                <i class="fa fa-chevron-left"></i> java总结---关键字
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/10/Interview/java总结-数据结构/" rel="prev" title="java总结---数据结构">
+                java总结---数据结构 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/05/10/Interview/java总结-操作符/" data-title="java总结---操作符" data-url="http://yoursite.com/2018/05/10/Interview/java总结-操作符/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#amp-操作符和-amp-amp-操作符有什么区别"><span class="nav-number">1.</span> <span class="nav-text">&amp;操作符和&amp;&amp;操作符有什么区别?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#a-a-b-与-a-b-的区别？"><span class="nav-number">2.</span> <span class="nav-text">a = a + b 与 a += b 的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑操作符-amp-与条件操作符-amp-amp-的区别"><span class="nav-number">3.</span> <span class="nav-text">逻辑操作符 (&amp;,|,^)与条件操作符(&amp;&amp;,||)的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-0-1-0-3-将会返回什么？true-还是-false？"><span class="nav-number">4.</span> <span class="nav-text">3*0.1 == 0.3 将会返回什么？true 还是 false？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#float-f-3-4-是否正确？"><span class="nav-number">5.</span> <span class="nav-text">float f=3.4; 是否正确？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#short-s1-1-s1-s1-1-有什么错"><span class="nav-number">6.</span> <span class="nav-text">short s1 = 1; s1 = s1 + 1;有什么错?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">7.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

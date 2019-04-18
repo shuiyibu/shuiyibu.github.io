@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="redis,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="安装Spark123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100">
+<meta name="keywords" content="redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于Spark">
+<meta property="og:url" content="http://yoursite.com/2018/08/08/Haddop/关于Spark/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="安装Spark123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-08T12:50:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于Spark">
+<meta name="twitter:description" content="安装Spark123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/08/Haddop/关于Spark/">
+
+
+
+
+
+  <title>关于Spark | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/08/Haddop/关于Spark/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">关于Spark</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-08T20:16:12+08:00">
+                2018-08-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/08/Haddop/关于Spark/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/08/08/Haddop/关于Spark/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h2 id="安装Spark"><a href="#安装Spark" class="headerlink" title="安装Spark"></a>安装Spark</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line">[dylanlang@dylan20 ~/learning/hadoop/spark]$ wget https://archive.apache.org/dist/spark/spark-<span class="number">1.1</span>.<span class="number">0</span>/spark-<span class="number">1.1</span>.<span class="number">0</span>-bin-hadoop2.<span class="number">4</span>.tgz</span><br><span class="line">--<span class="number">2018</span>-<span class="number">08</span>-<span class="number">08</span> <span class="number">20</span>:<span class="number">22</span>:<span class="number">55</span>--  https://archive.apache.org/dist/spark/spark-<span class="number">1.1</span>.<span class="number">0</span>/spark-<span class="number">1.1</span>.<span class="number">0</span>-bin-hadoop2.<span class="number">4</span>.tgz</span><br><span class="line">正在解析主机 archive.apache.org (archive.apache.org)... <span class="number">163.172</span>.<span class="number">17.199</span></span><br><span class="line">正在连接 archive.apache.org (archive.apache.org)|<span class="number">163.172</span>.<span class="number">17.199</span>|:<span class="number">443</span>... 已连接。</span><br><span class="line">[dylanlang@dylan20 ~/learning/hadoop/spark]$ ll</span><br><span class="line">总用量 <span class="number">186988</span></span><br><span class="line">-rw-r--r--. <span class="number">1</span> dylanlang root <span class="number">191475104</span> <span class="number">8</span>月   <span class="number">8</span> <span class="number">20</span>:<span class="number">25</span> spark-<span class="number">1.1</span>.<span class="number">0</span>-bin-hadoop2.<span class="number">4</span>.tgz</span><br><span class="line">[dylanlang@dylan20 ~/learning/hadoop/spark]$ tar xzf spark-<span class="number">1.1</span>.<span class="number">0</span>-bin-hadoop2.<span class="number">4</span>.tgz</span><br><span class="line">[dylanlang@dylan20 ~/learning/hadoop/spark]$ pwd</span><br><span class="line">/home/dylanlang/learning/hadoop/spark</span><br><span class="line">[dylanlang@dylan20 ~/learning/hadoop/spark]$ cd spark-<span class="number">1.1</span>.<span class="number">0</span>-bin-hadoop2.<span class="number">4</span>/</span><br><span class="line">[dylanlang@dylan20 ~/learning/hadoop/spark/spark-<span class="number">1.1</span>.<span class="number">0</span>-bin-hadoop2.<span class="number">4</span>]$ ll</span><br><span class="line">总用量 <span class="number">584</span></span><br><span class="line">drwxr-xr-x. <span class="number">2</span> dylanlang root   <span class="number">4096</span> <span class="number">9</span>月   <span class="number">3</span> <span class="number">2014</span> bin</span><br><span class="line">-rw-r--r--. <span class="number">1</span> dylanlang root <span class="number">520123</span> <span class="number">9</span>月   <span class="number">3</span> <span class="number">2014</span> CHANGES.txt</span><br><span class="line">drwxr-xr-x. <span class="number">2</span> dylanlang root    <span class="number">187</span> <span class="number">9</span>月   <span class="number">3</span> <span class="number">2014</span> conf</span><br><span class="line">drwxr-xr-x. <span class="number">4</span> dylanlang root     <span class="number">98</span> <span class="number">9</span>月   <span class="number">3</span> <span class="number">2014</span> ec2</span><br><span class="line">drwxr-xr-x. <span class="number">3</span> dylanlang root     <span class="number">17</span> <span class="number">9</span>月   <span class="number">3</span> <span class="number">2014</span> examples</span><br><span class="line">drwxr-xr-x. <span class="number">2</span> dylanlang root    <span class="number">200</span> <span class="number">9</span>月   <span class="number">3</span> <span class="number">2014</span> lib</span><br><span class="line">-rw-r--r--. <span class="number">1</span> dylanlang root  <span class="number">30816</span> <span class="number">9</span>月   <span class="number">3</span> <span class="number">2014</span> LICENSE</span><br><span class="line">-rw-r--r--. <span class="number">1</span> dylanlang root  <span class="number">22559</span> <span class="number">9</span>月   <span class="number">3</span> <span class="number">2014</span> NOTICE</span><br><span class="line">drwxr-xr-x. <span class="number">6</span> dylanlang root    <span class="number">119</span> <span class="number">9</span>月   <span class="number">3</span> <span class="number">2014</span> python</span><br><span class="line">-rw-r--r--. <span class="number">1</span> dylanlang root   <span class="number">4811</span> <span class="number">9</span>月   <span class="number">3</span> <span class="number">2014</span> README.md</span><br><span class="line">-rw-r--r--. <span class="number">1</span> dylanlang root     <span class="number">35</span> <span class="number">9</span>月   <span class="number">3</span> <span class="number">2014</span> RELEASE</span><br><span class="line">drwxr-xr-x. <span class="number">2</span> dylanlang root   <span class="number">4096</span> <span class="number">9</span>月   <span class="number">3</span> <span class="number">2014</span> sbin</span><br><span class="line">[dylanlang@dylan20 ~/learning/hadoop/spark/spark-<span class="number">1.1</span>.<span class="number">0</span>-bin-hadoop2.<span class="number">4</span>]$ pwd</span><br><span class="line">/home/dylanlang/learning/hadoop/spark/spark-<span class="number">1.1</span>.<span class="number">0</span>-bin-hadoop2.<span class="number">4</span></span><br><span class="line">[dylanlang@dylan20 ~/learning/hadoop/spark/spark-<span class="number">1.1</span>.<span class="number">0</span>-bin-hadoop2.<span class="number">4</span>]$ vi ~/.bashrc</span><br><span class="line"></span><br><span class="line"> export SPARK_HOME=/home/dylanlang/learning/hadoop/spark/spark-<span class="number">1.1</span>.<span class="number">0</span>-bin-hadoop2.<span class="number">4</span></span><br><span class="line"> export PATH=<span class="variable">$PATH:</span><span class="variable">$SPARK_HOME</span>/bin</span><br><span class="line"></span><br><span class="line">[dylanlang@dylan20 ~/learning/hadoop/spark/spark-<span class="number">1.1</span>.<span class="number">0</span>-bin-hadoop2.<span class="number">4</span>]$ . ~/.bashrc</span><br><span class="line">[dylanlang@dylan20 ~/learning/hadoop/spark/spark-<span class="number">1.1</span>.<span class="number">0</span>-bin-hadoop2.<span class="number">4</span>]$</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[dylanlang@dylan20 ~/learning/hadoop/spark/spark-<span class="number">1.1</span>.<span class="number">0</span>-bin-hadoop2.<span class="number">4</span>]$ spark-shell</span><br><span class="line">Spark assembly has been built with Hive, including Datanucleus jars on classpath</span><br><span class="line">Java HotSpot(TM) <span class="number">64</span>-Bit Server VM warning: ignoring option MaxPermSize=<span class="number">128</span>m; support was removed <span class="keyword">in</span> <span class="number">8.0</span></span><br><span class="line">Using Spark<span class="string">'s default log4j profile: org/apache/spark/log4j-defaults.properties</span></span><br><span class="line"><span class="string">18/08/08 20:30:32 INFO SecurityManager: Changing view acls to: dylanlang,</span></span><br><span class="line"><span class="string">18/08/08 20:30:32 INFO SecurityManager: Changing modify acls to: dylanlang,</span></span><br><span class="line"><span class="string">18/08/08 20:30:32 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: Set(dylanlang, ); users with modify permissions: Set(dylanlang, )</span></span><br><span class="line"><span class="string">18/08/08 20:30:32 INFO HttpServer: Starting HTTP Server</span></span><br><span class="line"><span class="string">18/08/08 20:30:32 INFO Utils: Successfully started service '</span>HTTP class server<span class="string">' on port 42360.</span></span><br><span class="line"><span class="string">Welcome to</span></span><br><span class="line"><span class="string">      ____              __</span></span><br><span class="line"><span class="string">     / __/__  ___ _____/ /__</span></span><br><span class="line"><span class="string">    _\ \/ _ \/ _ `/ __/  '</span>_/</span><br><span class="line">   /___/ .__/\_,_/_/ /_/\_\   version <span class="number">1.1</span>.<span class="number">0</span></span><br><span class="line">      /_/</span><br><span class="line"></span><br><span class="line">Using Scala version <span class="number">2.10</span>.<span class="number">4</span> (Java HotSpot(TM) <span class="number">64</span>-Bit Server VM, Java <span class="number">1.8</span>.<span class="number">0</span>_171)</span><br><span class="line">Type <span class="keyword">in</span> expressions to have them evaluated.</span><br><span class="line">Type :help <span class="keyword">for</span> more information.</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">39</span> INFO SecurityManager: Changing view acls to: dylanlang,</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">39</span> INFO SecurityManager: Changing modify acls to: dylanlang,</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">39</span> INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: Set(dylanlang, ); users with modify permissions: Set(dylanlang, )</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">40</span> INFO Slf4jLogger: Slf4jLogger started</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">40</span> INFO Remoting: Starting remoting</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">41</span> INFO Utils: Successfully started service <span class="string">'sparkDriver'</span> on port <span class="number">40963</span>.</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">41</span> INFO Remoting: Remoting started; listening on addresses :[akka.tcp://sparkDriver@dylan20:<span class="number">40963</span>]</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">41</span> INFO Remoting: Remoting now listens on addresses: [akka.tcp://sparkDriver@dylan20:<span class="number">40963</span>]</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">41</span> INFO SparkEnv: Registering MapOutputTracker</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">41</span> INFO SparkEnv: Registering BlockManagerMaster</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">41</span> INFO DiskBlockManager: Created local directory at /tmp/spark-local-<span class="number">20180808203041</span>-b881</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">41</span> INFO Utils: Successfully started service <span class="string">'Connection manager for block manager'</span> on port <span class="number">46504</span>.</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">41</span> INFO ConnectionManager: Bound socket to port <span class="number">46504</span> with id = ConnectionManagerId(dylan20,<span class="number">46504</span>)</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">41</span> INFO MemoryStore: MemoryStore started with capacity <span class="number">267.3</span> MB</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">41</span> INFO BlockManagerMaster: Trying to register BlockManager</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">41</span> INFO BlockManagerMasterActor: Registering block manager dylan20:<span class="number">46504</span> with <span class="number">267.3</span> MB RAM</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">41</span> INFO BlockManagerMaster: Registered BlockManager</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">41</span> INFO HttpFileServer: HTTP File server directory is /tmp/spark-<span class="number">6</span>f923f71-<span class="number">7188</span>-<span class="number">4</span>a85-a7c7-<span class="number">4465</span>c53856fb</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">41</span> INFO HttpServer: Starting HTTP Server</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">41</span> INFO Utils: Successfully started service <span class="string">'HTTP file server'</span> on port <span class="number">38437</span>.</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">42</span> INFO Utils: Successfully started service <span class="string">'SparkUI'</span> on port <span class="number">4040</span>.</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">42</span> INFO SparkUI: Started SparkUI at http://dylan20:<span class="number">4040</span></span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">42</span> WARN NativeCodeLoader: Unable to load native-hadoop library <span class="keyword">for</span> your platform... using builtin-java classes where applicable</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">43</span> INFO Executor: Using REPL class URI: http://<span class="number">192.168</span>.<span class="number">65.20</span>:<span class="number">42360</span></span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">43</span> INFO AkkaUtils: Connecting to HeartbeatReceiver: akka.tcp://sparkDriver@dylan20:<span class="number">40963</span>/user/HeartbeatReceiver</span><br><span class="line"><span class="number">18</span>/<span class="number">08</span>/<span class="number">08</span> <span class="number">20</span>:<span class="number">30</span>:<span class="number">43</span> INFO SparkILoop: Created spark context..</span><br><span class="line">Spark context available as sc.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">scala&gt; val lines = sc.textFile(<span class="string">"file:///home/dylanlang/learning/hadoop/input/ncdc/micro-tab/sample.txt"</span>)</span><br><span class="line">val records = lines.map(_.split(<span class="string">"\t"</span>))</span><br><span class="line">val filtered = records.filter(rec =&gt; (rec(<span class="number">1</span>) != <span class="string">"9999"</span> &amp;&amp; rec(<span class="number">2</span>).matches(<span class="string">"[01459]"</span>)))</span><br><span class="line"> val tuples = filtered.map(rec =&gt; (rec(<span class="number">0</span>).toInt, rec(<span class="number">1</span>).toInt))</span><br><span class="line">val maxTemps = tuples.reduceByKey((a, b) =&gt; Math.max(a, b))</span><br><span class="line"> maxTemps.foreach(println(_))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">scala&gt; val lines = sc.textFile(<span class="string">"file:///home/dylanlang/learning/hadoop/input/ncdc/micro-tab/sample.txt"</span>)</span><br><span class="line">scala&gt; val records = lines.map(_.split(<span class="string">"\t"</span>))</span><br><span class="line">scala&gt; val filtered = records.filter(rec =&gt; (rec(<span class="number">1</span>) != <span class="string">"9999"</span> &amp;&amp; rec(<span class="number">2</span>).matches(<span class="string">"[01459]"</span>)))</span><br><span class="line">scala&gt; val tuples = filtered.map(rec =&gt; (rec(<span class="number">0</span>).toInt, rec(<span class="number">1</span>).toInt))</span><br><span class="line">scala&gt; val maxTemps = tuples.reduceByKey((a, b) =&gt; Math.max(a, b))</span><br><span class="line"></span><br><span class="line">scala&gt;  lines.foreach(println(_))</span><br><span class="line"><span class="number">1950</span>    <span class="number">0</span>       <span class="number">1</span></span><br><span class="line"><span class="number">1950</span>    <span class="number">22</span>      <span class="number">1</span></span><br><span class="line"><span class="number">1950</span>    -<span class="number">11</span>     <span class="number">1</span></span><br><span class="line"><span class="number">1949</span>    <span class="number">111</span>     <span class="number">1</span></span><br><span class="line"><span class="number">1949</span>    <span class="number">78</span>      <span class="number">1</span></span><br><span class="line"></span><br><span class="line">scala&gt; records.foreach(println(_))</span><br><span class="line">[Ljava.lang.String;@a825091</span><br><span class="line">[Ljava.lang.String;@<span class="number">31574</span>ee4</span><br><span class="line">[Ljava.lang.String;@<span class="number">19</span>df52b9</span><br><span class="line">[Ljava.lang.String;@<span class="number">77</span>bd3a71</span><br><span class="line">[Ljava.lang.String;@<span class="number">6</span>fa3eacf</span><br><span class="line"></span><br><span class="line">scala&gt; filtered.foreach(println(_))</span><br><span class="line">[Ljava.lang.String;@<span class="number">5039</span>c03a</span><br><span class="line">[Ljava.lang.String;@<span class="number">1</span>fc8213b</span><br><span class="line">[Ljava.lang.String;@<span class="number">5292</span>c947</span><br><span class="line">[Ljava.lang.String;@<span class="number">38856</span>f45</span><br><span class="line">[Ljava.lang.String;@<span class="number">2623407</span>f</span><br><span class="line"></span><br><span class="line">scala&gt; tuples.foreach(println(_))</span><br><span class="line">(<span class="number">1950</span>,<span class="number">0</span>)</span><br><span class="line">(<span class="number">1950</span>,<span class="number">22</span>)</span><br><span class="line">(<span class="number">1950</span>,-<span class="number">11</span>)</span><br><span class="line">(<span class="number">1949</span>,<span class="number">111</span>)</span><br><span class="line">(<span class="number">1949</span>,<span class="number">78</span>)</span><br><span class="line"></span><br><span class="line">scala&gt;</span><br><span class="line"></span><br><span class="line">scala&gt; maxTemps.foreach(println(_))</span><br><span class="line">(<span class="number">1950</span>,<span class="number">22</span>)</span><br><span class="line">(<span class="number">1949</span>,<span class="number">111</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">scala&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/07/Haddop/关于Hive/" rel="next" title="关于Hive">
+                <i class="fa fa-chevron-left"></i> 关于Hive
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/13/Haddop/关于HBase/" rel="prev" title="关于HBase">
+                关于HBase <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/08/08/Haddop/关于Spark/" data-title="关于Spark" data-url="http://yoursite.com/2018/08/08/Haddop/关于Spark/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Spark"><span class="nav-number">1.</span> <span class="nav-text">安装Spark</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">1.1.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

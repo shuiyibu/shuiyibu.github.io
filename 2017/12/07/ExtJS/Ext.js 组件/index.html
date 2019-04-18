@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="一江烟雨任平生">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="ExtJS UI由一个或多个名为Components.Ext的widget组成.JS具有定义的各种UI组件，可以根据您的要求进行定制。    编号 方法＆说明     1 Grid网格组件可用于以表格格式显示数据。   2 Form窗体小部件是从用户获取数据。   3 Message Box消息框基本上用于以警报框的形式显示数据。   4 Chart图表用于以图形格式表示数据。   5 Tool">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2017/12/07/ExtJS/Ext.js 组件/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="ExtJS UI由一个或多个名为Components.Ext的widget组成.JS具有定义的各种UI组件，可以根据您的要求进行定制。    编号 方法＆说明     1 Grid网格组件可用于以表格格式显示数据。   2 Form窗体小部件是从用户获取数据。   3 Message Box消息框基本上用于以警报框的形式显示数据。   4 Chart图表用于以图形格式表示数据。   5 Tool">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://img.w3cschool.cn/attachments/image/20170105/1483579907728275.jpg">
+<meta property="og:updated_time" content="2017-12-07T14:03:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="ExtJS UI由一个或多个名为Components.Ext的widget组成.JS具有定义的各种UI组件，可以根据您的要求进行定制。    编号 方法＆说明     1 Grid网格组件可用于以表格格式显示数据。   2 Form窗体小部件是从用户获取数据。   3 Message Box消息框基本上用于以警报框的形式显示数据。   4 Chart图表用于以图形格式表示数据。   5 Tool">
+<meta name="twitter:image" content="https://img.w3cschool.cn/attachments/image/20170105/1483579907728275.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/07/ExtJS/Ext.js 组件/">
+
+
+
+
+
+  <title> | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/07/ExtJS/Ext.js 组件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline"></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-07T22:03:26+08:00">
+                2017-12-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/07/ExtJS/Ext.js 组件/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/07/ExtJS/Ext.js 组件/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>ExtJS UI由一个或多个名为Components.Ext的widget组成.JS具有定义的各种UI组件，可以根据您的要求进行定制。</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>方法＆说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="https://www.w3cschool.cn/extjs/grid.html" target="_blank" rel="noopener">Grid</a>网格组件可用于以表格格式显示数据。</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="https://www.w3cschool.cn/extjs/from.html" target="_blank" rel="noopener">Form</a>窗体小部件是从用户获取数据。</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="https://www.w3cschool.cn/extjs/messagebox.html" target="_blank" rel="noopener">Message Box</a>消息框基本上用于以警报框的形式显示数据。</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="https://www.w3cschool.cn/extjs/char.html" target="_blank" rel="noopener">Chart</a>图表用于以图形格式表示数据。</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="https://www.w3cschool.cn/extjs/tooltip.html" target="_blank" rel="noopener">Tool tip</a>任何事件发生时，工具提示用于显示一些基本信息。</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="https://www.w3cschool.cn/extjs/window.html" target="_blank" rel="noopener">Window</a>这个UI部件是创建一个窗口，当任何事件发生时应该弹出。</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="https://www.w3cschool.cn/extjs/htmleditor.html" target="_blank" rel="noopener">HTML editor</a>HTML编辑器是非常有用的UI组件之一，用于对用户输入的字体，颜色，大小等数据进行样式设置。</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="https://www.w3cschool.cn/extjs/progressbar.html" target="_blank" rel="noopener">Progress bar</a>显示后端工作的进度。</td>
+</tr>
+</tbody>
+</table>
+<h1 id="Ext-js-网格"><a href="#Ext-js-网格" class="headerlink" title="Ext.js 网格"></a>Ext.js 网格</h1><h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Ext.create(&apos;Ext.grid.Panel&apos;,&#123;</span><br><span class="line">grid properties..</span><br><span class="line">columns : [Columns]</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">   &lt;link href=&quot;https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/classic/theme-classic/resources/theme-classic-all.css&quot; rel=&quot;stylesheet&quot; /&gt;</span><br><span class="line">   &lt;script type=&quot;text/javascript&quot; src=&quot;https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/ext-all.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">   &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">      // Creation of data model</span><br><span class="line">      Ext.define(&apos;StudentDataModel&apos;, &#123;</span><br><span class="line">         extend: &apos;Ext.data.Model&apos;,</span><br><span class="line">         fields: [</span><br><span class="line">         &#123;name: &apos;name&apos;, mapping : &apos;name&apos;&#125;,</span><br><span class="line">         &#123;name: &apos;age&apos;, mapping : &apos;age&apos;&#125;,</span><br><span class="line">         &#123;name: &apos;marks&apos;, mapping : &apos;marks&apos;&#125;</span><br><span class="line">         ]</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      Ext.onReady(function()&#123;</span><br><span class="line">         // Store data</span><br><span class="line">         var myData = [</span><br><span class="line">            &#123; name : &quot;Asha&quot;, age : &quot;16&quot;, marks : &quot;90&quot; &#125;,</span><br><span class="line">            &#123; name : &quot;Vinit&quot;, age : &quot;18&quot;, marks : &quot;95&quot; &#125;,</span><br><span class="line">            &#123; name : &quot;Anand&quot;, age : &quot;20&quot;, marks : &quot;68&quot; &#125;,</span><br><span class="line">            &#123; name : &quot;Niharika&quot;, age : &quot;21&quot;, marks : &quot;86&quot; &#125;,</span><br><span class="line">            &#123; name : &quot;Manali&quot;, age : &quot;22&quot;, marks : &quot;57&quot; &#125;</span><br><span class="line">         ];</span><br><span class="line">         // Creation of first grid store</span><br><span class="line">         var gridStore = Ext.create(&apos;Ext.data.Store&apos;, &#123;</span><br><span class="line">         model: &apos;StudentDataModel&apos;,</span><br><span class="line">         data: myData</span><br><span class="line">         &#125;);</span><br><span class="line">         // Creation of first grid</span><br><span class="line">         Ext.create(&apos;Ext.grid.Panel&apos;, &#123;</span><br><span class="line">            id                : &apos;gridId&apos;,</span><br><span class="line">            store             : gridStore,</span><br><span class="line">            stripeRows        : true,</span><br><span class="line">            title             : &apos;Students Grid&apos;, // Title for the grid</span><br><span class="line">            renderTo          :&apos;gridDiv&apos;, // Div id where the grid has to be rendered</span><br><span class="line">            width             : 600,</span><br><span class="line">            collapsible       : true, // property to collapse grid</span><br><span class="line">            enableColumnMove  :true, // property which alllows column to move to different position by dragging that column.</span><br><span class="line">            enableColumnResize:true, // property which allows to resize column run time.</span><br><span class="line">            columns           :</span><br><span class="line">               [&#123; </span><br><span class="line">                  header: &quot;Student Name&quot;,</span><br><span class="line">                  dataIndex: &apos;name&apos;,	</span><br><span class="line">                  id : &apos;name&apos;,    </span><br><span class="line">                  flex:  1,  		 // property defines the amount of space this column is going to take in the grid container with respect to all.	</span><br><span class="line">                  sortable: true, // property to sort grid column data. </span><br><span class="line">                  hideable: true  // property which allows column to be hidden run time on user request.</span><br><span class="line">               &#125;,&#123;</span><br><span class="line">                  header: &quot;Age&quot;, </span><br><span class="line">                  dataIndex: &apos;age&apos;,</span><br><span class="line">                  flex: .5, </span><br><span class="line">                  sortable: true,</span><br><span class="line">                   hideable: false // this column will not be available to be hidden.</span><br><span class="line">               &#125;,&#123;</span><br><span class="line">                  header: &quot;Marks&quot;,</span><br><span class="line">                  dataIndex: &apos;marks&apos;,</span><br><span class="line">                  flex: .5, </span><br><span class="line">                  sortable: true, </span><br><span class="line">                  // renderer is used to manipulate data based on some conditions here who ever has marks greater than 75 will be displayed as &apos;Distinction&apos; else &apos;Non Distinction&apos;.</span><br><span class="line">                  renderer :  function (value, metadata, record, rowIndex, colIndex, store) &#123;</span><br><span class="line">                     if (value &gt; 75) &#123;</span><br><span class="line">                        return &quot;Distinction&quot;;	  </span><br><span class="line">                     &#125; else &#123;</span><br><span class="line">                        return &quot;Non Distinction&quot;;</span><br><span class="line">                     &#125;</span><br><span class="line">                  &#125;</span><br><span class="line">            &#125;]</span><br><span class="line">         &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">   &lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">   &lt;div id = &quot;gridDiv&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>这将产生以下结果：</p>
+<p><img src="https://img.w3cschool.cn/attachments/image/20170105/1483579907728275.jpg" alt="Ext.js 网格"></p>
+<p>### </p>
+<h2 id="网格属性："><a href="#网格属性：" class="headerlink" title="网格属性："></a>网格属性：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">columns : [&#123; </span><br><span class="line">   header: &quot;Student Name&quot;,</span><br><span class="line">   dataIndex: &apos;name&apos;,	</span><br><span class="line">   id : &apos;name&apos;,    </span><br><span class="line">   flex:  1,  			</span><br><span class="line">   sortable: true // property to sort grid column data </span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">columns : [&#123; </span><br><span class="line">   header: &quot;Student Name&quot;,</span><br><span class="line">   dataIndex: &apos;name&apos;,	</span><br><span class="line">   id : &apos;name&apos;,    </span><br><span class="line">   flex:  1,  			</span><br><span class="line">   sortable: true, </span><br><span class="line">   hideable: true // property which allows column to be hidden run time on user request</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">columns : [&#123;</span><br><span class="line">   header: &quot;Marks&quot;,</span><br><span class="line">   dataIndex: &apos;marks&apos;,</span><br><span class="line">   flex: .5, </span><br><span class="line">   sortable: true, </span><br><span class="line">   // renderer is used to manipulate data based on some conditions here who ever has marks greater than 75 will be displayed as &apos;Distinction&apos; else &apos;Non Distinction&apos;.</span><br><span class="line">   renderer :  function (value, metadata, record, rowIndex, colIndex, store) &#123;</span><br><span class="line">      if (value &gt; 75) &#123;</span><br><span class="line">         return &quot;Distinction&quot;;	  </span><br><span class="line">      &#125; else &#123;</span><br><span class="line">         return &quot;Non Distinction&quot;;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+<h1 id="Ext-js-表单"><a href="#Ext-js-表单" class="headerlink" title="Ext.js 表单"></a>Ext.js 表单</h1><h2 id="不同类型的xType："><a href="#不同类型的xType：" class="headerlink" title="不同类型的xType："></a>不同类型的xType：</h2><p>文本域</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123; 	</span><br><span class="line">   xtype: &apos;textfield&apos;,</span><br><span class="line">   fieldLabel: &apos;Text field&apos;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#### </p>
+<p>文本区域</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   xtype: &apos;textarea&apos;,</span><br><span class="line">   fieldLabel: &apos;Text Area&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#### </p>
+<p>显示字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   xtype: &apos;displayfield&apos;,</span><br><span class="line">   fieldLabel: &apos;Display Field&apos;&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#### </p>
+<p>日期字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   xtype: &apos;datefield&apos;,</span><br><span class="line">   fieldLabel: &apos;Date picker&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#### </p>
+<p>按钮</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   xtype: &apos;button&apos;, </span><br><span class="line">   text : &apos;Button&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#### </p>
+<p>单选按钮</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   xtype      : &apos;fieldcontainer&apos;,</span><br><span class="line">   fieldLabel : &apos;Radio field&apos;,</span><br><span class="line">   defaultType: &apos;radiofield&apos;,</span><br><span class="line">   defaults: &#123;</span><br><span class="line">      flex: 1</span><br><span class="line">   &#125;,</span><br><span class="line">   layout: &apos;hbox&apos;,</span><br><span class="line">   items: [&#123;</span><br><span class="line">      boxLabel  : &apos;A&apos;,</span><br><span class="line">      inputValue: &apos;a&apos;,</span><br><span class="line">      id        : &apos;radio1&apos;</span><br><span class="line">   &#125;,&#123;</span><br><span class="line">      boxLabel  : &apos;B&apos;,</span><br><span class="line">      inputValue: &apos;b&apos;,</span><br><span class="line">      id        : &apos;radio2&apos;</span><br><span class="line">   &#125;,&#123;</span><br><span class="line">      boxLabel  : &apos;C&apos;,</span><br><span class="line">      inputValue: &apos;c&apos;,</span><br><span class="line">      id 	      : &apos;radio3&apos;</span><br><span class="line">   &#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#### </p>
+<p>CHECKBOX字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   xtype: &apos;fieldcontainer&apos;,</span><br><span class="line">   fieldLabel: &apos;Check Box Field&apos;,</span><br><span class="line">   defaultType: &apos;checkboxfield&apos;,</span><br><span class="line">   items: [&#123;</span><br><span class="line">      boxLabel  : &apos;HTML&apos;,</span><br><span class="line">      inputValue: &apos;html&apos;,</span><br><span class="line">      id        : &apos;checkbox1&apos;</span><br><span class="line">   &#125;,&#123;</span><br><span class="line">      boxLabel  : &apos;CSS&apos;,</span><br><span class="line">      inputValue: &apos;css&apos;,</span><br><span class="line">      checked   : true,</span><br><span class="line">      id        : &apos;checkbox2&apos;</span><br><span class="line">   &#125;,&#123;</span><br><span class="line">      boxLabel  : &apos;JavaScript&apos;,</span><br><span class="line">      inputValue: &apos;js&apos;,</span><br><span class="line">      id        : &apos;checkbox3&apos;</span><br><span class="line">   &#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#### </p>
+<p>组合框</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   xtype : &apos;combobox&apos;,</span><br><span class="line">   fieldLabel: &apos;Combo box&apos;,</span><br><span class="line">   store: store,</span><br><span class="line">   valueField: &apos;name&apos;</span><br><span class="line">&#125;</span><br><span class="line">// store for drop down values</span><br><span class="line">var store = Ext.create(&apos;Ext.data.Store&apos;, &#123;</span><br><span class="line">   id : &apos;statesid&apos;,</span><br><span class="line">   fields: [&apos;abbr&apos;, &apos;name&apos;],</span><br><span class="line">   data : [</span><br><span class="line">      &#123;&quot;abbr&quot;:&quot;HTML&quot;, &quot;name&quot;:&quot;HTML&quot;&#125;,</span><br><span class="line">      &#123;&quot;abbr&quot;:&quot;CSS&quot;, &quot;name&quot;:&quot;CSS&quot;&#125;,</span><br><span class="line">      &#123;&quot;abbr&quot;:&quot;JS&quot;, &quot;name&quot;:&quot;JavaScript&quot;&#125;</span><br><span class="line">   ]</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>#### </p>
+<p>时间字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   xtype: &apos;timefield&apos;,</span><br><span class="line">   fieldLabel: &apos;Time field&apos;,</span><br><span class="line">   minValue: &apos;6:00 AM&apos;,</span><br><span class="line">   maxValue: &apos;8:00 PM&apos;,</span><br><span class="line">   increment: 30,</span><br><span class="line">   anchor: &apos;100%&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#### </p>
+<p>文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   xtype: &apos;filefield&apos;,</span><br><span class="line">   fieldLabel: &apos;File field&apos;,</span><br><span class="line">   labelWidth: 50,</span><br><span class="line">   msgTarget: &apos;side&apos;,</span><br><span class="line">   allowBlank: false,</span><br><span class="line">   anchor: &apos;100%&apos;,</span><br><span class="line">   buttonText: &apos;Select File...&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#### </p>
+<p>？？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123; </span><br><span class="line">   xtype: &apos;spinnerfield&apos;,</span><br><span class="line">   fieldLabel: &apos;Spinner field&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#### </p>
+<p>NUMERIC FIELD</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   xtype: &apos;numberfield&apos;,</span><br><span class="line">   anchor: &apos;100%&apos;,</span><br><span class="line">   fieldLabel: &apos;Numeric field&apos;,</span><br><span class="line">   maxValue: 99,</span><br><span class="line">   minValue: 0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#### </p>
+<p>隐藏字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   xtype: &apos;hiddenfield&apos;,</span><br><span class="line">   value: &apos;value from hidden field&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>## </p>
+<p>表单面板的语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ext.create(&apos;Ext.form.Panel&apos;);</span><br></pre></td></tr></table></figure>
+<p>## </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">   &lt;link href=&quot;https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/classic/theme-classic/resources/theme-classic-all.css&quot; rel=&quot;stylesheet&quot; /&gt;</span><br><span class="line">   &lt;script type=&quot;text/javascript&quot; src=&quot;https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/ext-all.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">   &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">      Ext.onReady(function() &#123;</span><br><span class="line">         Ext.create(&apos;Ext.form.Panel&apos;, &#123;</span><br><span class="line">            id: &apos;newForm&apos;,</span><br><span class="line">            renderTo: &apos;formId&apos;,</span><br><span class="line">            border: true,</span><br><span class="line">            width: 600,</span><br><span class="line">            items: [&#123;</span><br><span class="line">               xtype: &apos;textfield&apos;,</span><br><span class="line">               fieldLabel: &apos;Text Field&apos;</span><br><span class="line">            &#125;,&#123;</span><br><span class="line">               xtype: &apos;displayfield&apos;,</span><br><span class="line">               fieldLabel: &apos;Display Field&apos;</span><br><span class="line">            &#125;,&#123;</span><br><span class="line">               xtype: &apos;textarea&apos;,</span><br><span class="line">               fieldLabel: &apos;Text Area&apos;</span><br><span class="line">            &#125;,&#123;</span><br><span class="line">               xtype: &apos;datefield&apos;,</span><br><span class="line">               fieldLabel: &apos;Date picker&apos;</span><br><span class="line">            &#125;,&#123;</span><br><span class="line">               xtype: &apos;button&apos;,</span><br><span class="line">               text: &apos;Button&apos;</span><br><span class="line">            &#125;,&#123;</span><br><span class="line">               xtype: &apos;fieldcontainer&apos;,</span><br><span class="line">               fieldLabel: &apos;Radio field&apos;,</span><br><span class="line">               defaultType: &apos;radiofield&apos;,</span><br><span class="line">               defaults: &#123;</span><br><span class="line">                  flex: 1</span><br><span class="line">               &#125;,</span><br><span class="line">               layout: &apos;hbox&apos;,</span><br><span class="line">               items: [&#123;</span><br><span class="line">                  boxLabel: &apos;A&apos;,</span><br><span class="line">                  inputValue: &apos;a&apos;,</span><br><span class="line">                  id: &apos;radio1&apos;</span><br><span class="line">               &#125;,&#123;</span><br><span class="line">                  boxLabel: &apos;B&apos;,</span><br><span class="line">                  inputValue: &apos;b&apos;,</span><br><span class="line">                  id: &apos;radio2&apos;</span><br><span class="line">               &#125;,&#123;</span><br><span class="line">                  boxLabel: &apos;C&apos;,</span><br><span class="line">                  inputValue: &apos;c&apos;,</span><br><span class="line">                  id: &apos;radio3&apos;</span><br><span class="line">               &#125;]</span><br><span class="line">            &#125;,&#123;</span><br><span class="line">               xtype: &apos;fieldcontainer&apos;,</span><br><span class="line">               fieldLabel: &apos;Check Box Field&apos;,</span><br><span class="line">               defaultType: &apos;checkboxfield&apos;,</span><br><span class="line">               items: [&#123;</span><br><span class="line">                  boxLabel: &apos;HTML&apos;,</span><br><span class="line">                  inputValue: &apos;html&apos;,</span><br><span class="line">                  id: &apos;checkbox1&apos;</span><br><span class="line">               &#125;,&#123;</span><br><span class="line">                  boxLabel: &apos;CSS&apos;,</span><br><span class="line">                  inputValue: &apos;css&apos;,</span><br><span class="line">                  checked: true,</span><br><span class="line">                  id: &apos;checkbox2&apos;</span><br><span class="line">               &#125;,&#123;</span><br><span class="line">                  boxLabel: &apos;JavaScript&apos;,</span><br><span class="line">                  inputValue: &apos;js&apos;,</span><br><span class="line">                  id: &apos;checkbox3&apos;</span><br><span class="line">               &#125;]</span><br><span class="line">            &#125;,&#123;</span><br><span class="line">               xtype: &apos;hiddenfield&apos;,</span><br><span class="line">               name: &apos;hidden field &apos;,</span><br><span class="line">               value: &apos;value from hidden field&apos;</span><br><span class="line">            &#125;,&#123;</span><br><span class="line">               xtype: &apos;numberfield&apos;,</span><br><span class="line">               anchor: &apos;100%&apos;,</span><br><span class="line">               fieldLabel: &apos;Numeric Field&apos;,</span><br><span class="line">               maxValue: 99,</span><br><span class="line">               minValue: 0</span><br><span class="line">            &#125;,&#123;</span><br><span class="line">               xtype: &apos;spinnerfield&apos;,</span><br><span class="line">               fieldLabel: &apos;Spinner Field&apos;,</span><br><span class="line">               step: 6,</span><br><span class="line">               // override onSpinUp (using step isn&apos;t neccessary)</span><br><span class="line">               onSpinUp: function() &#123;</span><br><span class="line">                 var me = this;</span><br><span class="line">                 if (!me.readOnly) &#123;</span><br><span class="line">                     var val = me.step; // set the default value to the step value</span><br><span class="line">                     if(me.getValue() !== &apos;&apos;) &#123;</span><br><span class="line">                         val = parseInt(me.getValue().slice(0, -5)); // gets rid of &quot; Pack&quot;</span><br><span class="line">                     &#125;                          </span><br><span class="line">                     me.setValue((val + me.step) + &apos; Pack&apos;);</span><br><span class="line">                 &#125;</span><br><span class="line">               &#125;,</span><br><span class="line"></span><br><span class="line">               // override onSpinDown</span><br><span class="line">               onSpinDown: function() &#123;</span><br><span class="line">                 var me = this;</span><br><span class="line">                 if (!me.readOnly) &#123;</span><br><span class="line">                     if(me.getValue() !== &apos;&apos;) &#123;</span><br><span class="line">                         val = parseInt(me.getValue().slice(0, -5)); // gets rid of &quot; Pack&quot;</span><br><span class="line">                     &#125;            </span><br><span class="line">                     me.setValue((val - me.step) + &apos; Pack&apos;);</span><br><span class="line">                 &#125;</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;,&#123;</span><br><span class="line">               xtype: &apos;timefield&apos;,</span><br><span class="line">               fieldLabel: &apos;Time field&apos;,</span><br><span class="line">               minValue: &apos;6:00 AM&apos;,</span><br><span class="line">               maxValue: &apos;8:00 PM&apos;,</span><br><span class="line">               increment: 30,</span><br><span class="line">               anchor: &apos;100%&apos;</span><br><span class="line">            &#125;,&#123;</span><br><span class="line">               xtype: &apos;combobox&apos;,</span><br><span class="line">               fieldLabel: &apos;Combo Box&apos;,</span><br><span class="line">               store: Ext.create(&apos;Ext.data.Store&apos;, &#123;</span><br><span class="line">                        fields: [&apos;abbr&apos;, &apos;name&apos;],</span><br><span class="line">                        data: [&#123;</span><br><span class="line">                           &apos;abbr&apos;: &apos;HTML&apos;,</span><br><span class="line">                           &apos;name&apos;: &apos;HTML&apos;</span><br><span class="line">                        &#125;,&#123;</span><br><span class="line">                           &apos;abbr&apos;: &apos;CSS&apos;,</span><br><span class="line">                           &apos;name&apos;: &apos;CSS&apos;</span><br><span class="line">                        &#125;,&#123;</span><br><span class="line">                           &apos;abbr&apos;: &apos;JS&apos;,</span><br><span class="line">                           &apos;name&apos;: &apos;JavaScript&apos;</span><br><span class="line">                        &#125;]</span><br><span class="line">                     &#125;),</span><br><span class="line">               valueField: &apos;abbr&apos;,</span><br><span class="line">               displayField: &apos;name&apos;</span><br><span class="line">            &#125;,&#123;</span><br><span class="line">               xtype: &apos;filefield&apos;,</span><br><span class="line">               fieldLabel: &apos;File field&apos;,</span><br><span class="line">               labelWidth: 50,</span><br><span class="line">               msgTarget: &apos;side&apos;,</span><br><span class="line">               allowBlank: false,</span><br><span class="line">               anchor: &apos;100%&apos;,</span><br><span class="line">               buttonText: &apos;Select File...&apos;</span><br><span class="line">            &#125;]</span><br><span class="line">         &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">   &lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">   &lt;div id = &quot;formId&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>您的支</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/07/ExtJS/布局/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/07/ExtJS/Ext.js 集装箱/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2017/12/07/ExtJS/Ext.js 组件/" data-title data-url="http://yoursite.com/2017/12/07/ExtJS/Ext.js 组件/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Ext-js-网格"><span class="nav-number">1.</span> <span class="nav-text">Ext.js 网格</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number">1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网格属性："><span class="nav-number">1.2.</span> <span class="nav-text">网格属性：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ext-js-表单"><span class="nav-number">2.</span> <span class="nav-text">Ext.js 表单</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#不同类型的xType："><span class="nav-number">2.1.</span> <span class="nav-text">不同类型的xType：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

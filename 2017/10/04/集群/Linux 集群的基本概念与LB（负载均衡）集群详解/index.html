@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="一江烟雨任平生">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="一、集群定义集群(cluster)技术是一种较新的技术,通过集群技术，可以在付出较低成本的情况下获得在性能、可靠性、灵活性方面的相对较高的收益，其任务调度则是集群系统中的核心技术。集群是一组相互独立的、通过高速网络互联的计算机，它们构成了一个组，并以单一系统的模式加以管理。一个客户与集群相互作用时，集群像是一个独立的服务器。集群配置是用于提高可用性和可缩放性。集群系统的主要优点：高可扩展性、高可用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 集群的基本概念与LB（负载均衡）集群详解">
+<meta property="og:url" content="http://yoursite.com/2017/10/04/集群/Linux 集群的基本概念与LB（负载均衡）集群详解/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、集群定义集群(cluster)技术是一种较新的技术,通过集群技术，可以在付出较低成本的情况下获得在性能、可靠性、灵活性方面的相对较高的收益，其任务调度则是集群系统中的核心技术。集群是一组相互独立的、通过高速网络互联的计算机，它们构成了一个组，并以单一系统的模式加以管理。一个客户与集群相互作用时，集群像是一个独立的服务器。集群配置是用于提高可用性和可缩放性。集群系统的主要优点：高可扩展性、高可用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://freeloda.blog.51cto.com/attachment/201307/27/2033581_1374940376DNPr.png">
+<meta property="og:image" content="http://freeloda.blog.51cto.com/attachment/201307/27/2033581_13749403770ayc.png">
+<meta property="og:image" content="http://freeloda.blog.51cto.com/attachment/201307/27/2033581_1374940378dBfn.png">
+<meta property="og:image" content="http://freeloda.blog.51cto.com/attachment/201307/27/2033581_1374940379gioO.png">
+<meta property="og:image" content="http://blog.51cto.com/attachment/201307/002312989.png">
+<meta property="og:image" content="http://blog.51cto.com/attachment/201307/002330995.png">
+<meta property="og:image" content="http://blog.51cto.com/attachment/201307/002830226.png">
+<meta property="og:image" content="http://blog.51cto.com/attachment/201307/002831116.png">
+<meta property="og:image" content="http://freeloda.blog.51cto.com/attachment/201307/27/2033581_1374940379zk7A.png">
+<meta property="og:image" content="http://blog.51cto.com/attachment/201307/002731712.png">
+<meta property="og:image" content="http://blog.51cto.com/attachment/201307/002731682.png">
+<meta property="og:updated_time" content="2018-04-11T02:35:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux 集群的基本概念与LB（负载均衡）集群详解">
+<meta name="twitter:description" content="一、集群定义集群(cluster)技术是一种较新的技术,通过集群技术，可以在付出较低成本的情况下获得在性能、可靠性、灵活性方面的相对较高的收益，其任务调度则是集群系统中的核心技术。集群是一组相互独立的、通过高速网络互联的计算机，它们构成了一个组，并以单一系统的模式加以管理。一个客户与集群相互作用时，集群像是一个独立的服务器。集群配置是用于提高可用性和可缩放性。集群系统的主要优点：高可扩展性、高可用">
+<meta name="twitter:image" content="http://freeloda.blog.51cto.com/attachment/201307/27/2033581_1374940376DNPr.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/04/集群/Linux 集群的基本概念与LB（负载均衡）集群详解/">
+
+
+
+
+
+  <title>Linux 集群的基本概念与LB（负载均衡）集群详解 | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/04/集群/Linux 集群的基本概念与LB（负载均衡）集群详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Linux 集群的基本概念与LB（负载均衡）集群详解</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-04T16:22:41+08:00">
+                2017-10-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/04/集群/Linux 集群的基本概念与LB（负载均衡）集群详解/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/10/04/集群/Linux 集群的基本概念与LB（负载均衡）集群详解/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一、集群定义<br>集群(cluster)技术是一种较新的技术,通过集群技术，可以在付出较低成本的情况下获得在性能、可靠性、灵活性方面的相对较高的收益，其任务调度则是集群系统中的核心技术。集群是一组相互独立的、通过高速网络互联的计算机，它们构成了一个组，并以单一系统的模式加以管理。一个客户与集群相互作用时，集群像是一个独立的服务器。集群配置是用于提高可用性和可缩放性。集群系统的主要优点：<strong>高可扩展性、高可用性、高性能、高性价比</strong>。</p>
+<p>二、集群类型<br>1.scale on:向上扩展<br>将服务器的内存容量调大和cpu数量增加些（简单说升级服务器硬件）<br>缺点:在一定的范围之内它的性能是上升的趋势,但是超出范围之后就是下降的趋势。因为随着它的cpu的个数增加我们需要给我们的cpu仲裁，而且随着cpu个数的增加资源竞争性越大。</p>
+<p>2.scale out:向外扩展<br>一台服务器应付不过来,我们就再增加一台服务器。<br>优点:增减服务器很方便，而且没有向上扩展随着增加性能下降。<br>向外扩张的工作模式：当客户端向服务器端发送请求，服务器端只拿出来一台服务器来相应我们的客户端的请求。</p>
+<p>(1).LB:Load Balancing:负载均衡集群</p>
+<p>负载均衡集群中有一个分发器或者叫<strong>调度器</strong>，我们将其称之为<code>Director</code>，它处在多台服务器的上面，分发器根据内部锁定义的规则或调度方式从下面的服务器群中选择一个以此来响应客户端发送的请求。</p>
+<p>(2).HA:High Availability 高可用集群<br>高可用集群是服务的可用性比较高，当我们某台服务器死机后不会造成我们的服务不可用。其工作模式则是将一个具有故障的服务转交给一个正常工作的服务器，从而达到服务不会中断。一般来说我们集群中工作在前端（分发器）的服务器都会对我们的后端服务器做一个健康检查，如果发现我们服务器宕机就不会对其在做转发。</p>
+<blockquote>
+<p>衡量标准：可用性=在线时间/(在线时间+故障处理时间)</p>
+</blockquote>
+<p>99%、99.9%、99.99%、99.999%</p>
+<p>(3).HP:Hight Performance 高性能<br>高性能的集群是当某一个任务量非常大的时候，我们做一个集群共同来完成这一个任务。这种处理方式我们称为<code>并行处理集群</code>，并行处理集群是将大任务划分为小任务，分别进行处理的机制。一般这样的集群用来科学研究与大数据运算等方面的工作。现在比较火的Hadoop就是使用的并行处理集群。</p>
+<p>说明：三种集群之间的区别<br>负载均衡着重在于提供服务并发处理能力的集群，高可用以提升服务在线的能力的集群。高性能着重用于处理一个海量任务。</p>
+<p>三、LB（负载均衡）集群</p>
+<p>1.LB 分类</p>
+<p>(1).硬件LB（比较出名的）</p>
+<ul>
+<li>F5 公司的 BIG-IP系列</li>
+<li>Citrix 公司的 NetScaler系列</li>
+<li>A10 公司的 AX系列</li>
+</ul>
+<p>(2).软件LB</p>
+<ul>
+<li>四层：LVS(Linux Virtual Server)注：国人开发的</li>
+<li>七层：Nginx,HAProxy</li>
+</ul>
+<p>2.LVS定义</p>
+<p>一般来说，LVS采用三层结构：<strong>负载调度器、服务器池、共享存储</strong>。工作在TCP/IP协议的四层，其转发是依赖于四层协议的特征进行转发的，由于其转发要依赖于协议的特征进行转发，因此需要在内核的TCP/IP协议栈进行过滤筛选，可想而知，这就需要在内核的模块来完成，而这样的过滤转发规则又是由管理员进行定义的，所以，<strong>LVS就是两段式的架构设计，在内核空间中工作的是”ipvs”， 而在用户空间中工作的，用来定义集群服务规则的是”ipvsadm”。这</strong>就很容易想到iptables而LVS正好工作在iptables的input链上。</p>
+<p>3.LVS组成</p>
+<ul>
+<li>ipvsadm：用于管理集群服务的命令行工具，工作于Linux系统中的用户空间。</li>
+<li>ipvs：为lvs提供服务的内核模块，工作于内核空间 (相对于是框架，通过ipvsadm添加规则，来实现ipvs功能)。</li>
+</ul>
+<p>注：在linux内核2.4.23之前的内核中模块默认是不存在的，需要自己手动打补丁，然后把此模块编译进内核才可以使用此功能。</p>
+<p>4.LVS中每个主机IP地址的定义</p>
+<ul>
+<li>VIP：Director用来向客户端提供服务的IP地址,也是DNS解析的IP</li>
+<li>RIP：集群节点（后台真正提供服务的服务器）所使用的IP地址</li>
+<li>DIP：Director用来和RIP进行交互的IP地址</li>
+<li>CIP：公网IP，客户端使用的IP</li>
+</ul>
+<p>5.LVS的三种转发模式</p>
+<ul>
+<li>LVS-NAT：网络地址转换 Network address translation</li>
+<li>LVS-DR：直接路由 Direct routing</li>
+<li>LVS-TUN：IP隧道 IP tunneling</li>
+</ul>
+<p>6.LVS的三种转发模式特点</p>
+<p>NAT:</p>
+<ul>
+<li>集群节点跟director<strong>必须在同一个网段上面</strong></li>
+<li>RIP通常是私有地址,仅用于个集群</li>
+<li>支持端口映射</li>
+<li>realsever可以使用任意OS（操作系统）</li>
+<li><strong>较大规模应用场景中director已成为系统瓶颈</strong></li>
+</ul>
+<p><a href="http://freeloda.blog.51cto.com/attachment/201307/27/2033581_1374940376AiZ5.png" target="_blank" rel="noopener"><img src="http://freeloda.blog.51cto.com/attachment/201307/27/2033581_1374940376DNPr.png" alt="Lvs-Nat"></a></p>
+<p>DR:</p>
+<ul>
+<li>集群节点跟director必须在<strong>同一个物理网络中</strong></li>
+<li>RIP可以使用公网地址.实现便捷的远程控制服务器</li>
+<li>director只负责处理入站请求,相应报文则有realserver直接发往客户端</li>
+<li>realserver不能将网关指向DIP</li>
+<li>director不支持端口映射</li>
+<li>大多数操作系统都能应用在real server上</li>
+<li>DR比NAT能处理更多的real server</li>
+</ul>
+<p><a href="http://freeloda.blog.51cto.com/attachment/201307/27/2033581_1374940377XF8a.png" target="_blank" rel="noopener"><img src="http://freeloda.blog.51cto.com/attachment/201307/27/2033581_13749403770ayc.png" alt="Lvs-DR"></a></p>
+<p>TUN:</p>
+<ul>
+<li>各集群节点可以跨越不同的网络</li>
+<li>RIP必须是公网地址</li>
+<li>director只负责处理入站请求,相应报文则有realserver直接发往客户端</li>
+<li>realserver网管不能指向director</li>
+<li>只有支持隧道共跟那个的os才能用户realserver</li>
+<li>不支持端口映射</li>
+</ul>
+<p>注：在实际应用中用的不多这里就不再具体演示！</p>
+<p><a href="http://freeloda.blog.51cto.com/attachment/201307/27/2033581_1374940377gkd1.png" target="_blank" rel="noopener"><img src="http://freeloda.blog.51cto.com/attachment/201307/27/2033581_1374940378dBfn.png" alt="Lvs-TUN"></a></p>
+<p>7.LVS的调度算法</p>
+<p>静态调度算法（4种）:</p>
+<p>(1).rr : round robin :轮叫,轮询<br>说明：轮询调度算法的原理是每一次把来自用户的请求轮流分配给内部中的服务器，从1开始，直到N(内部服务器个数)，然后重新开始循环。算法的优点是其简洁性，它无需记录当前所有连接的状态，所以它是一种<strong>无状态调度</strong>。缺点：是不考虑每台服务器的处理能力。</p>
+<p>(2).wrr: weight round robin :加权轮询(以权重之间的比例实现在各主机之间进行调度)<br>说明：由于每台服务器的配置、安装的业务应用等不同，其处理能力会不一样。所以，我们根据服务器的不同处理能力，给每个服务器分配不同的权值，使其能够接受相应权值数的服务请求。</p>
+<p>(3).sh : source hashing : 源地址hash 实现会话绑定session affinity<br>说明：简单的说就是有将同一客户端的请求发给同一个real server,源地址散列调度算法正好与目标地址散列调度算法相反，它根据请求的源IP地址，作为散列键（Hash Key）从静态分配的散列表找出对应的服务器，若该服务器是可用的并且没有超负荷，将请求发送到该服务器，否则返回空。它采用的散列函数与目标地址散列调度算法的相同。它的算法流程与目标地址散列调度算法的基本相似，除了将请求的目标IP地址换成请求的源IP地址。</p>
+<p>(4).dh : destination hashing : 目标地址hash<br>说明：将同样的请求发送给同一个server,一般用户于缓存服务器说，简单的说，LB集群后面又加了一层，在LB与real server之间加了一层<strong>缓存服务器</strong>，当一个客户端请求一个页面时,LB发给cache1,当第二个客户端请求同样的页面时，LB还是发给cache1,这就是我们所说的，将同样的请求发给同一个server,来提高缓存的命中率。目标地址散列调度算法也是针对目标IP地址的负载均衡，它是一种静态映射算法，通过一个散列（Hash）函数将一个目标IP地址映射到一台服务器。目标地址散列调度算法先根据请求的目标IP地址，作为散列键（Hash Key）从静态分配的散列表找出对应的服务器，若该服务器是可用的且未超载，将请求发送到该服务器，否则返回空。</p>
+<p>动态调度算法（6种）:</p>
+<p>(1).lc  :leash-connection 最少连接<br>说明：最少连接调度算法是把新的连接请求分配到当前连接数最小的服务器，最小连接调度是一种动态调度短算法，它通过服务器当前所活跃的连接数来估计服务器的负载均衡，调度器需要记录各个服务器已建立连接的数目，当一个请求被调度到某台服务器，其连接数加1，当连接中止或超时，其连接数减一，在系统实现时，我们也引入当服务器的权值为0时，表示该服务器不可用而不被调度。此算法忽略了服务器的性能问题，有的服务器性能好，有的服务器性能差，通过加权重来区分性能，所以有了下面算法wlc。</p>
+<p>简单算法：active*256+inactive (谁的小，挑谁)</p>
+<p>(2).wlc :加权最少连接<br>加权最小连接调度算法是最小连接调度的超集，各个服务器用相应的权值表示其处理性能。服务器的缺省权值为1，系统管理员可以动态地设置服务器的权限，加权最小连接调度在调度新连接时尽可能使服务器的已建立连接数和其权值成比例。由于服务器的性能不同，我们给性能相对好的服务器，加大权重，即会接收到更多的请求。</p>
+<p>简单算法：（active*256+inactive）/weight（谁的小，挑谁）</p>
+<p>(3).sed :最少期望延迟<br>说明：不考虑非活动连接，谁的权重大，我们优先选择权重大的服务器来接收请求，但会出现问题，就是权重比较大的服务器会很忙，但权重相对较小的服务器很闲，甚至会接收不到请求，所以便有了下面的算法nq。</p>
+<p>基于wlc算法，简单算法：（active+1)*256/weight （谁的小选谁）</p>
+<p>(4).nq  :never queue 永不排队<br>说明：在上面我们说明了，由于某台服务器的权重较小，比较空闲，甚至接收不到请求，而权重大的服务器会很忙，所此算法是sed改进，就是说不管你的权重多大都会被分配到请求。简单说，无需队列，如果有台real server的连接数为0就直接分配过去，不需要在进行sed运算。</p>
+<p>(5).LBLC :基于局部性的最少连接<br>说明：基于局部性的最少连接算法是针对请求报文的目标IP地址的负载均衡调度，主要用于<strong>Cache集群系统</strong>，因为Cache集群中客户请求报文的目标IP地址是变化的，这里假设任何后端服务器都可以处理任何请求，算法的设计目标在服务器的负载基本平衡的情况下，将相同的目标IP地址的请求调度到同一个台服务器，来提高服务器的访问局部性和主存Cache命中率，从而调整整个集群系统的处理能力。</p>
+<p>(6).LBLCR :基于局部性的带复制功能的最少连接<br>说明：基于局部性的带复制功能的最少连接调度算法也是针对目标IP地址的负载均衡，该算法根据请求的目标IP地址找出该目标IP地址对应的服务器组，按“最小连接”原则从服务器组中选出一台服务器，若服务器没有超载，将请求发送到该服务器；若服务器超载，则按“最小连接”原则从这个集群中选出一台服务器，将该服务器加入到服务器组中，将请求发送到该服务器。同时，当该服务器组有一段时间没有被修改，将最忙的服务器从服务器组中删除，以降低复制的程度。</p>
+<p>注：LVS默认调度算法是 wlc 。</p>
+<p>8.定义集群服务规则的ipvsadm命令</p>
+<p>(1).管理集群服务<br>   添加</p>
+<p>   修改</p>
+<p>   删除</p>
+<p>(2).管理集群服务中的realserver</p>
+<p>   添加</p>
+<p>   修改</p>
+<p>   删除</p>
+<p>(3).查看</p>
+<p>(4).删除所有集群服务:<br>   清空ipvs规则</p>
+<p>(5).保存定义的规则:</p>
+<p>(6).载入此前的规则</p>
+<p>四、LVS-NAT 模式演示</p>
+<p>注：测试环境</p>
+<p>虚拟机：VMware 9.0</p>
+<p>操作系统：CentOS 6.4 X86_64</p>
+<p>实验图：</p>
+<p><a href="http://freeloda.blog.51cto.com/attachment/201307/27/2033581_1374940378TQZ3.png" target="_blank" rel="noopener"><img src="http://freeloda.blog.51cto.com/attachment/201307/27/2033581_1374940379gioO.png" alt="Lvs-Nat"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop firewalld</span><br></pre></td></tr></table></figure>
+<p>\1. ip 规则</p>
+<p>Director IP：</p>
+<ul>
+<li>外网：172.16.100.1</li>
+<li>内网：192.168.10.1</li>
+</ul>
+<p>RS IP：</p>
+<ul>
+<li>RS1: 192.168.10.10</li>
+<li>RS2: 192.168.10.11</li>
+</ul>
+<p>网关指向：192.168.10.1</p>
+<p>2.安装软件</p>
+<p>Director：</p>
+<p>RS1：</p>
+<p>rs1.test.com</p>
+<p><a href="http://blog.51cto.com/attachment/201307/002312989.png" target="_blank" rel="noopener"><img src="http://blog.51cto.com/attachment/201307/002312989.png" alt="效果1.PNG"></a></p>
+<p>RS2：</p>
+<p>rs2.test.com</p>
+<p><a href="http://blog.51cto.com/attachment/201307/002330995.png" target="_blank" rel="noopener"><img src="http://blog.51cto.com/attachment/201307/002330995.png" alt="效果2.PNG"></a></p>
+<p>3.配置Director</p>
+<p>(1).开启转发</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo sysctl -w net.ipv4.ip_forward=1</span><br><span class="line">net.ipv4.ip_forward = 1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl -p</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cat /proc/sys/net/ipv4/ip_forward</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<p>(2).配置lvs-nat模型</p>
+<p>4.服务测试</p>
+<p>5.保存lvs规则</p>
+<p>手动保存</p>
+<p>6.删除规则并还原规则</p>
+<p>7.修改lvs调度算法</p>
+<p>rr -&gt; wrr</p>
+<p>效果</p>
+<p><a href="http://blog.51cto.com/attachment/201307/002830226.png" target="_blank" rel="noopener"><img src="http://blog.51cto.com/attachment/201307/002830226.png" alt="效果3.PNG"></a></p>
+<p><a href="http://blog.51cto.com/attachment/201307/002831116.png" target="_blank" rel="noopener"><img src="http://blog.51cto.com/attachment/201307/002831116.png" alt="效果4.PNG"></a></p>
+<p>五、LVS-DR 模式演示</p>
+<p>实验图：</p>
+<p><a href="http://freeloda.blog.51cto.com/attachment/201307/27/2033581_13749403796SpL.png" target="_blank" rel="noopener"><img src="http://freeloda.blog.51cto.com/attachment/201307/27/2033581_1374940379zk7A.png" alt="Lvs-DR"></a></p>
+<p>1.ip 规则</p>
+<p>Director:</p>
+<ul>
+<li>eth0 172.16.100.2 DIP</li>
+<li>eth0:0 172.16.100.1 VIP</li>
+</ul>
+<p>RS1:</p>
+<ul>
+<li>eth0: 172.16.100.10 RIP</li>
+<li>lo0:0 172.16.100.1 VIP</li>
+</ul>
+<p>RS2:</p>
+<ul>
+<li>eth0: 172.16.100.11 RIP</li>
+<li>lo0:0 172.16.100.1 VIP</li>
+</ul>
+<p>2.关闭arp响应</p>
+<p>RS1与RS2:</p>
+<p>说明:</p>
+<p>arp_ignore: 定义接收到ARP请求时的响应级别；</p>
+<p> 0：只要本地配置的有相应地址，就给予响应；</p>
+<p> 1：仅在请求的目标地址配置请求到达的接口上的时候，才给予响应；</p>
+<p>arp_ignore = 1</p>
+<p>arp_announce：定义将自己地址向外通告时的通告级别；</p>
+<p> 0：将本地任何接口上的任何地址向外通告；</p>
+<p> 1：试图仅向目标网络通告与其网络匹配的地址；</p>
+<p> 2：仅向与本地接口上地址匹配的网络进行通告；</p>
+<p>arp_announce = 2</p>
+<p>3.配置VIP</p>
+<p>Director:</p>
+<p>RS1:</p>
+<p>RS2:</p>
+<p>4.增加路由</p>
+<p>RS1:</p>
+<p>RS2:</p>
+<p>Director:</p>
+<p>5.配置lvs-dr</p>
+<p>6.测试效果</p>
+<p><a href="http://blog.51cto.com/attachment/201307/002731712.png" target="_blank" rel="noopener"><img src="http://blog.51cto.com/attachment/201307/002731712.png" alt="效果3.PNG"></a></p>
+<p><a href="http://blog.51cto.com/attachment/201307/002731682.png" target="_blank" rel="noopener"><img src="http://blog.51cto.com/attachment/201307/002731682.png" alt="效果4.PNG"></a></p>
+<p>六、LVS 持久连接</p>
+<p>说明：尽管我们选择了LVS的分发方法，但是大多时候我们要保证返回给客户端的所有响应请求必须来自于同一台Real Server，这里我们就要用到LVS Persistence（持久性）。</p>
+<p>1.LVS 持久连接和类型</p>
+<ul>
+<li>PCC 来自同一客户端所有服务的请求都被重定向到同一台Real Server上，以IP地址为准。</li>
+<li>PPC 来自同一服务的请求都被重定向到同一台Real Server上，以端口号为准。</li>
+<li>PNMP 基于防火墙标记的持久连接，根据iptables 的规则，将对于某类服务几个不同端口的访问定义为一类。</li>
+</ul>
+<p>2.持久连接命令</p>
+<p>3.PCC 演示</p>
+<p>PCC是一个虚拟服务没有端口号（或者端口号为0），以”-p” 来标识服务。</p>
+<p>缺陷：定向所有服务，期望访问不同的Real Server无法实现。</p>
+<p>4.PPC 演示</p>
+<p>例如：client—-&gt;LVS(80,22)——&gt;RS1   client—–&gt;LVS(23)—–&gt;RS2</p>
+<p>缺陷：期望访问不同的端口到同一台RS上，无法实现。</p>
+<p>5.PNMP 演示</p>
+<p>先对某一特定类型的数据包打上标记，然后再将基于某一类标记的服务送到后台的Real Server上去，后台的Real Server 并不识别这些标记。将持久和防火墙标记结合起来就能够实现端口姻亲功能，只要是来自某一客户端的对某一特定服务（需要不同的端口）的访问都定义到同一台Real Server上去。假设这样一种场景：一个用户在访问购物网站时同时使用HTTP（80）和HTTPS（443）两种协议，我们需要将其定义到同一台Real Server上，而其他的服务不受限制。</p>
+<p>注:关于LVS持久连接的具体案例(80与443)，会单独写一博客详细说明！^_^……</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/28/Linux/crontab命令/" rel="next" title="crontab命令">
+                <i class="fa fa-chevron-left"></i> crontab命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/08/Linux/资源汇总/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2017/10/04/集群/Linux 集群的基本概念与LB（负载均衡）集群详解/" data-title="Linux 集群的基本概念与LB（负载均衡）集群详解" data-url="http://yoursite.com/2017/10/04/集群/Linux 集群的基本概念与LB（负载均衡）集群详解/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

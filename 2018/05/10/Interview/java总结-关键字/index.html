@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Spring,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="1 finalize什么是finalize()方法 http://bijian1013.iteye.com/blog/2288223  一.finalize的作用 finalize()是Object的protected方法，子类可以覆盖该方法以实现资源清理工作，GC在回收对象之前调用该方法。finalize()与C++中的析构函数不是对应的。C++中的析构函数调用的时机是确定的（对象离开作用域或">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java总结---关键字">
+<meta property="og:url" content="http://yoursite.com/2018/05/10/Interview/java总结-关键字/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1 finalize什么是finalize()方法 http://bijian1013.iteye.com/blog/2288223  一.finalize的作用 finalize()是Object的protected方法，子类可以覆盖该方法以实现资源清理工作，GC在回收对象之前调用该方法。finalize()与C++中的析构函数不是对应的。C++中的析构函数调用的时机是确定的（对象离开作用域或">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://dl2.iteye.com/upload/attachment/0116/3001/534db2a9-9431-339a-9d36-08222a314e9a.gif">
+<meta property="og:image" content="http://dl2.iteye.com/upload/attachment/0116/3003/289639fa-6755-3f50-84c8-7fa0e74e595e.png">
+<meta property="og:updated_time" content="2018-05-10T11:50:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java总结---关键字">
+<meta name="twitter:description" content="1 finalize什么是finalize()方法 http://bijian1013.iteye.com/blog/2288223  一.finalize的作用 finalize()是Object的protected方法，子类可以覆盖该方法以实现资源清理工作，GC在回收对象之前调用该方法。finalize()与C++中的析构函数不是对应的。C++中的析构函数调用的时机是确定的（对象离开作用域或">
+<meta name="twitter:image" content="http://dl2.iteye.com/upload/attachment/0116/3001/534db2a9-9431-339a-9d36-08222a314e9a.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/10/Interview/java总结-关键字/">
+
+
+
+
+
+  <title>java总结---关键字 | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/10/Interview/java总结-关键字/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">java总结---关键字</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-10T14:31:43+08:00">
+                2018-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/resume/" itemprop="url" rel="index">
+                    <span itemprop="name">resume</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/10/Interview/java总结-关键字/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/05/10/Interview/java总结-关键字/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h2 id="1-finalize"><a href="#1-finalize" class="headerlink" title="1 finalize"></a>1 <code>finalize</code></h2><h3 id="什么是finalize-方法"><a href="#什么是finalize-方法" class="headerlink" title="什么是finalize()方法"></a>什么是<code>finalize()</code>方法</h3><ul>
+<li><a href="http://bijian1013.iteye.com/blog/2288223" target="_blank" rel="noopener">http://bijian1013.iteye.com/blog/2288223</a></li>
+</ul>
+<p><strong>一.finalize的作用</strong></p>
+<p><code>finalize()</code>是<code>Object</code>的<code>protected</code>方法，子类可以覆盖该方法以实现资源清理工作，<code>GC</code>在回收对象之前调用该方法。<br><code>finalize()</code>与C++中的析构函数不是对应的。C++中的析构函数调用的时机是确定的（对象离开作用域或<code>delete</code>掉），但<code>Java</code>中的<code>finalize</code>的调用具有不确定性。<br>不建议用<code>finalize</code>方法完成“非内存资源”的清理工作，但建议用于：</p>
+<ul>
+<li>a.清理本地对象(通过<code>JNI</code>创建的对象)；</li>
+<li>b.作为确保某些非内存资源(如<code>Socket</code>、文件等)释放的一个补充：在<code>finalize</code>方法中显式调用其他资源释放方法。其原因可见下文[<code>finalize</code>的问题]</li>
+</ul>
+<p><strong>二.<code>finalize</code>的问题</strong><br>一些与<code>finalize</code>相关的方法，由于一些致命的缺陷，已经被废弃了，如<code>System.runFinalizersOnExit()</code>方法、<code>Runtime.runFinalizersOnExit()</code>方法。<br><code>System.gc()</code>与<code>System.runFinalization()</code>方法增加了<code>finalize</code>方法执行的机会，但不可盲目依赖它们。<br><code>Java</code>语言规范并不保证<code>finalize</code>方法会被及时地执行、而且根本不会保证它们会被执行。<br><code>finalize</code>方法可能会带来性能问题。因为<code>JVM</code>通常在单独的低优先级线程中完成<code>finalize</code>的执行。<br>对象再生问题：<code>finalize</code>方法中，可将待回收对象赋值给<code>GC</code> <code>Roots</code>可达的对象引用，从而达到对象再生的目的。<br><code>finalize</code>方法至多由<code>GC</code>执行一次(用户当然可以手动调用对象的<code>finalize</code>方法，但并不影响<code>GC</code>对<code>finalize</code>的行为)。</p>
+<p><strong>三. finalize的执行过程(生命周期)</strong></p>
+<p>1.<code>finalize</code>大体流程</p>
+<p>当对象变成(<code>GC Roots</code>)不可达时，<code>GC</code>会判断该对象是否覆盖了<code>finalize</code>方法，若未覆盖，则直接将其回收。否则，若对象未执行过<code>finalize</code>方法，将其放入<code>F-Queue</code>队列，由一低优先级线程执行该队列中对象的<code>finalize</code>方法。执行<code>finalize</code>方法完毕后，<code>GC</code>会再次判断该对象是否可达，若不可达，则进行回收，否则，对象“复活”。</p>
+<p>2.具体的<code>finalize</code>流程</p>
+<p>对象可由两种状态，涉及到两类状态空间，<br>一是终结状态空间 <code>F</code> = {<code>unfinalized</code>, <code>finalizable</code>, <code>finalized</code>}；<br>二是可达状态空间 <code>R</code> = {<code>reachable</code>, <code>finalizer-reachable</code>, <code>unreachable</code>}。</p>
+<p>各状态含义如下：<br>a.<code>unfinalized</code>：新建对象会先进入此状态，<code>GC</code>并未准备执行其<code>finalize</code>方法，因为该对象是可达的。</p>
+<p>b.<code>finalizable</code>：表示<code>GC</code>可对该对象执行<code>finalize</code>方法，<code>GC</code>已检测到该对象不可达。正如前面所述，<code>GC</code>通过<code>F-Queue</code>队列和一专用线程完成<code>finalize</code>的执行。<br>c.<code>finalized</code>：表示<code>GC</code>已经对该对象执行过<code>finalize</code>方法。<br>d.<code>reachable</code>：表示<code>GC Roots</code>引用可达。<br>e.<code>finalizer-reachable(f-reachable)</code>：表示不是<code>reachable</code>，但可通过某个<code>finalizable</code>对象可达。<br>f.<code>unreachable</code>：对象不可通过上面两种途径可达</p>
+<p>状态变迁图：<br><img src="http://dl2.iteye.com/upload/attachment/0116/3001/534db2a9-9431-339a-9d36-08222a314e9a.gif" alt="status"><br>变迁说明：<br>a.新建对象首先处于[<code>reachable</code>, <code>unfinalized</code>]状态(<code>A</code>)<br>b.随着程序的运行，一些引用关系会消失，导致状态变迁，从<code>reachable</code>状态变迁到<code>f-reachable(B, C, D)</code>或<code>unreachable(E, F)</code>状态<br>c.若<code>JVM</code>检测到处于<code>unfinalized</code>状态的对象变成<code>f-reachable</code>或<code>unreachable</code>，<code>JVM</code>会将其标记为<code>finalizable</code>状态(<code>G</code>,<code>H</code>)。若对象原处于[<code>unreachable</code>, <code>unfinalized</code>]状态，则同时将其标记为<code>f-reachable(H)</code>。<br>d.在某个时刻，<code>JVM</code>取出某个<code>finalizable</code>对象，将其标记为<code>finalized</code>并在某个线程中执行其<code>finalize</code>方法。由于是在活动线程中引用了该对象，该对象将变迁到(<code>reachable</code>, <code>finalized</code>)状态(<code>K</code>或<code>J</code>)。该动作将影响某些其他对象从<code>f-reachable</code>状态重新回到<code>reachable</code>状态(<code>L</code>, <code>M</code>, <code>N</code>)。<br>e.处于<code>finalizable</code>状态的对象不能同时是<code>unreahable</code>的，由第<code>d</code>点可知，将对象<code>finalizable</code>对象标记为<code>finalized</code>时会由某个线程执行该对象的<code>finalize</code>方法，致使其变成<code>reachable</code>。这也是图中只有八个状态点的原因。<br>f.程序员手动调用<code>finalize</code>方法并不会影响到上述内部标记的变化，因此<code>JVM</code>只会至多调用<code>finalize</code>一次，即使该对象“复活”也是如此。程序员手动调用多少次不影响<code>JVM</code>的行为。<br>g.若<code>JVM</code>检测到<code>finalized</code>状态的对象变成<code>unreachable</code>，回收其内存(<code>I</code>)。<br>h.若对象并未覆盖<code>finalize</code>方法，<code>JVM</code>会进行优化，直接回收对象（<code>O</code>）。<br>i.注：<code>System.runFinalizersOnExit()</code>等方法可以使对象即使处于<code>reachable</code>状态，<code>JVM</code>仍对其执行<code>finalize</code>方法。</p>
+<p>四.代码示例</p>
+<p>1.对象复活</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GC</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> GC SAVE_HOOK = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        SAVE_HOOK = <span class="keyword">new</span> GC();</span><br><span class="line">        SAVE_HOOK = <span class="keyword">null</span>;</span><br><span class="line">        System.gc();</span><br><span class="line">        Thread.sleep(<span class="number">500</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != SAVE_HOOK) &#123; <span class="comment">//此时对象应该处于(reachable, finalized)状态</span></span><br><span class="line">            System.out.println(<span class="string">"Yes , I am still alive"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">"No , I am dead"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        SAVE_HOOK = <span class="keyword">null</span>;</span><br><span class="line">        System.gc();</span><br><span class="line">        Thread.sleep(<span class="number">500</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != SAVE_HOOK) &#123;</span><br><span class="line">            System.out.println(<span class="string">"Yes , I am still alive"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">"No , I am dead"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.finalize();</span><br><span class="line">        System.out.println(<span class="string">"execute method finalize()"</span>);</span><br><span class="line">        SAVE_HOOK = <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们Debug上面代码，应该都是如下几种结果：</p>
+<p>结果一：</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">execute method finalize()</span><br><span class="line">Yes , I am still alive</span><br><span class="line">No , I am dead</span><br></pre></td></tr></table></figure>
+<p>结果二：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">No , I am dead</span><br><span class="line">execute method finalize()</span><br><span class="line">Yes , I am still alive</span><br></pre></td></tr></table></figure></p>
+<p>结果三：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">No , I am dead</span><br><span class="line">No , I am dead</span><br><span class="line">execute method finalize()</span><br></pre></td></tr></table></figure></p>
+<p>因为<code>System.gc();</code>方法会启动一个守护线程执行<code>finalize()</code>方法，但由于线程调度随机，上面三种结果都有可能会出现，结果二即很好的展示了对象复活。</p>
+<p><img src="http://dl2.iteye.com/upload/attachment/0116/3003/289639fa-6755-3f50-84c8-7fa0e74e595e.png" alt="debug"></p>
+<p>2.覆盖<code>finalize</code>方法以确保资源释放<br>作为一个补充操作，以防用户忘记“关闭”资源，<code>JDK</code>中<code>FileInputStream</code>、<code>FileOutputStream</code>、<code>Connection</code>类均用了此“技术”，下面代码摘自<code>FileInputStream</code>类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Ensures that the &lt;code&gt;close&lt;/code&gt; method of this file input stream is</span></span><br><span class="line"><span class="comment"> * called when there are no more references to it.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@exception</span>  IOException  if an I/O error occurs.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span>        java.io.FileInputStream#close()</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ((fd != <span class="keyword">null</span>) &amp;&amp;  (fd != FileDescriptor.in)) &#123;</span><br><span class="line">        <span class="comment">/* if fd is shared, the references in FileDescriptor</span></span><br><span class="line"><span class="comment">         * will ensure that finalizer is only called when</span></span><br><span class="line"><span class="comment">         * safe to do so. All references using the fd have</span></span><br><span class="line"><span class="comment">         * become unreachable. We can call close()</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注：本文的目的并不是鼓励使用finalize方法，而是大致理清其作用、问题以及GC执行finalize的过程。</p>
+<p>参考：</p>
+<p>深入理解java的finalize <a href="http://zhang-xzhi-xjtu.iteye.com/blog/484934" target="_blank" rel="noopener">http://zhang-xzhi-xjtu.iteye.com/blog/484934</a><br>The Finalizable Object  <a href="http://www.artima.com/interfacedesign/Finalizable.html" target="_blank" rel="noopener">http://www.artima.com/interfacedesign/Finalizable.html</a></p>
+<h3 id="finalize-方法什么时候被调用，析构函数-finalization-的目的是什么"><a href="#finalize-方法什么时候被调用，析构函数-finalization-的目的是什么" class="headerlink" title="finalize()方法什么时候被调用，析构函数(finalization)的目的是什么"></a><code>finalize()</code>方法什么时候被调用，析构函数(<code>finalization</code>)的目的是什么</h3><ul>
+<li><a href="https://www.nowcoder.com/questionTerminal/d8eab06913084e42b515633604eef7cd" target="_blank" rel="noopener">https://www.nowcoder.com/questionTerminal/d8eab06913084e42b515633604eef7cd</a></li>
+</ul>
+<p>对于<code>Java</code>而言：<br>调用时机：当垃圾回收器要宣告一个对象死亡时，至少要经过两次标记过程：如果对象在进行可达性分析后发现没有和<code>GC Roots</code>相连接的引用链，就会被第一次标记，并且判断是否执行<code>finalizer( )</code>方法，如果对象覆盖<code>finalizer( )</code>方法且未被虚拟机调用过，那么这个对象会被放置在<code>F-Queue</code>队列中，并在稍后由一个虚拟机自动建立的低优先级的<code>Finalizer</code>线程区执行触发<code>finalizer( )</code>方法，但不承诺等待其运行结束。</p>
+<p><code>finalization</code>的目的：对象逃脱死亡的最后一次机会。（只要重新与引用链上的任何一个对象建立关联即可。）但是不建议使用，运行代价高昂，不确定性大，且无法保证各个对象的调用顺序。可用<code>try-finally</code>或其他替代。</p>
+<h3 id="final-和-finalize-的区别"><a href="#final-和-finalize-的区别" class="headerlink" title="final 和 finalize 的区别"></a><code>final</code> 和 <code>finalize</code> 的区别</h3><p><strong>1.final</strong><br><code>final</code>修饰类，说明这个类不能被继承，是以个顶级类。</p>
+<p><code>final</code>修饰变量，说明这个变量是常量。</p>
+<p><code>final</code>修饰方法，表示这个方法不能被重写，不过可以被子类继承。</p>
+<p>比如有个基类<code>Person</code>，里面有一个<code>public final void eat()</code>方法，可以在<code>Person</code>类中重载同名方法，比如<code>public void eat(String name,int age)</code>。假如有一个子类<code>Student</code>，那么在<code>Student</code>中可以<code>override</code>父类的非<code>final</code>方法，但是不能<code>override final</code>方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"this is in person class"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">(String name,<span class="keyword">int</span> age)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">        <span class="keyword">super</span>.eat(name, age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>常见的final方法就是Object类累中的wait()和notify()方法。</p>
+</blockquote>
+<p><strong>2.finally</strong><br><code>finally</code>是关键字，在异常处理中，<code>try</code>子句中执行需要运行的内容，<code>catch</code>子句用于捕获异常，<code>finally</code>子句表示不管是否发生异常，都会执行。<code>finally</code>可有可无。但是<code>try...catch</code>必须成对出现。</p>
+<p><strong>3.finalize()</strong><br><code>finalize()</code> 方法名，<code>Object</code>类的方法，<code>Java</code> 技术允许使用 <code>finalize()</code> 方法在垃圾收集器将对象从内存中清除出去之前做必要的清理工作。这个方法是由垃圾收集器在确定这个对象没有被引用时对这个对象进行调用。<code>finalize()</code>方法是在垃圾收集器删除对象之前对这个对象调用的子类覆盖 <code>finalize()</code> 方法以整理系统资源或者执行其他清理操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"姓名："</span>+<span class="keyword">this</span>.name+<span class="string">"，年龄："</span>+<span class="keyword">this</span>.age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span> <span class="keyword">throws</span> Throwable</span>&#123;<span class="comment">//对象释放空间是默认调用此方法</span></span><br><span class="line">        System.out.println(<span class="string">"对象被释放--&gt;"</span>+<span class="keyword">this</span>);<span class="comment">//直接输出次对象，调用toString()方法</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SystemDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> args</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">        Person per=<span class="keyword">new</span> Person(<span class="string">"zhangsan"</span>,<span class="number">30</span>);</span><br><span class="line">        per=<span class="keyword">null</span>;<span class="comment">//断开引用，释放空间</span></span><br><span class="line">        <span class="comment">//方法1：</span></span><br><span class="line">        System.gc();<span class="comment">//强制性释放空间</span></span><br><span class="line">        <span class="comment">//方法2：</span></span><br><span class="line"><span class="comment">//        Runtime run=Runtime.getRuntime();</span></span><br><span class="line"><span class="comment">//        run.gc();</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-final"><a href="#2-final" class="headerlink" title="2 final"></a>2 <code>final</code></h2><ul>
+<li><a href="http://www.importnew.com/7553.html" target="_blank" rel="noopener">http://www.importnew.com/7553.html</a><br><code>Java</code>中的<code>final</code>关键字非常重要，它可以应用于类、方法以及变量。这篇文章中我将带你看看什么是<code>final</code>关键字？将变量，方法和类声明为<code>final</code>代表了什么？使用<code>final</code>的好处是什么？最后也有一些使用<code>final</code>关键字的实例。<code>final</code>经常和<code>static</code>一起使用来声明常量，你也会看到<code>final</code>是如何改善应用性能的。</li>
+</ul>
+<p><code>final</code>关键字的含义?<br><code>final</code>在<code>Java</code>中是一个保留的关键字，可以声明成员变量、方法、类以及本地变量。一旦你将引用声明作<code>final</code>，你将不能改变这个引用了，编译器会检查代码，如果你试图将变量再次初始化的话，编译器会报编译错误。</p>
+<p>什么是<code>final</code>变量？<br>凡是对成员变量或者本地变量(在方法中的或者代码块中的变量称为本地变量)声明为<code>final</code>的都叫作<code>final</code>变量。<code>final</code>变量经常和<code>static</code>关键字一起使用，作为常量。下面是<code>final</code>变量的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String LOAN = <span class="string">"loan"</span>;</span><br><span class="line">LOAN = <span class="keyword">new</span> String(<span class="string">"loan"</span>) <span class="comment">//invalid compilation error</span></span><br></pre></td></tr></table></figure>
+<p><code>final</code>变量是只读的。</p>
+<p>什么是<code>final</code>方法?<br><code>final</code>也可以声明方法。方法前面加上<code>final</code>关键字，代表这个方法不可以被子类的方法重写。如果你认为一个方法的功能已经足够完整了，子类中不需要改变的话，你可以声明此方法为<code>final</code>。<strong><code>final</code>方法比非<code>final</code>方法要快，因为在编译的时候已经静态绑定了，不需要在运行时再动态绑</strong>定。下面是<code>final</code>方法的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class PersonalLoan&#123;</span><br><span class="line">    public final String getName()&#123;</span><br><span class="line">        return &quot;personal loan&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class CheapPersonalLoan extends PersonalLoan&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public final String getName()&#123;</span><br><span class="line">        return &quot;cheap personal loan&quot;; //compilation error: overridden method is final</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>什么是<code>final</code>类？<br>使用<code>final</code>来修饰的类叫作<code>final</code>类。<code>final</code>类通常功能是完整的，它们不能被继承。<code>Java</code>中有许多类是<code>final</code>的，譬如<code>String</code>, <code>Interger</code>以及其他包装类。下面是<code>final</code>类的实例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">PersonalLoan</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">CheapPersonalLoan</span> <span class="keyword">extends</span> <span class="title">PersonalLoan</span></span>&#123;  <span class="comment">//compilation error: cannot inherit from final class</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>final</code>关键字的好处</p>
+<ul>
+<li><code>final</code>关键字提高了性能。<code>JVM</code>和<code>Java</code>应用都会缓存<code>final</code>变量。</li>
+<li><code>final</code>变量可以安全的在多线程环境下进行共享，而不需要额外的同步开销。</li>
+<li>使用<code>final</code>关键字，<code>JVM</code>会对方法、变量及类进行优化。</li>
+</ul>
+<p>不可变类<br>创建不可变类要使用<code>final</code>关键字。不可变类是指它的对象一旦被创建了就不能被更改了。<code>String</code>是不可变类的代表。不可变类有很多好处，譬如它们的对象是只读的，可以<strong>在多线程环境下安全的共享，不用额外的同步开销等等</strong>。</p>
+<p>相关阅读：为什么<a href="http://www.importnew.com/7440.html" target="_blank" rel="noopener"><code>String</code>是不可变的</a>以及<a href="http://www.importnew.com/7535.html" target="_blank" rel="noopener">如何写一个不可变类</a>。</p>
+<p>关于<code>final</code>的重要知识点</p>
+<ul>
+<li><code>final</code>关键字可以用于成员变量、本地变量、方法以及类。</li>
+<li><code>final</code>成员变量必须在声明的时候初始化或者在构造器中初始化，否则就会报编译错误。</li>
+<li>你不能够对<code>final</code>变量再次赋值。</li>
+<li>本地变量必须在声明时赋值。</li>
+<li>在匿名类中所有变量都必须是<code>final</code>变量。</li>
+<li><code>final</code>方法不能被重写。</li>
+<li><code>final</code>类不能被继承。</li>
+<li><code>final</code>关键字不同于<code>finally</code>关键字，后者用于异常处理。</li>
+<li><code>final</code>关键字容易与<code>finalize()</code>方法搞混，后者是在<code>Object</code>类中定义的方法，是在垃圾回收之前被<code>JVM</code>调用的方法。</li>
+<li>接口中声明的所有变量本身是<code>final</code>的。</li>
+<li><code>final</code>和<code>abstract</code>这两个关键字是反相关的，<code>final</code>类就不可能是<code>abstract</code>的。</li>
+<li><code>final</code>方法在编译阶段绑定，称为静态绑定(<code>static binding</code>)。</li>
+<li>没有在声明时初始化<code>final</code>变量的称为空白<code>final</code>变量(<code>blank final variable</code>)，它们必须在构造器中初始化，或者调用<code>this()</code>初始化。不这么做的话，编译器会报错“<code>final</code>变量(变量名)需要进行初始化”。</li>
+<li>将类、方法、变量声明为<code>final</code>能够提高性能，这样<code>JVM</code>就有机会进行估计，然后优化。</li>
+<li>按照<code>Java</code>代码惯例，<code>final</code>变量就是常量，而且通常常量名要大写：<br>  <code>private final int COUNT = 10;</code></li>
+<li><p>对于集合对象声明为final指的是引用不能被更改，但是你可以向其中增加，删除或者改变内容。譬如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> List Loans = <span class="keyword">new</span> ArrayList();</span><br><span class="line">list.add(<span class="string">"home loan"</span>);  <span class="comment">//valid</span></span><br><span class="line">list.add(<span class="string">"personal loan"</span>); <span class="comment">//valid</span></span><br><span class="line">loans = <span class="keyword">new</span> Vector();  <span class="comment">//not valid</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>我们已经知道<code>final</code>变量、<code>final</code>方法以及<code>final</code>类是什么了。必要的时候使用<code>final</code>，能写出更快、更好的代码的。</p>
+</li>
+</ul>
+<h3 id="final关键字有哪些用法"><a href="#final关键字有哪些用法" class="headerlink" title="final关键字有哪些用法"></a><code>final</code>关键字有哪些用法</h3><h3 id="final-与-static-关键字可以用于哪里？它们的作用是什么"><a href="#final-与-static-关键字可以用于哪里？它们的作用是什么" class="headerlink" title="final 与 static 关键字可以用于哪里？它们的作用是什么"></a><code>final</code> 与 <code>static</code> 关键字可以用于哪里？它们的作用是什么</h3><ul>
+<li><a href="https://blog.csdn.net/happybruce8023/article/details/79943997" target="_blank" rel="noopener">https://blog.csdn.net/happybruce8023/article/details/79943997</a></li>
+</ul>
+<h3 id="能否在运行时向-static-final-类型的赋值"><a href="#能否在运行时向-static-final-类型的赋值" class="headerlink" title="能否在运行时向 static final 类型的赋值"></a>能否在运行时向 <code>static</code> <code>final</code> 类型的赋值</h3><ul>
+<li><a href="https://blog.csdn.net/u011299745/article/details/52887825" target="_blank" rel="noopener">https://blog.csdn.net/u011299745/article/details/52887825</a></li>
+</ul>
+<h3 id="使用final关键字修饰一个变量时，是引用不能变，还是引用的对象不能变"><a href="#使用final关键字修饰一个变量时，是引用不能变，还是引用的对象不能变" class="headerlink" title="使用final关键字修饰一个变量时，是引用不能变，还是引用的对象不能变"></a>使用<code>final</code>关键字修饰一个变量时，是引用不能变，还是引用的对象不能变</h3><p>java中使用final关键字修饰一个变量时，是引用不能变，还是引用的对象不能变？</p>
+<p>　　是引用对象的地址值不能变，引用变量所指向的对象的内容是可以改变。</p>
+<p>　　final变量永远指向这个对象，是一个常量指针，而不是指向常量的指针。</p>
+<p>例如：final StringBuffer sbu = new StringBuffer(“abc”);</p>
+<pre><code>在对其进行重新赋值
+
+sbu = new StringBuffer(“”);
+</code></pre><p>会出现编译错误，被final修饰的变量是不能被重新赋值的。</p>
+<p>　　sbu.append(“d”);</p>
+<p>是可以编译通过的;</p>
+<p>final:最终。作为一个修饰符</p>
+<p>1、可以修饰类、变量、函数。</p>
+<p>2、被final修饰的类不可以被继承。为了避免被继承，被子类复写功能。</p>
+<p>3、被final修饰的方法不可以被复写。</p>
+<p>4、被final修饰的变量是一个常量只能赋值一次，既可以修饰成员变量，也可以修饰局部变量。</p>
+<pre><code>当在描述事物时，一些数据的出现值是固定的，那么这时为了增强阅读性，都给这些值起个名字，方便于阅读。
+
+而这个值不需要改变，所以加上final修饰，作为常量：常量的书写规范所有字母都大写，如果由多个单词组成，单词间通过_连接。
+</code></pre><p>5、内部类定义在类中的局部位置上时，只能访问该局部被final修饰的局部变量。</p>
+<h3 id="一个类被声明为final类型，表示了什么意思"><a href="#一个类被声明为final类型，表示了什么意思" class="headerlink" title="一个类被声明为final类型，表示了什么意思"></a>一个类被声明为<code>final</code>类型，表示了什么意思</h3><h2 id="3-throws-throw-try-catch-finally分别代表什么意义"><a href="#3-throws-throw-try-catch-finally分别代表什么意义" class="headerlink" title="3 throws, throw, try, catch, finally分别代表什么意义"></a>3 <code>throws</code>, <code>throw</code>, <code>try</code>, <code>catch</code>, <code>finally</code>分别代表什么意义</h2><p><code>Java</code>通过面向对象的方法进行异常处理，把各种不同的异常进行分类，并提供了良好的接口。<br>在<code>Java</code>中，每个异常都是一个对象，它是<code>Throwable</code>类或其它子类的实例。当一个方法出现异常后便抛出一个异常对象，该对象中包含有异常信息，调用这个对象的方法可以捕获到这个异常并进行处理。<code>Java</code>的异常处理是通过5个关键词来实现的：<code>try</code>、<code>catch</code>、<code>throw</code>、<code>throws</code>和<code>finally</code>。一般情况下是用<code>try</code>来执行一段程序，如果出现异常，系统会抛出（<code>throws</code>）一个异常，这时候你可以通过它的类型来捕捉（<code>catch</code>）它，或最后（<code>finally</code>）由缺省处理器来处理。</p>
+<ul>
+<li>用<code>try</code>来指定一块预防所有”异常”的程序。紧跟在<code>try</code>程序后面，应包含一个<code>catch</code>子句来指定你想要捕捉的”异常”的类型。</li>
+<li><code>throw</code>语句用来明确地抛出一个”异常”。</li>
+<li><code>throws</code>用来标明一个成员函数可能抛出的各种”异常”。</li>
+<li><code>Finally</code>为确保一段代码不管发生什么”异常”都被执行一段代码。<br>可以在一个成员函数调用的外面写一个<code>try</code>语句，在这个成员函数内部写另一个<code>try</code>语句保护其他代码。每当遇到一个<code>try</code>语句，”异常”的框架就放到堆栈上面，直到所有的<code>try</code>语句都完成。如果下一级的<code>try</code>语句没有对某种”异常”进行处理，堆栈就会展开，直到遇到有处理这种”异常”的<code>try</code>语句。</li>
+</ul>
+<h2 id="4-Java-有几种修饰符？分别用来修饰什么"><a href="#4-Java-有几种修饰符？分别用来修饰什么" class="headerlink" title="4 Java 有几种修饰符？分别用来修饰什么"></a>4 <code>Java</code> 有几种修饰符？分别用来修饰什么</h2><p>Java有四种访问权限，其中三种有访问权限修饰符，分别为private，public和protected，还有一种不带任何修饰符：</p>
+<ol>
+<li><strong>private:</strong> Java语言中对访问权限限制的最窄的修饰符，一般称之为“私有的”。被其修饰的类、属性以及方法只能被该类的对象访问，其子类不能访问，更不能允许跨包访问。</li>
+<li><strong>default：</strong>即不加任何访问修饰符，通常称为“默认访问模式“。该模式下，只允许在同一个包中进行访问。</li>
+<li><strong>protect:</strong> 介于public 和 private 之间的一种访问修饰符，一般称之为“保护形”。被其修饰的类、属性以及方法只能被类本身的方法及子类访问，即使子类在不同的包中也可以访问。</li>
+<li><strong>public：</strong> Java语言中访问限制最宽的修饰符，一般称之为“公共的”。被其修饰的类、属性以及方法不仅可以跨类访问，而且允许跨包（package）访问。</li>
+</ol>
+<p>下面用表格的形式来展示四种访问权限之间的异同点，这样会更加形象。注意其中protected和default的区别，表格如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>权限修饰符</th>
+<th>同一个类</th>
+<th>同一个包</th>
+<th>不同包的子类</th>
+<th>不同包的非子类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Private</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Default</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Protected</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>Public</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<p>【参考资料】：<br>1、<a href="http://www.cnblogs.com/xwdreamer/archive/2012/04/06/2434483.html" target="_blank" rel="noopener">java类的访问权限</a></p>
+<h2 id="5-volatile"><a href="#5-volatile" class="headerlink" title="5 volatile"></a>5 <code>volatile</code></h2><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/34054575" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/34054575</a></li>
+<li><a href="http://www.importnew.com/20566.html" target="_blank" rel="noopener">http://www.importnew.com/20566.html</a></li>
+<li><a href="http://www.cnblogs.com/Mainz/p/3556430.html" target="_blank" rel="noopener">http://www.cnblogs.com/Mainz/p/3556430.html</a></li>
+<li><a href="http://www.cnblogs.com/Mainz/p/3546347.html" target="_blank" rel="noopener">http://www.cnblogs.com/Mainz/p/3546347.html</a></li>
+<li><a href="http://blog.51cto.com/exploer/1193399" target="_blank" rel="noopener">http://blog.51cto.com/exploer/1193399</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/java/j-jtp06197.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/java/j-jtp06197.html</a></li>
+<li><a href="https://codeday.me/bug/20170420/11152.html" target="_blank" rel="noopener">https://codeday.me/bug/20170420/11152.html</a></li>
+</ul>
+<h3 id="volatile-类型变量提供什么保证？"><a href="#volatile-类型变量提供什么保证？" class="headerlink" title="volatile 类型变量提供什么保证？"></a><code>volatile</code> 类型变量提供什么保证？</h3><p><code>volatile</code> 变量提供顺序和可见性保证，例如，<code>JVM</code> 或者 <code>JIT</code>为了获得更好的性能会对语句重排序，但是 <code>volatile</code> 类型变量即使在没有同步块的情况下赋值也不会与其他语句重排序。 <code>volatile</code> 提供 <code>happens-before</code> 的保证，确保一个线程的修改能对其他线程是可见的。某些情况下，<code>volatile</code> 还能提供原子性，如读 64 位数据类型，像 <code>long</code> 和 <code>double</code> 都不是原子的，但 <code>volatile</code> 类型的 <code>double</code> 和 <code>long</code> 就是原子的。</p>
+<h3 id="volatile-修饰符的有过什么实践"><a href="#volatile-修饰符的有过什么实践" class="headerlink" title="volatile 修饰符的有过什么实践"></a><code>volatile</code> 修饰符的有过什么实践</h3><p>一种实践是用 volatile 修饰 long 和 double 变量，使其能按原子类型来读写。double 和 long 都是64位宽，因此对这两种类型的读是分为两部分的，第一次读取第一个 32 位，然后再读剩下的 32 位，这个过程不是原子的，但 Java 中 volatile 型的 long 或 double 变量的读写是原子的。volatile 修复符的另一个作用是提供内存屏障（memory barrier），例如在分布式框架中的应用。简单的说，就是当你写一个 volatile 变量之前，Java 内存模型会插入一个写屏障（write barrier），读一个 volatile 变量之前，会插入一个读屏障（read barrier）。意思就是说，在你写一个 volatile 域时，能保证任何线程都能看到你写的值，同时，在写之前，也能保证任何数值的更新对所有线程是可见的，因为内存屏障会将其他所有写的值更新到缓存。</p>
+<h3 id="volatile-变量是什么？volatile-变量和-atomic-变量有什么不同"><a href="#volatile-变量是什么？volatile-变量和-atomic-变量有什么不同" class="headerlink" title="volatile 变量是什么？volatile 变量和 atomic 变量有什么不同"></a><code>volatile</code> 变量是什么？<code>volatile</code> 变量和 <code>atomic</code> 变量有什么不同</h3><h3 id="volatile-类型变量提供什么保证？能使得一个非原子操作变成原子操作吗"><a href="#volatile-类型变量提供什么保证？能使得一个非原子操作变成原子操作吗" class="headerlink" title="volatile 类型变量提供什么保证？能使得一个非原子操作变成原子操作吗"></a><code>volatile</code> 类型变量提供什么保证？能使得一个非原子操作变成原子操作吗</h3><p>一个典型的例子是在类中有一个 long 类型的成员变量。如果你知道该成员变量会被多个线程访问，如计数器、价格等，你最好是将其设置为 volatile。为什么？因为 Java 中读取 long 类型变量不是原子的，需要分成两步，如果一个线程正在修改该 long 变量的值，另一个线程可能只能看到该值的一半（前 32 位）。但是对一个 volatile 型的 long 或 double 变量的读写是原子。</p>
+<h3 id="能创建-volatile-数组吗？"><a href="#能创建-volatile-数组吗？" class="headerlink" title="能创建 volatile 数组吗？"></a>能创建 <code>volatile</code> 数组吗？</h3><p>能，Java 中可以创建 volatile 类型数组，不过只是一个指向数组的引用，而不是整个数组。我的意思是，如果改变引用指向的数组，将会受到 volatile 的保护，但是如果多个线程同时改变数组的元素，volatile 标示符就不能起到之前的保护作用了。</p>
+<h3 id="transient变量有什么特点"><a href="#transient变量有什么特点" class="headerlink" title="transient变量有什么特点"></a><code>transient</code>变量有什么特点</h3><h3 id="super什么时候使用"><a href="#super什么时候使用" class="headerlink" title="super什么时候使用"></a><code>super</code>什么时候使用</h3><p>调用super() 总是冗余的。 它明确地做了其他的隐含的做法。 这是因为如果省略对超级构造函数的调用，则无参数超级构造函数将自动调用。 不是说这是坏的风格; 有些人喜欢露骨。</p>
+<p>但是，如果超级构造函数从子类中获取要传入的参数，那么它将变得有用。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> String noise;</span><br><span class="line">   <span class="function"><span class="keyword">protected</span> <span class="title">Animal</span><span class="params">(String noise)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.noise = noise;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">makeNoise</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      System.out.println(noise);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Pig</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Pig</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>(<span class="string">"Oink"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="public-static-void-写成-static-public-void会怎样"><a href="#public-static-void-写成-static-public-void会怎样" class="headerlink" title="public static void 写成 static public void会怎样"></a><code>public</code> <code>static</code> <code>void</code> 写成 <code>static</code> <code>public</code> <code>void</code>会怎样</h3><p>程序正常编译及运行。 但不能写成  public void static</p>
+<h3 id="说明一下public-static-void-main-String-args-这段声明里每个关键字的作用"><a href="#说明一下public-static-void-main-String-args-这段声明里每个关键字的作用" class="headerlink" title="说明一下public static void main(String args[])这段声明里每个关键字的作用"></a>说明一下<code>public</code> <code>static</code> <code>void</code> <code>main(String args[])</code>这段声明里每个关键字的作用</h3><h3 id="请说出作用域public-private-protected-以及不写时的区别"><a href="#请说出作用域public-private-protected-以及不写时的区别" class="headerlink" title="请说出作用域public, private, protected, 以及不写时的区别"></a>请说出作用域<code>public</code>, <code>private</code>, <code>protected</code>, 以及不写时的区别</h3><h3 id="sizeof-是Java-的关键字吗"><a href="#sizeof-是Java-的关键字吗" class="headerlink" title="sizeof 是Java 的关键字吗"></a><code>sizeof</code> 是<code>Java</code> 的关键字吗</h3><p>Java中不需要这个操作符，所有的类型(原始类型)的大小都是固定的。</p>
+<h2 id="static"><a href="#static" class="headerlink" title="static"></a><code>static</code></h2><h3 id="static-class-与-non-static-class的区别"><a href="#static-class-与-non-static-class的区别" class="headerlink" title="static class 与 non static class的区别"></a><code>static</code> <code>class</code> 与 <code>non</code> <code>static</code> <code>class</code>的区别</h3><p>java中的Static class<br>Java中的类可以是static吗？答案是可以。在java中我们可以有静态实例变量、静态方法、静态块。类也可以是静态的。</p>
+<pre><code> java允许我们在一个类里面定义静态类。比如内部类（nested class）。把nested class封闭起来的类叫外部类。在java中，我们不能用static修饰顶级类（top level class）。只有内部类可以为static。
+
+
+ 静态内部类和非静态内部类之间到底有什么不同呢？下面是两者间主要的不同。
+
+
+（1）内部静态类不需要有指向外部类的引用。但非静态内部类需要持有对外部类的引用。
+
+
+（2）非静态内部类能够访问外部类的静态和非静态成员。静态类不能访问外部类的非静态成员。他只能访问外部类的静态成员。
+
+
+（3）一个非静态内部类不能脱离外部类实体被创建，一个非静态内部类可以访问外部类的数据和方法，因为他就在外部类里面。
+</code></pre><p>基于上面的讨论，我们可以通过这些特性让编程更简单、有效。</p>
+<p>内部静态类不需要有指向外部类的引用。但非静态内部类需要持有对外部类的引用。非静态内部类能够访问外部类的静态和非静态成员。静态类不能访问外部类的非静态成员。他只能访问外部类的静态成员。一个非静态内部类不能脱离外部类实体被创建，一个非静态内部类可以访问外部类的数据和方法，因为他就在外部类里面。</p>
+<p>根据Oracle官方的说法：<br>Nested classes are divided into two categories: static and non-static. Nested classes that are declared static are called static nested classes. Non-static nested classes are called inner classes.<br>从字面上看，一个被称为静态嵌套类，一个被称为内部类。<br>从字面的角度解释是这样的：<br>什么是嵌套？嵌套就是我跟你没关系，自己可以完全独立存在，但是我就想借你的壳用一下，来隐藏一下我自己（真TM猥琐）。<br>什么是内部？内部就是我是你的一部分，我了解你，我知道你的全部，没有你就没有我。（所以内部类对象是以外部类对象存在为前提的）</p>
+<p>简单理解就是：如果把类比喻成鸡蛋，内部类为蛋黄,外部类是蛋壳。那么静态类相当于熟鸡蛋，就算蛋壳破碎（外部类没有实例化），蛋黄依然完好（内部类可以实例化）；而非静态类相当于生鸡蛋，蛋壳破碎（无实例化），蛋黄也会跟着xx（不能实例化）。</p>
+<h3 id="static-关键字是什么意思？Java中是否可以覆盖-override-一个private或者是static的方法"><a href="#static-关键字是什么意思？Java中是否可以覆盖-override-一个private或者是static的方法" class="headerlink" title="static 关键字是什么意思？Java中是否可以覆盖(override)一个private或者是static的方法"></a><code>static</code> 关键字是什么意思？<code>Java</code>中是否可以覆盖(<code>override</code>)一个<code>private</code>或者是<code>static</code>的方法</h3><ul>
+<li><a href="https://www.nowcoder.com/questionTerminal/6f66f55a1f844e21b580e73d36223cf7" target="_blank" rel="noopener">https://www.nowcoder.com/questionTerminal/6f66f55a1f844e21b580e73d36223cf7</a></li>
+</ul>
+<p><code>Static</code>表示静态的意思，可用于修饰成员变量和成员函数，被静态修饰的成员函数只能访问静态成员，不可以访问非静态成员。静态是随着类的加载而加载的，因此可以直接用类进行访问。 重写是子类中的方法和子类继承的父类中的方法一样（函数名，参数，参数类型，反回值类型），但是子类中的访问权限要不低于父类中的访问权限。重写的前提是必须要继承，<code>private</code>修饰不支持继承，因此被私有的方法不可以被重写。静态方法形式上可以被重写，即子类中可以重写父类中静态的方法。但是<strong>实际上从内存的角度上静态方法不可以被重写</strong>。</p>
+<h3 id="静态类型有什么特点"><a href="#静态类型有什么特点" class="headerlink" title="静态类型有什么特点"></a>静态类型有什么特点</h3><ul>
+<li><a href="https://blog.csdn.net/u010821666/article/details/79468274" target="_blank" rel="noopener">https://blog.csdn.net/u010821666/article/details/79468274</a></li>
+<li><a href="http://www.iteye.com/topic/33971" target="_blank" rel="noopener">http://www.iteye.com/topic/33971</a><br>静态变量是和类绑定到一起的，而不是类的实例对象。每一个实例对象都共享同样一份静态变量。也就是说，一个类的静态变量只有一份，不管它有多少个对象。类变量或者说静态变量是通过<code>static</code>这个关键字来声明的。类变量通常被用作常量。静态变量通常通过类名字来进行访问。当程序运行的时候这个变量就会创建直到程序结束后才会被销毁。类变量的作用域和实例变量是一样的。它的初始值和成员变量也是一样的，当变量没被初始化的时候根据它的数据类型，会有一个默认值。类似的，静态方法是属于类的方法，而不是类对象，它的调用并不作用于类对象，也不需要创建任何的类实例。静态方法本身就是<code>final</code>的，因为重写只会发生在类实例上，静态方法是和类绑定在一起的，不是对象。父类的静态方法会被子类的静态方法屏蔽，只要原来方法没有声明为<code>final</code>。非静态方法不能重写静态方法，也就是说，你不能在子类中把一个静态方法改成实例方法。</li>
+</ul>
+<p>非静态变量在每一个对象实例上都有单独的一份值。</p>
+<h3 id="main-方法为什么必须是静态的？能不能声明-main-方法为非静态"><a href="#main-方法为什么必须是静态的？能不能声明-main-方法为非静态" class="headerlink" title="main() 方法为什么必须是静态的？能不能声明 main() 方法为非静态"></a><code>main()</code> 方法为什么必须是静态的？能不能声明 <code>main()</code> 方法为非静态</h3><p>在<code>java</code>中，<code>main()</code>方法是<code>java</code>应用程序的入口方法，也就是说，程序在运行的时候，第一个执行的方法就是<code>main()</code>方法，这个方法和其他的方法有很大的不同，比如方法的名字必须是<code>main</code>，方法必须是<code>public static void</code>类型的，方法必须是接受一个字符串数组的参数等。</p>
+<p>因为<code>main()</code>方法是由<code>Java</code>虚拟机调用的，所以必须是<code>public</code>，虚拟机调用的<code>main()</code>方法的时候，不需要产生任何对象，所以<code>main()</code>方法声明为<code>static</code>，且不需要返回值，所以必须声明为<code>void</code>，最终格式如下所示：　　　　<code>public void main(String[] args)</code><br><code>main()</code>方法中有一个输入参数，类型为<code>String</code>[]，这个也是<code>java</code>中的规范，至于字符串的名字，这个可以自己设定，根据习惯，这个字符串数组的名字一般和<code>Sun Java</code>规范范例中的<code>main()</code>的参数名保持一致，取名为<code>args</code>。而且<code>main()</code>方法不准抛出异常，因此<code>main()</code>方法中的异常要么不处理，要么不处理，不能继续抛出。</p>
+<p><code>main()</code>方法中的字符串参数数组的作用是结合命令行输入参数，命令行的参数之间用空格隔开。</p>
+<h3 id="是否可以从一个静态（static）方法内部发出对非静态（non-static）方法的调用"><a href="#是否可以从一个静态（static）方法内部发出对非静态（non-static）方法的调用" class="headerlink" title="是否可以从一个静态（static）方法内部发出对非静态（non-static）方法的调用"></a>是否可以从一个静态（<code>static</code>）方法内部发出对非静态（<code>non-static</code>）方法的调用</h3><p>不可以，静态方法只能访问静态成员，因为非静态方法的调用要先创建对象，在调用静态方法时可能对象并没有被初始化</p>
+<p>非static方法是要与对象关联在一起的，必须创建一个对象之后才能在该对象基础之上进行方法的调用。但是static方法调用时不需要创建对象，可以直接调用。也就是说，当一个static方法被调用时，可能还没有创建任何实例对象，如果从一个static方法中发出对非static方法的调用，那个非static方法是关联到哪个对象上的呢？这个逻辑无法成立，所以，一个static方法内部无法发出对非static方法的调用。</p>
+<h3 id="静态变量在什么时候加载？编译期还是运行期？静态代码块加载的时机呢"><a href="#静态变量在什么时候加载？编译期还是运行期？静态代码块加载的时机呢" class="headerlink" title="静态变量在什么时候加载？编译期还是运行期？静态代码块加载的时机呢"></a>静态变量在什么时候加载？编译期还是运行期？静态代码块加载的时机呢</h3><p>当类加载器将类加载到JVM中的时候就会创建静态变量，这跟对象是否创建无关。静态变量加载的时候就会分配内存空间。静态代码块的代码只会在类第一次初始化的时候执行一次。一个类可以有多个静态代码块，它并不是类的成员，也没有返回值，并且不能直接调用。静态代码块不能包含this或者super,它们通常被用初始化静态变量。</p>
+<ul>
+<li><a href="https://blog.csdn.net/mrzhoug/article/details/51581994" target="_blank" rel="noopener">https://blog.csdn.net/mrzhoug/article/details/51581994</a><h3 id="成员方法是否可以访问静态变量？为什么静态方法不能访问成员变量"><a href="#成员方法是否可以访问静态变量？为什么静态方法不能访问成员变量" class="headerlink" title="成员方法是否可以访问静态变量？为什么静态方法不能访问成员变量"></a>成员方法是否可以访问静态变量？为什么静态方法不能访问成员变量</h3>因为静态是随着累的加载而加载的  也就是说类只要存在了，那么静态就存在了，而静态是优先于对象存在的  ，你要访问非静态的东西，也就是非静态的成员（包括变量和方法），非静态的东西还没存在你怎么访问的到吗？？楼主好好想一下就能明白了 下面那个是我学习时的笔记 你看一下吧</li>
+</ul>
+<p>静态：static<br>用法：是一个修饰符；用于修饰成员（成员变量和成员函数）<br>当成员被静态修饰后，就多了一种调用方式，除了可以被对象调用外，还可以直接被类名调用格式：类名.静态成员</p>
+<p>静态的特点：<br>1.随着类的加载而加载<br>也就是，说静态会随着类的消失而消失，说明静态的生命周期最长<br>2.优先于对象的存在<br>明确一点：静态是先存在的对象是后存在的<br>3.被所有对象共享<br>4.可以直接被类名多调用</p>
+<p>实例变量和类变量的区别<br>1.存放位置<br>类变量随着类的加载存在于方法区中，实例变量随着对象的对象的建立存在于堆内存里<br>2.生命周期<br>类变量生命周期最长，随着“类”的加载而加载，随着类的消失而消失<br>实例变量随着“对象”的消失而消失</p>
+<p>静态的使用注意事项：<br>1.静态方法只能访问静态成员（包括成员变量和成员方法）<br>非静态方法可以访问静态也可以访问非静态<br>2.静态方法中不可以定义this，super关键字<br>因为静态优先于对象存在，所以静态方法中不可以出现this，super关键字<br>3.主函数是静态的。</p>
+<p>静态的利弊<br>利：对 对象的共享数据进行单独空间的存储，节省空间，没有必要没一个对象中都存储一份<br>可以直接被类名所调用<br>弊：生命周期过长，访问出现局限性（只能访问静态）</p>
+<p><code>switch</code></p>
+<h3 id="switch-语句中的表达式可以是什么类型数据"><a href="#switch-语句中的表达式可以是什么类型数据" class="headerlink" title="switch 语句中的表达式可以是什么类型数据"></a><code>switch</code> 语句中的表达式可以是什么类型数据</h3><ul>
+<li><a href="https://blog.csdn.net/queenjade/article/details/44778653" target="_blank" rel="noopener">https://blog.csdn.net/queenjade/article/details/44778653</a><br>在switch(expression)中，expression只能是一个整数表达式或者枚举常量，整数表达式可以是int类型或Integer包装类型。由于，byte，short，char都可以隐式转换为int类型，所以，这些类型也可以用作表达式。</li>
+</ul>
+<p>另外jdk7以后，switch表达式也可以为String类型，具体原理参考这位大神的博客。</p>
+<p>在jdk1.7中switch语句可以支持String类型的参数，实际上，这个新特性是在编译器这个层次上实现的。而在 Java 虚拟机和字节代码这个层次上，还是只支持在 switch 语句中使用与整数类型兼容的类型。这么做的目的是为了减少这个特性所影响的范围，以降低实现的代价。在编译器层次实现的含义是，虽然开发人员在 Java 源代码的 switch 语句中使用了字符串类型，但是在编译的过程中，编译器会根据源代码的含义来进行转换，将字符串类型转换成与整数类型兼容的格式。不同的 Java 编译器可能采用不同的方式来完成这个转换，并采用不同的优化策略。</p>
+<p>写一个如下的Test类，源码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(String type)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (type) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"情况A"</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"情况B"</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译成class文件之后，再通过反编译工具得到如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(String paramString)</span> </span>&#123;</span><br><span class="line">        String str = paramString;</span><br><span class="line">        <span class="keyword">int</span> i = -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">switch</span> (str.hashCode()) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">24455345</span>:</span><br><span class="line">            <span class="keyword">if</span> (!str.equals(<span class="string">"情况A"</span>))</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            i = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">24455346</span>:</span><br><span class="line">            <span class="keyword">if</span> (!str.equals(<span class="string">"情况B"</span>))</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            i = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">switch</span> (i) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面的代码中可以看出，原来用在 <code>switch</code>语句中的字符串被替换成了对应的哈希值，而 <code>case</code>子句的值也被换成了原来字符串常量的哈希值。经过这样的转换，<code>Java</code>虚拟机所看到的仍然是与整数类型兼容的类型。在这里值得注意的是，在 <code>case</code>子句对应的语句块中仍然需要使用 <code>String</code>的 <code>equals</code>方法来进行字符串比较。这是因为哈希函数在映射的时候可能存在冲突，多个字符串的哈希值可能是一样的。进行字符串比较是为了保证转换之后的代码逻辑与之前完全一样。</p>
+<h3 id="switch-是否能作用在byte-上，是否能作用在long-上，是否能作用在String上"><a href="#switch-是否能作用在byte-上，是否能作用在long-上，是否能作用在String上" class="headerlink" title="switch 是否能作用在byte 上，是否能作用在long 上，是否能作用在String上"></a><code>switch</code> 是否能作用在<code>byte</code> 上，是否能作用在<code>long</code> 上，是否能作用在<code>String</code>上</h3><p><code>switch</code>可作用于<code>char byte short int</code><br><code>switch</code>可作用于<code>char byte short int</code>对应的包装类<br><code>switch</code>不可作用于<code>long double float boolean</code>，包括他们的包装类<br><code>switch</code>中可以是字符串类型,<code>String(jdk1.7之后才可以作用在string上)</code><br><code>switch</code>中可以是枚举类型</p>
+<h3 id="while-循环和-do-循环有什么不同"><a href="#while-循环和-do-循环有什么不同" class="headerlink" title="while 循环和 do 循环有什么不同"></a><code>while</code> 循环和 <code>do</code> 循环有什么不同</h3><ul>
+<li><p><a href="https://www.zhihu.com/question/20417091" target="_blank" rel="noopener">https://www.zhihu.com/question/20417091</a><br>“在编程中，我们常常需要用到无限循环，常用的两种方法是while (1) 和 for (；；)。这两种方法效果完全一样，但那一种更好呢？让我们看看它们编译后的代码：<br>  编译前              编译后<br>  while (1)；         mov eax,1</p>
+<pre><code>                                      test eax,eax
+                                       je foo+23h
+                                       jmp foo+18h
+
+编译前              编译后
+</code></pre><p>  for (；；)；          jmp foo+23h 　　<br>  一目了然，for (；；)指令少，不占用寄存器，而且没有判断跳转，比while (1)好</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3></li>
+<li><a href="https://blog.csdn.net/u014306011/article/details/51044091" target="_blank" rel="noopener">https://blog.csdn.net/u014306011/article/details/51044091</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/10/Interview/Stack和Heap的区别/" rel="next" title="Stack和Heap的区别">
+                <i class="fa fa-chevron-left"></i> Stack和Heap的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/10/Interview/java总结-操作符/" rel="prev" title="java总结---操作符">
+                java总结---操作符 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/05/10/Interview/java总结-关键字/" data-title="java总结---关键字" data-url="http://yoursite.com/2018/05/10/Interview/java总结-关键字/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-finalize"><span class="nav-number">1.</span> <span class="nav-text">1 finalize</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是finalize-方法"><span class="nav-number">1.1.</span> <span class="nav-text">什么是finalize()方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#finalize-方法什么时候被调用，析构函数-finalization-的目的是什么"><span class="nav-number">1.2.</span> <span class="nav-text">finalize()方法什么时候被调用，析构函数(finalization)的目的是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final-和-finalize-的区别"><span class="nav-number">1.3.</span> <span class="nav-text">final 和 finalize 的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-final"><span class="nav-number">2.</span> <span class="nav-text">2 final</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#final关键字有哪些用法"><span class="nav-number">2.1.</span> <span class="nav-text">final关键字有哪些用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final-与-static-关键字可以用于哪里？它们的作用是什么"><span class="nav-number">2.2.</span> <span class="nav-text">final 与 static 关键字可以用于哪里？它们的作用是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#能否在运行时向-static-final-类型的赋值"><span class="nav-number">2.3.</span> <span class="nav-text">能否在运行时向 static final 类型的赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用final关键字修饰一个变量时，是引用不能变，还是引用的对象不能变"><span class="nav-number">2.4.</span> <span class="nav-text">使用final关键字修饰一个变量时，是引用不能变，还是引用的对象不能变</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个类被声明为final类型，表示了什么意思"><span class="nav-number">2.5.</span> <span class="nav-text">一个类被声明为final类型，表示了什么意思</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-throws-throw-try-catch-finally分别代表什么意义"><span class="nav-number">3.</span> <span class="nav-text">3 throws, throw, try, catch, finally分别代表什么意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Java-有几种修饰符？分别用来修饰什么"><span class="nav-number">4.</span> <span class="nav-text">4 Java 有几种修饰符？分别用来修饰什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-volatile"><span class="nav-number">5.</span> <span class="nav-text">5 volatile</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#volatile-类型变量提供什么保证？"><span class="nav-number">5.1.</span> <span class="nav-text">volatile 类型变量提供什么保证？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#volatile-修饰符的有过什么实践"><span class="nav-number">5.2.</span> <span class="nav-text">volatile 修饰符的有过什么实践</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#volatile-变量是什么？volatile-变量和-atomic-变量有什么不同"><span class="nav-number">5.3.</span> <span class="nav-text">volatile 变量是什么？volatile 变量和 atomic 变量有什么不同</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#volatile-类型变量提供什么保证？能使得一个非原子操作变成原子操作吗"><span class="nav-number">5.4.</span> <span class="nav-text">volatile 类型变量提供什么保证？能使得一个非原子操作变成原子操作吗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#能创建-volatile-数组吗？"><span class="nav-number">5.5.</span> <span class="nav-text">能创建 volatile 数组吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transient变量有什么特点"><span class="nav-number">5.6.</span> <span class="nav-text">transient变量有什么特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#super什么时候使用"><span class="nav-number">5.7.</span> <span class="nav-text">super什么时候使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#public-static-void-写成-static-public-void会怎样"><span class="nav-number">5.8.</span> <span class="nav-text">public static void 写成 static public void会怎样</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#说明一下public-static-void-main-String-args-这段声明里每个关键字的作用"><span class="nav-number">5.9.</span> <span class="nav-text">说明一下public static void main(String args[])这段声明里每个关键字的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#请说出作用域public-private-protected-以及不写时的区别"><span class="nav-number">5.10.</span> <span class="nav-text">请说出作用域public, private, protected, 以及不写时的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sizeof-是Java-的关键字吗"><span class="nav-number">5.11.</span> <span class="nav-text">sizeof 是Java 的关键字吗</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#static"><span class="nav-number">6.</span> <span class="nav-text">static</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#static-class-与-non-static-class的区别"><span class="nav-number">6.1.</span> <span class="nav-text">static class 与 non static class的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#static-关键字是什么意思？Java中是否可以覆盖-override-一个private或者是static的方法"><span class="nav-number">6.2.</span> <span class="nav-text">static 关键字是什么意思？Java中是否可以覆盖(override)一个private或者是static的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态类型有什么特点"><span class="nav-number">6.3.</span> <span class="nav-text">静态类型有什么特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#main-方法为什么必须是静态的？能不能声明-main-方法为非静态"><span class="nav-number">6.4.</span> <span class="nav-text">main() 方法为什么必须是静态的？能不能声明 main() 方法为非静态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#是否可以从一个静态（static）方法内部发出对非静态（non-static）方法的调用"><span class="nav-number">6.5.</span> <span class="nav-text">是否可以从一个静态（static）方法内部发出对非静态（non-static）方法的调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态变量在什么时候加载？编译期还是运行期？静态代码块加载的时机呢"><span class="nav-number">6.6.</span> <span class="nav-text">静态变量在什么时候加载？编译期还是运行期？静态代码块加载的时机呢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#成员方法是否可以访问静态变量？为什么静态方法不能访问成员变量"><span class="nav-number">6.7.</span> <span class="nav-text">成员方法是否可以访问静态变量？为什么静态方法不能访问成员变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#switch-语句中的表达式可以是什么类型数据"><span class="nav-number">6.8.</span> <span class="nav-text">switch 语句中的表达式可以是什么类型数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#switch-是否能作用在byte-上，是否能作用在long-上，是否能作用在String上"><span class="nav-number">6.9.</span> <span class="nav-text">switch 是否能作用在byte 上，是否能作用在long 上，是否能作用在String上</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#while-循环和-do-循环有什么不同"><span class="nav-number">6.10.</span> <span class="nav-text">while 循环和 do 循环有什么不同</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">6.11.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

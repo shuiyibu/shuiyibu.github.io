@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Spring,IoC,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="控制反转IoC(Inversion of Control)，是一种设计思想，DI(依赖注入)是实现IoC的一种方法，也有人认为DI只是IoC的另一种说法。">
+<meta name="keywords" content="Spring,IoC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring学习总结（一）——Spring实现IoC的多种方式">
+<meta property="og:url" content="http://yoursite.com/2017/11/02/Spring/Spring学习总结（一）——Spring实现IoC的多种方式/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="控制反转IoC(Inversion of Control)，是一种设计思想，DI(依赖注入)是实现IoC的一种方法，也有人认为DI只是IoC的另一种说法。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160728142834684-1607425123.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160728143433575-1521392952.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201606/63651-20160629154044609-116609852.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201606/63651-20160629161951515-1800007608.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201606/63651-20160629165126484-267687739.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201606/63651-20160630142326718-186266114.png">
+<meta property="og:updated_time" content="2018-05-08T08:49:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring学习总结（一）——Spring实现IoC的多种方式">
+<meta name="twitter:description" content="控制反转IoC(Inversion of Control)，是一种设计思想，DI(依赖注入)是实现IoC的一种方法，也有人认为DI只是IoC的另一种说法。">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160728142834684-1607425123.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/02/Spring/Spring学习总结（一）——Spring实现IoC的多种方式/">
+
+
+
+
+
+  <title>Spring学习总结（一）——Spring实现IoC的多种方式 | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/02/Spring/Spring学习总结（一）——Spring实现IoC的多种方式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Spring学习总结（一）——Spring实现IoC的多种方式</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-02T17:30:29+08:00">
+                2017-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/11/02/Spring/Spring学习总结（一）——Spring实现IoC的多种方式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/11/02/Spring/Spring学习总结（一）——Spring实现IoC的多种方式/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>控制反转IoC(Inversion of Control)，是一种设计思想，DI(依赖注入)是实现IoC的一种方法，也有人认为DI只是IoC的另一种说法。</p>
+</blockquote>
+<a id="more"></a>
+<p>没有IoC的程序中我们使用面向对象编程对象的创建与对象间的依赖关系完全<strong>硬编码</strong>在程序中，对象的创建由程序自己控制，控制反转后将对象的创建转移给第三方，个人认为所谓控制反转就是：<code>获得依赖对象的方式反转了</code>。</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160728142834684-1607425123.png" alt="img"></p>
+<p>IoC是Spring框架的核心内容，使用多种方式完美的实现了IoC，可以使用XML配置，也可以使用注解，新版本的Spring也可以零配置实现IoC。Spring容器在初始化时先读取配置文件，根据配置文件或元数据创建与组织对象存入容器中，程序使用时再从Ioc容器中取出需要的对象。<br><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160728143433575-1521392952.png" alt="img"></p>
+<blockquote>
+<p>采用XML方式配置Bean的时候，Bean的定义信息是和实现分离的，而采用注解的方式可以把两者合为一体，Bean的定义信息直接以注解的形式定义在实现类中，从而达到了零配置的目的。</p>
+</blockquote>
+<h2 id="一、使用XML配置的方式实现IOC"><a href="#一、使用XML配置的方式实现IOC" class="headerlink" title="一、使用XML配置的方式实现IOC"></a>一、使用XML配置的方式实现IOC</h2><p>假设项目中需要完成对图书的数据访问服务，我们定义好了<code>IBookDAO接</code>口与<code>BookDAO</code>实现类</p>
+<p><code>IBookDAO</code>接口如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring051.ioc01;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 图书数据访问接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IBookDAO</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 添加图书</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addBook</span><span class="params">(String bookname)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>BookDAO</code>实现类如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring051.ioc01;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 图书数据访问实现类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookDAO</span> <span class="keyword">implements</span> <span class="title">IBookDAO</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addBook</span><span class="params">(String bookname)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"添加图书"</span>+bookname+<span class="string">"成功！"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Maven项目的pom.xml如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.zhangguo<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>Spring051<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>Spring051<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.apache.org<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">spring.version</span>&gt;</span>4.3.0.RELEASE<span class="tag">&lt;/<span class="name">spring.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.10<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spring.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.aspectj<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>aspectjweaver<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.8.9<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>cglib<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>cglib<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.2.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>业务类<code>BookService</code>如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring051.ioc01;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 图书业务类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookService</span> </span>&#123;</span><br><span class="line">    IBookDAO bookDAO;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BookService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//容器</span></span><br><span class="line">        ApplicationContext ctx=<span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"IOCBeans01.xml"</span>);</span><br><span class="line">        <span class="comment">//从容器中获得id为bookdao的bean</span></span><br><span class="line">        bookDAO=(IBookDAO)ctx.getBean(<span class="string">"bookdao"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">storeBook</span><span class="params">(String bookname)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"图书上货"</span>);</span><br><span class="line">        String result=bookDAO.addBook(bookname);</span><br><span class="line">        System.out.println(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 容器的配置文件<code>IOCBeans01.xml</code>如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/beans/spring-beans.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"bookdao"</span> <span class="attr">class</span>=<span class="string">"com.zhangguo.Spring051.ioc01.BookDAO"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>测试类Test如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangguo.Spring051.ioc01;</span><br><span class="line"></span><br><span class="line">public class Test &#123;</span><br><span class="line">    @org.junit.Test</span><br><span class="line">    public void testStoreBook()</span><br><span class="line">    &#123;</span><br><span class="line">        BookService bookservice=new BookService();</span><br><span class="line">        bookservice.storeBook(&quot;《Spring MVC权威指南 第一版》&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201606/63651-20160629154044609-116609852.png" alt="img"></p>
+<h2 id="二、使用Spring注解配置IOC"><a href="#二、使用Spring注解配置IOC" class="headerlink" title="二、使用Spring注解配置IOC"></a>二、使用Spring注解配置IOC</h2><p> 上一个示例是使用传统的xml配置完成IOC的，如果内容比较多则配置需花费很多时间，通过注解可以减轻工作量，但注解后修改要麻烦一些，耦合度会增加，应该根据需要选择合适的方法。</p>
+<p>2.1、修改<code>BookDAO</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring051.ioc02;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Repository;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 图书数据访问实现类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span>(<span class="string">"bookdaoObj"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookDAO</span> <span class="keyword">implements</span> <span class="title">IBookDAO</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addBook</span><span class="params">(String bookname)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"添加图书"</span>+bookname+<span class="string">"成功！"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在类上增加了一个注解<code>Component</code>，在类的开头使用了<code>@Component</code>注解，它可以被Spring容器识别，启动Spring后，会自动把它转成容器管理的Bean。</p>
+<p>除了@Component外，Spring提供了3个功能基本和@Component等效的注解，分别对应于用于对DAO，Service，和Controller进行注解。</p>
+<ul>
+<li><code>@Repository</code> 用于对DAO实现类进行注解。</li>
+<li><code>@Service</code> 用于对业务层注解，但是目前该功能与 <code>@Component</code> 相同。</li>
+<li><code>@Constroller</code>用于对控制层注解，但是目前该功能与 <code>@Component</code> 相同。</li>
+</ul>
+<p>2.2、修改<code>BookService</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring051.ioc02;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 图书业务类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookService</span> </span>&#123;</span><br><span class="line">    IBookDAO bookDAO;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">storeBook</span><span class="params">(String bookname)</span></span>&#123;</span><br><span class="line">        <span class="comment">//容器</span></span><br><span class="line">        ApplicationContext ctx=<span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"IOCBeans02.xml"</span>);</span><br><span class="line">        <span class="comment">//从容器中获得id为bookdao的bean</span></span><br><span class="line">        bookDAO=(IBookDAO)ctx.getBean(<span class="string">"bookdaoObj"</span>);</span><br><span class="line">        System.out.println(<span class="string">"图书上货"</span>);</span><br><span class="line">        String result=bookDAO.addBook(bookname);</span><br><span class="line">        System.out.println(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将构造方法中的代码直接写在了<code>storeBook</code>方法中，避免循环加载的问题。</p>
+<p>2.3、修改IOC配置文件<code>IOCBeans02.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/context/spring-context-4.3.xsd"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.zhangguo.Spring051.ioc02"</span>&gt;</span><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>粗体字是新增的xml命名空间与模式约束文件位置。增加了注解扫描的范围，指定了一个包，可以通过属性设置更加精确的范围如：</p>
+<p><code>&lt;context&gt;</code>标记常用属性配置:</p>
+<p><code>resource-pattern</code>：对指定的基包下面的子包进行选取</p>
+<p><code>&lt;context&gt;</code>子标记：<br><code>include-filter</code>：指定需要包含的包<br><code>exclude-filter</code>：指定需要排除的包<br><!-- 自动扫描com.zhangguo.anno.bo中的类进行扫描 --><br><code>&lt;context:component-scan base-package=&quot;com.zhangguo.anno&quot; resource-pattern=&quot;bo/*.class&quot; /&gt;</code></p>
+<p><code>&lt;context:component-scan base-package=&quot;com.zhangguo.anno&quot; &gt;</code></p>
+<p><code>&lt;context:include-filter type=&quot;aspectj“ expression=&quot;com.zhangguo.anno.dao.*.*&quot;/&gt;</code><br><code>&lt;context:exclude-filter type=&quot;aspectj” expression=“com.zhangguo.anno.entity.*.*&quot;/&gt;</code></p>
+<p><code>&lt;context:component-scan/&gt;</code></p>
+<p>include-filter表示需要包含的目标类型，exclude-filter表示需要排除的目标类型，type表示采的过滤类型，共有如下5种类型：</p>
+<table>
+<thead>
+<tr>
+<th><strong>Filter Type</strong></th>
+<th><strong>Examples Expression</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>annotation</td>
+<td>org.example.SomeAnnotation</td>
+<td>注解了SomeAnnotation的类</td>
+</tr>
+<tr>
+<td>assignable</td>
+<td>org.example.SomeClass</td>
+<td>所有扩展或者实现SomeClass的类</td>
+</tr>
+<tr>
+<td>aspectj</td>
+<td>org.example..*Service+</td>
+<td>AspectJ语法表示org.example包下所有包含Service的类及其子类</td>
+</tr>
+<tr>
+<td>regex</td>
+<td>org.example.Default.*</td>
+<td>Regelar Expression，正则表达式</td>
+</tr>
+<tr>
+<td>custom</td>
+<td>org.example.MyTypeFilter</td>
+<td>通过代码过滤，实现org.springframework.core.type.TypeFilter接口</td>
+</tr>
+</tbody>
+</table>
+<p>expression表示过滤的表达式。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 1、如果仅希望扫描特定的类而非基包下的所有类，可使用resource-pattern属性过滤特定的类 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.zhangguo.Spring051"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">resource-pattern</span>=<span class="string">"ioc04/A*.class"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>只扫描com.zhangguo.Spring051.ioc04下所有名称以A开始的类。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--2、扫描注解了org.springframework.stereotype.Repository的类</span></span><br><span class="line"><span class="comment"> exclude-filter表示排除，include-filter表示包含，可以有多个--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.zhangguo.Spring051.ioc04"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:exclude-filter</span> <span class="attr">type</span>=<span class="string">"annotation"</span> <span class="attr">expression</span>=<span class="string">"org.springframework.stereotype.Repository"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:include-filter</span> <span class="attr">type</span>=<span class="string">"annotation"</span> <span class="attr">expression</span>=<span class="string">"org.springframework.stereotype.Service"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   <span class="comment">&lt;!--3、aspectj类型，扫描dao下所有的类，排除entity下所有的类--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.zhangguo.anno"</span> &gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">context:include-filter</span> <span class="attr">type</span>=<span class="string">"aspectj"</span> <span class="attr">expression</span>=<span class="string">"com.zhangguo.anno.dao.*.*"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">context:exclude-filter</span> <span class="attr">type</span>=<span class="string">"aspectj"</span> <span class="attr">expression</span>=<span class="string">"com.zhangguo.anno.entity.*.*"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2.4、测试类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring051.ioc02;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="meta">@org</span>.junit.Test</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testStoreBook</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">//容器</span></span><br><span class="line">        ApplicationContext ctx=<span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"IOCBeans02.xml"</span>);</span><br><span class="line">        BookService bookservice=ctx.getBean(BookService.class);</span><br><span class="line">        bookservice.storeBook(<span class="string">"《Spring MVC权威指南 第二版》"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201606/63651-20160629161951515-1800007608.png" alt="img"></p>
+<p>2.5、小结</p>
+<p>从配置文件中我们可以看出我们并没有声明<code>bookdaoObj</code>与<code>BookService</code>类型的对象，但还是从容器中获得了实例并成功运行了，原因是：在类的开头使用了<code>@Component</code>注解，它可以被Spring容器识别，启动Spring后，会自动把它转成容器管理的Bean。</p>
+<h2 id="三、自动装配"><a href="#三、自动装配" class="headerlink" title="三、自动装配"></a>三、自动装配</h2><p> 从上一个示例中可以看出有两个位置都使用了ApplicationContext初始化容器后获得需要的Bean，可以通过自动装配简化。</p>
+<p>3.1、修改<code>BookDAO</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring051.ioc03;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Repository;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 图书数据访问实现类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookDAO</span> <span class="keyword">implements</span> <span class="title">IBookDAO</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addBook</span><span class="params">(String bookname)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"添加图书"</span>+bookname+<span class="string">"成功！"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>把注解修改成了Repository，比Component更贴切一些，非必要。</p>
+<p>3.2、修改<code>BookService</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring051.ioc03;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 图书业务类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    IBookDAO bookDAO;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">storeBook</span><span class="params">(String bookname)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"图书上货"</span>);</span><br><span class="line">        String result=bookDAO.addBook(bookname);</span><br><span class="line">        System.out.println(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将类<code>BookService</code>上的注解替换成了Service；在<code>bookDao</code>成员变量上增加了一个注解<code>@Autowired</code>，该注解的作用是：可以对成员变量、方法和构造函数进行注解，来完成自动装配的工作，通俗来说就是会==根据类型从容器中自动查到到一个Bean给bookDAO字段==。<code>@Autowired</code>是根据类型进行自动装配的，如果需要按名称进行装配，则需要配合<code>@Qualifier</code>。==另外可以使用其它注解，<code>@ Resource</code> ：等同于<code>@Qualifier</code>，<code>@Inject</code>：等同于<code>@ Autowired</code>。==</p>
+<ul>
+<li><p><code>@Service</code>用于注解业务层组件（我们通常定义的service层就用这个）</p>
+</li>
+<li><p><code>@Controller</code>用于注解控制层组件（如struts中的action）</p>
+</li>
+<li><p><code>@Repository</code>用于注解数据访问组件，即DAO组件</p>
+</li>
+<li><p><code>@Component</code>泛指组件，当组件不好归类的时候，我们可以使用这个注解进行注解。</p>
+</li>
+</ul>
+<p>装配注解主要有：<code>@Autowired</code>、<code>@Qualifier</code>、<code>@Resource</code>，它们的特点是：</p>
+<ul>
+<li><code>@Resource</code>默认是按照名称来装配注入的，只有当找不到与名称匹配的bean才会按照类型来装配注入；</li>
+<li><code>@Autowired默认是按照类型装配注入的，如果想按照名称来转配注入，则需要结合</code>@Qualifier`一起使用==；</li>
+<li><p><code>@Resource</code>注解是又J2EE提供，而<code>@Autowired</code>是由spring提供，故减少系统对spring的依赖建议使用<code>@Resource</code>的方式；如果Maven项目是1.5的JRE则需换成更高版本的。</p>
+</li>
+<li><p><code>@Resource</code>和<code>@Autowired</code>都可以书写注解在字段或者该字段的setter方法之上</p>
+</li>
+<li><p><code>@Autowired</code> 可以对成员变量、方法以及构造函数进行注释，而 <code>@Qualifier</code> 的注解对象是成员变量、方法入参、构造函数入参。</p>
+</li>
+<li><p><code>@Qualifier(&quot;XXX&quot;)</code> 中的 XX是 Bean 的名称，所以 ==<code>@Autowired</code> 和 <code>@Qualifier</code> 结合使用时，自动注入的策略就从 byType 转变成 byName 了==。</p>
+</li>
+<li><p><code>@Autowired</code> 注释进行自动注入时，Spring 容器中匹配的候选 Bean 数目必须有且仅有一个，通过属性required可以设置非必要。</p>
+</li>
+<li><p><code>@Resource</code>装配顺序</p>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>如果同时指定了name和type，则从Spring上下文中找到唯一匹配的bean进行装配，找不到则抛出异常</li>
+<li>如果指定了name，则从上下文中查找名称（id）匹配的bean进行装配，找不到则抛出异常</li>
+<li>如果指定了type，则从上下文中找到类型匹配的唯一bean进行装配，找不到或者找到多个，都会抛出异常</li>
+<li>如果既没有指定name，又没有指定type，则自动按照byName方式进行装配；如果没有匹配，则回退为一个原始类型进行匹配，如果匹配则自动装配；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring051.ioc05;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.annotation.Resource;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Qualifier;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 图书业务类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBookDAO <span class="title">getDaoofbook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> daoofbook;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    @Autowired</span></span><br><span class="line"><span class="comment">    @Qualifier("bookdao02")</span></span><br><span class="line"><span class="comment">    public void setDaoofbook(IBookDAO daoofbook) &#123;</span></span><br><span class="line"><span class="comment">        this.daoofbook = daoofbook;</span></span><br><span class="line"><span class="comment">    &#125;*/</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span>(name=<span class="string">"bookdao02"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDaoofbook</span><span class="params">(IBookDAO daoofbook)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.daoofbook = daoofbook;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    @Autowired</span></span><br><span class="line"><span class="comment">    @Qualifier("bookdao02")</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    IBookDAO daoofbook;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    public BookService(@Qualifier("bookdao02") IBookDAO daoofbook) &#123;</span></span><br><span class="line"><span class="comment">        this.daoofbook=daoofbook;</span></span><br><span class="line"><span class="comment">    &#125;*/</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">storeBook</span><span class="params">(String bookname)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"图书上货"</span>);</span><br><span class="line">        String result=daoofbook.addBook(bookname);</span><br><span class="line">        System.out.println(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.3、测试运行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring051.ioc03;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="meta">@org</span>.junit.Test</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testStoreBook</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">//容器</span></span><br><span class="line">        ApplicationContext ctx=<span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"IOCBeans03.xml"</span>);</span><br><span class="line">        BookService bookservice=ctx.getBean(BookService.class);</span><br><span class="line">        bookservice.storeBook(<span class="string">"《Spring MVC权威指南 第三版》"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201606/63651-20160629165126484-267687739.png" alt="img"></p>
+<h2 id="四、零配置实现IOC"><a href="#四、零配置实现IOC" class="headerlink" title="四、零配置实现IOC"></a>四、零配置实现IOC</h2><p>所谓的零配置就是不再使用xml文件来初始化容器，使用一个类型来替代， <code>IBookDAO</code>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring051.ioc06;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 图书数据访问接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IBookDAO</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 添加图书</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addBook</span><span class="params">(String bookname)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>IBookDAO</code>的实现类<code>BookDAO</code>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring051.ioc06;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Repository;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 图书数据访问实现类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookDAO</span> <span class="keyword">implements</span> <span class="title">IBookDAO</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addBook</span><span class="params">(String bookname)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"添加图书"</span>+bookname+<span class="string">"成功！"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>BookDAO</code>类上注解了<code>@Repository</code>当初始化时该类将被容器管理会生成一个Bean，可以通过构造方法测试。</p>
+<p>业务层<code>BookService</code>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring051.ioc06;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.annotation.Resource;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 图书业务类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    IBookDAO bookDAO;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">storeBook</span><span class="params">(String bookname)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"图书上货"</span>);</span><br><span class="line">        String result=bookDAO.addBook(bookname);</span><br><span class="line">        System.out.println(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>类<code>BookService</code>将对容器管理因为注解了<code>@Service</code>，初始化时会生成一个单例的Bean，类型为<code>BookService</code>。在字段bookDAO上注解了<code>@Resource</code>，用于自动装配，Resource默认是按照名称来装配注入的，只有当找不到与名称匹配的bean才会按照类型来装配注入。</p>
+<p>新增一个用于替代原xml配置文件的<code>ApplicationCfg</code>类，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring051.ioc06;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.ComponentScan;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 容器的配置类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan</span>(basePackages=<span class="string">"com.zhangguo.Spring051.ioc06"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApplicationCfg</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">getUser</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User(<span class="string">"成功"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>@Configuration</code>相当于配置文件中的<code>&lt;beans/&gt;</code>，<code>ComponentScan</code>相当于配置文件中的<code>context:component-scan</code>，属性也一样设置,<code>@Bean</code>相当于<code>&lt;bean/&gt;</code>，只能注解在方法和注解上，一般在方法上使用，源码中描述：<code>@Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})</code>，方法名相当于id。中间使用到了<code>User</code>，<code>User</code>类的代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring051.ioc06;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(<span class="string">"user1"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"创建User对象"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String msg)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"创建User对象"</span>+msg);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"一个学生对象！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>初始化容器的代码与以前有一些不一样，具体如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.Spring051.ioc06;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.AnnotationConfigApplicationContext;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="meta">@org</span>.junit.Test</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testStoreBook</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">//容器，注解配置应用程序容器，Spring通过反射ApplicationCfg.class初始化容器</span></span><br><span class="line">        ApplicationContext ctx=<span class="keyword">new</span> AnnotationConfigApplicationContext(ApplicationCfg.class);</span><br><span class="line">        BookService bookservice=ctx.getBean(BookService.class);</span><br><span class="line">        bookservice.storeBook(<span class="string">"《Spring MVC权威指南 第四版》"</span>);</span><br><span class="line">        User user1=ctx.getBean(<span class="string">"user1"</span>,User.class);</span><br><span class="line">        user1.show();</span><br><span class="line">        User getUser=ctx.getBean(<span class="string">"getUser"</span>,User.class);</span><br><span class="line">        getUser.show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>容器的初始化通过一个类型完成，Spring通过反射<code>ApplicationCfg.class</code>初始化容器，中间<code>user1</code>与<code>getUser</code>是否为相同的Bean呢？</p>
+<p>答案是否定的，因为在<code>ApplicationCfg</code>中声明的方法<code>getUser</code>当相于在xml文件中定义了一个<code>&lt;bean id=&quot;getUser&quot; class=&quot;...&quot;/&gt;</code>，在User类上注解<code>@Component(&quot;user1&quot;)</code>相当于另一个<code>&lt;bean id=&quot;user1&quot; class=&quot;...&quot;/&gt;</code>。</p>
+<p>运行结果：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201606/63651-20160630142326718-186266114.png" alt="img"></p>
+<p>小结：使用零配置和注解虽然方便，不需要编写麻烦的xml文件，但并非为了取代xml，应该根据实例需要选择，或二者结合使用，毕竟使用一个类作为容器的配置信息是硬编码的，不好在发布后修改。</p>
+<h2 id="五、示例下载"><a href="#五、示例下载" class="headerlink" title="五、示例下载"></a>五、示例下载</h2><p><a href="http://files.cnblogs.com/files/best/Spring051.rar" target="_blank" rel="noopener">点击下载</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+            <a href="/tags/IoC/" rel="tag"># IoC</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/31/MQ/MQ/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/02/Spring/Spring学习总结（二）——静态代理、JDK与CGLIB动态代理、AOP+IoC/" rel="prev" title="Spring学习总结（二）——静态代理、JDK与CGLIB动态代理、AOP+IoC">
+                Spring学习总结（二）——静态代理、JDK与CGLIB动态代理、AOP+IoC <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2017/11/02/Spring/Spring学习总结（一）——Spring实现IoC的多种方式/" data-title="Spring学习总结（一）——Spring实现IoC的多种方式" data-url="http://yoursite.com/2017/11/02/Spring/Spring学习总结（一）——Spring实现IoC的多种方式/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、使用XML配置的方式实现IOC"><span class="nav-number">1.</span> <span class="nav-text">一、使用XML配置的方式实现IOC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、使用Spring注解配置IOC"><span class="nav-number">2.</span> <span class="nav-text">二、使用Spring注解配置IOC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、自动装配"><span class="nav-number">3.</span> <span class="nav-text">三、自动装配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、零配置实现IOC"><span class="nav-number">4.</span> <span class="nav-text">四、零配置实现IOC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、示例下载"><span class="nav-number">5.</span> <span class="nav-text">五、示例下载</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

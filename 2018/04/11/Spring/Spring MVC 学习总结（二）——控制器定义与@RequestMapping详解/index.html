@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="一江烟雨任平生">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Spring MVC 学习总结（二）——控制器定义与@RequestMapping详解目录  一、控制器定义   1.1、实现接口Controller定义控制器 1.2、使用注解@Controller定义控制器    二、@RequestMapping详解   2.1、value 属性指定映射路径或URL模板   2.1.1、指定具体路径字符 2.1.2、路径变量占位，URI模板模式 2.1.3、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2018/04/11/Spring/Spring MVC 学习总结（二）——控制器定义与@RequestMapping详解/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Spring MVC 学习总结（二）——控制器定义与@RequestMapping详解目录  一、控制器定义   1.1、实现接口Controller定义控制器 1.2、使用注解@Controller定义控制器    二、@RequestMapping详解   2.1、value 属性指定映射路径或URL模板   2.1.1、指定具体路径字符 2.1.2、路径变量占位，URI模板模式 2.1.3、">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160711110304826-119508193.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160711135843811-561677629.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160711152515701-1226845292.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160711155418982-1998650098.png">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160711205437842-659324236.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160711212330373-1197283185.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160711162340717-1487269881.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160711162518732-868938556.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712092711998-79974306.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712092759561-1222347155.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712094206029-1081665188.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712094333139-567631345.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712095453920-1950438158.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712095523920-346216342.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712100415232-497626911.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712100523404-2136816645.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712101634107-332644375.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712101700873-1076508180.png">
+<meta property="og:updated_time" content="2018-04-11T08:57:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="Spring MVC 学习总结（二）——控制器定义与@RequestMapping详解目录  一、控制器定义   1.1、实现接口Controller定义控制器 1.2、使用注解@Controller定义控制器    二、@RequestMapping详解   2.1、value 属性指定映射路径或URL模板   2.1.1、指定具体路径字符 2.1.2、路径变量占位，URI模板模式 2.1.3、">
+<meta name="twitter:image" content="http://common.cnblogs.com/images/copycode.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/11/Spring/Spring MVC 学习总结（二）——控制器定义与@RequestMapping详解/">
+
+
+
+
+
+  <title> | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/11/Spring/Spring MVC 学习总结（二）——控制器定义与@RequestMapping详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline"></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T16:57:38+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/11/Spring/Spring MVC 学习总结（二）——控制器定义与@RequestMapping详解/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/04/11/Spring/Spring MVC 学习总结（二）——控制器定义与@RequestMapping详解/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Spring-MVC-学习总结（二）——控制器定义与-RequestMapping详解"><a href="#Spring-MVC-学习总结（二）——控制器定义与-RequestMapping详解" class="headerlink" title="Spring MVC 学习总结（二）——控制器定义与@RequestMapping详解"></a><a href="http://www.cnblogs.com/best/p/5659596.html" target="_blank" rel="noopener">Spring MVC 学习总结（二）——控制器定义与@RequestMapping详解</a></h1><p><strong>目录</strong></p>
+<ul>
+<li><p><a href="http://www.cnblogs.com/best/p/5659596.html#_label0" target="_blank" rel="noopener">一、控制器定义</a></p>
+</li>
+<li><ul>
+<li><a href="http://www.cnblogs.com/best/p/5659596.html#_lab2_0_0" target="_blank" rel="noopener">1.1、实现接口Controller定义控制器</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5659596.html#_lab2_0_1" target="_blank" rel="noopener">1.2、使用注解@Controller定义控制器</a></li>
+</ul>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5659596.html#_label1" target="_blank" rel="noopener"> 二、@RequestMapping详解</a></p>
+</li>
+<li><ul>
+<li><p><a href="http://www.cnblogs.com/best/p/5659596.html#_lab2_1_0" target="_blank" rel="noopener">2.1、value 属性指定映射路径或URL模板</a></p>
+</li>
+<li><ul>
+<li><a href="http://www.cnblogs.com/best/p/5659596.html#_label3_1_0_0" target="_blank" rel="noopener">2.1.1、指定具体路径字符</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5659596.html#_label3_1_0_1" target="_blank" rel="noopener">2.1.2、路径变量占位，URI模板模式</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5659596.html#_label3_1_0_2" target="_blank" rel="noopener">2.1.3、正则表达式模式的URI模板</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5659596.html#_label3_1_0_3" target="_blank" rel="noopener">2.1.4、矩阵变量@MatrixVariable</a></li>
+<li><a href="http://www.cnblogs.com/best/p/5659596.html#_label3_1_0_4" target="_blank" rel="noopener">2.1.5、Ant风格路径模式</a></li>
+</ul>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5659596.html#_lab2_1_1" target="_blank" rel="noopener">2.2、method属性指定谓词类型</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5659596.html#_lab2_1_2" target="_blank" rel="noopener">2.3、consumes属性指定请求的Content-Type</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5659596.html#_lab2_1_3" target="_blank" rel="noopener">2.4、produces属性指定响应的Content-Type</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5659596.html#_lab2_1_4" target="_blank" rel="noopener">2.5、params属性指定请求中必须有特定参数与值</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5659596.html#_lab2_1_5" target="_blank" rel="noopener">2.6、headers属性指定请求中必须有特定header值</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5659596.html#_lab2_1_6" target="_blank" rel="noopener">2.7、name属性指定名称</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5659596.html#_lab2_1_7" target="_blank" rel="noopener">2.8、path属性指定路径</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="http://www.cnblogs.com/best/p/5659596.html#_label2" target="_blank" rel="noopener">3、示例下载</a></p>
+</li>
+</ul>
+<h1 id="一、控制器定义"><a href="#一、控制器定义" class="headerlink" title="一、控制器定义"></a>一、控制器定义</h1><p>控制器提供访问应用程序的行为，通常通过服务接口定义或注解定义两种方法实现。 控制器解析用户的请求并将其转换为一个模型。在Spring MVC中一个控制器可以包含多个Action（动作、方法）。</p>
+<h2 id="1-1、实现接口Controller定义控制器"><a href="#1-1、实现接口Controller定义控制器" class="headerlink" title="1.1、实现接口Controller定义控制器"></a>1.1、实现接口Controller定义控制器</h2><p>Controller是一个接口，处在包org.springframework.web.servlet.mvc下，接口中只有一个未实现的方法，具体的接口如下所示：</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.springframework.web.servlet.mvc;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.ModelAndView;</span><br><span class="line"></span><br><span class="line"><span class="comment">//实现该接口的类获得控制器功能与类型, 解析用户的请求并将其转换为一个模型</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//处理请求且返回一个模型与视图对象</span></span><br><span class="line">    <span class="function">ModelAndView <span class="title">handleRequest</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在自定义控制器前先创建一个基于maven的web项目，添加包的依赖，pom.xml文件如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.zhangguo<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>SpringMVC02<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>war<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">spring.version</span>&gt;</span>4.3.0.RELEASE<span class="tag">&lt;/<span class="name">spring.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--Spring框架核心库 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spring.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Spring MVC --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-webmvc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spring.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- JSTL --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jstl<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Servlet核心包 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javax.servlet-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--JSP应用程序接口 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet.jsp<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jsp-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>==如果不配置scope，会把jar包发布，会跟容器里的jar包冲突、scope要设置为provided，由容器提供，不会发布（或者不配这两个依赖，在项目的Java BuildPath的Libraries里添加Server Runtime）==目前scope可以使用5个值：</p>
+<ul>
+<li>compile：缺省值，适用于所有阶段，会随着项目一起发布。</li>
+<li>provided：类似compile，期望JDK、容器或使用者会提供这个依赖。如servlet.jar。</li>
+<li>runtime：只在运行时使用，如JDBC驱动，适用运行和测试阶段。test，只在测试时使用，用于编译和运行测试代码。不会随项目发布。</li>
+<li>system：类似provided，需要显式提供包含依赖的jar，Maven不会在Repository中查找它。</li>
+</ul>
+<p>创建一个名为Foo的类，实现接口Controller，重写handleRequest方法，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.springmvc02.controllers;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.ModelAndView;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.mvc.Controller;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 定义控制器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooController</span> <span class="keyword">implements</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ModelAndView <span class="title">handleRequest</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">//返回一个模型视图对象，指定路径，指定模型的名称为message，值为一段字符串</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ModelAndView(<span class="string">"foo/index"</span>, <span class="string">"message"</span>, <span class="string">"Hello，我是通过实现接口定义的一个控制器"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在WEB-INF/views/foo目录下创建一个名为index.jsp的视图，内容如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=<span class="string">"java"</span> contentType=<span class="string">"text/html; charset=UTF-8"</span> pageEncoding=<span class="string">"UTF-8"</span>%&gt;</span><br><span class="line">&lt;%@ taglib prefix=<span class="string">"c"</span> uri=<span class="string">"http://java.sun.com/jsp/jstl/core"</span>%&gt;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">"Content-Type"</span> content=<span class="string">"text/html; charset=UTF-8"</span>&gt;</span><br><span class="line">&lt;title&gt;Foo&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">$&#123;message&#125;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>修改springmvc-servlet.xml配置文件，增加一个控制器bean的声明，具体内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:mvc</span>=<span class="string">"http://www.springframework.org/schema/mvc"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans </span></span></span><br><span class="line"><span class="tag"><span class="string">         http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/context </span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/context/spring-context-4.3.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/mvc </span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 自动扫描包，实现支持注解的IOC --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.zhangguo.springmvc02"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Spring MVC不处理静态资源 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:default-servlet-handler</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 支持mvc注解驱动 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:annotation-driven</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 视图解析器 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span></span></span><br><span class="line"><span class="tag">        <span class="attr">class</span>=<span class="string">"org.springframework.web.servlet.view.InternalResourceViewResolver"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">id</span>=<span class="string">"internalResourceViewResolver"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 前缀 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"prefix"</span> <span class="attr">value</span>=<span class="string">"/WEB-INF/views/"</span> /&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 后缀 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"suffix"</span> <span class="attr">value</span>=<span class="string">".jsp"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"/foo"</span> <span class="attr">class</span>=<span class="string">"com.zhangguo.springmvc02.controllers.FooController"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>基中name是访问路径，class是自定义的控制器的全名称。运行后的结果如下：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160711110304826-119508193.png" alt="img"></p>
+<p>小结：实现接口Controller定义控制器是较老的办法，缺点是：一个控制器中只有一个Action，如果要多个Action则需要定义多个Controller；定义的方式比较麻烦；Spring 2.5以后采用注解的方式定义解决这引起问题。</p>
+<h2 id="1-2、使用注解-Controller定义控制器"><a href="#1-2、使用注解-Controller定义控制器" class="headerlink" title="1.2、使用注解@Controller定义控制器"></a>1.2、使用注解@Controller定义控制器</h2><p><code>org.springframework.stereotype.Controller</code>注解类型用于声明Spring类的实例是一个控制器（在讲IOC时还提到了另外3个注解）；Spring可以使用扫描机制来找到应用程序中所有基于注解的控制器类，为了保证Spring能找到你的控制器，需要在配置文件中声明组件扫描。</p>
+<p>创建一个名为Bar的类，定义为一个控制器，类的具体实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.springmvc02.controllers;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.ui.Model;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 定义控制器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//BarController类的实例是一个控制器，会自动添加到Spring上下文中</span></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BarController</span> </span>&#123;</span><br><span class="line">    <span class="comment">//映射访问路径</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/bar"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">index</span><span class="params">(Model model)</span></span>&#123;</span><br><span class="line">        <span class="comment">//Spring MVC会自动实例化一个Model对象用于向视图中传值</span></span><br><span class="line">        model.addAttribute(<span class="string">"message"</span>, <span class="string">"这是通过注解定义的一个控制器中的Action"</span>);</span><br><span class="line">        <span class="comment">//返回视图位置</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"foo/index"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>还要需要修改Spring mvc配置文件，启用自动组件扫描功能，在beans中增加如下配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 自动扫描包，实现支持注解的IOC --&gt;</span><br><span class="line">&lt;context:component-scan base-package=&quot;com.zhangguo.springmvc02&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p>base-package属性用于指定扫描的基础包，可以缩小扫描的范围。运行结果如下：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160711135843811-561677629.png" alt="img"></p>
+<p>小结：从代码与运行结果可以看出BarController与FooController同时都指定了一个视图foo/index.jsp，但是页面结果的结果是不一样的，从这里可以看出视图是被复用的，而控制器与视图之间是弱偶合关系。</p>
+<h1 id="二、-RequestMapping详解"><a href="#二、-RequestMapping详解" class="headerlink" title="二、@RequestMapping详解"></a>二、@RequestMapping详解</h1><p><code>@RequestMapping</code>注释用于映射url到控制器类或一个特定的处理程序方法。可用于类或方法上。用于类上，表示类中的所有响应请求的方法都是以该地址作为父路径。该注解共有8个属性，注解源码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.springframework.web.bind.annotation;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Documented;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.ElementType;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Target;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Callable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.core.annotation.AliasFor;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 用于映射url到控制器类或一个特定的处理程序方法.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//该注解只能用于方法或类型上</span></span><br><span class="line"><span class="meta">@Target</span>(&#123; ElementType.METHOD, ElementType.TYPE &#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Mapping</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> RequestMapping &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 指定映射的名称</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">String <span class="title">name</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 指定请求的路径映射，指定的地址可以是uri模板,别名为path</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@AliasFor</span>(<span class="string">"path"</span>)</span><br><span class="line">    String[] value() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** 别名为value，使用path更加形象</span></span><br><span class="line"><span class="comment">     * 只有用在一个Servlet环境：路径映射URI（例如“/myPath.do”）。</span></span><br><span class="line"><span class="comment">     * Ant风格的路径模式，同时也支持（例如，“/myPath/*.do”）。在方法层面，在主要的映射在类型级别表示相对路径（例如，“edit.do”）</span></span><br><span class="line"><span class="comment">     * 的支持。路径映射的URI可能包含占位符（例如“/$ &#123;&#125;连接”）</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@AliasFor</span>(<span class="string">"value"</span>)</span><br><span class="line">    String[] path() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 指定请求谓词的类型如GET, POST, HEAD, OPTIONS, PUT, PATCH, DELETE, TRACE. 收窄请求范围 The</span></span><br><span class="line"><span class="comment">     * HTTP request methods to map to, narrowing the primary mapping: GET, POST,</span></span><br><span class="line"><span class="comment">     * HEAD, OPTIONS, PUT, PATCH, DELETE, TRACE.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    RequestMethod[] method() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 映射请求的参数，收窄请求范围 The parameters of the mapped request, narrowing the</span></span><br><span class="line"><span class="comment">     * primary mapping.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    String[]params() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 映射请求头部，收窄请求范围 The headers of the mapped request, narrowing the primary</span></span><br><span class="line"><span class="comment">     * mapping. RequestMapping(value = "/something", headers =</span></span><br><span class="line"><span class="comment">     * "content-type=text/*")</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    String[] headers() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 指定处理请求的提交内容类型（Content-Type），例如application/json, text/html，收窄请求范围 The</span></span><br><span class="line"><span class="comment">     * consumable media types of the mapped request, narrowing the primary</span></span><br><span class="line"><span class="comment">     * mapping.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    String[] consumes() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 指定返回的内容类型，仅当request请求头中的(Accept)类型中包含该指定类型才返回 The producible media types</span></span><br><span class="line"><span class="comment">     * of the mapped request, narrowing the primary mapping. produces =</span></span><br><span class="line"><span class="comment">     * "text/plain" produces = &#123;"text/plain", "application/*"&#125; produces =</span></span><br><span class="line"><span class="comment">     * "application/json; charset=UTF-8"</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    String[] produces() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面的源码可以发现除了name基本都是数组类型，在设置时我们可以指定单个值，如@RequestMapping(value=”/foo”)；也可以同时指定多个值如：@RequestMapping(value={“/foo”,”/bar”})。</p>
+<h2 id="2-1、value-属性指定映射路径或URL模板"><a href="#2-1、value-属性指定映射路径或URL模板" class="headerlink" title="2.1、value 属性指定映射路径或URL模板"></a>2.1、value 属性指定映射路径或URL模板</h2><p>指定请求的实际地址，指定的地址可以是URL模板，正则表达式或路径占位，==该属性与path互为别名关系==，@RequestMapping(“/foo”)} 与 @RequestMapping(path=”/foo”)相同。该属性是使用最频繁，最重要的一个属性，==如果只指定该属性时可以把value略去==。Spring Framework 4.2引入了一流的支持声明和查找注释属性的别名。@AliasFor注解可用于声明一双别名属性，来给注解的属性起别名, 让使用注解时, 更加的容易理解(比如给value属性起别名, 更容易让人理解)。先看一个官网的示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/appointments"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppointmentsController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> AppointmentBook appointmentBook;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AppointmentsController</span><span class="params">(AppointmentBook appointmentBook)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.appointmentBook = appointmentBook;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, Appointment&gt; <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> appointmentBook.getAppointmentsForToday();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/&#123;day&#125;"</span>, method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, Appointment&gt; <span class="title">getForDay</span><span class="params">(@PathVariable @DateTimeFormat(iso = ISO.DATE)</span> Date day, Model model) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> appointmentBook.getAppointmentsForDay(day);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/new"</span>, method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> AppointmentForm <span class="title">getNewForm</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> AppointmentForm();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(method = RequestMethod.POST)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">add</span><span class="params">(@Valid AppointmentForm appointment, BindingResult result)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (result.hasErrors()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"appointments/new"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        appointmentBook.addAppointment(appointment);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"redirect:/appointments"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-1-1、指定具体路径字符"><a href="#2-1-1、指定具体路径字符" class="headerlink" title="2.1.1、指定具体路径字符"></a>2.1.1、指定具体路径字符</h3><p>2.1.1.1 只注解方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooBarController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/action1"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">action1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"foo/index"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>访问路径：<a href="http://localhost:8087/SpringMVC02/action1" target="_blank" rel="noopener">http://localhost:8087/SpringMVC02/action1</a></p>
+<p>2.1.1.2 同时注解类与方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">@RequestMapping(&quot;/foobar&quot;)</span><br><span class="line">public class FooBarController &#123;</span><br><span class="line">    @RequestMapping(&quot;/action1&quot;)</span><br><span class="line">    public String action1()&#123;</span><br><span class="line">        return &quot;foo/index&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>访问路径：<a href="http://localhost:8087/SpringMVC02/foobar/action1" target="_blank" rel="noopener">http://localhost:8087/SpringMVC02/foobar/action1</a></p>
+<p>需要先指定类的路径再指定方法的路径</p>
+<p>2.1.1.3 当value为空值</p>
+<p>注解在方法上时，如果value为空则表示该方法为类下默认的Action。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/foobar"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooBarController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/action1"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">action1</span><span class="params">(Model model)</span></span>&#123;</span><br><span class="line">        <span class="comment">//在模型中添加属性message值为action1，渲染页面时使用</span></span><br><span class="line">        model.addAttribute(<span class="string">"message"</span>, <span class="string">"action1"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"foo/index"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RequestMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">action2</span><span class="params">(Model model)</span></span>&#123;</span><br><span class="line">        <span class="comment">//在模型中添加属性message值为action2，渲染页面时使用</span></span><br><span class="line">        model.addAttribute(<span class="string">"message"</span>, <span class="string">"action2"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"foo/index"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>访问action2的路径是：<a href="http://localhost:8087/SpringMVC02/foobar，如果加上action2就错误了。" target="_blank" rel="noopener">http://localhost:8087/SpringMVC02/foobar，如果加上action2就错误了。</a></p>
+<p>注解在类上时，当value为空值则为默认的控制器，可以用于设置项目的起始页。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooBarController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/action1"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">action1</span><span class="params">(Model model)</span></span>&#123;</span><br><span class="line">        <span class="comment">//在模型中添加属性message值为action1，渲染页面时使用</span></span><br><span class="line">        model.addAttribute(<span class="string">"message"</span>, <span class="string">"action1"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"foo/index"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RequestMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">action2</span><span class="params">(Model model)</span></span>&#123;</span><br><span class="line">        <span class="comment">//在模型中添加属性message值为action2，渲染页面时使用</span></span><br><span class="line">        model.addAttribute(<span class="string">"message"</span>, <span class="string">"action2"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"foo/index"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>访问路径：<a href="http://localhost:8087/SpringMVC02/，同时省去了控制器名与Action名称，可用于欢迎页。" target="_blank" rel="noopener">http://localhost:8087/SpringMVC02/，同时省去了控制器名与Action名称，可用于欢迎页。</a></p>
+<p>访问action1的路径是：<a href="http://localhost:8087/SpringMVC02/action1" target="_blank" rel="noopener">http://localhost:8087/SpringMVC02/action1</a></p>
+<h3 id="2-1-2、路径变量占位，URI模板模式"><a href="#2-1-2、路径变量占位，URI模板模式" class="headerlink" title="2.1.2、路径变量占位，URI模板模式"></a>2.1.2、路径变量占位，URI模板模式</h3><p>在Spring MVC可以使用@PathVariable 注释方法参数的值绑定到一个URI模板变量。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/action3/&#123;p1&#125;/&#123;p2&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">action3</span><span class="params">(@PathVariable <span class="keyword">int</span> p1,@PathVariable <span class="keyword">int</span> p2,Model model)</span></span>&#123;</span><br><span class="line">    model.addAttribute(<span class="string">"message"</span>, p1+p2);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"foo/index"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160711152515701-1226845292.png" alt="img"></p>
+<p>使用路径变量的好处：使路径变得更加简洁；获得参数更加方便，框架会自动进行类型转换。通过路径变量的类型可以约束访问参数，如果类型不一样，则访问不到action，如这里访问是的路径是/action3/1/a，则路径与方法不匹配，而不会是参数转换失败。</p>
+<h3 id="2-1-3、正则表达式模式的URI模板"><a href="#2-1-3、正则表达式模式的URI模板" class="headerlink" title="2.1.3、正则表达式模式的URI模板"></a>2.1.3、正则表达式模式的URI模板</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/action4/&#123;id:\\d&#123;6&#125;&#125;-&#123;name:[a-z]&#123;3&#125;&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">action4</span><span class="params">(@PathVariable <span class="keyword">int</span> id,@PathVariable String name,Model model)</span></span>&#123;</span><br><span class="line">    model.addAttribute(<span class="string">"message"</span>, <span class="string">"id:"</span>+id+<span class="string">" name:"</span>+name);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"foo/index"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>正则要求id必须为6位的数字，而name必须为3位小写字母，访问结果如下：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160711155418982-1998650098.png" alt="img"></p>
+<h3 id="2-1-4、矩阵变量-MatrixVariable"><a href="#2-1-4、矩阵变量-MatrixVariable" class="headerlink" title="2.1.4、矩阵变量@MatrixVariable"></a>2.1.4、矩阵变量@MatrixVariable</h3><p>矩阵变量可以出现在任何路径段,每个矩阵变量用“;”分隔。例如:“/汽车;颜色=红;年=2012”。多个值可以是“,”分隔“颜色=红、绿、蓝”或变量名称可以重复“颜色=红;颜色=绿色;颜色=蓝”，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// GET /pets/42;q=11;r=22</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/pets/&#123;petId&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@PathVariable String petId, @MatrixVariable <span class="keyword">int</span> q)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// petId == 42</span></span><br><span class="line">    <span class="comment">// q == 11</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 矩阵变量</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/action5/&#123;name&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">action5</span><span class="params">(Model model, </span></span></span><br><span class="line"><span class="function"><span class="params">        @PathVariable String name,   //路径变量，用于获得路径中的变量name的值</span></span></span><br><span class="line"><span class="function"><span class="params">        @MatrixVariable String r,</span></span></span><br><span class="line"><span class="function"><span class="params">        @MatrixVariable(required = <span class="keyword">true</span>)</span> String g,  <span class="comment">//参数g是必须的</span></span></span><br><span class="line"><span class="function">        @<span class="title">MatrixVariable</span><span class="params">(defaultValue = <span class="string">"99"</span>, required = <span class="keyword">false</span>)</span> String b) </span>&#123;  <span class="comment">//参数b不是必须的，默认值是99</span></span><br><span class="line">    model.addAttribute(<span class="string">"message"</span>, name + <span class="string">" is #"</span> + r + g + b);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"foo/index"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Get http://localhost:8087/SpringMVC02/action5/the%20book%20color;r=33;g=66</span></span><br><span class="line"><span class="comment">//the book color is #336699</span></span><br></pre></td></tr></table></figure>
+<p>==默认是不允许使用矩阵变量==的，需要设置配置文中的<code>RequestMappingHandlerMapping</code>的属性<code>removeSemicolonContent</code>为false；在annotation-driven中增加属性<code>enable-matrix-variables=&quot;true&quot;</code>，修改后的springmvc-servlet.xml文件如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 支持mvc注解驱动 --&gt;</span><br><span class="line">&lt;mvc:annotation-driven enable-matrix-variables=&quot;true&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 配置映射媒体类型的策略 --&gt;</span><br><span class="line">&lt;bean</span><br><span class="line">    class=&quot;org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;removeSemicolonContent&quot; value=&quot;false&quot; /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>访问结果如下：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160711205437842-659324236.png" alt="img"></p>
+<h3 id="2-1-5、Ant风格路径模式"><a href="#2-1-5、Ant风格路径模式" class="headerlink" title="2.1.5、Ant风格路径模式"></a>2.1.5、Ant风格路径模式</h3><p>@RequestMapping注解也支持ant风格的路径模式，如/myPath/<em>.do，/owners/</em>/pets/{petId}，示例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Ant风格路径模式</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/action6/*.do"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">action6</span><span class="params">(Model model)</span></span>&#123; </span><br><span class="line">    model.addAttribute(<span class="string">"message"</span>,<span class="string">"Ant风格路径模式"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"foo/index"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160711212330373-1197283185.png" alt="img"></p>
+<p>当然还有关于路径匹配的规则，特殊的优先级高过一般的，更多规则可以参考官方帮助。</p>
+<h2 id="2-2、method属性指定谓词类型"><a href="#2-2、method属性指定谓词类型" class="headerlink" title="2.2、method属性指定谓词类型"></a>2.2、method属性指定谓词类型</h2><p>用于约束请求的谓词类型，可以收窄请求范围。指定请求谓词的类型如<code>GET, POST, HEAD, OPTIONS, PUT, PATCH, DELETE, TRACE</code>，如下代码所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//谓词类型</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/action6"</span>,method=&#123;RequestMethod.POST,RequestMethod.DELETE&#125;)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">action6</span><span class="params">(Model model)</span> </span>&#123;</span><br><span class="line">    model.addAttribute(<span class="string">"message"</span>, <span class="string">"请求谓词只能是POST与DELETE"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"foo/index"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>要访问action7请求谓词类型必须是POST或者为DELETE，当我们从浏览器的URL栏中直接请求时为一个GET请求，则结果是405，如下所示：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160711162340717-1487269881.png" alt="img"></p>
+<p>如果将POST修改为GET则正常了,如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//谓词类型</span><br><span class="line">@RequestMapping(value = &quot;/action6&quot;,method=RequestMethod.GET)</span><br><span class="line">public String action6(Model model) &#123;</span><br><span class="line">    model.addAttribute(&quot;message&quot;, &quot;请求谓词只能是GET&quot;);</span><br><span class="line">    return &quot;foo/index&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160711162518732-868938556.png" alt="img"></p>
+<h2 id="2-3、consumes属性指定请求的Content-Type"><a href="#2-3、consumes属性指定请求的Content-Type" class="headerlink" title="2.3、consumes属性指定请求的Content-Type"></a>2.3、consumes属性指定请求的Content-Type</h2><p> 指定处理请求的提交内容类型（Content-Type），例如application/json, text/html，收窄请求范围，如果用户发送的请求内容类型不匹配则方法不会响应请求，具体使用如下代码所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhangguo.springmvc02.controllers;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.ui.Model;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/home"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HomeController</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 请求内容类型必须为text/html，注意浏览器默认没有指定Content-type</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/action8"</span>,consumes=<span class="string">"text/html"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">action8</span><span class="params">(Model model)</span> </span>&#123;</span><br><span class="line">        model.addAttribute(<span class="string">"message"</span>, <span class="string">"请求的提交内容类型（Content-Type）是text/html"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"foo/index"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在action8的注解中约束发送到服务器的Content-Type必须是text/html类型，如果类型不一致则会报错（415），测试结果如下：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712092711998-79974306.png" alt="img"></p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712092759561-1222347155.png" alt="img"></p>
+<p>从两个图的对比可以看出当内容类型为text/plain时报客户端错误415，当内容类型为text/html时则响应正常，响应的结果如下：</p>
+<p><em>请求的提交内容类型（Content-Type）是text/html </em></p>
+<p>注意：可以使用！号，如consumes=”!text/html”</p>
+<h2 id="2-4、produces属性指定响应的Content-Type"><a href="#2-4、produces属性指定响应的Content-Type" class="headerlink" title="2.4、produces属性指定响应的Content-Type"></a>2.4、produces属性指定响应的Content-Type</h2><p>指定返回的内容类型，仅当request请求头中的(Accept)类型中包含该指定类型才返回，方法才处理客户端的请求否则会报406错误，常用设置如下：</p>
+<p>produces = “text/plain”  //客户端只接收纯文本</p>
+<p>produces = {“text/plain”, “application/<em>“}   //客户端接收纯文本与application/</em>类型的内容</p>
+<p>produces = “application/json; charset=UTF-8”  //客户端接收json且编码为utf-8</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//客户端接收json且编码为utf-8，多数浏览器Accept设置的为*/*，接收任意类型</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/action9"</span>,produces=<span class="string">"application/json; charset=UTF-8"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">action9</span><span class="params">(Model model)</span> </span>&#123;</span><br><span class="line">    model.addAttribute(<span class="string">"message"</span>, <span class="string">"客户端可以接收的类型是application/json; charset=UTF-8"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"foo/index"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 运行结果：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712094206029-1081665188.png" alt="img"></p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712094333139-567631345.png" alt="img"></p>
+<p>注意：可以使用！号，如produces=”!text/html”</p>
+<h2 id="2-5、params属性指定请求中必须有特定参数与值"><a href="#2-5、params属性指定请求中必须有特定参数与值" class="headerlink" title="2.5、params属性指定请求中必须有特定参数与值"></a>2.5、params属性指定请求中必须有特定参数与值</h2><p>映射请求的参数，收窄请求范围。可以限制客户端发送到服务器的请求参数为某些特定值或不为某些值，如下代码所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//请求的参数必须包含id=215与name不等于abc</span><br><span class="line">@RequestMapping(value = &quot;/action10&quot;,params=&#123;&quot;id=215&quot;,&quot;name!=abc&quot;&#125;)</span><br><span class="line">public String action10(Model model) &#123;</span><br><span class="line">    model.addAttribute(&quot;message&quot;, &quot;请求的参数必须包含id=215与name不等于abc&quot;);</span><br><span class="line">    return &quot;foo/index&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果如下：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712095453920-1950438158.png" alt="img"></p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712095523920-346216342.png" alt="img"></p>
+<p>name的值如没有指定也是通过的；可以使用不等于；</p>
+<h2 id="2-6、headers属性指定请求中必须有特定header值"><a href="#2-6、headers属性指定请求中必须有特定header值" class="headerlink" title="2.6、headers属性指定请求中必须有特定header值"></a>2.6、headers属性指定请求中必须有特定header值</h2><p>映射请求头部，收窄请求范围。约束客户端发送的请求头部信息中必须包含某个特定的值或不包含某个值，作用范围明显大于前面讲过的几种，示例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//请求头部信息中必须包含Host=localhost:8088</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/action11"</span>,headers=<span class="string">"Host=localhost:8088"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">action11</span><span class="params">(Model model)</span> </span>&#123;</span><br><span class="line">    model.addAttribute(<span class="string">"message"</span>, <span class="string">"请求头部信息中必须包含Host=localhost:8088"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"foo/index"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712100415232-497626911.png" alt="img"></p>
+<p>修改Host为8087时运行就正常了：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712100523404-2136816645.png" alt="img"></p>
+<p>这里同样可以使用！号；可以使用通配符如：Content-Type=”application/*”</p>
+<h2 id="2-7、name属性指定名称"><a href="#2-7、name属性指定名称" class="headerlink" title="2.7、name属性指定名称"></a>2.7、name属性指定名称</h2><p>为当前映射指定一个名称，不常用，一般不会指定。</p>
+<h2 id="2-8、path属性指定路径"><a href="#2-8、path属性指定路径" class="headerlink" title="2.8、path属性指定路径"></a>2.8、path属性指定路径</h2><p>先看源码中的path与value，定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@AliasFor(&quot;path&quot;)</span><br><span class="line">String[] value() default &#123;&#125;;</span><br><span class="line">@AliasFor(&quot;value&quot;)</span><br><span class="line">String[] path() default &#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p>从Spring 4.2开始引入了@AliasFor注解，可以实现属性的别名，如value本身并没有特定的含义，而path会更加具体，能见名知义，通俗说可以认为两者在使用中是一样的如：@RequestMapping(“/foo”)} 与 @RequestMapping(path=”/foo”)相同。示例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//映射访问路径为/action12或/myaction，指定映射名称为actionTest</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(path =&#123;<span class="string">"/action12"</span>,<span class="string">"/myaction"</span>&#125;,name=<span class="string">"actionTest"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">action12</span><span class="params">(Model model)</span> </span>&#123;</span><br><span class="line">    model.addAttribute(<span class="string">"message"</span>, <span class="string">"映射访问路径为/action12或/myaction，指定映射名称为actionTest"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"foo/index"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712101634107-332644375.png" alt="img"></p>
+<p><img src="http://images2015.cnblogs.com/blog/63651/201607/63651-20160712101700873-1076508180.png" alt="img"></p>
+<h1 id="3、示例下载"><a href="#3、示例下载" class="headerlink" title="3、示例下载"></a>3、示例下载</h1><p><a href="http://files.cnblogs.com/files/best/SpringMVC02.rar" target="_blank" rel="noopener">点击下载示例</a></p>
+<p>分类: <a href="http://www.cnblogs.com/best/category/846203.html" target="_blank" rel="noopener">Spring</a>,<a href="http://www.cnblogs.com/best/category/851369.html" target="_blank" rel="noopener">Spring MVC</a>,<a href="http://www.cnblogs.com/best/category/313044.html" target="_blank" rel="noopener">服务器</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/11/Spring/Spring学习总结（六）——Spring整合MyBatis完整示例/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/11/Spring/Spring MVC 学习总结（三）——请求处理方法Action详解/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/04/11/Spring/Spring MVC 学习总结（二）——控制器定义与@RequestMapping详解/" data-title data-url="http://yoursite.com/2018/04/11/Spring/Spring MVC 学习总结（二）——控制器定义与@RequestMapping详解/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-MVC-学习总结（二）——控制器定义与-RequestMapping详解"><span class="nav-number">1.</span> <span class="nav-text">Spring MVC 学习总结（二）——控制器定义与@RequestMapping详解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一、控制器定义"><span class="nav-number">2.</span> <span class="nav-text">一、控制器定义</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1、实现接口Controller定义控制器"><span class="nav-number">2.1.</span> <span class="nav-text">1.1、实现接口Controller定义控制器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2、使用注解-Controller定义控制器"><span class="nav-number">2.2.</span> <span class="nav-text">1.2、使用注解@Controller定义控制器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、-RequestMapping详解"><span class="nav-number">3.</span> <span class="nav-text">二、@RequestMapping详解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1、value-属性指定映射路径或URL模板"><span class="nav-number">3.1.</span> <span class="nav-text">2.1、value 属性指定映射路径或URL模板</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1、指定具体路径字符"><span class="nav-number">3.1.1.</span> <span class="nav-text">2.1.1、指定具体路径字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2、路径变量占位，URI模板模式"><span class="nav-number">3.1.2.</span> <span class="nav-text">2.1.2、路径变量占位，URI模板模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3、正则表达式模式的URI模板"><span class="nav-number">3.1.3.</span> <span class="nav-text">2.1.3、正则表达式模式的URI模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-4、矩阵变量-MatrixVariable"><span class="nav-number">3.1.4.</span> <span class="nav-text">2.1.4、矩阵变量@MatrixVariable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-5、Ant风格路径模式"><span class="nav-number">3.1.5.</span> <span class="nav-text">2.1.5、Ant风格路径模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2、method属性指定谓词类型"><span class="nav-number">3.2.</span> <span class="nav-text">2.2、method属性指定谓词类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3、consumes属性指定请求的Content-Type"><span class="nav-number">3.3.</span> <span class="nav-text">2.3、consumes属性指定请求的Content-Type</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4、produces属性指定响应的Content-Type"><span class="nav-number">3.4.</span> <span class="nav-text">2.4、produces属性指定响应的Content-Type</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5、params属性指定请求中必须有特定参数与值"><span class="nav-number">3.5.</span> <span class="nav-text">2.5、params属性指定请求中必须有特定参数与值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6、headers属性指定请求中必须有特定header值"><span class="nav-number">3.6.</span> <span class="nav-text">2.6、headers属性指定请求中必须有特定header值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7、name属性指定名称"><span class="nav-number">3.7.</span> <span class="nav-text">2.7、name属性指定名称</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-8、path属性指定路径"><span class="nav-number">3.8.</span> <span class="nav-text">2.8、path属性指定路径</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、示例下载"><span class="nav-number">4.</span> <span class="nav-text">3、示例下载</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

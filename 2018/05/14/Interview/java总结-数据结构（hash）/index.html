@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Hashcode 的作用 https://blog.csdn.net/fenglibing/article/details/8905007   hashcode方法返回该对象的哈希码值。支持该方法是为哈希表提供一些优点，例如，java.util.Hashtable提供的哈希表。hashCode的常规协定是：在 Java应用程序执行期间，在同一对象上多次调用 hashCode方法时，必须一致地返回">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java总结---数据结构（hash）">
+<meta property="og:url" content="http://yoursite.com/2018/05/14/Interview/java总结-数据结构（hash）/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Hashcode 的作用 https://blog.csdn.net/fenglibing/article/details/8905007   hashcode方法返回该对象的哈希码值。支持该方法是为哈希表提供一些优点，例如，java.util.Hashtable提供的哈希表。hashCode的常规协定是：在 Java应用程序执行期间，在同一对象上多次调用 hashCode方法时，必须一致地返回">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/1.png">
+<meta property="og:image" content="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/2.png">
+<meta property="og:image" content="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/3.png">
+<meta property="og:image" content="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/4.png">
+<meta property="og:image" content="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/5.png">
+<meta property="og:image" content="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/6.png">
+<meta property="og:image" content="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/7.png">
+<meta property="og:image" content="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/8.png">
+<meta property="og:updated_time" content="2018-05-14T14:04:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java总结---数据结构（hash）">
+<meta name="twitter:description" content="Hashcode 的作用 https://blog.csdn.net/fenglibing/article/details/8905007   hashcode方法返回该对象的哈希码值。支持该方法是为哈希表提供一些优点，例如，java.util.Hashtable提供的哈希表。hashCode的常规协定是：在 Java应用程序执行期间，在同一对象上多次调用 hashCode方法时，必须一致地返回">
+<meta name="twitter:image" content="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/14/Interview/java总结-数据结构（hash）/">
+
+
+
+
+
+  <title>java总结---数据结构（hash） | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/Interview/java总结-数据结构（hash）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">java总结---数据结构（hash）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T10:16:34+08:00">
+                2018-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/14/Interview/java总结-数据结构（hash）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/05/14/Interview/java总结-数据结构（hash）/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h1 id="Hashcode-的作用"><a href="#Hashcode-的作用" class="headerlink" title="Hashcode 的作用"></a><code>Hashcode</code> 的作用</h1><ul>
+<li><a href="https://blog.csdn.net/fenglibing/article/details/8905007" target="_blank" rel="noopener">https://blog.csdn.net/fenglibing/article/details/8905007</a></li>
+</ul>
+<blockquote>
+<p><code>hashcode</code>方法返回该对象的哈希码值。支持该方法是为哈希表提供一些优点，例如，<code>java.util.Hashtable</code>提供的哈希表。<br><code>hashCode</code>的常规协定是：<br>在 <code>Java</code>应用程序执行期间，在同一对象上多次调用 <code>hashCode</code>方法时，必须一致地返回相同的整数，前提是对象上 <code>equals</code>比较中所用的信息没有被修改。从某一应用程序的一次执行到同一应用程序的另一次执行，该整数无需保持一致。<br>如果根据 <code>equals(Object)</code> 方法，两个对象是相等的，那么在两个对象中的每个对象上调用 <code>hashCode</code>方法都必须生成相同的整数结果。<br>以下情况不是必需的：如果根据 <code>equals(java.lang.Object)</code> 方法，两个对象不相等，那么在两个对象中的任一对象上调用 <code>hashCode</code>方法必定会生成不同的整数结果。但是，程序员应该知道，为不相等的对象生成不同整数结果可以提高哈希表的性能。<br>实际上，由 <code>Object</code>类定义的 <code>hashCode</code>方法确实会针对不同的对象返回不同的整数。（这一般是通过将该对象的内部地址转换成一个整数来实现的，但是 <code>JavaTM</code>编程语言不需要这种实现技巧。）</p>
+<p>当<code>equals</code>方法被重写时，通常有必要重写 <code>hashCode</code>方法，以维护 <code>hashCode</code>方法的常规协定，该协定声明相等对象必须具有相等的哈希码。</p>
+</blockquote>
+<p>以上这段官方文档的定义，我们可以抽出成以下几个关键点：<br>1、<code>hashCode</code>的存在主要是用于<strong>查找的快捷性</strong>，如<code>Hashtable</code>，<code>HashMap</code>等，<code>hashCode</code>是用来在散列存储结构中确定对象的存储地址的；</p>
+<p>2、如果两个对象相同，就是适用于<code>equals(java.lang.Object)</code> 方法，那么这两个对象的<code>hashCode</code>一定要相同；</p>
+<p>3、如果对象的<code>equals</code>方法被重写，那么对象的<code>hashCode</code>也尽量重写，并且产生<code>hashCode</code>使用的对象，一定要和<code>equals</code>方法中使用的一致，否则就会违反上面提到的第2点；</p>
+<p>4、两个对象的<code>hashCode</code>相同，并不一定表示两个对象就相同，也就是不一定适用于<code>equals(java.lang.Object)</code> 方法，只能够说明这两个对象在散列存储结构中，如<code>Hashtable</code>，他们“存放在同一个篮子里”。</p>
+<p>再归纳一下就是<code>hashCode</code>是用于查找使用的，而<code>equals</code>是用于比较两个对象的是否相等的。以下这段话是从别人帖子回复拷贝过来的：</p>
+<blockquote>
+<p>1.<code>hashcode</code>是用来查找的，如果你学过数据结构就应该知道，在查找和排序这一章有<br>例如内存中有这样的位置<br>0  1  2  3  4  5  6  7<br>而我有个类，这个类有个字段叫<code>ID</code>,我要把这个类存放在以上8个位置之一，如果不用<code>hashcode</code>而任意存放，那么当查找时就需要到这八个位置里挨个去找，或者用二分法一类的算法。<br>但如果用<code>hashcode</code>那就会使效率提高很多。<br>我们这个类中有个字段叫<code>ID</code>,那么我们就定义我们的<code>hashcode</code>为<code>ID</code>％8，然后把我们的类存放在取得得余数那个位置。比如我们的<code>ID</code>为9，9除8的余数为1，那么我们就把该类存在1这个位置，如果<code>ID</code>是13，求得的余数是5，那么我们就把该类放在5这个位置。这样，以后在查找该类时就可以通过<code>ID</code>除 8求余数直接找到存放的位置了。<br>2.但是如果两个类有相同的<code>hashcode</code>怎么办那（我们假设上面的类的<code>ID</code>不是唯一的），例如9除以8和17除以8的余数都是1，那么这是不是合法的，回答是：可以这样。那么如何判断呢？在这个时候就需要定义 <code>equals</code>了。<br>也就是说，我们先通过 <code>hashcode</code>来判断两个类是否存放某个桶里，但这个桶里可能有很多类，那么我们就需要再通过 <code>equals</code>来在这个桶里找到我们要的类。<br>那么。重写了<code>equals()</code>，为什么还要重写<code>hashCode()</code>呢？<br>想想，你要在一个桶里找东西，你必须先要找到这个桶啊，你不通过重写<code>hashcode()</code>来找到桶，光重写<code>equals()</code>有什么用啊</p>
+</blockquote>
+<hr>
+<h1 id="简述一致性-Hash-算法"><a href="#简述一致性-Hash-算法" class="headerlink" title="简述一致性 Hash 算法"></a>简述一致性 <code>Hash</code> 算法</h1><ul>
+<li><a href="http://blog.codinglabs.org/articles/consistent-hashing.html" target="_blank" rel="noopener">http://blog.codinglabs.org/articles/consistent-hashing.html</a></li>
+</ul>
+<p>本文将会从实际应用场景出发，介绍一致性哈希算法（<code>Consistent Hashing</code>）及其在分布式系统中的应用。首先本文会描述一个在日常开发中经常会遇到的问题场景，借此介绍一致性哈希算法以及这个算法如何解决此问题；接下来会对这个算法进行相对详细的描述，并讨论一些如虚拟节点等与此算法应用相关的话题。</p>
+<h1 id="分布式缓存问题"><a href="#分布式缓存问题" class="headerlink" title="分布式缓存问题"></a>分布式缓存问题</h1><p>假设我们有一个网站，最近发现随着流量增加，服务器压力越来越大，之前直接读写数据库的方式不太给力了，于是我们想引入<code>Memcached</code>作为缓存机制。现在我们一共有三台机器可以作为Memcached服务器，如下图所示。</p>
+<p><img src="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/1.png" alt="img"></p>
+<p>很显然，最简单的策略是将每一次<code>Memcached</code>请求随机发送到一台<code>Memcached</code>服务器，但是这种策略可能会带来两个问题：<br>一是同一份数据可能被存在不同的机器上而造成数据冗余，<br>二是有可能某数据已经被缓存但是访问却没有命中，因为无法保证对相同<code>key</code>的所有访问都被发送到相同的服务器。因此，随机策略无论是时间效率还是空间效率都非常不好。</p>
+<p>要解决上述问题只需做到如下一点：保证对相同<code>key</code>的访问会被发送到相同的服务器。很多方法可以实现这一点，最常用的方法是计算哈希。例如对于每次访问，可以按如下算法计算其哈希值：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">h = Hash(key) % <span class="number">3</span></span><br></pre></td></tr></table></figure></p>
+<p>其中<code>Hash</code>是一个从字符串到正整数的哈希映射函数。这样，如果我们将<code>Memcached Server</code>分别编号为0、1、2，那么就可以根据上式和<code>key</code>计算出服务器编号<code>h</code>，然后去访问。</p>
+<p>这个方法虽然解决了上面提到的两个问题，但是存在一些其它的问题。如果将上述方法抽象，可以认为通过：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">h = Hash(key) % N</span><br></pre></td></tr></table></figure></p>
+<p>这个算式计算每个<code>key</code>的请求应该被发送到哪台服务器，其中<code>N</code>为服务器的台数，并且服务器按照<code>0 – (N-1)</code>编号。</p>
+<p>这个算法的问题在于容错性和扩展性不好。所谓容错性是指当系统中某一个或几个服务器变得不可用时，整个系统是否可以正确高效运行；而扩展性是指当加入新的服务器后，整个系统是否可以正确高效运行。</p>
+<p>现假设有一台服务器宕机了，那么为了填补空缺，要将宕机的服务器从编号列表中移除，后面的服务器按顺序前移一位并将其编号值减一，此时每个<code>key</code>就要按<code>h = Hash(key) % (N-1)</code>重新计算；同样，如果新增了一台服务器，虽然原有服务器编号不用改变，但是要按<code>h = Hash(key) % (N+1)</code>重新计算哈希值。因此系统中一旦有服务器变更，大量的<code>key</code>会被重定位到不同的服务器从而造成大量的缓存不命中。而这种情况在分布式系统中是非常糟糕的。</p>
+<blockquote>
+<p>一个设计良好的分布式哈希方案应该具有良好的单调性，即<strong>服务节点的增减不会造成大量哈希重定位</strong>。一致性哈希算法就是这样一种哈希方案。</p>
+</blockquote>
+<h1 id="一致性哈希算法"><a href="#一致性哈希算法" class="headerlink" title="一致性哈希算法"></a>一致性哈希算法</h1><h2 id="算法简述"><a href="#算法简述" class="headerlink" title="算法简述"></a>算法简述</h2><p>一致性哈希算法（Consistent Hashing）最早在论文《<a href="http://www.akamai.com/dl/technical_publications/ConsistenHashingandRandomTreesDistributedCachingprotocolsforrelievingHotSpotsontheworldwideweb.pdf" target="_blank" rel="noopener">Consistent Hashing and Random Trees: Distributed Caching Protocols for Relieving Hot Spots on the World Wide Web</a>》中被提出。简单来说，一致性哈希将整个哈希值空间组织成一个虚拟的圆环，如假设某哈希函数<code>H</code>的值空间为<code>0 - 2^32-1</code>（即哈希值是一个32位无符号整形），整个哈希空间环如下：</p>
+<p><img src="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/2.png" alt="img"></p>
+<p>整个空间按顺时针方向组织。0和$$2^32-1$$在零点中方向重合。</p>
+<p>下一步将各个服务器使用<code>H</code>进行一个哈希，具体可以选择服务器的<code>ip</code>或主机名作为关键字进行哈希，这样每台机器就能确定其在哈希环上的位置，这里假设将上文中三台服务器使用<code>ip</code>地址哈希后在环空间的位置如下：</p>
+<p><img src="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/3.png" alt="img"></p>
+<p>接下来使用如下算法定位数据访问到相应服务器：将数据key使用相同的函数H计算出哈希值h，通根据h确定此数据在环上的位置，从此位置沿环顺时针“行走”，第一台遇到的服务器就是其应该定位到的服务器。</p>
+<p>例如我们有A、B、C、D四个数据对象，经过哈希计算后，在环空间上的位置如下：</p>
+<p><img src="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/4.png" alt="img"></p>
+<p>根据一致性哈希算法，数据A会被定为到Server 1上，D被定为到Server 3上，而B、C分别被定为到Server 2上。</p>
+<h2 id="容错性与可扩展性分析"><a href="#容错性与可扩展性分析" class="headerlink" title="容错性与可扩展性分析"></a>容错性与可扩展性分析</h2><p>下面分析一致性哈希算法的容错性和可扩展性。现假设Server 3宕机了：</p>
+<p><img src="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/5.png" alt="img"></p>
+<p>可以看到此时A、C、B不会受到影响，只有D节点被重定位到Server 2。一般的，在一致性哈希算法中，如果一台服务器不可用，则受影响的数据仅仅是此服务器到其环空间中前一台服务器（即顺着逆时针方向行走遇到的第一台服务器）之间数据，其它不会受到影响。</p>
+<p>下面考虑另外一种情况，如果我们在系统中增加一台服务器Memcached Server 4：</p>
+<p><img src="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/6.png" alt="img"></p>
+<p>此时A、D、C不受影响，只有B需要重定位到新的Server 4。一般的，在一致性哈希算法中，如果增加一台服务器，则受影响的数据仅仅是新服务器到其环空间中前一台服务器（即顺着逆时针方向行走遇到的第一台服务器）之间数据，其它不会受到影响。</p>
+<p>综上所述，一致性哈希算法对于节点的增减都只需重定位环空间中的一小部分数据，具有较好的容错性和可扩展性。</p>
+<h2 id="虚拟节点"><a href="#虚拟节点" class="headerlink" title="虚拟节点"></a>虚拟节点</h2><p>一致性哈希算法在服务节点太少时，容易因为节点分部不均匀而造成数据倾斜问题。例如我们的系统中有两台服务器，其环分布如下：</p>
+<p><img src="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/7.png" alt="img"></p>
+<p>此时必然造成大量数据集中到Server 1上，而只有极少量会定位到Server 2上。为了解决这种数据倾斜问题，一致性哈希算法引入了虚拟节点机制，即对每一个服务节点计算多个哈希，每个计算结果位置都放置一个此服务节点，称为虚拟节点。具体做法可以在服务器ip或主机名的后面增加编号来实现。例如上面的情况，我们决定为每台服务器计算三个虚拟节点，于是可以分别计算“Memcached Server 1#1”、“Memcached Server 1#2”、“Memcached Server 1#3”、“Memcached Server 2#1”、“Memcached Server 2#2”、“Memcached Server 2#3”的哈希值，于是形成六个虚拟节点：</p>
+<p><img src="http://blog.codinglabs.org/uploads/pictures/consistent-hashing/8.png" alt="img"></p>
+<p>同时数据定位算法不变，只是多了一步虚拟节点到实际节点的映射，例如定位到“Memcached Server 1#1”、“Memcached Server 1#2”、“Memcached Server 1#3”三个虚拟节点的数据均定位到Server 1上。这样就解决了服务节点少时数据倾斜的问题。在实际应用中，通常将虚拟节点数设置为32甚至更大，因此即使很少的服务节点也能做到相对均匀的数据分布。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>目前一致性哈希基本成为了分布式系统组件的标准配置，例如Memcached的各种客户端都提供内置的一致性哈希支持。本文只是简要介绍了这个算法，更深入的内容可以参看论文《<a href="http://www.akamai.com/dl/technical_publications/ConsistenHashingandRandomTreesDistributedCachingprotocolsforrelievingHotSpotsontheworldwideweb.pdf" target="_blank" rel="noopener">Consistent Hashing and Random Trees: Distributed Caching Protocols for Relieving Hot Spots on the World Wide Web</a>》，同时提供一个<a href="http://www.codeproject.com/KB/recipes/lib-conhash.aspx" target="_blank" rel="noopener">C语言版本的实现</a>供参考。</p>
+<h1 id="有没有可能两个不相等的对象有相同的-hashcode？当两个对象-hashcode-相同怎么办？如何获取值对象"><a href="#有没有可能两个不相等的对象有相同的-hashcode？当两个对象-hashcode-相同怎么办？如何获取值对象" class="headerlink" title="有没有可能两个不相等的对象有相同的 hashcode？当两个对象 hashcode 相同怎么办？如何获取值对象"></a>有没有可能两个不相等的对象有相同的 <code>hashcode</code>？当两个对象 <code>hashcode</code> 相同怎么办？如何获取值对象</h1><ul>
+<li>如果两个对象equals，Java运行时环境会认为他们的hashcode一定相等。</li>
+<li>如果两个对象不equals，他们的hashcode有可能相等。</li>
+<li>如果两个对象hashcode相等，他们不一定equals。</li>
+<li>如果两个对象hashcode不相等，他们一定不equals。</li>
+</ul>
+<hr>
+<h1 id="为什么在重写-equals-方法的时候需要重写-hashCode-方法？equals与-hashCode-的异同点在哪里"><a href="#为什么在重写-equals-方法的时候需要重写-hashCode-方法？equals与-hashCode-的异同点在哪里" class="headerlink" title="为什么在重写 equals 方法的时候需要重写 hashCode 方法？equals与 hashCode 的异同点在哪里"></a>为什么在重写 <code>equals</code> 方法的时候需要重写 <code>hashCode</code> 方法？<code>equals</code>与 <code>hashCode</code> 的异同点在哪里</h1><ul>
+<li><a href="https://blog.csdn.net/javazejian/article/details/51348320" target="_blank" rel="noopener">https://blog.csdn.net/javazejian/article/details/51348320</a></li>
+</ul>
+<p>今天这篇文章我们打算来深度解读一下<code>equal</code>方法以及其关联方法<code>hashCode()</code>，我们准备从以下几点入手分析：</p>
+<p>1.<code>equals()</code>的所属以及内部原理（即<code>Object</code>中<code>equals</code>方法的实现原理）</p>
+<p>说起<code>equals</code>方法，我们都知道是超类<code>Object</code>中的一个基本方法，用于检测一个对象是否与另外一个对象相等。而在<code>Object</code>类中这个方法实际上是判断两个对象是否具有相同的引用，如果有，它们就一定相等。其源码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;   <span class="keyword">return</span> (<span class="keyword">this</span> == obj);     &#125;</span><br></pre></td></tr></table></figure>
+<p>实际上我们知道所有的对象都拥有<strong>标识(内存地址)和状态(数据)</strong>，同时“==”比较两个对象的的内存地址，所以说 <code>Object</code>的 <code>equals()</code> 方法是比较两个对象的内存地址是否相等，即若 <code>object1.equals(object2)</code> 为 <code>true</code>，则表示 <code>equals1</code>和 <code>equals2</code>实际上是引用同一个对象。</p>
+<p>2.<code>equals()</code>与‘==’的区别</p>
+<p>或许这是我们面试时更容易碰到的问题”equals方法与‘==’运算符有什么区别？“，并且常常我们都会胸有成竹地回答：“equals比较的是对象的内容，而‘==’比较的是对象的地址。”。但是从前面我们可以知道equals方法在Object中的实现也是间接使用了‘==’运算符进行比较的，所以从严格意义上来说，我们前面的回答并不完全正确。我们先来看一段代码并运行再来讨论这个问题。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zejian.test;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> batch;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Car</span><span class="params">(<span class="keyword">int</span> batch)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.batch = batch;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Car c1 = <span class="keyword">new</span> Car(<span class="number">1</span>);</span><br><span class="line">        Car c2 = <span class="keyword">new</span> Car(<span class="number">1</span>);</span><br><span class="line">        System.out.println(c1.equals(c2));</span><br><span class="line">        System.out.println(c1 == c2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">false</span><br><span class="line">false</span><br></pre></td></tr></table></figure></p>
+<p>分析：对于‘==’运算符比较两个<code>Car</code>对象，返回了<code>false</code>，这点我们很容易明白，毕竟它们比较的是内存地址，而<code>c1</code>与<code>c2</code>是两个不同的对象，所以<code>c1</code>与<code>c2</code>的内存地址自然也不一样。现在的问题是，我们希望生产的两辆的批次（<code>batch</code>）相同的情况下就认为这两辆车相等，但是运行的结果是尽管<code>c1</code>与<code>c2</code>的批次相同，但<code>equals</code>的结果却反回了<code>false</code>。当然对于<code>equals</code>返回了<code>false</code>，我们也是心知肚明的，因为<code>equal</code>来自<code>Object</code>超类，访问修饰符为<code>public</code>，而我们并没有重写<code>equal</code>方法，故调用的必然是<code>Object</code>超类的原始方<code>equals</code>方法，根据前面分析我们也知道该原始<code>equal</code>方法内部实现使用的是’==’运算符，所以返回了false。因此为了达到我们的期望值，我们必须重写Car的equal方法，让其比较的是对象的批次（即对象的内容），而不是比较内存地址，于是修改如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> Car) &#123;</span><br><span class="line">            Car c = (Car) obj;</span><br><span class="line">            <span class="keyword">return</span> batch == c.batch;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>使用<code>instanceof</code>来判断引用<code>obj</code>所指向的对象的类型，如果<code>obj</code>是<code>Car</code>类对象，就可以将其强制转为<code>Car</code>对象，然后比较两辆<code>Car</code>的批次，相等返回<code>true</code>，否则返回<code>false</code>。当然如果<code>obj</code>不是 <code>Car</code>对象，自然也得返回<code>false</code>。我们再次运行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">true</span><br><span class="line">false</span><br></pre></td></tr></table></figure></p>
+<p>嗯，达到我们预期的结果了。因为前面的面试题我们应该这样回答更佳</p>
+<blockquote>
+<p>总结：默认情况下也就是从超类<code>Object</code>继承而来的<code>equals</code>方法与<code>==</code>是完全等价的，比较的都是对象的内存地址，但我们可以重写<code>equals</code>方法，使其按照我们的需求的方式进行比较，如<code>String</code>类重写了<code>equals</code>方法，使其比较的是字符的序列，而不再是内存地址。</p>
+</blockquote>
+<p>3.<code>equals()</code>的重写规则</p>
+<p>前面我们已经知道如何去重写<code>equals</code>方法来实现我们自己的需求了，但是我们在重写<code>equals</code>方法时，还是需要注意如下几点规则的。</p>
+<p><code>自反性</code>。对于任何非<code>null</code>的引用值<code>x</code>，<code>x.equals(x)</code>应返回<code>true</code>。</p>
+<p><code>对称性</code>。对于任何非<code>null</code>的引用值<code>x</code>与<code>y</code>，当且仅当：<code>y.equals(x)</code>返回<code>true</code>时，<code>x.equals(y)</code>才返回<code>true</code>。</p>
+<p><code>传递性</code>。对于任何非<code>null</code>的引用值<code>x</code>、<code>y</code>与<code>z</code>，如果<code>y.equals(x)</code>返回<code>true</code>，<code>y.equals(z)</code>返回<code>true</code>，那么<code>x.equals(z)</code>也应返回<code>true</code>。</p>
+<p><code>一致性</code>。对于任何非<code>null</code>的引用值<code>x</code>与<code>y</code>，假设对象上<code>equals</code>比较中的信息没有被修改，则多次调用<code>x.equals(y)</code>始终返回<code>true</code>或者始终返回<code>false</code>。</p>
+<p>对于任何非空引用值<code>x</code>，<code>x.equal(null)</code>应返回<code>false</code>。</p>
+<p>当然在通常情况下，如果只是进行同一个类两个对象的相等比较，一般都可以满足以上5点要求，下面我们来看前面写的一个例子。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zejian.test;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> batch;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Car</span><span class="params">(<span class="keyword">int</span> batch)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.batch = batch;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Car c1 = <span class="keyword">new</span> Car(<span class="number">1</span>);</span><br><span class="line">        Car c2 = <span class="keyword">new</span> Car(<span class="number">1</span>);</span><br><span class="line">        Car c3 = <span class="keyword">new</span> Car(<span class="number">1</span>);</span><br><span class="line">        System.out.println(<span class="string">"自反性-&gt;c1.equals(c1)："</span> + c1.equals(c1));</span><br><span class="line">        System.out.println(<span class="string">"对称性："</span>);</span><br><span class="line">        System.out.println(c1.equals(c2));</span><br><span class="line">        System.out.println(c2.equals(c1));</span><br><span class="line">        System.out.println(<span class="string">"传递性："</span>);</span><br><span class="line">        System.out.println(c1.equals(c2));</span><br><span class="line">        System.out.println(c2.equals(c3));</span><br><span class="line">        System.out.println(c1.equals(c3));</span><br><span class="line">        System.out.println(<span class="string">"一致性："</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">50</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (c1.equals(c2) != c1.equals(c2)) &#123;</span><br><span class="line">                System.out.println(<span class="string">"equals方法没有遵守一致性！"</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"equals方法遵守一致性！"</span>);</span><br><span class="line">        System.out.println(<span class="string">"与null比较："</span>);</span><br><span class="line">        System.out.println(c1.equals(<span class="keyword">null</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> Car) &#123;</span><br><span class="line">            Car c = (Car) obj;</span><br><span class="line">            <span class="keyword">return</span> batch == c.batch;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">自反性-&gt;c1.equals(c1)：true</span><br><span class="line">对称性：</span><br><span class="line">true</span><br><span class="line">true</span><br><span class="line">传递性：</span><br><span class="line">true</span><br><span class="line">true</span><br><span class="line">true</span><br><span class="line">一致性：</span><br><span class="line">equals方法遵守一致性！</span><br><span class="line">与null比较：</span><br><span class="line">false</span><br></pre></td></tr></table></figure></p>
+<p>由运行结果我们可以看出<code>equals</code>方法在同一个类的两个对象间的比较还是相当容易理解的。但是如果是子类与父类混合比较，那么情况就不太简单了。下面我们来看看另一个例子，首先，我们先创建一个新类<code>BigCar</code>，继承于<code>Car</code>,然后进行子类与父类间的比较。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zejian.test;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BigCar</span> <span class="keyword">extends</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BigCar</span><span class="params">(<span class="keyword">int</span> batch, <span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(batch);</span><br><span class="line">        <span class="keyword">this</span>.count = count;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> BigCar) &#123;</span><br><span class="line">            BigCar bc = (BigCar) obj;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">super</span>.equals(bc) &amp;&amp; count == bc.count;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Car c = <span class="keyword">new</span> Car(<span class="number">1</span>);</span><br><span class="line">        BigCar bc = <span class="keyword">new</span> BigCar(<span class="number">1</span>, <span class="number">20</span>);</span><br><span class="line">        System.out.println(c.equals(bc));</span><br><span class="line">        System.out.println(bc.equals(c));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">true</span><br><span class="line">false</span><br></pre></td></tr></table></figure></p>
+<p>对于这样的结果，自然是我们意料之中的啦。因为<code>BigCar</code>类型肯定是属于<code>Car</code>类型，所以<code>c.equals(bc)</code>肯定为<code>true</code>，对于<code>bc.equals(c)</code>返回<code>false</code>，是因为<code>Car</code>类型并不一定是<code>BigCar</code>类型（<code>Car</code>类还可以有其他子类）。嗯，确实是这样。但如果有这样一个需求，只要<code>BigCar</code>和<code>Car</code>的生产批次一样，我们就认为它们两个是相当的，在这样一种需求的情况下，父类（<code>Car</code>）与子类（<code>BigCar</code>）的混合比较就不符合<code>equals</code>方法对称性特性了。很明显一个返回<code>true</code>，一个返回了<code>false</code>，根据对称性的特性，此时两次比较都应该返回<code>true</code>才对。那么该如何修改才能符合对称性呢？其实造成不符合对称性特性的原因很明显，那就是因为<code>Car</code>类型并不一定是<code>BigCar</code>类型（<code>Car</code>类还可以有其他子类），在这样的情况下(<code>Car instanceof BigCar</code>)永远返回<code>false</code>，因此，我们不应该直接返回<code>false</code>，而应该继续使用父类的<code>equals</code>方法进行比较才行（因为我们的需求是批次相同，两个对象就相等，父类<code>equals</code>方法比较的就是<code>batch</code>是否相同）。因此<code>BigCar</code>的<code>equals</code>方法应该做如下修改：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> BigCar) &#123;</span><br><span class="line">        BigCar bc = (BigCar) obj;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.equals(bc) &amp;&amp; count == bc.count;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.equals(obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样运行的结果就都为true了。但是到这里问题并没有结束，虽然符合了对称性，却还没符合传递性，实例如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zejian.test;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BigCar</span> <span class="keyword">extends</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BigCar</span><span class="params">(<span class="keyword">int</span> batch, <span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(batch);</span><br><span class="line">        <span class="keyword">this</span>.count = count;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> BigCar) &#123;</span><br><span class="line">            BigCar bc = (BigCar) obj;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">super</span>.equals(bc) &amp;&amp; count == bc.count;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.equals(obj);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Car c = <span class="keyword">new</span> Car(<span class="number">1</span>);</span><br><span class="line">        BigCar bc = <span class="keyword">new</span> BigCar(<span class="number">1</span>, <span class="number">20</span>);</span><br><span class="line">        BigCar bc2 = <span class="keyword">new</span> BigCar(<span class="number">1</span>, <span class="number">22</span>);</span><br><span class="line">        System.out.println(bc.equals(c));</span><br><span class="line">        System.out.println(c.equals(bc2));</span><br><span class="line">        System.out.println(bc.equals(bc2));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">true</span><br><span class="line">true</span><br><span class="line">false</span><br></pre></td></tr></table></figure>
+<p><code>bc</code>，<code>bc2</code>，<code>c</code>的批次都是相同的，按我们之前的需求应该是相等，而且也应该符合<code>equals</code>的传递性才对。但是事实上运行结果却不是这样，违背了传递性。出现这种情况根本原因在于：</p>
+<p>父类与子类进行混合比较。</p>
+<p>子类中声明了新变量，并且在子类<code>equals</code>方法使用了新增的成员变量作为判断对象是否相等的条件。</p>
+<p>只要满足上面两个条件，<code>equals</code>方法的传递性便失效了。而且目前并没有直接的方法可以解决这个问题。因此我们在重写<code>equals</code>方法时这一点需要特别注意。虽然没有直接的解决方法，但是间接的解决方案还说有滴，那就是通过组合的方式来代替继承,还有一点要注意的是组合的方式并非真正意义上的解决问题（只是让它们间的比较都返回了<code>false</code>，从而不违背传递性，然而并没有实现我们上面<code>batch</code>相同对象就相等的需求），而是让<code>equals</code>方法满足各种特性的前提下，让代码看起来更加合情合理，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zejian.test;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Combination4BigCar</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Car c;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Combination4BigCar</span><span class="params">(<span class="keyword">int</span> batch, <span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">        c = <span class="keyword">new</span> Car(batch);</span><br><span class="line">        <span class="keyword">this</span>.count = count;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> Combination4BigCar) &#123;</span><br><span class="line">            Combination4BigCar bc = (Combination4BigCar) obj;</span><br><span class="line">            <span class="keyword">return</span> c.equals(bc.c) &amp;&amp; count == bc.count;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从代码来看即使batch相同，Combination4BigCar类的对象与Car类的对象间的比较也永远都是false，但是这样看起来也就合情合理了，毕竟Combination4BigCar也不是Car的子类，因此equals方法也就没必要提供任何对Car的比较支持，同时也不会违背了equals方法的传递性。</p>
+<p>4.equals()的重写规则之必要性深入解读</p>
+<p>前面我们一再强调了equals方法重写必须遵守的规则，接下来我们就是分析一个反面的例子，看看不遵守这些规则到底会造成什么样的后果。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zejian.test;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="comment">/** * 反面例子 * <span class="doctag">@author</span> zejian */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AbnormalResult</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;A&gt; list = <span class="keyword">new</span> ArrayList&lt;A&gt;();</span><br><span class="line">        A a = <span class="keyword">new</span> A();</span><br><span class="line">        B b = <span class="keyword">new</span> B();</span><br><span class="line">        list.add(a);</span><br><span class="line">        System.out.println(<span class="string">"list.contains(a)-&gt;"</span> + list.contains(a));</span><br><span class="line">        System.out.println(<span class="string">"list.contains(b)-&gt;"</span> + list.contains(b));</span><br><span class="line">        list.clear();</span><br><span class="line">        list.add(b);</span><br><span class="line">        System.out.println(<span class="string">"list.contains(a)-&gt;"</span> + list.contains(a));</span><br><span class="line">        System.out.println(<span class="string">"list.contains(b)-&gt;"</span> + list.contains(b));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> obj <span class="keyword">instanceof</span> A;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> obj <span class="keyword">instanceof</span> B;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码，我们声明了 A,B两个类，注意必须是static，否则无法被main调用。B类继承A，两个类都重写了equals方法，但是根据我们前面的分析，这样重写是没有遵守对称性原则的，我们先来看看运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">list.contains(a)-&gt;true</span><br><span class="line"></span><br><span class="line">list.contains(b)-&gt;false</span><br><span class="line"></span><br><span class="line">list.contains(a)-&gt;true</span><br><span class="line"></span><br><span class="line">list.contains(b)-&gt;true</span><br></pre></td></tr></table></figure></p>
+<p>19行和24行的输出没什么好说的，将a，b分别加入list中，list中自然会含有a，b。但是为什么20行和23行结果会不一样呢？我们先来看看contains方法内部实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> indexOf(o) != -<span class="number">1</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>进入indexof方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">      <span class="meta">@Override</span></span><br><span class="line"><span class="function">ublic <span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">E[] a = <span class="keyword">this</span>.a;</span><br><span class="line"><span class="keyword">if</span> (o == <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length; i++)</span><br><span class="line">        <span class="keyword">if</span> (a[i] == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length; i++)</span><br><span class="line">        <span class="keyword">if</span> (o.equals(a[i]))</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> -<span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
+<p>可以看出最终调用的是对象的<code>equals</code>方法，所以当调用20行代码<code>list.contains(b)</code>时，实际上调用了</p>
+<p><code>b.equals(a[i])</code>,<code>a</code>[<code>i</code>]是集合中的元素集合中的类型而且为<code>A</code>类型(只添加了<code>a</code>对象)，虽然<code>B</code>继承了<code>A</code>,但此时</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a[i] <span class="keyword">instanceof</span> B</span><br></pre></td></tr></table></figure>
+<p>结果为<code>false</code>，<code>equals</code>方法也就会返回<code>false</code>；而当调用23行代码<code>list.contains(a)</code>时，实际上调用了<code>a.equal(a[i])</code>,其中<code>a</code>[<code>i</code>]是集合中的元素而且为<code>B</code>类型(只添加了<code>b</code>对象)，由于<code>B</code>类型肯定是<code>A</code>类型（<code>B</code>继承了<code>A</code>），所以<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a[i] <span class="keyword">instanceof</span> A</span><br></pre></td></tr></table></figure></p>
+<p>结果为<code>true</code>，<code>equals</code>方法也就会返回<code>true</code>，这就是整个过程。但很明显结果是有问题的，因为我们的 <code>list</code>的泛型是<code>A</code>,而<code>B</code>又继承了<code>A</code>，此时无论加入了<code>a</code>还是<code>b</code>，都属于同种类型，所以无论是<code>contains(a)</code>,还是<code>contains(b)</code>都应该返回<code>true</code>才算正常。而最终却出现上面的结果，这就是因为重写<code>equals</code>方法时没遵守对称性原则导致的结果，如果没遵守传递性也同样会造成上述的结果。当然这里的解决方法也比较简单，我们只要将B类的equals方法修改一下就可以了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span></span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(obj <span class="keyword">instanceof</span> B)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">super</span>.equals(obj);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>到此，我们也应该明白了重写<code>equals</code>必须遵守几点原则的重要性了。当然这里不止是<code>list</code>，只要是<code>java</code>集合类或者<code>java</code>类库中的其他方法，重写<code>equals</code>不遵守5点原则的话，都可能出现意想不到的结果。</p>
+<p>5.为什么重写<code>equals()</code>的同时还得重写<code>hashCode()</code></p>
+<p>这个问题之前我也很好奇，不过最后还是在书上得到了比较明朗的解释，当然这个问题主要是针对映射相关的操作（Map接口）。学过数据结构的同学都知道Map接口的类会使用到键对象的哈希码，当我们调用put方法或者get方法对Map容器进行操作时，都是根据键对象的哈希码来计算存储位置的，因此如果我们对哈希码的获取没有相关保证，就可能会得不到预期的结果。在java中，我们可以使用hashCode()来获取对象的哈希码，其值就是对象的存储地址，这个方法在Object类中声明，因此所有的子类都含有该方法。那我们先来认识一下hashCode()这个方法吧。hashCode的意思就是散列码，也就是哈希码，是由对象导出的一个整型值，散列码是没有规律的，如果x与y是两个不同的对象，那么x.hashCode()与y.hashCode()基本是不会相同的，下面通过String类的hashCode()计算一组散列码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zejian.test;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashCodeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> hash=<span class="number">0</span>;</span><br><span class="line">        String s=<span class="string">"ok"</span>;</span><br><span class="line">        StringBuilder sb =<span class="keyword">new</span> StringBuilder(s);</span><br><span class="line"></span><br><span class="line">        System.out.println(s.hashCode()+<span class="string">"  "</span>+sb.hashCode());</span><br><span class="line"></span><br><span class="line">        String t = <span class="keyword">new</span> String(<span class="string">"ok"</span>);</span><br><span class="line">        StringBuilder tb =<span class="keyword">new</span> StringBuilder(s);</span><br><span class="line">        System.out.println(t.hashCode()+<span class="string">"  "</span>+tb.hashCode());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">3548  1829164700</span><br><span class="line">3548  2018699554</span><br></pre></td></tr></table></figure></p>
+<p>我们可以看出，字符串<code>s</code>与<code>t</code>拥有相同的散列码，这是因为字符串的散列码是由内容导出的。而字符串缓冲<code>sb</code>与<code>tb</code>却有着不同的散列码，这是因为<code>StringBuilder</code>没有重写<code>hashCode</code>方法，它的散列码是由<code>Object</code>类默认的<code>hashCode</code>方法计算出来的对象存储地址，所以散列码自然也就不同了。那么我们该如何重写出一个较好的hashCode方法呢，其实并不难，我们只要合理地组织对象的散列码，就能够让不同的对象产生比较均匀的散列码。例如下面的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zejian.test;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Model</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> salary;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> sex;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name.hashCode()+<span class="keyword">new</span> Double(salary).hashCode()</span><br><span class="line">                + <span class="keyword">new</span> Integer(sex).hashCode();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码我们通过合理的利用各个属性对象的散列码进行组合，最终便能产生一个相对比较好的或者说更加均匀的散列码，当然上面仅仅是个参考例子而已，我们也可以通过其他方式去实现，只要能使散列码更加均匀（所谓的均匀就是每个对象产生的散列码最好都不冲突）就行了。不过这里有点要注意的就是<code>java</code>7中对<code>hashCode</code>方法做了两个改进，首先<code>java</code>发布者希望我们使用更加安全的调用方式来返回散列码，也就是使用<code>null</code>安全的方法<code>Objects.hashCode</code>（注意不是<code>Object</code>而是<code>java.util.Objects</code>）方法，这个方法的优点是如果参数为<code>null</code>，就只返回0，否则返回对象参数调用的<code>hashCode</code>的结果。<code>Objects.hashCode</code>源码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> o != <span class="keyword">null</span> ? o.hashCode() : <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">因此我们修改后的代码如下：</span><br><span class="line">```java</span><br><span class="line"><span class="keyword">package</span> com.zejian.test;</span><br><span class="line"><span class="keyword">import</span> java.util.Objects;</span><br><span class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">Model</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span>   String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> salary;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> sex;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Objects.hashCode(name)+<span class="keyword">new</span> Double(salary).hashCode()</span><br><span class="line">                + <span class="keyword">new</span> Integer(sex).hashCode();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>java 7还提供了另外一个方法java.util.Objects.hash(Object… objects),当我们需要组合多个散列值时可以调用该方法。进一步简化上述的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zejian.test;</span><br><span class="line"><span class="keyword">import</span> java.util.Objects;</span><br><span class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">Model</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span>   String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> salary;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> sex;</span><br><span class="line"><span class="comment">//  @Override</span></span><br><span class="line"><span class="comment">//  public int hashCode() &#123;</span></span><br><span class="line"><span class="comment">//      return Objects.hashCode(name)+new Double(salary).hashCode()</span></span><br><span class="line"><span class="comment">//              + new Integer(sex).hashCode();</span></span><br><span class="line"><span class="comment">//  &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Objects.hash(name,salary,sex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>好了，到此<code>hashCode()</code>该介绍的我们都说了，还有一点要说的如果我们提供的是一个数值类型的变量的话，那么我们可以调用<code>Arrays.hashCode()</code>来计算它的散列码，这个散列码是由数组元素的散列码组成的。接下来我们回归到我们之前的问题，重写<code>equals</code>方法时也必须重写<code>hashCode</code>方法。在<code>Java API</code>文档中关于<code>hashCode</code>方法有以下几点规定（原文来自<code>java</code>深入解析一书）。</p>
+<p>在<code>java</code>应用程序执行期间，如果在<code>equals</code>方法比较中所用的信息没有被修改，那么在同一个对象上多次调用<code>hashCode</code>方法时必须一致地返回相同的整数。如果多次执行同一个应用时，不要求该整数必须相同。</p>
+<p>如果两个对象通过调用<code>equals</code>方法是相等的，那么这两个对象调用<code>hashCode</code>方法必须返回相同的整数。</p>
+<p>如果两个对象通过调用<code>equals</code>方法是不相等的，不要求这两个对象调用<code>hashCode</code>方法必须返回不同的整数。但是程序员应该意识到对不同的对象产生不同的<code>hash</code>值可以提供哈希表的性能。</p>
+<p>通过前面的分析，我们知道在<code>Object</code>类中，<code>hashCode</code>方法是通过<code>Object</code>对象的地址计算出来的，因为<code>Object</code>对象只与自身相等，所以同一个对象的地址总是相等的，计算取得的哈希码也必然相等，对于不同的对象，由于地址不同，所获取的哈希码自然也不会相等。因此到这里我们就明白了，如果一个类重写了<code>equals</code>方法，但没有重写<code>hashCode</code>方法，将会直接违法了第2条规定，这样的话，如果我们通过映射表(<code>Map</code>接口)操作相关对象时，就无法达到我们预期想要的效果。如果大家不相信, 可以看看下面的例子（来自<code>java</code>深入解析一书）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zejian.test;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MapTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Map&lt;String,Value&gt; map1 = <span class="keyword">new</span> HashMap&lt;String,Value&gt;();</span><br><span class="line">        String s1 = <span class="keyword">new</span> String(<span class="string">"key"</span>);</span><br><span class="line">        String s2 = <span class="keyword">new</span> String(<span class="string">"key"</span>);</span><br><span class="line">        Value value = <span class="keyword">new</span> Value(<span class="number">2</span>);</span><br><span class="line">        map1.put(s1, value);</span><br><span class="line">        System.out.println(<span class="string">"s1.equals(s2):"</span>+s1.equals(s2));</span><br><span class="line">        System.out.println(<span class="string">"map1.get(s1):"</span>+map1.get(s1));</span><br><span class="line">        System.out.println(<span class="string">"map1.get(s2):"</span>+map1.get(s2));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Map&lt;Key,Value&gt; map2 = <span class="keyword">new</span> HashMap&lt;Key,Value&gt;();</span><br><span class="line">        Key k1 = <span class="keyword">new</span> Key(<span class="string">"A"</span>);</span><br><span class="line">        Key k2 = <span class="keyword">new</span> Key(<span class="string">"A"</span>);</span><br><span class="line">        map2.put(k1, value);</span><br><span class="line">        System.out.println(<span class="string">"k1.equals(k2):"</span>+s1.equals(s2));</span><br><span class="line">        System.out.println(<span class="string">"map2.get(k1):"</span>+map2.get(k1));</span><br><span class="line">        System.out.println(<span class="string">"map2.get(k2):"</span>+map2.get(k2));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 键</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> zejian</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Key</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> String k;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Key</span><span class="params">(String key)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.k=key;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(obj <span class="keyword">instanceof</span> Key)&#123;</span><br><span class="line">                Key key=(Key)obj;</span><br><span class="line">                <span class="keyword">return</span> k.equals(key.k);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 值</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> zejian</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Value</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> v;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Value</span><span class="params">(<span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.v=v;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"类Value的值－－&gt;"</span>+v;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码比较简单，我们就不过多解释了（注意<code>Key</code>类并没有重写<code>hashCode</code>方法），直接运行看结果<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">s1.equals(s2):<span class="keyword">true</span></span><br><span class="line">map1.get(s1):类Value的值－－&gt;<span class="number">2</span></span><br><span class="line">map1.get(s2):类Value的值－－&gt;<span class="number">2</span></span><br><span class="line">k1.equals(k2):<span class="keyword">true</span></span><br><span class="line">map2.get(k1):类Value的值－－&gt;<span class="number">2</span></span><br><span class="line">map2.get(k2):<span class="keyword">null</span></span><br></pre></td></tr></table></figure></p>
+<p>对于<code>s1</code>和<code>s2</code>的结果，我们并不惊讶，因为相同的内容的<code>s1</code>和<code>s2</code>获取相同内的<code>value</code>这个很正常，因为<code>String</code>类重写了<code>equals</code>方法和<code>hashCode</code>方法，使其比较的是内容和获取的是内容的哈希码。但是对于<code>k1</code>和<code>k2</code>的结果就不太尽人意了，<code>k1</code>获取到的值是2，<code>k2</code>获取到的是<code>null</code>，这是为什么呢？想必大家已经发现了，<code>Key</code>只重写了<code>equals</code>方法并没有重写<code>hashCode</code>方法，这样的话，<code>equals</code>比较的确实是内容，而<code>hashCode</code>方法呢？没重写，那就肯定调用超类<code>Object</code>的<code>hashCode</code>方法，这样返回的不就是地址了吗？<code>k1</code>与<code>k2</code>属于两个不同的对象，返回的地址肯定不一样，所以现在我们知道调用<code>map2.get(k2)</code>为什么返回<code>null</code>了吧？那么该如何修改呢？很简单，我们要做也重写一下<code>hashCode</code>方法即可（如果参与<code>equals</code>方法比较的成员变量是引用类型的，则可以递归调用<code>hashCode</code>方法来实现）：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> k.hashCode();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再次运行：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">s1.equals(s2):<span class="keyword">true</span></span><br><span class="line">map1.get(s1):类Value的值－－&gt;<span class="number">2</span></span><br><span class="line">map1.get(s2):类Value的值－－&gt;<span class="number">2</span></span><br><span class="line">k1.equals(k2):<span class="keyword">true</span></span><br><span class="line">map2.get(k1):类Value的值－－&gt;<span class="number">2</span></span><br><span class="line">map2.get(k2):类Value的值－－&gt;<span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+<p>6.重写<code>equals()</code>中<code>getClass</code>与<code>instanceof</code>的区别</p>
+<p>虽然前面我们都在使用<code>instanceof</code>（当然前面我们是根据需求（批次相同即相等）而使用<code>instanceof</code>的），但是在重写<code>equals()</code> 方法时，一般都是推荐使用 <code>getClass</code>来进行类型判断（除非所有的子类有统一的语义才使用<code>instanceof</code>），不是使用 <code>instanceof</code>。我们都知道 <code>instanceof</code>的作用是判断其左边对象是否为其右边类的实例，返回 <code>boolean</code>类型的数据。可以用来判断继承中的子类的实例是否为父类的实现。下来我们来看一个例子：父类Person</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">        <span class="keyword">protected</span> String name;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> name;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.name = name;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.name = name;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object object)</span></span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(object <span class="keyword">instanceof</span> Person)&#123;</span><br><span class="line">                Person p = (Person) object;</span><br><span class="line">                <span class="keyword">if</span>(p.getName() == <span class="keyword">null</span> || name == <span class="keyword">null</span>)&#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="keyword">return</span> name.equalsIgnoreCase(p.getName ());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>子类 Employee<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Employee</span> <span class="keyword">extends</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> id;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.id = id;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Employee</span><span class="params">(String name,<span class="keyword">int</span> id)</span></span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(name);</span><br><span class="line">            <span class="keyword">this</span>.id = id;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 重写equals()方法</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object object)</span></span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(object <span class="keyword">instanceof</span> Employee)&#123;</span><br><span class="line">                Employee e = (Employee) object;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">super</span>.equals(object) &amp;&amp; e.getId() == id;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面父类 <code>Person</code>和子类 <code>Employee</code>都重写了 <code>equals()</code>,不过 <code>Employee</code>比父类多了一个<code>id</code>属性,而且这里我们并没有统一语义。测试代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">            Employee e1 = <span class="keyword">new</span> Employee(<span class="string">"chenssy"</span>, <span class="number">23</span>);</span><br><span class="line">            Employee e2 = <span class="keyword">new</span> Employee(<span class="string">"chenssy"</span>, <span class="number">24</span>);</span><br><span class="line">            Person p1 = <span class="keyword">new</span> Person(<span class="string">"chenssy"</span>);</span><br><span class="line">            System.out.println(p1.equals(e1));</span><br><span class="line">            System.out.println(p1.equals(e2));</span><br><span class="line">            System.out.println(e1.equals(e2));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面代码我们定义了两个员工和一个普通人，虽然他们同名，但是他们肯定不是同一人，所以按理来说结果应该全部是 <code>false</code>，但是事与愿违，结果是：<code>true</code>、<code>true</code>、<code>false</code>。对于那 <code>e1</code>!=<code>e2</code>我们非常容易理解，因为他们不仅需要比较 <code>name</code>,还需要比较 <code>ID</code>。但是 <code>p1</code>即等于 <code>e1</code>也等于 <code>e2</code>，这是非常奇怪的，因为 <code>e1</code>、<code>e2</code>明明是两个不同的类，但为什么会出现这个情况？首先 <code>p1.equals(e1)</code>，是调用 <code>p1</code>的 <code>equals</code>方法，该方法使用 <code>instanceof</code>关键字来检查 <code>e1</code>是否为 <code>Person</code>类，这里我们再看看 <code>instanceof</code>：判断其左边对象是否为其右边类的实例，也可以用来判断继承中的子类的实例是否为父类的实现。他们两者存在继承关系，肯定会返回 <code>true</code>了，而两者 <code>name</code>又相同，所以结果肯定是 <code>true</code>。所以出现上面的情况就是使用了关键字 <code>instanceof</code>，这是非常容易导致我们“钻牛角尖”。故在覆写 <code>equals</code>时推荐使用 <code>getClass</code>进行类型判断。而不是使用 <code>instanceof</code>（除非子类拥有统一的语义）。<br>7.编写一个完美<code>equals()</code>的几点建议</p>
+<p>下面给出编写一个完美的<code>equals</code>方法的建议（出自<code>Java</code>核心技术 第一卷：基础知识）：</p>
+<p>1）显式参数命名为<code>otherObject</code>,稍后需要将它转换成另一个叫做<code>other</code>的变量（参数名命名，强制转换请参考建议5）</p>
+<p>2）检测<code>this</code>与<code>otherObject</code>是否引用同一个对象 ：<code>if(this == otherObject)</code> <code>return true</code>;（存储地址相同，肯定是同个对象，直接返回<code>true</code>）</p>
+<p>3) 检测<code>otherObject</code>是否为<code>null</code>，如果为<code>null</code>,返回<code>false.if(otherObject == null)</code> <code>return false</code>;</p>
+<p>4) 比较<code>this</code>与<code>otherObject</code>是否属于同一个类 （视需求而选择）</p>
+<p>如果<code>equals</code>的语义在每个子类中有所改变，就使用<code>getClass</code>检测 ：<code>if(getClass()</code>!=<code>otherObject.getClass()</code>) <code>return false</code>; (参考前面分析的第6点)</p>
+<p>如果所有的子类都拥有统一的语义，就使用<code>instanceof</code>检测 ：<code>if(!(otherObject instanceof ClassName)</code>) <code>return false</code>;（即前面我们所分析的父类<code>car</code>与子类<code>bigCar</code>混合比，我们统一了批次相同即相等）</p>
+<p>5) 将<code>otherObject</code>转换为相应的类类型变量：<code>ClassName other</code>= (<code>ClassName</code>) <code>otherObject</code>;</p>
+<p>6) 现在开始对所有需要比较的域进行比较 。使用==比较基本类型域，使用<code>equals</code>比较对象域。如果所有的域都匹配，就返回<code>true</code>，否则就返回<code>flase</code>。</p>
+<p>如果在子类中重新定义<code>equals</code>，就要在其中包含调用<code>super.equals(other)</code></p>
+<p>当此方法被重写时，通常有必要重写 <code>hashCode</code>方法，以维护 <code>hashCode</code>方法的常规协定，该协定声明 相等对象必须具有相等的哈希码 。</p>
+<hr>
+<h1 id="关于a-equals-b-和a-hashCode-b-hashCode"><a href="#关于a-equals-b-和a-hashCode-b-hashCode" class="headerlink" title="关于a.equals(b)和a.hashCode() == b.hashCode()"></a>关于<code>a.equals(b)</code>和<code>a.hashCode()</code> == <code>b.hashCode()</code></h1><p>首先，从语法角度，也就是从强制性的角度来说，hashCode和equals是两个独立的，互不隶属，互不依赖的方法，equals成立与hashCode相等这两个命题之间，谁也不是谁的充分条件或者必要条件。</p>
+<p>  但是，从为了让我们的程序正常运行的角度，我们应当向Effective   Java中所言</p>
+<p>  重载equals的时候，一定要（正确）重载hashCode</p>
+<p>  使得equals成立的时候，hashCode相等，也就是a.equals(b)-&gt;a.hashCode()   ==   b.hashCode()，或者说此时，equals是hashCode相等的充分条件，hashCode相等是equals的必要条件（从数学课上我们知道它的逆否命题：hashCode不相等也不会equals），但是它的逆命题，hashCode相等一定equals以及否命题不equals时hashCode不等都不成立。</p>
+<p>  所以，如果面试的时候，最好把hashCode与equals之间没有强制关系，以及根据（没有语法约束力的）规范的角度，应当做到…这两层意思都说出来:P</p>
+<hr>
+<h1 id="hashCode-和-equals-方法的重要性体现在什么地方"><a href="#hashCode-和-equals-方法的重要性体现在什么地方" class="headerlink" title="hashCode() 和 equals() 方法的重要性体现在什么地方"></a><code>hashCode()</code> 和 <code>equals()</code> 方法的重要性体现在什么地方</h1><hr>
+<h1 id="Object：Object有哪些公用方法？Object类hashcode-equals-设计原则？-sun为什么这么设计？Object类的概述"><a href="#Object：Object有哪些公用方法？Object类hashcode-equals-设计原则？-sun为什么这么设计？Object类的概述" class="headerlink" title="Object：Object有哪些公用方法？Object类hashcode,equals 设计原则？ sun为什么这么设计？Object类的概述"></a><code>Object</code>：<code>Object</code>有哪些公用方法？<code>Object</code>类<code>hashcode</code>,<code>equals</code> 设计原则？ <code>sun</code>为什么这么设计？<code>Object</code>类的概述</h1><p>1．clone方法<br>保护方法，实现对象的浅复制，只有实现了Cloneable接口才可以调用该方法，否则抛出CloneNotSupportedException异常。</p>
+<p>主要是JAVA里除了8种基本类型传参数是值传递，其他的类对象传参数都是引用传递，我们有时候不希望在方法里讲参数改变，这是就需要在类中复写clone方法。</p>
+<p>2．getClass方法<br>final方法，获得运行时类型。</p>
+<p>3．toString方法<br>该方法用得比较多，一般子类都有覆盖。</p>
+<p>4．finalize方法<br>该方法用于释放资源。因为无法确定该方法什么时候被调用，很少使用。</p>
+<p>5．equals方法<br>该方法是非常重要的一个方法。一般equals和==是不一样的，但是在Object中两者是一样的。子类一般都要重写这个方法。</p>
+<p>6．hashCode方法<br>该方法用于哈希查找，可以减少在查找中使用equals的次数，重写了equals方法一般都要重写hashCode方法。这个方法在一些具有哈希功能的Collection中用到。</p>
+<p>一般必须满足obj1.equals(obj2)==true。可以推出obj1.hash- Code()==obj2.hashCode()，但是hashCode相等不一定就满足equals。不过为了提高效率，应该尽量使上面两个条件接近等价。</p>
+<p>如果不重写hashcode(),在HashSet中添加两个equals的对象，会将两个对象都加入进去。</p>
+<p>7．wait方法<br>wait方法就是使当前线程等待该对象的锁，当前线程必须是该对象的拥有者，也就是具有该对象的锁。wait()方法一直等待，直到获得锁或者被中断。wait(long timeout)设定一个超时间隔，如果在规定时间内没有获得锁就返回。</p>
+<p>调用该方法后当前线程进入睡眠状态，直到以下事件发生。</p>
+<p>（1）其他线程调用了该对象的notify方法。</p>
+<p>（2）其他线程调用了该对象的notifyAll方法。</p>
+<p>（3）其他线程调用了interrupt中断该线程。</p>
+<p>（4）时间间隔到了。</p>
+<p>此时该线程就可以被调度了，如果是被中断的话就抛出一个InterruptedException异常。</p>
+<p>8．notify方法<br>该方法唤醒在该对象上等待的某个线程。</p>
+<p>9．notifyAll方法</p>
+<h2 id="该方法唤醒在该对象上等待的所有线程。"><a href="#该方法唤醒在该对象上等待的所有线程。" class="headerlink" title="该方法唤醒在该对象上等待的所有线程。"></a>该方法唤醒在该对象上等待的所有线程。</h2><h1 id="如何在父类中为子类自动完成所有的-hashcode-和-equals-实现？这么做有何优劣。"><a href="#如何在父类中为子类自动完成所有的-hashcode-和-equals-实现？这么做有何优劣。" class="headerlink" title="如何在父类中为子类自动完成所有的 hashcode 和 equals 实现？这么做有何优劣。"></a>如何在父类中为子类自动完成所有的 <code>hashcode</code> 和 <code>equals</code> 实现？这么做有何优劣。</h1><hr>
+<h1 id="可以在-hashcode-中使用随机数字吗？"><a href="#可以在-hashcode-中使用随机数字吗？" class="headerlink" title="可以在 hashcode() 中使用随机数字吗？"></a>可以在 <code>hashcode()</code> 中使用随机数字吗？</h1><h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/14/Interview/java总结-数据结构（Set）/" rel="next" title="java总结---数据结构（Set）">
+                <i class="fa fa-chevron-left"></i> java总结---数据结构（Set）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/14/Interview/java总结-数据结构（List）/" rel="prev" title="java总结---数据结构（List）">
+                java总结---数据结构（List） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/05/14/Interview/java总结-数据结构（hash）/" data-title="java总结---数据结构（hash）" data-url="http://yoursite.com/2018/05/14/Interview/java总结-数据结构（hash）/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hashcode-的作用"><span class="nav-number">1.</span> <span class="nav-text">Hashcode 的作用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简述一致性-Hash-算法"><span class="nav-number">2.</span> <span class="nav-text">简述一致性 Hash 算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分布式缓存问题"><span class="nav-number">3.</span> <span class="nav-text">分布式缓存问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一致性哈希算法"><span class="nav-number">4.</span> <span class="nav-text">一致性哈希算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法简述"><span class="nav-number">4.1.</span> <span class="nav-text">算法简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容错性与可扩展性分析"><span class="nav-number">4.2.</span> <span class="nav-text">容错性与可扩展性分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟节点"><span class="nav-number">4.3.</span> <span class="nav-text">虚拟节点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#有没有可能两个不相等的对象有相同的-hashcode？当两个对象-hashcode-相同怎么办？如何获取值对象"><span class="nav-number">6.</span> <span class="nav-text">有没有可能两个不相等的对象有相同的 hashcode？当两个对象 hashcode 相同怎么办？如何获取值对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么在重写-equals-方法的时候需要重写-hashCode-方法？equals与-hashCode-的异同点在哪里"><span class="nav-number">7.</span> <span class="nav-text">为什么在重写 equals 方法的时候需要重写 hashCode 方法？equals与 hashCode 的异同点在哪里</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于a-equals-b-和a-hashCode-b-hashCode"><span class="nav-number">8.</span> <span class="nav-text">关于a.equals(b)和a.hashCode() == b.hashCode()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hashCode-和-equals-方法的重要性体现在什么地方"><span class="nav-number">9.</span> <span class="nav-text">hashCode() 和 equals() 方法的重要性体现在什么地方</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Object：Object有哪些公用方法？Object类hashcode-equals-设计原则？-sun为什么这么设计？Object类的概述"><span class="nav-number">10.</span> <span class="nav-text">Object：Object有哪些公用方法？Object类hashcode,equals 设计原则？ sun为什么这么设计？Object类的概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#该方法唤醒在该对象上等待的所有线程。"><span class="nav-number">10.1.</span> <span class="nav-text">该方法唤醒在该对象上等待的所有线程。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何在父类中为子类自动完成所有的-hashcode-和-equals-实现？这么做有何优劣。"><span class="nav-number">11.</span> <span class="nav-text">如何在父类中为子类自动完成所有的 hashcode 和 equals 实现？这么做有何优劣。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#可以在-hashcode-中使用随机数字吗？"><span class="nav-number">12.</span> <span class="nav-text">可以在 hashcode() 中使用随机数字吗？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">12.0.1.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

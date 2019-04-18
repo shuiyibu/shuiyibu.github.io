@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Commons IO,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Common IO 是一个工具库，用来帮助开发IO功能 它包括6个主要部分  Utility classes – 包括一些静态方法来执行常用任务 Input – InputStream 和 Reader 实现 Output – OutputStream 和 Writer 实现 Filters – 多种文件过滤器实现(定义了 IOFileFilter接口,同时继承了 FileFilter 和 Fil">
+<meta name="keywords" content="Commons IO">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Commons IO 官方文档">
+<meta property="og:url" content="http://yoursite.com/2018/05/08/Java/Commons-IO-官方文档/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Common IO 是一个工具库，用来帮助开发IO功能 它包括6个主要部分  Utility classes – 包括一些静态方法来执行常用任务 Input – InputStream 和 Reader 实现 Output – OutputStream 和 Writer 实现 Filters – 多种文件过滤器实现(定义了 IOFileFilter接口,同时继承了 FileFilter 和 Fil">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-08T08:42:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Commons IO 官方文档">
+<meta name="twitter:description" content="Common IO 是一个工具库，用来帮助开发IO功能 它包括6个主要部分  Utility classes – 包括一些静态方法来执行常用任务 Input – InputStream 和 Reader 实现 Output – OutputStream 和 Writer 实现 Filters – 多种文件过滤器实现(定义了 IOFileFilter接口,同时继承了 FileFilter 和 Fil">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/08/Java/Commons-IO-官方文档/">
+
+
+
+
+
+  <title>Commons IO 官方文档 | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/08/Java/Commons-IO-官方文档/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Commons IO 官方文档</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-08T16:22:28+08:00">
+                2018-05-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/08/Java/Commons-IO-官方文档/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/05/08/Java/Commons-IO-官方文档/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Common IO 是一个工具库，用来帮助开发IO功能 它包括6个主要部分</p>
+<ul>
+<li><a href="http://commons.apache.org/proper/commons-io/javadocs/api-release/index.html?org/apache/commons/io/package-summary.html" target="_blank" rel="noopener">Utility classes</a> – 包括一些静态方法来执行常用任务</li>
+<li><a href="http://commons.apache.org/proper/commons-io/javadocs/api-release/index.html?org/apache/commons/io/input/package-summary.html" target="_blank" rel="noopener">Input</a> – <code>InputStream</code> 和 <code>Reader</code> 实现</li>
+<li><a href="http://commons.apache.org/proper/commons-io/javadocs/api-release/index.html?org/apache/commons/io/output/package-summary.html" target="_blank" rel="noopener">Output</a> – <code>OutputStream</code> 和 <code>Writer</code> 实现</li>
+<li><a href="http://commons.apache.org/proper/commons-io/javadocs/api-release/index.html?org/apache/commons/io/filefilter/package-summary.html" target="_blank" rel="noopener">Filters</a> – 多种文件过滤器实现(定义了 <code>IOFileFilter</code>接口,同时继承了 <code>FileFilter</code> 和 <code>FilenameFilter</code> 接口)</li>
+<li><a href="http://%28http//commons.apache.org/proper/commons-io/javadocs/api-release/index.html?org/apache/commons/io/comparator/package-summary.html" target="_blank" rel="noopener">Comparators</a> – 用于文件比较的多种<code>java.util.Comparatot</code>实现</li>
+</ul>
+<a id="more"></a>
+<h2 id="发行版本"><a href="#发行版本" class="headerlink" title="发行版本"></a>发行版本</h2><hr>
+<ul>
+<li>Commons IO 2.5 (requires JDK 1.6+)</li>
+<li>Commons IO 2.4 (requires JDK 1.6+)</li>
+<li>Commons IO 2.2 (requires JDK 1.5+)</li>
+</ul>
+<h2 id="用户指南"><a href="#用户指南" class="headerlink" title="用户指南"></a>用户指南</h2><hr>
+<p>Commons-IO 包括 工具类 (<code>utility classes</code>), 字节序列类 (<code>endian classes</code>), 行迭代器 (<code>line iterator</code>), 文件过滤器 (<code>file filters</code>),文件比较器 (<code>file comparators</code>) 和 流实现 (<code>stream implementations</code>).</p>
+<h3 id="Utility-classes"><a href="#Utility-classes" class="headerlink" title="Utility classes"></a>Utility classes</h3><h4 id="IOUtils"><a href="#IOUtils" class="headerlink" title="IOUtils"></a>IOUtils</h4><p><a href="http://commons.apache.org/proper/commons-io/javadocs/api-release/index.html?org/apache/commons/io/IOUtils.html" target="_blank" rel="noopener">IOUtils</a> 包含一些工具类,用于处理读,写和拷贝,这些方法基于 <code>InputStream</code>, <code>OutputStream</code>, <code>Reader</code> 和 <code>Writer</code>工作.</p>
+<p>例如，思考一个任务，从URL中读取byte数据，并打印。通常会这样做:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">InputStream in = <span class="keyword">new</span> URL( <span class="string">"http://commons.apache.org"</span> ).openStream();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    InputStreamReader inR = <span class="keyword">new</span> InputStreamReader( in );</span><br><span class="line">    BufferedReader buf = <span class="keyword">new</span> BufferedReader( inR );</span><br><span class="line">    String line;</span><br><span class="line">    <span class="keyword">while</span> ( ( line = buf.readLine() ) != <span class="keyword">null</span> ) &#123;</span><br><span class="line">     System.out.println( line );</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    in.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用 <code>IOUtils</code>类,可以这样:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">InputStream in = <span class="keyword">new</span> URL( <span class="string">"http://commons.apache.org"</span> ).openStream();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    System.out.println( IOUtils.toString( in ) );</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    IOUtils.closeQuietly(in);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在某些应用领域，例如IO操作中是很常见的,这个类可以节省很多时间。并且你可以依赖于经过全面测试的代码。</p>
+<blockquote>
+<p>对于这类的代码,灵活性和速度是最重要的。然而你也应该明白这么做的限制。使用以上的方式读取一个1GB的文件将会试图创造一个1GB字符串对象</p>
+</blockquote>
+<h4 id="FileUtils"><a href="#FileUtils" class="headerlink" title="FileUtils"></a>FileUtils</h4><p><a href="http://commons.apache.org/proper/commons-io/api-release/index.html?org/apache/commons/io/FileUtils.html" target="_blank" rel="noopener">FileUtils</a> 包含一些工具类,它们基于<code>File</code>对象工作，包括读，写，拷贝和比较文件</p>
+<p>例如逐行读取整个文件你可以使用:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">File file = <span class="keyword">new</span> File(<span class="string">"/commons/io/project.properties"</span>);</span><br><span class="line">List lines = FileUtils.readLines(file, <span class="string">"UTF-8"</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="FilenameUtils"><a href="#FilenameUtils" class="headerlink" title="FilenameUtils"></a>FilenameUtils</h4><p><a href="http://commons.apache.org/proper/commons-io/api-release/index.html?org/apache/commons/io/FilenameUtils.html" target="_blank" rel="noopener">FilenameUtils</a>包含一些工具类,它们基于文件名工作而不是<code>File</code>对象。这个类旨在在Unix和Windows环境下保持一致,帮助在两个环境下过渡(如从开发环境到生成环境)</p>
+<p>例如，正常化文件名，删除<code>..</code>片段:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String filename = <span class="string">"C:/commons/io/../lang/project.xml"</span>;</span><br><span class="line">String normalized = FilenameUtils.normalize(filename);</span><br><span class="line"><span class="comment">// result is "C:/commons/lang/project.xml"</span></span><br></pre></td></tr></table></figure>
+<h4 id="FileSystemUtils"><a href="#FileSystemUtils" class="headerlink" title="FileSystemUtils"></a>FileSystemUtils</h4><p><a href="http://commons.apache.org/proper/commons-io/api-release/index.html?org/apache/commons/io/FileSystemUtils.html" target="_blank" rel="noopener">FileSystemUtils</a>包含一些工具类，基于文件系统访问功能不被JDK支持。目前，只有一个方法就是得到驱动器空余空间。注意这使用命令行而不是 native code。</p>
+<p>例如得到驱动器空余空间:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> freeSpace = FileSystemUtils.freeSpace(<span class="string">"C:/"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="Endian-classes"><a href="#Endian-classes" class="headerlink" title="Endian classes"></a>Endian classes</h3><p>不同的计算机架构对应字节序采用不同的约定,在所谓的”小端”架构(例如Intel)，低位字节被存储在内存的最低字节,之后的字节在高地址。对于”大端”架构(如Motoroal),情况相反。</p>
+<p>在这个包中有两个相关联的类:</p>
+<ul>
+<li><a href="http://commons.apache.org/proper/commons-io/api-release/index.html?org/apache/commons/io/EndianUtils.html" target="_blank" rel="noopener">EndianUtils</a> 包含静态方法来交换Java基本类型和流的字节序</li>
+<li><a href="http://commons.apache.org/proper/commons-io/api-release/index.html?org/apache/commons/io/input/SwappedDataInputStream.html" target="_blank" rel="noopener">SwappedDataInputStream</a>实现了<code>DataInput</code>接口。可以从文件中读取非本地字节序。</li>
+</ul>
+<h3 id="Line-iterator"><a href="#Line-iterator" class="headerlink" title="Line iterator"></a>Line iterator</h3><p><code>org.apache.commons.io.LineIterator</code>类提供类灵活的方式操作基于行的文件。通过<code>FileUtils</code> 或 <code>IOUtils</code>中的工厂方法,可以直接创建一个实例。推荐的使用方法是:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">LineIterator it = FileUtils.lineIterator(file, <span class="string">"UTF-8"</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">while</span> (it.hasNext()) &#123;</span><br><span class="line">        String line = it.nextLine();</span><br><span class="line">        <span class="comment">/// do something with line</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    LineIterator.closeQuietly(iterator);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="File-filters"><a href="#File-filters" class="headerlink" title="File filters"></a>File filters</h3><p><code>org.apache.commons.io.filefilter</code>包定义了一个接口 (<a href="http://commons.apache.org/proper/commons-io/api-release/index.html?org/apache/commons/io/filefilter/IOFileFilter.html" target="_blank" rel="noopener">IOFileFilter</a>),同时继承了 <code>java.io.FileFilter</code> 和 <code>java.io.FilenameFilter</code>接口。除此之外还提供了一系列可以使用的<code>IOFileFilter</code>接口实现，包括允许你组合其他过滤器。这些过滤器可以用来遍历文件或在<code>FileDialog</code>中使用。</p>
+<p>详情见 <a href="http://commons.apache.org/proper/commons-io/api-release/index.html?org/apache/commons/io/filefilter/package-summary.html" target="_blank" rel="noopener">filefilter</a> 包的Javadoc。</p>
+<h3 id="File-comparators"><a href="#File-comparators" class="headerlink" title="File comparators"></a>File comparators</h3><p><code>org.apache.commons.io.comparator</code>包为<code>java.io.File</code>提供一些<code>java.util.Comparator</code>实现。这些比较器可以用来排序列表和文件数字。</p>
+<p>详情见 <a href="http://commons.apache.org/proper/commons-io/api-release/index.html?org/apache/commons/io/comparator/package-summary.html" target="_blank" rel="noopener">comparator</a> 包的Javadoc。</p>
+<h3 id="Streams"><a href="#Streams" class="headerlink" title="Streams"></a>Streams</h3><p><code>org.apache.commons.io.input</code> 和 <code>org.apache.commons.io.output</code> 包中包含一些有用的流实现。他们包括:</p>
+<ul>
+<li>Null output stream – 默默吸收所有发给它的数据</li>
+<li>Tee output stream – 发送输出数据给两个流而不是一个</li>
+<li>Byte array output stream – 这是一个比JDK更快的版本</li>
+<li>Counting streams – 计算通过的字节数</li>
+<li>Proxy streams – 在代理中委托正确的方法</li>
+<li>Lockable writer – 使用锁文件提供写入同步</li>
+</ul>
+<p>详情见 <a href="http://commons.apache.org/proper/commons-io/api-release/index.html?org/apache/commons/io/input/package-summary.html" target="_blank" rel="noopener">input</a> 和 <a href="http://commons.apache.org/proper/commons-io/api-release/index.html?org/apache/commons/io/output/package-summary.html" target="_blank" rel="noopener">output</a> 包的Javadoc。</p>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><hr>
+<p>本文档提供一些在IO领域的最佳实践</p>
+<h3 id="java-io-File"><a href="#java-io-File" class="headerlink" title="java.io.File"></a>java.io.File</h3><p>通常，你要处理文件和文件名。有很多地方可能出错：</p>
+<ul>
+<li>一个类在Uinx下正常工作但是在Windows下不工作(反之亦然)</li>
+<li>由于重复或丢失路径分隔符造成无效的文件名</li>
+<li>等等</li>
+</ul>
+<p>这些都是不使用字符串类型文件名的充分理由。使用 <code>java.io.File</code> 可以很好的处理上述情况。因此，我们的最佳实践建议对文件名使用 <code>java.io.File</code> 代替字符串来避免平台依赖。</p>
+<p><em>commons-io 1.1开始包含一个专门用于文件名的处理类 – FilenameUtils。这会处理很多这类文件名问题，但是我们仍然建议尽可能的使用 java.io.File 对象</em></p>
+<p>让我们来看一个例子:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getExtension</span><span class="params">(String filename)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> index = filename.lastIndexOf(<span class="string">'.'</span>);</span><br><span class="line">    <span class="keyword">if</span> (index == -<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> filename.substring(index + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>很容易?是的，但是如果传入一个全路径而不只是文件名会发生什么?考虑一下，完全合法的路径: “C:\Temp\documentation.new\README”。这个方法将会返回”new\README”，绝对不是你想要的</p>
+<p>请使用 <code>java.io.File</code> 代替字符串作为文件名。这个类提供的方法经过了良好的测试。在 <code>FileUtil</code>你会发现其他关于 <code>java.io.File</code> 有用的工具方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String tmpdir = <span class="string">"/var/tmp"</span>;</span><br><span class="line">String tmpfile = tmpdir + System.getProperty(<span class="string">"file.separator"</span>) + <span class="string">"test.tmp"</span>;</span><br><span class="line">InputStream in = <span class="keyword">new</span> java.io.FileInputStream(tmpfile);</span><br></pre></td></tr></table></figure>
+<p>替代</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">File tmpdir = <span class="keyword">new</span> File(<span class="string">"/var/tmp"</span>);</span><br><span class="line">File tmpfile = <span class="keyword">new</span> File(tmpdir, <span class="string">"test.tmp"</span>);</span><br><span class="line">InputStream in = <span class="keyword">new</span> java.io.FileInputStream(tmpfile);</span><br></pre></td></tr></table></figure>
+<h3 id="Buffering-streams"><a href="#Buffering-streams" class="headerlink" title="Buffering streams"></a>Buffering streams</h3><p><strong>IO性能很多情况下取决于缓冲策略</strong>。通常以512或1024比特读取数据块会相当快，因为这些大小的数据块和硬盘在文件系统中的数据块大小或文件系统缓存很搭配。但是如果你只需要读取结果字节那么性能会有显著下降</p>
+<p>确保你在读取或写入流时正确的进行缓冲，特别是使用文件时，只在 <code>BufferedInputStream</code> 上包装 <code>FileInputStream</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">InputStream in = <span class="keyword">new</span> java.io.FileInputStream(myfile);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    in = <span class="keyword">new</span> java.io.BufferedInputStream(in);</span><br><span class="line">    in.read(.....</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    IOUtils.closeQuietly(in);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意不要缓冲一个已经被缓冲的流。一些组件例如 XML 解析器可能自己缓冲，所以装饰传递给 XML 解析器的<code>InputStream</code>只会拖慢的代码。如果你使用我们的 <code>CopyUtils</code> 或者 <code>IOUitls</code>你不需要另外缓冲，你使用的代码在复制过程的已经缓冲。经常检查Javadocs中的信息。另一种情况，当你向<code>ByteArrayOutputStream</code>中写入时，缓冲不是必须的，因为你只写入内存。</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><ul>
+<li><a href="http://ifeve.com/commons-io/" target="_blank" rel="noopener">http://ifeve.com/commons-io/</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Commons-IO/" rel="tag"># Commons IO</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/08/Java/注解总结/" rel="next" title="注解总结">
+                <i class="fa fa-chevron-left"></i> 注解总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/08/Java/ImmutableMap/" rel="prev" title="ImmutableMap">
+                ImmutableMap <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/05/08/Java/Commons-IO-官方文档/" data-title="Commons IO 官方文档" data-url="http://yoursite.com/2018/05/08/Java/Commons-IO-官方文档/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#发行版本"><span class="nav-number">1.</span> <span class="nav-text">发行版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户指南"><span class="nav-number">2.</span> <span class="nav-text">用户指南</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Utility-classes"><span class="nav-number">2.1.</span> <span class="nav-text">Utility classes</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IOUtils"><span class="nav-number">2.1.1.</span> <span class="nav-text">IOUtils</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FileUtils"><span class="nav-number">2.1.2.</span> <span class="nav-text">FileUtils</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FilenameUtils"><span class="nav-number">2.1.3.</span> <span class="nav-text">FilenameUtils</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FileSystemUtils"><span class="nav-number">2.1.4.</span> <span class="nav-text">FileSystemUtils</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Endian-classes"><span class="nav-number">2.2.</span> <span class="nav-text">Endian classes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Line-iterator"><span class="nav-number">2.3.</span> <span class="nav-text">Line iterator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#File-filters"><span class="nav-number">2.4.</span> <span class="nav-text">File filters</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#File-comparators"><span class="nav-number">2.5.</span> <span class="nav-text">File comparators</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Streams"><span class="nav-number">2.6.</span> <span class="nav-text">Streams</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最佳实践"><span class="nav-number">3.</span> <span class="nav-text">最佳实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#java-io-File"><span class="nav-number">3.1.</span> <span class="nav-text">java.io.File</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Buffering-streams"><span class="nav-number">3.2.</span> <span class="nav-text">Buffering streams</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">3.3.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

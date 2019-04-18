@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="HttpClient,Java,Network,Http,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="HttpClient 4.3教程 第一章 基本概念1.1. 请求执行HttpClient最基本的功能就是执行Http方法。一个Http方法的执行涉及到一个或者多个Http请求/Http响应的交互，通常这个过程都会自动被HttpClient处理，对用户透明。用户只需要提供Http请求对象，HttpClient就会将http请求发送给目标服务器，并且接收服务器的响应，如果http请求执行不成功，htt">
+<meta name="keywords" content="HttpClient,Java,Network,Http">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HttpClient 4.3教程 第一章 基本概念">
+<meta property="og:url" content="http://yoursite.com/2017/09/28/Java Network Programming/HttpClient 4.3教程 第一章 基本概念/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="HttpClient 4.3教程 第一章 基本概念1.1. 请求执行HttpClient最基本的功能就是执行Http方法。一个Http方法的执行涉及到一个或者多个Http请求/Http响应的交互，通常这个过程都会自动被HttpClient处理，对用户透明。用户只需要提供Http请求对象，HttpClient就会将http请求发送给目标服务器，并且接收服务器的响应，如果http请求执行不成功，htt">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-11T08:11:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HttpClient 4.3教程 第一章 基本概念">
+<meta name="twitter:description" content="HttpClient 4.3教程 第一章 基本概念1.1. 请求执行HttpClient最基本的功能就是执行Http方法。一个Http方法的执行涉及到一个或者多个Http请求/Http响应的交互，通常这个过程都会自动被HttpClient处理，对用户透明。用户只需要提供Http请求对象，HttpClient就会将http请求发送给目标服务器，并且接收服务器的响应，如果http请求执行不成功，htt">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/28/Java Network Programming/HttpClient 4.3教程 第一章 基本概念/">
+
+
+
+
+
+  <title>HttpClient 4.3教程 第一章 基本概念 | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/28/Java Network Programming/HttpClient 4.3教程 第一章 基本概念/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">HttpClient 4.3教程 第一章 基本概念</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-28T17:30:29+08:00">
+                2017-09-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Network-Programming/" itemprop="url" rel="index">
+                    <span itemprop="name">Java Network Programming</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/28/Java Network Programming/HttpClient 4.3教程 第一章 基本概念/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/28/Java Network Programming/HttpClient 4.3教程 第一章 基本概念/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="HttpClient-4-3教程-第一章-基本概念"><a href="#HttpClient-4-3教程-第一章-基本概念" class="headerlink" title="HttpClient 4.3教程 第一章 基本概念"></a>HttpClient 4.3教程 第一章 基本概念</h1><h2 id="1-1-请求执行"><a href="#1-1-请求执行" class="headerlink" title="1.1. 请求执行"></a>1.1. 请求执行</h2><p>HttpClient最基本的功能就是执行Http方法。一个Http方法的执行涉及到一个或者多个Http请求/Http响应的交互，通常这个过程都会自动被HttpClient处理，对用户透明。用户只需要提供Http请求对象，HttpClient就会将http请求发送给目标服务器，并且接收服务器的响应，如果http请求执行不成功，httpclient就会抛出异样。</p>
+<p>下面是个很简单的http请求执行的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CloseableHttpClient httpclient = HttpClients.createDefault();</span><br><span class="line">HttpGet httpget = <span class="keyword">new</span> HttpGet(<span class="string">"http://www.yeetrack.com/"</span>);</span><br><span class="line">CloseableHttpResponse response = httpclient.execute(httpget);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    &lt;...&gt;</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    response.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-1-1-HTTP请求"><a href="#1-1-1-HTTP请求" class="headerlink" title="1.1.1. HTTP请求"></a>1.1.1. HTTP请求</h3><p>所有的Http请求都有一个请求列（request line），包括方法名、请求的URI和Http版本号。</p>
+<p>HttpClient支持HTTP/1.1这个版本定义的所有Http方法：<code>GET</code>,<code>HEAD</code>,<code>POST</code>,<code>PUT</code>,<code>DELETE</code>,<code>TRACE</code>和<code>OPTIONS</code>。对于每一种http方法，HttpClient都定义了一个相应的类：<code>HttpGet</code>,<code>HttpHead</code>,<code>HttpPost</code>,<code>HttpPut</code>,<code>HttpDelete</code>,<code>HttpTrace</code>和<code>HttpOpquertions</code>。</p>
+<p>Request-URI即统一资源定位符，用来标明Http请求中的资源。Http request URIS包含协议名、主机名、主机端口（可选）、资源路径、query（可选）和片段信息（可选）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">   HttpGet httpget = new HttpGet(</span><br><span class="line">&quot;http://www.google.com/search?hl=en&amp;q=httpclient&amp;btnG=Google+Search&amp;aq=f&amp;oq=&quot;);</span><br></pre></td></tr></table></figure>
+<p>HttpClient提供<code>URIBuilder</code>工具类来简化URIs的创建和修改过程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">URI uri = new URIBuilder()</span><br><span class="line">.setScheme(&quot;http&quot;)</span><br><span class="line">.setHost(&quot;www.google.com&quot;)</span><br><span class="line">.setPath(&quot;/search&quot;)</span><br><span class="line">.setParameter(&quot;q&quot;, &quot;httpclient&quot;)</span><br><span class="line">.setParameter(&quot;btnG&quot;, &quot;Google Search&quot;)</span><br><span class="line">.setParameter(&quot;aq&quot;, &quot;f&quot;)</span><br><span class="line">.setParameter(&quot;oq&quot;, &quot;&quot;)</span><br><span class="line">.build();</span><br><span class="line">HttpGet httpget = new HttpGet(uri);</span><br><span class="line">System.out.println(httpget.getURI());</span><br></pre></td></tr></table></figure>
+<p>上述代码会在控制台输出：</p>
+<p><a href="http://www.google.com/search?q=httpclient&amp;btnG=Google+Search&amp;aq=f&amp;oq=" target="_blank" rel="noopener">http://www.google.com/search?q=httpclient&amp;btnG=Google+Search&amp;aq=f&amp;oq=</a></p>
+<h3 id="1-1-2-HTTP响应"><a href="#1-1-2-HTTP响应" class="headerlink" title="1.1.2. HTTP响应"></a>1.1.2. HTTP响应</h3><p>服务器收到客户端的http请求后，就会对其进行解析，然后把响应发给客户端，这个响应就是HTTP response.HTTP响应第一行是HTTP版本号，然后是响应状态码和响应内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HttpResponse response = new BasicHttpResponse(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, &quot;OK&quot;);</span><br><span class="line"></span><br><span class="line">System.out.println(response.getProtocolVersion());</span><br><span class="line">System.out.println(response.getStatusLine().getStatusCode());</span><br><span class="line">System.out.println(response.getStatusLine().getReasonPhrase());</span><br><span class="line">System.out.println(response.getStatusLine().toString());</span><br></pre></td></tr></table></figure>
+<p>上述代码会在控制台输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1</span><br><span class="line">200</span><br><span class="line">OK</span><br><span class="line">HTTP/1.1 200 OK</span><br></pre></td></tr></table></figure>
+<h3 id="1-1-3-消息头"><a href="#1-1-3-消息头" class="headerlink" title="1.1.3. 消息头"></a>1.1.3. 消息头</h3><p>一个Http消息可以包含一系列的消息头，用来对http消息进行描述，比如消息长度，消息类型等等。HttpClient提供了API来获取、添加、修改、遍历消息头。</p>
+<p><a href="./HTTP cookies 详解.md">HTTP cookies 详解</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">HttpResponse response = new BasicHttpResponse(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, &quot;OK&quot;);</span><br><span class="line">response.addHeader(&quot;Set-Cookie&quot;, &quot;c1=a; path=/; domain=yeetrack.com&quot;);</span><br><span class="line">response.addHeader(&quot;Set-Cookie&quot;, &quot;c2=b; path=\&quot;/\&quot;, c3=c; domain=\&quot;yeetrack.com\&quot;&quot;);</span><br><span class="line">Header h1 = response.getFirstHeader(&quot;Set-Cookie&quot;);</span><br><span class="line">System.out.println(h1);</span><br><span class="line">Header h2 = response.getLastHeader(&quot;Set-Cookie&quot;);</span><br><span class="line">System.out.println(h2);</span><br><span class="line">Header[] hs = response.getHeaders(&quot;Set-Cookie&quot;);</span><br><span class="line">System.out.println(hs.length);</span><br></pre></td></tr></table></figure>
+<p>上述代码会在控制台输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: c1=a; path=/; domain=yeetrack.com</span><br><span class="line">Set-Cookie: c2=b; path=&quot;/&quot;, c3=c; domain=&quot;yeetrack.com&quot;</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+<p><strong>最有效的获取指定类型的消息头的方法还是使用<code>HeaderIterator</code>接口。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">    HttpResponse response = <span class="keyword">new</span> BasicHttpResponse(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, <span class="string">"OK"</span>);</span><br><span class="line">    response.addHeader(<span class="string">"Set-Cookie"</span>, <span class="string">"c1=a; path=/; domain=yeetrack.com"</span>);</span><br><span class="line">    response.addHeader(<span class="string">"Set-Cookie"</span>, <span class="string">"c2=b; path=\"/\", c3=c; domain=\"</span></span><br><span class="line"><span class="string">yeetrack.com</span></span><br><span class="line"><span class="string">\""</span>);</span><br><span class="line">HeaderIterator it = response.headerIterator(<span class="string">"Set-Cookie"</span>);</span><br><span class="line"><span class="keyword">while</span> (it.hasNext()) &#123;</span><br><span class="line">System.out.println(it.next());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码会在控制台输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: c1=a; path=/; domain=yeetrack.com</span><br><span class="line">Set-Cookie: c2=b; path=&quot;/&quot;, c3=c; domain=&quot;yeetrack.com&quot;</span><br></pre></td></tr></table></figure>
+<p>HeaderIterator也提供非常便捷的方式，将Http消息解析成单独的消息头元素。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">HttpResponse response = new BasicHttpResponse(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, &quot;OK&quot;);</span><br><span class="line">response.addHeader(&quot;Set-Cookie&quot;, &quot;c1=a; path=/; domain=yeetrack.com&quot;);</span><br><span class="line">response.addHeader(&quot;Set-Cookie&quot;, &quot;c2=b; path=\&quot;/\&quot;, c3=c; domain=\&quot;yeetrack.com\&quot;&quot;);</span><br><span class="line"></span><br><span class="line">HeaderElementIterator it = new BasicHeaderElementIterator(response.headerIterator(&quot;Set-Cookie&quot;));</span><br><span class="line"></span><br><span class="line">while (it.hasNext()) &#123;</span><br><span class="line">    HeaderElement elem = it.nextElement();</span><br><span class="line">    System.out.println(elem.getName() + &quot; = &quot; + elem.getValue());</span><br><span class="line">    NameValuePair[] params = elem.getParameters();</span><br><span class="line">    for (int i = 0; i &lt; params.length; i++) &#123;</span><br><span class="line">        System.out.println(&quot; &quot; + params[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码会在控制台输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">c1 = a</span><br><span class="line">path=/</span><br><span class="line">domain=yeetrack.com</span><br><span class="line">c2 = b</span><br><span class="line">path=/</span><br><span class="line">c3 = c</span><br><span class="line">domain=yeetrack.com</span><br></pre></td></tr></table></figure>
+<h3 id="1-1-4-HTTP实体"><a href="#1-1-4-HTTP实体" class="headerlink" title="1.1.4. HTTP实体"></a>1.1.4. HTTP实体</h3><p>Http消息可以携带http实体，这个<strong>http实体既可以是http请求，也可以是http响应的</strong>。Http实体，可以在某些http请求或者响应中发现，但不是必须的。Http规范中定义了两种包含请求的方法：POST和PUT。HTTP响应一般会包含一个内容实体。当然这条规则也有异常情况，如Head方法的响应，204没有内容，304没有修改或者205内容资源重置。</p>
+<p>HttpClient根据来源的不同，划分了三种不同的Http实体内容。</p>
+<ul>
+<li><strong>streamed:</strong> Http内容是通过流来接受或者generated on the fly。特别是，streamed这一类包含从http响应中获取的实体内容。一般说来，streamed实体是不可重复的。</li>
+<li><strong>self-contained:</strong> The content is in memory or obtained by means that are independent from a connection or other entity。self-contained类型的实体内容通常是可重复的。这种类型的实体通常用于<strong>关闭http请求</strong>。</li>
+<li><strong>wrapping:</strong> 这种类型的内容是从另外的http实体中获取的。</li>
+</ul>
+<p>当从Http响应中读取内容时，上面的三种区分对于连接管理器来说是非常重要的。请求类的实体通常由应用程序创建，由HttpClient发送给服务器，在请求类的实体中，streamed和self-contained两种类型的区别就不重要了。在这种情况下，一般认为不可重复的实体是streamed类型，可重复的实体时self-contained。</p>
+<h4 id="1-1-4-1-可重复的实体"><a href="#1-1-4-1-可重复的实体" class="headerlink" title="1.1.4.1. 可重复的实体"></a>1.1.4.1. 可重复的实体</h4><p>一个实体是可重复的，也就是说它的包含的内容可以被多次读取。这种多次读取只有self contained（自包含）的实体能做到（比如<code>ByteArrayEntity</code>或者<code>StringEntity</code>)。</p>
+<h4 id="1-1-4-2-使用Http实体"><a href="#1-1-4-2-使用Http实体" class="headerlink" title="1.1.4.2. 使用Http实体"></a>1.1.4.2. 使用Http实体</h4><p>由于一个Http实体既可以表示二进制内容，又可以表示文本内容，所以<strong>Http实体要支持字符编码</strong>（为了支持后者，即文本内容）。</p>
+<p>当需要执行一个完整内容的Http请求或者Http请求已经成功，服务器要发送响应到客户端时，Http实体就会被创建。</p>
+<p>如果要从Http实体中读取内容，我们可以利用<code>HttpEntity</code>类的<code>getContent</code>方法来获取实体的输入流（<code>java.io.InputStream</code>)，或者利用<code>HttpEntity</code>类的<code>writeTo(OutputStream)</code>方法来获取输出流，这个方法会把所有的内容写入到给定的流中。<br>当实体类已经被接受后，我们可以利用<code>HttpEntity</code>类的<code>getContentType()</code>和<code>getContentLength()</code>方法来读取<code>Content-Type</code>和<code>Content-Length</code>两个头消息（如果有的话）。由于<code>Content-Type</code>包含mime-types的字符编码，比如text/plain或者text/html,<code>HttpEntity</code>类的<code>getContentEncoding()</code>方法就是读取这个编码的。如果头信息不存在，<code>getContentLength（）</code>会返回-1,<code>getContentType()</code>会返回NULL。如果<code>Content-Type</code>信息存在，就会返回一个<code>Header</code>类。</p>
+<p>当为发送消息创建Http实体时，需要同时附加meta信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">StringEntity myEntity = new StringEntity(&quot;important message&quot;, ContentType.create(&quot;text/plain&quot;, &quot;UTF-8&quot;));</span><br><span class="line">System.out.println(myEntity.getContentType());</span><br><span class="line">System.out.println(myEntity.getContentLength());</span><br><span class="line">System.out.println(EntityUtils.toString(myEntity));</span><br><span class="line">System.out.println(EntityUtils.toByteArray(myEntity).length);</span><br></pre></td></tr></table></figure>
+<p>上述代码会在控制台输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Content-Type: text/plain; charset=utf-8</span><br><span class="line">17</span><br><span class="line">important message</span><br><span class="line">17</span><br></pre></td></tr></table></figure>
+<h3 id="1-1-5-确保底层的资源连接被释放"><a href="#1-1-5-确保底层的资源连接被释放" class="headerlink" title="1.1.5. 确保底层的资源连接被释放"></a>1.1.5. 确保底层的资源连接被释放</h3><p>为了确保系统资源被正确地释放，我们要么关闭Http实体的内容流、要么关闭Http响应。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">CloseableHttpClient httpclient =  HttpClients.createDefault();</span><br><span class="line">HttpGet httpget = new HttpGet(&quot;http://www.yeetrack.com/&quot;);</span><br><span class="line">CloseableHttpResponse response = httpclient.execute(httpget);</span><br><span class="line">try &#123;</span><br><span class="line">    HttpEntity entity = response.getEntity();</span><br><span class="line">    if (entity != null) &#123;</span><br><span class="line">        InputStream instream = entity.getContent();</span><br><span class="line">        try &#123;</span><br><span class="line">            // do something useful</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            instream.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; finally &#123;</span><br><span class="line">    response.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关闭Http实体内容流和关闭Http响应的区别在于，<strong>前者通过消耗掉Http实体内容来保持相关的http连接，然后后者会立即关闭、丢弃http连接。</strong></p>
+<p>请注意<code>HttpEntity</code>的<code>writeTo(OutputStream)</code>方法，当Http实体被写入到OutputStream后，也要确保释放系统资源。如果这个方法内调用了<code>HttpEntity</code>的<code>getContent()</code>方法，那么它会有一个<code>java.io.InpputStream</code>的实例，我们需要在finally中关闭这个流。</p>
+<p>但是也有这样的情况，我们<strong>只需要获取Http响应内容的一小部分，而获取整个内容并实现连接的可重复性代价太大</strong>，这时我们可以通过关闭响应的方式来关闭内容输入、输出流。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">CloseableHttpClient httpclient = HttpClients.createDefault();</span><br><span class="line">HttpGet httpget = new HttpGet(&quot;http://www.yeetrack.com/&quot;);</span><br><span class="line">CloseableHttpResponse response = httpclient.execute(httpget);</span><br><span class="line">try &#123;</span><br><span class="line">    HttpEntity entity = response.getEntity();</span><br><span class="line">    if (entity != null) &#123;</span><br><span class="line">        InputStream instream = entity.getContent();</span><br><span class="line">        int byteOne = instream.read();</span><br><span class="line">        int byteTwo = instream.read();</span><br><span class="line">        // Do not need the rest</span><br><span class="line">&#125;</span><br><span class="line">&#125; finally &#123;</span><br><span class="line">    response.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码执行后，连接变得不可用，所有的资源都将被释放。</p>
+<h3 id="1-1-6-消耗HTTP实体内容"><a href="#1-1-6-消耗HTTP实体内容" class="headerlink" title="1.1.6. 消耗HTTP实体内容"></a>1.1.6. 消耗HTTP实体内容</h3><p>HttpClient推荐使用<code>HttpEntity</code>的<code>getConent()</code>方法或者<code>HttpEntity</code>的<code>writeTo(OutputStream)</code>方法来消耗掉Http实体内容。HttpClient也提供了<code>EntityUtils</code>这个类，这个类提供一些静态方法可以更容易地读取Http实体的内容和信息。和以<code>java.io.InputStream</code>流读取内容的方式相比，EntityUtils提供的方法可以以字符串或者字节数组的形式读取Http实体。但是，<strong>强烈不推荐使用<code>EntityUtils</code>这个类，除非目标服务器发出的响应是可信任的，并且http响应实体的长度不会过大</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">CloseableHttpClient httpclient = HttpClients.createDefault();</span><br><span class="line">HttpGet httpget = new HttpGet(&quot;http://www.yeetrack.com/&quot;);</span><br><span class="line">CloseableHttpResponse response = httpclient.execute(httpget);</span><br><span class="line">try &#123;</span><br><span class="line">    HttpEntity entity = response.getEntity();</span><br><span class="line">    if (entity != null) &#123;</span><br><span class="line">        long len = entity.getContentLength();</span><br><span class="line">        if (len != -1 &amp;&amp; len &lt; 2048) &#123;</span><br><span class="line">            System.out.println(EntityUtils.toString(entity));</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // Stream content out</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; finally &#123;</span><br><span class="line">    response.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有些情况下，我们希望可以<strong>重复读取Http实体的内容</strong>。这就需要把Http实体内容缓存在内存或者磁盘上。最简单的方法就是把Http Entity转化成<code>BufferedHttpEntity</code>，这样就把原Http实体的内容缓冲到了内存中。后面我们就可以重复读取BufferedHttpEntity中的内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CloseableHttpResponse response = &lt;...&gt;</span><br><span class="line">HttpEntity entity = response.getEntity();</span><br><span class="line">if (entity != null) &#123;</span><br><span class="line">    entity = new BufferedHttpEntity(entity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-1-7-创建HTTP实体内容"><a href="#1-1-7-创建HTTP实体内容" class="headerlink" title="1.1.7. 创建HTTP实体内容"></a>1.1.7. 创建HTTP实体内容</h3><p>HttpClient提供了一个类，这些类可以通过http连接高效地输出Http实体内容。（原文是HttpClient provides several classes that can be used to efficiently stream out content though HTTP connections.感觉thought应该是throught）HttpClient提供的这几个类涵盖的常见的数据类型，如String，byte数组，输入流，和文件类型：<code>StringEntity</code>,<code>ByteArrayEntity</code>,<code>InputStreamEntity</code>,<code>FileEntity</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">File file = new File(&quot;somefile.txt&quot;);</span><br><span class="line">FileEntity entity = new FileEntity(file, ContentType.create(&quot;text/plain&quot;, &quot;UTF-8&quot;));</span><br><span class="line"></span><br><span class="line">HttpPost httppost = new HttpPost(&quot;http://www.yeetrack.com/action.do&quot;);</span><br><span class="line">httppost.setEntity(entity);</span><br></pre></td></tr></table></figure>
+<p>请注意由于<code>InputStreamEntity</code>只能从下层的数据流中读取一次，所以它是不能重复的。推荐，通过继承<code>HttpEntity</code>这个自包含的类来自定义HttpEntity类，而不是直接使用<code>InputStreamEntity</code>这个类。<code>FileEntity</code>就是一个很好的起点（FileEntity就是继承的HttpEntity）。</p>
+<h4 id="1-7-1-1-HTML表单"><a href="#1-7-1-1-HTML表单" class="headerlink" title="1.7.1.1. HTML表单"></a>1.7.1.1. HTML表单</h4><p>很多应用程序需要模拟提交Html表单的过程，举个例子，登陆一个网站或者将输入内容提交给服务器。HttpClient提供了<code>UrlEncodedFormEntity</code>这个类来帮助实现这一过程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;NameValuePair&gt; formparams = new ArrayList&lt;NameValuePair&gt;();</span><br><span class="line">formparams.add(new BasicNameValuePair(&quot;param1&quot;, &quot;value1&quot;));</span><br><span class="line">formparams.add(new BasicNameValuePair(&quot;param2&quot;, &quot;value2&quot;));</span><br><span class="line">UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);</span><br><span class="line">HttpPost httppost = new HttpPost(&quot;http://www.yeetrack.com/handler.do&quot;);</span><br><span class="line">httppost.setEntity(entity);</span><br></pre></td></tr></table></figure>
+<p><code>UrlEncodedFormEntity</code>实例会使用所谓的Url编码的方式对我们的参数进行编码，产生的结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">param1=value1&amp;param2=value2</span><br></pre></td></tr></table></figure>
+<h4 id="1-1-7-2-内容分块"><a href="#1-1-7-2-内容分块" class="headerlink" title="1.1.7.2. 内容分块"></a>1.1.7.2. 内容分块</h4><p>一般来说，推荐让HttpClient自己根据Http消息传递的特征来选择<strong>最合适的传输编码</strong>。当然，如果非要手动控制也是可以的，可以通过设置<code>HttpEntity</code>的<code>setChunked()</code>为true。请注意：HttpClient仅会将这个参数看成是一个建议。如果Http的版本（如http 1.0)不支持内容分块，那么这个参数就会被忽略。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">StringEntity entity = new StringEntity(&quot;important message&quot;,</span><br><span class="line">ContentType.create(&quot;plain/text&quot;, Consts.UTF_8));</span><br><span class="line">entity.setChunked(true);</span><br><span class="line">HttpPost httppost = new HttpPost(&quot;http://www.yeetrack.com/acrtion.do&quot;);</span><br><span class="line">httppost.setEntity(entity);</span><br></pre></td></tr></table></figure>
+<h3 id="1-1-8-RESPONSE-HANDLERS"><a href="#1-1-8-RESPONSE-HANDLERS" class="headerlink" title="1.1.8. RESPONSE HANDLERS"></a>1.1.8. RESPONSE HANDLERS</h3><p>最简单也是最方便的处理http响应的方法就是使用<code>ResponseHandler</code>接口，这个接口中有<code>handleResponse(HttpResponse response)</code>方法。使用这个方法，用户完全不用关心http连接管理器。当使用<code>ResponseHandler</code>时，HttpClient会自动地将Http连接释放给Http管理器，即使http请求失败了或者抛出了异常。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">CloseableHttpClient httpclient = HttpClients.createDefault();</span><br><span class="line">HttpGet httpget = new HttpGet(&quot;http://www.yeetrack.com/json&quot;);</span><br><span class="line"></span><br><span class="line">ResponseHandler&lt;MyJsonObject&gt; rh = new ResponseHandler&lt;MyJsonObject&gt;() &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public JsonObject handleResponse(</span><br><span class="line">        final HttpResponse response) throws IOException &#123;</span><br><span class="line">        StatusLine statusLine = response.getStatusLine();</span><br><span class="line">        HttpEntity entity = response.getEntity();</span><br><span class="line">        if (statusLine.getStatusCode() &gt;= 300) &#123;</span><br><span class="line">            throw new HttpResponseException(</span><br><span class="line">                    statusLine.getStatusCode(),</span><br><span class="line">                    statusLine.getReasonPhrase());</span><br><span class="line">        &#125;</span><br><span class="line">        if (entity == null) &#123;</span><br><span class="line">            throw new ClientProtocolException(&quot;Response contains no content&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        Gson gson = new GsonBuilder().create();</span><br><span class="line">        ContentType contentType = ContentType.getOrDefault(entity);</span><br><span class="line">        Charset charset = contentType.getCharset();</span><br><span class="line">        Reader reader = new InputStreamReader(entity.getContent(), charset);</span><br><span class="line">        return gson.fromJson(reader, MyJsonObject.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">//设置responseHandler，当执行http方法时，就会返回MyJsonObject对象。</span><br><span class="line">MyJsonObject myjson = client.execute(httpget, rh);</span><br></pre></td></tr></table></figure>
+<h2 id="1-2-HttpClient接口"><a href="#1-2-HttpClient接口" class="headerlink" title="1.2. HttpClient接口"></a>1.2. HttpClient接口</h2><p>对于Http请求执行过程来说，<code>HttpClient</code>的接口有着必不可少的作用。<code>HttpClient</code>接口没有对Http请求的过程做特别的限制和详细的规定，连接管理、状态管理、授权信息和重定向处理这些功能都单独实现。这样用户就可以更简单地拓展接口的功能（比如缓存响应内容）。</p>
+<p>一般说来，<strong>HttpClient实际上就是一系列特殊的handler或者说策略接口的实现</strong>，这些handler（测试接口）负责着处理Http协议的某一方面，比如重定向、认证处理、有关连接持久性和keep alive持续时间的决策。这样就允许用户使用自定义的参数来代替默认配置，实现个性化的功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">ConnectionKeepAliveStrategy keepAliveStrat = new DefaultConnectionKeepAliveStrategy() &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public long getKeepAliveDuration(</span><br><span class="line">        HttpResponse response,</span><br><span class="line">        HttpContext context) &#123;</span><br><span class="line">            long keepAlive = super.getKeepAliveDuration(response, context);</span><br><span class="line">            if (keepAlive == -1) &#123;</span><br><span class="line">                //如果服务器没有设置keep-alive这个参数，我们就把它设置成5秒</span><br><span class="line">                keepAlive = 5000;</span><br><span class="line">            &#125;</span><br><span class="line">            return keepAlive;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line">//定制我们自己的httpclient</span><br><span class="line">CloseableHttpClient httpclient = HttpClients.custom()</span><br><span class="line">        .setKeepAliveStrategy(keepAliveStrat)</span><br><span class="line">        .build();</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-1-HTTPCLIENT的线程安全性"><a href="#1-2-1-HTTPCLIENT的线程安全性" class="headerlink" title="1.2.1.HTTPCLIENT的线程安全性"></a>1.2.1.HTTPCLIENT的线程安全性</h3><p><code>HttpClient</code>已经实现了线程安全。所以希望用户在实例化HttpClient时，也要支持为多个请求使用。</p>
+<h3 id="1-2-2-HTTPCLIENT的内存分配"><a href="#1-2-2-HTTPCLIENT的内存分配" class="headerlink" title="1.2.2.HTTPCLIENT的内存分配"></a>1.2.2.HTTPCLIENT的内存分配</h3><p>当一个<code>CloseableHttpClient</code>的实例不再被使用，并且它的作用范围即将失效，和它相关的连接必须被关闭，关闭方法可以调用<code>CloseableHttpClient</code>的<code>close()</code>方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CloseableHttpClient httpclient = HttpClients.createDefault();</span><br><span class="line">try &#123;</span><br><span class="line">    &lt;...&gt;</span><br><span class="line">&#125; finally &#123;</span><br><span class="line">    //关闭连接</span><br><span class="line">    httpclient.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="1-3-Http执行上下文"><a href="#1-3-Http执行上下文" class="headerlink" title="1.3.Http执行上下文"></a>1.3.Http执行上下文</h2><p>最初，<strong>Http被设计成一种无状态的、面向请求-响应的协议</strong>。然而，在实际使用中，我们希望能够在一些逻辑相关的请求-响应中，保持状态信息。为了使应用程序可以保持Http的持续状态，<strong>HttpClient允许http连接在特定的Http上下文中执行。</strong>如果在持续的http请求中使用了同样的上下文，那么这些请求就可以被分配到一个逻辑会话中。HTTP上下文就和一个<code>java.util.Map&lt;String, Object&gt;</code>功能类似。它实际上就是一个任意命名的值的集合。应用程序可以在Http请求执行前填充上下文的值，也可以在请求执行完毕后检查上下文。</p>
+<p><code>HttpContext</code>可以包含任意类型的对象，因此如果<strong>在多线程中共享上下文会不安全。推荐每个线程都只包含自己的http上下文。</strong></p>
+<p>在Http请求执行的过程中，HttpClient会自动添加下面的属性到Http上下文中：</p>
+<ul>
+<li><code>HttpConnection</code>的实例，表示客户端与服务器之间的连接</li>
+<li><code>HttpHost</code>的实例，表示要连接的目标服务器</li>
+<li><code>HttpRoute</code>的实例，表示全部的连接路由</li>
+<li><code>HttpRequest</code>的实例，表示Http请求。在执行上下文中，最终的HttpRequest对象会代表http消息的状态。Http/1.0和Http/1.1都默认使用相对的uri。但是如果使用了<code>非隧道模式</code>的代理服务器，就会使用绝对路径的uri。</li>
+<li><code>HttpResponse</code>的实例，表示Http响应</li>
+<li><code>java.lang.Boolean</code>对象，表示是否请求被成功的发送给目标服务器</li>
+<li><code>RequestConfig</code>对象，表示http request的配置信息</li>
+<li><code>java.util.List&lt;Uri&gt;</code>对象，表示Http响应中的所有<strong>重定向</strong>地址</li>
+</ul>
+<p>我们可以使用<code>HttpClientContext</code>这个适配器来简化和上下文交互的过程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HttpContext context = &lt;...&gt;</span><br><span class="line">HttpClientContext clientContext = HttpClientContext.adapt(context);</span><br><span class="line">HttpHost target = clientContext.getTargetHost();</span><br><span class="line">HttpRequest request = clientContext.getRequest();</span><br><span class="line">HttpResponse response = clientContext.getResponse();</span><br><span class="line">RequestConfig config = clientContext.getRequestConfig();</span><br></pre></td></tr></table></figure>
+<p>同一个逻辑会话中的多个Http请求，应该使用相同的Http上下文来执行，这样就可以自动地在http请求中传递会话上下文和状态信息。<br>在下面的例子中，我们在开头设置的参数，会被保存在上下文中，并且会应用到后续的http请求中（源英文中有个拼写错误）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">CloseableHttpClient httpclient = HttpClients.createDefault();</span><br><span class="line">RequestConfig requestConfig = RequestConfig.custom()</span><br><span class="line">        .setSocketTimeout(1000)</span><br><span class="line">        .setConnectTimeout(1000)</span><br><span class="line">        .build();</span><br><span class="line"></span><br><span class="line">HttpGet httpget1 = new HttpGet(&quot;http://www.yeetrack.com/1&quot;);</span><br><span class="line">httpget1.setConfig(requestConfig);</span><br><span class="line">CloseableHttpResponse response1 = httpclient.execute(httpget1, context);</span><br><span class="line">try &#123;</span><br><span class="line">    HttpEntity entity1 = response1.getEntity();</span><br><span class="line">&#125; finally &#123;</span><br><span class="line">    response1.close();</span><br><span class="line">&#125;</span><br><span class="line">//httpget2被执行时，也会使用httpget1的上下文</span><br><span class="line">HttpGet httpget2 = new HttpGet(&quot;http://www.yeetrack.com/2&quot;);</span><br><span class="line">CloseableHttpResponse response2 = httpclient.execute(httpget2, context);</span><br><span class="line">try &#123;</span><br><span class="line">    HttpEntity entity2 = response2.getEntity();</span><br><span class="line">&#125; finally &#123;</span><br><span class="line">    response2.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="1-4-异常处理"><a href="#1-4-异常处理" class="headerlink" title="1.4. 异常处理"></a>1.4. 异常处理</h2><p>HttpClient会被抛出两种类型的异常，一种是<code>java.io.IOException</code>，当遇到I/O异常时抛出（socket超时，或者socket被重置）;另一种是<code>HttpException</code>,表示Http失败，如Http协议使用不正确。通常认为，<strong>I/O错误时不致命、可修复的，而Http协议错误是致命了，不能自动修复的错误</strong>。</p>
+<h3 id="1-4-1-HTTP传输安全"><a href="#1-4-1-HTTP传输安全" class="headerlink" title="1.4.1.HTTP传输安全"></a>1.4.1.HTTP传输安全</h3><p>Http协议不能满足所有类型的应用场景，我们需要知道这点。Http是个简单的面向协议的请求/响应的协议，当初它被设计用来支持静态或者动态生成的内容检索，之前从来没有人想过让它支持事务性操作。例如，Http服务器成功接收、处理请求后，生成响应消息，并且把状态码发送给客户端，这个过程是Http协议应该保证的。但是，如果客户端由于读取超时、取消请求或者系统崩溃导致接收响应失败，服务器不会回滚这一事务。如果客户端重新发送这个请求，服务器就会重复的解析、执行这个事务。在一些情况下，这会导致应用程序的数据损坏和应用程序的状态不一致。</p>
+<p>即使<strong>Http当初设计是不支持事务操作</strong>，但是它仍旧可以作为传输协议为某些关键程序提供服务。为了保证Http传输层的安全性，系统必须保证应用层上的http方法的<code>幂等性</code>（To ensure HTTP transport layer safety the system must ensure the idempotency of HTTP methods on the application layer）。</p>
+<h3 id="1-4-2-方法的幂等性"><a href="#1-4-2-方法的幂等性" class="headerlink" title="1.4.2.方法的幂等性"></a>1.4.2.方法的幂等性</h3><p>HTTP/1.1规范中是这样定义幂等方法的，Methods can also have the property of “idempotence” in that (aside from error or expiration issues) the side-effects of N &gt; 0 identical requests is the same as for a single request。用其他话来说，应用程序需要正确地处理同一方法多次执行造成的影响。添加一个具有唯一性的id就能避免重复执行同一个逻辑请求，问题解决。</p>
+<p>请知晓，这个问题不只是HttpClient才会有，基于浏览器的应用程序也会遇到Http方法不幂等的问题。</p>
+<p>H<strong>ttpClient默认把非实体方法<code>get</code>、<code>head</code>方法看做幂等方法，把实体方法<code>post</code>、<code>put</code>方法看做非幂等方法。</strong></p>
+<h3 id="1-4-3-异常自动修复"><a href="#1-4-3-异常自动修复" class="headerlink" title="1.4.3.异常自动修复"></a>1.4.3.异常自动修复</h3><p>默认情况下，HttpClient会尝试自动修复I/O异常。这种自动修复仅限于修复几个公认安全的异常。</p>
+<ul>
+<li>HttpClient不会尝试修复任何逻辑或者http协议错误（即从HttpException衍生出来的异常）。</li>
+<li>HttpClient会自动再次发送幂等的方法（如果首次执行失败。</li>
+<li>HttpClient会自动再次发送遇到transport异常的方法，前提是Http请求仍旧保持着连接（例如http请求没有全部发送给目标服务器，HttpClient会再次尝试发送）。</li>
+</ul>
+<h3 id="1-4-4-请求重试HANDLER"><a href="#1-4-4-请求重试HANDLER" class="headerlink" title="1.4.4.请求重试HANDLER"></a>1.4.4.请求重试HANDLER</h3><p>如果要自定义异常处理机制，我们需要实现<code>HttpRequestRetryHandler</code>接口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">HttpRequestRetryHandler myRetryHandler = new HttpRequestRetryHandler() &#123;</span><br><span class="line"></span><br><span class="line">    public boolean retryRequest(</span><br><span class="line">            IOException exception,</span><br><span class="line">            int executionCount,</span><br><span class="line">            HttpContext context) &#123;</span><br><span class="line">        if (executionCount &gt;= 5) &#123;</span><br><span class="line">            // 如果已经重试了5次，就放弃</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        if (exception instanceof InterruptedIOException) &#123;</span><br><span class="line">            // 超时</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        if (exception instanceof UnknownHostException) &#123;</span><br><span class="line">            // 目标服务器不可达</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        if (exception instanceof ConnectTimeoutException) &#123;</span><br><span class="line">            // 连接被拒绝</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        if (exception instanceof SSLException) &#123;</span><br><span class="line">            // ssl握手异常</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        HttpClientContext clientContext = HttpClientContext.adapt(context);</span><br><span class="line">        HttpRequest request = clientContext.getRequest();</span><br><span class="line">        boolean idempotent = !(request instanceof HttpEntityEnclosingRequest);</span><br><span class="line">        if (idempotent) &#123;</span><br><span class="line">            // 如果请求是幂等的，就再次尝试</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line">CloseableHttpClient httpclient = HttpClients.custom()</span><br><span class="line">        .setRetryHandler(myRetryHandler)</span><br><span class="line">        .build();</span><br></pre></td></tr></table></figure>
+<h2 id="1-5-终止请求"><a href="#1-5-终止请求" class="headerlink" title="1.5.终止请求"></a>1.5.终止请求</h2><p>有时候由于目标服务器负载过高或者客户端目前有太多<u>请求积压</u>，http请求不能在指定时间内执行完毕。这时候终止这个请求，释放阻塞I/O的进程，就显得很必要。通过HttpClient执行的Http请求，在任何状态下都能通过调用<code>HttpUriRequest</code>的<code>abort()</code>方法来终止。这个方法是线程安全的，并且能在任何线程中调用。当Http请求被终止了，本线程（即使现在正在阻塞I/O）也会通过抛出一个<code>InterruptedIOException</code>异常，来释放资源。</p>
+<h2 id="1-6-Http协议拦截器"><a href="#1-6-Http协议拦截器" class="headerlink" title="1.6. Http协议拦截器"></a>1.6. Http协议拦截器</h2><p>HTTP协议拦截器是一种实现一个特定的方面的HTTP协议的代码程序。通常情况下，<strong>协议拦截器会将一个或多个头消息加入到接受或者发送的消息中</strong>。协议拦截器也可以操作消息的内容实体—消息内容的压缩/解压缩就是个很好的例子。通常，这是通过使用“装饰”开发模式，一个包装实体类用于装饰原来的实体来实现。一个拦截器可以合并，形成一个逻辑单元。</p>
+<p>协议拦截器可以通过<strong>共享信息协作</strong>——比如处理状态——通过HTTP执行上下文。协议拦截器可以使用Http上下文存储一个或者多个连续请求的处理状态。</p>
+<p>通常，只要拦截器不依赖于一个特定状态的http上下文，那么拦截执行的顺序就无所谓。如果协议拦截器有相互依赖关系，必须以特定的顺序执行，那么它们应该按照特定的顺序加入到协议处理器中。</p>
+<p>协议处理器必须是线程安全的。类似于servlets，协议拦截器不应该使用变量实体，除非访问这些变量是同步的（线程安全的）。</p>
+<p>下面是个例子，讲述了本地的上下文时如何在连续请求中记录处理状态的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">CloseableHttpClient httpclient = HttpClients.custom()</span><br><span class="line">        .addInterceptorLast(new HttpRequestInterceptor() &#123;</span><br><span class="line"></span><br><span class="line">            public void process(</span><br><span class="line">                    final HttpRequest request,</span><br><span class="line">                    final HttpContext context) throws HttpException, IOException &#123;</span><br><span class="line">                    //AtomicInteger是个线程安全的整型类</span><br><span class="line">                AtomicInteger count = (AtomicInteger) context.getAttribute(&quot;count&quot;);</span><br><span class="line">                request.addHeader(&quot;Count&quot;, Integer.toString(count.getAndIncrement()));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br><span class="line">        .build();</span><br><span class="line"></span><br><span class="line">AtomicInteger count = new AtomicInteger(1);</span><br><span class="line">HttpClientContext localContext = HttpClientContext.create();</span><br><span class="line">localContext.setAttribute(&quot;count&quot;, count);</span><br><span class="line"></span><br><span class="line">HttpGet httpget = new HttpGet(&quot;http://www.yeetrack.com/&quot;);</span><br><span class="line">for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">    CloseableHttpResponse response = httpclient.execute(httpget, localContext);</span><br><span class="line">    try &#123;</span><br><span class="line">        HttpEntity entity = response.getEntity();</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        response.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码在发送http请求时，会自动添加Count这个header，可以使用wireshark抓包查看。</p>
+<h2 id="1-7-1-重定向处理"><a href="#1-7-1-重定向处理" class="headerlink" title="1.7.1. 重定向处理"></a>1.7.1. 重定向处理</h2><p>HttpClient会自动处理所有类型的重定向，除了那些Http规范明确禁止的重定向。See Other (status code 303) redirects on POST and PUT requests are converted to GET requests as required by the HTTP specification. 我们可以使用自定义的重定向策略来放松Http规范对Post方法重定向的限制。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//LaxRedirectStrategy可以自动重定向所有的HEAD，GET，POST请求，解除了http规范对post请求重定向的限制。</span><br><span class="line">LaxRedirectStrategy redirectStrategy = new LaxRedirectStrategy();</span><br><span class="line">CloseableHttpClient httpclient = HttpClients.custom()</span><br><span class="line">        .setRedirectStrategy(redirectStrategy)</span><br><span class="line">        .build();</span><br></pre></td></tr></table></figure>
+<p>HttpClient在请求执行过程中，经常需要重写请求的消息。 HTTP/1.0和HTTP/1.1都默认使用相对的uri路径。同样，原始的请求可能会被一次或者多次的重定向。最终结对路径的解释可以使用最初的请求和上下文。<code>URIUtils</code>类的<code>resolve</code>方法可以用于将拦截的绝对路径构建成最终的请求。这个方法包含了最后一个分片标识符或者原始请求。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">CloseableHttpClient httpclient = HttpClients.createDefault();</span><br><span class="line">HttpClientContext context = HttpClientContext.create();</span><br><span class="line">HttpGet httpget = new HttpGet(&quot;http://www.yeetrack.com:8080/&quot;);</span><br><span class="line">CloseableHttpResponse response = httpclient.execute(httpget, context);</span><br><span class="line">try &#123;</span><br><span class="line">    HttpHost target = context.getTargetHost();</span><br><span class="line">    List&lt;URI&gt; redirectLocations = context.getRedirectLocations();</span><br><span class="line">    URI location = URIUtils.resolve(httpget.getURI(), target, redirectLocations);</span><br><span class="line">    System.out.println(&quot;Final HTTP location: &quot; + location.toASCIIString());</span><br><span class="line">    // 一般会取得一个绝对路径的uri</span><br><span class="line">&#125; finally &#123;</span><br><span class="line">    response.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HttpClient/" rel="tag"># HttpClient</a>
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/Network/" rel="tag"># Network</a>
+          
+            <a href="/tags/Http/" rel="tag"># Http</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/28/Java/java.lang.Runtime/" rel="next" title="java.lang.Runtime">
+                <i class="fa fa-chevron-left"></i> java.lang.Runtime
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/28/Java/junit.framework.TestCase/" rel="prev" title="JUnit">
+                JUnit <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2017/09/28/Java Network Programming/HttpClient 4.3教程 第一章 基本概念/" data-title="HttpClient 4.3教程 第一章 基本概念" data-url="http://yoursite.com/2017/09/28/Java Network Programming/HttpClient 4.3教程 第一章 基本概念/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HttpClient-4-3教程-第一章-基本概念"><span class="nav-number">1.</span> <span class="nav-text">HttpClient 4.3教程 第一章 基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-请求执行"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 请求执行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-HTTP请求"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1.1. HTTP请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-HTTP响应"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.1.2. HTTP响应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-3-消息头"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.1.3. 消息头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-4-HTTP实体"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.1.4. HTTP实体</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-4-1-可重复的实体"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">1.1.4.1. 可重复的实体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-4-2-使用Http实体"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">1.1.4.2. 使用Http实体</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-5-确保底层的资源连接被释放"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.1.5. 确保底层的资源连接被释放</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-6-消耗HTTP实体内容"><span class="nav-number">1.1.6.</span> <span class="nav-text">1.1.6. 消耗HTTP实体内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-7-创建HTTP实体内容"><span class="nav-number">1.1.7.</span> <span class="nav-text">1.1.7. 创建HTTP实体内容</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-7-1-1-HTML表单"><span class="nav-number">1.1.7.1.</span> <span class="nav-text">1.7.1.1. HTML表单</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-7-2-内容分块"><span class="nav-number">1.1.7.2.</span> <span class="nav-text">1.1.7.2. 内容分块</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-8-RESPONSE-HANDLERS"><span class="nav-number">1.1.8.</span> <span class="nav-text">1.1.8. RESPONSE HANDLERS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-HttpClient接口"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. HttpClient接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-HTTPCLIENT的线程安全性"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.2.1.HTTPCLIENT的线程安全性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-HTTPCLIENT的内存分配"><span class="nav-number">1.2.2.</span> <span class="nav-text">1.2.2.HTTPCLIENT的内存分配</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Http执行上下文"><span class="nav-number">1.3.</span> <span class="nav-text">1.3.Http执行上下文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-异常处理"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 异常处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-1-HTTP传输安全"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.4.1.HTTP传输安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-2-方法的幂等性"><span class="nav-number">1.4.2.</span> <span class="nav-text">1.4.2.方法的幂等性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-3-异常自动修复"><span class="nav-number">1.4.3.</span> <span class="nav-text">1.4.3.异常自动修复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-4-请求重试HANDLER"><span class="nav-number">1.4.4.</span> <span class="nav-text">1.4.4.请求重试HANDLER</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-终止请求"><span class="nav-number">1.5.</span> <span class="nav-text">1.5.终止请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-Http协议拦截器"><span class="nav-number">1.6.</span> <span class="nav-text">1.6. Http协议拦截器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-7-1-重定向处理"><span class="nav-number">1.7.</span> <span class="nav-text">1.7.1. 重定向处理</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

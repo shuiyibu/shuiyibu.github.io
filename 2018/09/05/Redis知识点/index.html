@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="redis,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="1 什么是redis?Redis 是一个基于内存的高性能key-value数据库。 2 Reids的特点3 AOF和 RDB的区别？? 二者区别  RDB持久化是指在指定的时间间隔内将内存中的数据集快照写入磁盘，实际操作过程是fork一个子进程，先将数据集写入临时文件，写入成功后，再替换之前的文件，用二进制压缩存储。 AOF持久化以日志的形式记录服务器所处理的每一个写、删除操作，查询操作不会记录">
+<meta name="keywords" content="redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis知识点">
+<meta property="og:url" content="http://yoursite.com/2018/09/05/Redis知识点/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1 什么是redis?Redis 是一个基于内存的高性能key-value数据库。 2 Reids的特点3 AOF和 RDB的区别？? 二者区别  RDB持久化是指在指定的时间间隔内将内存中的数据集快照写入磁盘，实际操作过程是fork一个子进程，先将数据集写入临时文件，写入成功后，再替换之前的文件，用二进制压缩存储。 AOF持久化以日志的形式记录服务器所处理的每一个写、删除操作，查询操作不会记录">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-05T03:46:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis知识点">
+<meta name="twitter:description" content="1 什么是redis?Redis 是一个基于内存的高性能key-value数据库。 2 Reids的特点3 AOF和 RDB的区别？? 二者区别  RDB持久化是指在指定的时间间隔内将内存中的数据集快照写入磁盘，实际操作过程是fork一个子进程，先将数据集写入临时文件，写入成功后，再替换之前的文件，用二进制压缩存储。 AOF持久化以日志的形式记录服务器所处理的每一个写、删除操作，查询操作不会记录">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/05/Redis知识点/">
+
+
+
+
+
+  <title>Redis知识点 | Hexo</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4d5b541690a836307558f5f13157a238";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/05/Redis知识点/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan Lang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Redis知识点</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-05T09:14:34+08:00">
+                2018-09-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/05/Redis知识点/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/09/05/Redis知识点/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h2 id="1-什么是redis"><a href="#1-什么是redis" class="headerlink" title="1 什么是redis?"></a>1 什么是redis?</h2><p>Redis 是一个基于内存的高性能key-value数据库。</p>
+<h2 id="2-Reids的特点"><a href="#2-Reids的特点" class="headerlink" title="2 Reids的特点"></a>2 Reids的特点</h2><h2 id="3-AOF和-RDB的区别？"><a href="#3-AOF和-RDB的区别？" class="headerlink" title="3 AOF和 RDB的区别？?"></a>3 AOF和 RDB的区别？?</h2><ul>
+<li>二者区别</li>
+</ul>
+<p>RDB持久化是指在指定的时间间隔内将内存中的<strong>数据集快照</strong>写入磁盘，实际操作过程是fork一个子进程，先将数据集写入临时文件，写入成功后，再替换之前的文件，用二进制压缩存储。</p>
+<p>AOF持久化以日志的形式记录服务器所处理的每一个<strong>写、删除操作</strong>，查询操作不会记录，以文本的方式记录，可以打开文件看到详细的操作记录。</p>
+<ul>
+<li><p>优缺点</p>
+<ul>
+<li>RDB存在哪些优势<ul>
+<li>1). 灵活设置备份频率和周期。你可能打算每个小时归档一次最近24小时的数据，同时还要每天归档一次最近30天的数据。通过这样的备份策略，一旦系统出现灾难性故障，我们可以非常容易的进行恢复。</li>
+<li>2). 对于灾难恢复而言，RDB是非常不错的选择。因为我们可以非常轻松的将一个单独的文件压缩后再转移到其它存储介质上。</li>
+<li>3). 性能最大化。对于Redis的服务进程而言，在开始持久化时，它唯一需要做的只是fork出子进程，之后再由子进程完成这些持久化的工作，这样就可以极大的避免服务进程执行IO操作了。</li>
+<li>4). 相比于AOF机制，如果数据集很大，RDB的<strong>启动效率会更高</strong>。</li>
+</ul>
+</li>
+<li>RDB的缺点<ul>
+<li>1). 如果你想保证数据的高可用性，即最大限度的避免数据丢失，那么RDB将不是一个很好的选择。因为系统一旦在定时持久化之前出现宕机现象，此前没有来得及写入磁盘的数据都将丢失。</li>
+<li>2). 由于RDB是通过fork子进程来协助完成数据持久化工作的，因此，如果当数据集较大时，可能会导致整个服务器停止服务几百毫秒，甚至是1秒钟。</li>
+</ul>
+</li>
+<li>AOF的优势<ul>
+<li>1). 该机制可以带来更高的<strong>数据安全性</strong>，即数据持久性。Redis中提供了3中同步策略，即每秒同步、每修改同步和不同步。事实上，每秒同步也是异步完成的，其效率也是非常高的，所差的是一旦系统出现宕机现象，那么这一秒钟之内修改的数据将会丢失。而每修改同步，我们可以将其视为同步持久化，即每次发生的数据变化都会被立即记录到磁盘中。可以预见，这种方式在效率上是最低的。至于无同步，无需多言，我想大家都能正确的理解它。</li>
+<li>2). 由于该机制对日志文件的写入操作采用的是append模式，因此在写入过程中即使出现宕机现象，也不会破坏日志文件中已经存在的内容。然而如果我们本次操作只是写入了一半数据就出现了系统崩溃问题，不用担心，在Redis下一次启动之前，我们可以通过redis-check-aof工具来帮助我们解决数据一致性的问题。</li>
+<li>3). 如果日志过大，Redis可以自动启用<strong>rewrite</strong>机制。即Redis以append模式不断的将修改数据写入到老的磁盘文件中，同时Redis还会创建一个新的文件用于记录此期间有哪些修改命令被执行。因此在进行rewrite切换时可以更好的保证数据安全性。</li>
+<li>4). AOF包含一个格式清晰、易于理解的日志文件用于记录所有的修改操作。事实上，我们也可以通过该文件完成数据的重建。</li>
+</ul>
+</li>
+<li>AOF不足<ul>
+<li>1). 对于相同数量的数据集而言，AOF文件通常要大于RDB文件。RDB 在恢复大数据集时的速度比 AOF 的恢复速度要快。</li>
+<li>2). 根据同步策略的不同，AOF在运行效率上往往会慢于RDB。总之，每秒同步策略的效率是比较高的，同步禁用策略的效率和RDB一样高效。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-skiplist插入和查询原理（来自360）"><a href="#4-skiplist插入和查询原理（来自360）" class="headerlink" title="4 skiplist插入和查询原理（来自360）"></a>4 skiplist插入和查询原理（来自360）</h2><p><a href="https://blog.csdn.net/ict2014/article/details/17394259/" target="_blank" rel="noopener">https://blog.csdn.net/ict2014/article/details/17394259/</a></p>
+<h2 id="5-redis持久化方式（百度金融）"><a href="#5-redis持久化方式（百度金融）" class="headerlink" title="5 redis持久化方式（百度金融）"></a>5 redis持久化方式（百度金融）</h2><p>1、RDB快照（snapshots）<br>缺省情况情况下，Redis把数据快照存放在磁盘上的二进制文件中，文件名为dump.rdb。你可以配置Redis的持久化策略，例如数据集中每N秒钟有超过M次更新，就将数据写入磁盘；或者你可以手工调用命令SAVE或BGSAVE。<br>工作原理:</p>
+<ul>
+<li>Redis forks.</li>
+<li>子进程开始将数据写到临时RDB文件中。</li>
+<li>当子进程完成写RDB文件，用新文件替换老文件。</li>
+<li>这种方式可以使Redis使用copy-on-write技术。</li>
+</ul>
+<p>2、AOF<br>快照模式并不十分健壮，当系统停止，或者无意中Redis被kill掉，最后写入Redis的数据就会丢失。这对某些应用也许不是大问题，但对于要求高可靠性的应用来说Redis就不是一个合适的选择。Append-only文件模式是另一种选择。你可以在配置文件中打开AOF模式</p>
+<h2 id="6-redis过期时间如何实现（来自58赶集）"><a href="#6-redis过期时间如何实现（来自58赶集）" class="headerlink" title="6 redis过期时间如何实现（来自58赶集）"></a>6 redis过期时间如何实现（来自58赶集）</h2><h2 id="7-压缩列表的原理（来自360）"><a href="#7-压缩列表的原理（来自360）" class="headerlink" title="7 压缩列表的原理（来自360）"></a>7 压缩列表的原理（来自360）</h2><h2 id="8-redis如何清除过期keys"><a href="#8-redis如何清除过期keys" class="headerlink" title="8 redis如何清除过期keys"></a>8 redis如何清除过期keys</h2><h2 id="9-redis底层为什么使用跳跃表而不是红黑树"><a href="#9-redis底层为什么使用跳跃表而不是红黑树" class="headerlink" title="9 redis底层为什么使用跳跃表而不是红黑树"></a>9 redis底层为什么使用跳跃表而不是红黑树</h2><p>跳跃表在范围查找的时候性能比较高</p>
+<h2 id="10-使用过Redis分布式锁么，它是什么回事？"><a href="#10-使用过Redis分布式锁么，它是什么回事？" class="headerlink" title="10 使用过Redis分布式锁么，它是什么回事？"></a>10 使用过Redis分布式锁么，它是什么回事？</h2><p>先拿setnx来争抢锁，抢到之后，再用expire给锁加一个过期时间防止锁忘记了释放。<br>这时候对方会告诉你说你回答得不错，然后接着问如果在setnx之后执行expire之前进程意外crash或者要重启维护了，那会怎么样？</p>
+<p>这时候你要给予惊讶的反馈：唉，是喔，这个锁就永远得不到释放了。紧接着你需要抓一抓自己得脑袋，故作思考片刻，好像接下来的结果是你主动思考出来的，然后回答：我记得set指令有非常复杂的参数，这个应该是可以同时把setnx和expire合成一条指令来用的！对方这时会显露笑容，心里开始默念：摁，这小子还不错。</p>
+<h2 id="11-假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？"><a href="#11-假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？" class="headerlink" title="11 假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？"></a>11 假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？</h2><p>使用keys指令可以扫出指定模式的key列表。<br>对方接着追问：如果这个redis正在给线上的业务提供服务，那使用keys指令会有什么问题？<br>这个时候你要回答redis关键的一个特性：redis的单线程的。keys指令会导致线程阻塞一段时间，线上服务会停顿，直到指令执行完毕，服务才能恢复。这个时候可以使用scan指令，scan指令可以无阻塞的提取出指定模式的key列表，但是会有一定的重复概率，在客户端做一次去重就可以了，但是整体所花费的时间会比直接用keys指令长。</p>
+<h2 id="12-bgsave的原理是什么？"><a href="#12-bgsave的原理是什么？" class="headerlink" title="12 bgsave的原理是什么？"></a>12 bgsave的原理是什么？</h2><p>你给出两个词汇就可以了，fork和cow。fork是指redis通过创建子进程来进行bgsave操作，cow指的是copy on write，子进程创建后，父子进程共享数据段，父进程继续提供读写服务，写脏的页面数据会逐渐和子进程分离开来。</p>
+<h2 id="13-Redis的同步机制了解么？"><a href="#13-Redis的同步机制了解么？" class="headerlink" title="13 Redis的同步机制了解么？"></a>13 Redis的同步机制了解么？</h2><p><strong>Redis可以使用主从同步，从从同步</strong>。第一次同步时，主节点做一次bgsave，并同时将后续修改操作记录到内存buffer，待完成后将rdb文件全量同步到复制节点，复制节点接受完成后将rdb镜像加载到内存。加载完成后，再通知主节点将期间修改的操作记录同步到复制节点进行重放就完成了同步过程。</p>
+<h2 id="14-是否使用过Redis集群，集群的原理是什么？"><a href="#14-是否使用过Redis集群，集群的原理是什么？" class="headerlink" title="14 是否使用过Redis集群，集群的原理是什么？"></a>14 是否使用过Redis集群，集群的原理是什么？</h2><p>Redis Sentinal着眼于高可用，在master宕机时会自动将slave提升为master，继续提供服务。<br>Redis Cluster着眼于扩展性，在单个redis内存不足时，使用Cluster进行分片存储。</p>
+<h2 id="15-为什么redis需要把所有数据放到内存中"><a href="#15-为什么redis需要把所有数据放到内存中" class="headerlink" title="15 为什么redis需要把所有数据放到内存中?"></a>15 为什么redis需要把所有数据放到内存中?</h2><p>Redis为了达到最快的读写速度将数据都读到内存中，并通过异步的方式将数据写入磁盘。所以redis具有快速和数据持久化的特征。如果不将数据放在内存中，磁盘I/O速度为严重影响redis的性能。在内存越来越便宜的今天，redis将会越来越受欢迎。</p>
+<p>如果设置了最大使用的内存，则数据已有记录数达到内存限值后不能继续插入新值。</p>
+<h2 id="16-Redis是单进程单线程的"><a href="#16-Redis是单进程单线程的" class="headerlink" title="16 Redis是单进程单线程的"></a>16 Redis是单进程单线程的</h2><p>redis利用队列技术将并发访问变为串行访问，消除了传统数据库串行控制的开销</p>
+<h2 id="17-redis的并发竞争问题如何解决"><a href="#17-redis的并发竞争问题如何解决" class="headerlink" title="17 redis的并发竞争问题如何解决?"></a>17 redis的并发竞争问题如何解决?</h2><p>Redis为单进程单线程模式，采用队列模式将并发访问变为串行访问。Redis本身没有锁的概念，Redis对于多个客户端连接并不存在竞争，但是在Jedis客户端对Redis进行并发访问时会发生连接超时、数据转换错误、阻塞、客户端关闭连接等问题，这些问题均是由于客户端连接混乱造成。对此有2种解决方法：</p>
+<p>1.客户端角度，为保证每个客户端间正常有序与Redis进行通信，对连接进行池化，同时对客户端读写Redis操作采用内部锁synchronized。</p>
+<p>2.服务器角度，利用setnx实现锁。<br>注：对于第一种，需要应用程序自己处理资源的同步，可以使用的方法比较通俗，可以使用synchronized也可以使用lock；第二种需要用到Redis的setnx命令，但是需要注意一些问题。</p>
+<h2 id="18-使用redis有哪些好处？"><a href="#18-使用redis有哪些好处？" class="headerlink" title="18 使用redis有哪些好处？"></a>18 使用redis有哪些好处？</h2><p>(1) 速度快，因为数据存在内存中，类似于HashMap，HashMap的优势就是查找和操作的时间复杂度都是O(1)<br>(2) 支持丰富数据类型，支持string，list，set，sorted set，hash<br>(3) 支持事务，操作都是原子性，所谓的原子性就是对数据的更改要么全部执行，要么全部不执行<br>(4) 丰富的特性：可用于缓存，消息，按key设置过期时间，过期后将会自动删除</p>
+<h2 id="19-redis相比memcached有哪些优势？"><a href="#19-redis相比memcached有哪些优势？" class="headerlink" title="19 redis相比memcached有哪些优势？"></a>19 redis相比memcached有哪些优势？</h2><p>(1) memcached所有的值均是简单的字符串，redis作为其替代者，支持更为丰富的数据类型<br>(2) redis的速度比memcached快很多<br>(3) redis可以持久化其数据</p>
+<h2 id="20-Memcache与Redis的区别都有哪些？"><a href="#20-Memcache与Redis的区别都有哪些？" class="headerlink" title="20 Memcache与Redis的区别都有哪些？"></a>20 Memcache与Redis的区别都有哪些？</h2><p><strong>1)、存储方式</strong><br>Memecache把数据全部存在内存之中，断电后会挂掉，数据不能超过内存大小。Redis有部份存在硬盘上，这样能保证数据的持久性。</p>
+<p><strong>2)、数据支持类型</strong><br>Memcache对数据类型支持相对简单。Redis有复杂的数据类型,Redis不仅仅支持简单的k/v类型的数据，同时还提供list，set，zset，hash等数据结构的存储。</p>
+<p><strong>3)、使用底层模型不同</strong><br>它们之间底层实现方式以及与客户端之间通信的应用协议不一样。Redis直接自己构建了VM 机制，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。</p>
+<p><strong>4）value大小</strong><br>redis最大可以达到1GB，而memcache只有1MB</p>
+<p><strong>5) Redis支持数据的备份，即master-slave模式的数据备份。</strong><br><strong>6)、查询速度，redis速度比memchached快</strong> 为什么？</p>
+<h2 id="21-如何提高redis命中率"><a href="#21-如何提高redis命中率" class="headerlink" title="21 如何提高redis命中率"></a>21 如何提高redis命中率</h2><h2 id="22-redis主从是如何实现同步的"><a href="#22-redis主从是如何实现同步的" class="headerlink" title="22 redis主从是如何实现同步的"></a>22 redis主从是如何实现同步的</h2><h2 id="23-redis主从中的哨兵是做什么的"><a href="#23-redis主从中的哨兵是做什么的" class="headerlink" title="23 redis主从中的哨兵是做什么的"></a>23 redis主从中的哨兵是做什么的</h2><p>Redis的哨兵模式就是对redis系统进行实时的监控，其主要功能有下面两点<br>1.监测主数据库和从数据库是否正常运行。<br>2.当我们的主数据库出现故障的时候，可以自动将从数据库转换为主数据库，实现自动的切换</p>
+<h2 id="24-谈谈redis的LRU算法"><a href="#24-谈谈redis的LRU算法" class="headerlink" title="24 谈谈redis的LRU算法"></a>24 谈谈redis的LRU算法</h2><p>答：LRU即最近最久未使用，当内存达到限制时，Redis 具体的回收策略是通过 maxmemory-policy 配置项配置的。由以下多个选项：<br><strong>no-eviction</strong>：不清除数据，只是返回错误，这样会导致浪费掉更多的内存，对大多数写命令（DEL 命令和其他的少数命令例外）<br><strong>allkeys-lru</strong>：从所有的数据集（server.db[i].dict）中挑选最近最少使用的数据淘汰，以供新数据使用<br><strong>volatile-lru</strong>：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用的数据淘汰，以供新数据使用<br><strong>allkeys-random</strong>：从所有数据集（server.db[i].dict）中任意选择数据淘汰，以供新数据使用<br><strong>volatile-random</strong>：从已设置过期时间的数据集（server.db[i].expires）中任意选择数据淘汰，以供新数据使用<br><strong>volatile-ttl</strong>：从已设置过期时间的数据集（server.db[i].expires）中挑选将要过期的数据淘汰，以供新数据使用<br>当 cache 中没有符合清除条件的key时，回收策略 volatile-lru, volatile-random 和volatile-ttl 将会和策略 noeviction 一样返回错误。选择正确的回收策略是很重要的，取决于你的应用程序的访问模式。</p>
+<p>回收的过程是这么运作的非常的重要：<br>①一个客户端运行一个新命令，添加了新数据。<br>②Redis 检查内存使用情况，如果大于<strong>maxmemory</strong>限制，根据策略来回收键。<br>③一个新的命令被执行，如此等等<br>Redis的LRU算法不是一个严格的LRU实现。这意味着Redis不能选择最佳候选键来回收，也就是最久未被访问的那些键。相反，Redis 会尝试执行一个近似的LRU算法，通过采样一小部分键，然后在采样键中回收最适合(拥有最久访问时间)的那个。</p>
+<h2 id="25-mySQL里有2000w数据，redis中只存20w的数据，如何保证redis中的数据都是热点数据"><a href="#25-mySQL里有2000w数据，redis中只存20w的数据，如何保证redis中的数据都是热点数据" class="headerlink" title="25 mySQL里有2000w数据，redis中只存20w的数据，如何保证redis中的数据都是热点数据"></a>25 mySQL里有2000w数据，redis中只存20w的数据，如何保证redis中的数据都是热点数据</h2><p>相关知识：redis 内存数据集大小上升到一定大小的时候，就会施行数据淘汰策略。redis 提供 6种数据淘汰策略：<br><strong>voltile-lru</strong>：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用的数据淘汰<br><strong>volatile-ttl</strong>：从已设置过期时间的数据集（server.db[i].expires）中挑选将要过期的数据淘汰<br><strong>volatile-random</strong>：从已设置过期时间的数据集（server.db[i].expires）中任意选择数据淘汰<br><strong>allkeys-lru</strong>：从数据集（server.db[i].dict）中挑选最近最少使用的数据淘汰<br><strong>allkeys-random</strong>：从数据集（server.db[i].dict）中任意选择数据淘汰<br><strong>no-eviction（驱逐）</strong>：禁止驱逐数据</p>
+<p>注意这里的6种机制，volatile和allkeys规定了是对已设置过期时间的数据集淘汰数据还是从全部数据集淘汰数据，后面的lru、ttl以及random是三种不同的淘汰策略，再加上一种no-enviction永不回收的策略。<br>　使用策略规则：<br>　1、如果数据呈现幂律分布，也就是一部分数据访问频率高，一部分数据访问频率低，则使用allkeys-lru<br>　2、如果数据呈现平等分布，也就是所有的数据访问频率都相同，则使用allkeys-random<br>　三种数据淘汰策略：<br>　ttl和random比较容易理解，实现也会比较简单。主要是Lru最近最少使用淘汰策略，设计上会对key 按失效时间排序，然后取最先失效的key进行淘汰</p>
+<h2 id="26-Redis-常见的性能问题都有哪些？如何解决？"><a href="#26-Redis-常见的性能问题都有哪些？如何解决？" class="headerlink" title="26 Redis 常见的性能问题都有哪些？如何解决？"></a>26 Redis 常见的性能问题都有哪些？如何解决？</h2><p>1).<strong>Master最好不要做任何持久化工作，如RDB内存快照和AOF日志文件</strong>. Master写内存快照，save命令调度rdbSave函数，会阻塞主线程的工作，当快照比较大时对性能影响是非常大的，会间断性暂停服务，所以Master最好不要写内存快照.Master AOF持久化，如果不重写AOF文件，这个持久化方式对性能的影响是最小的，但是AOF文件会不断增大，AOF文件过大会影响Master重启的恢复速度。Master最好不要做任何持久化工作，包括内存快照和AOF日志文件，特别是不要启用内存快照做持久化,如果数据比较关键，某个Slave开启AOF备份数据，策略为每秒同步一次。</p>
+<p>2) 如果数据比较重要，某个Slave开启AOF备份数据，策略设置为每秒同步一次</p>
+<p>3) 尽量避免在压力很大的主库上增加从库</p>
+<p>4).Master调用BGREWRITEAOF重写AOF文件，AOF在重写的时候会占大量的CPU和内存资源，导致服务load过高，出现短暂服务暂停现象。</p>
+<p>5). Redis主从复制的性能问题，为了主从复制的速度和连接的稳定性，Slave和Master最好在同一个局域网内</p>
+<h2 id="27-Redis支持的数据类型"><a href="#27-Redis支持的数据类型" class="headerlink" title="27 Redis支持的数据类型"></a>27 Redis支持的数据类型</h2><p>字符串String、字典Hash、列表List、集合Set、有序集合SortedSet。</p>
+<p>如果你是Redis中高级用户，还需要加上下面几种数据结构HyperLogLog、Geo、Pub/Sub。<br>如果你说还玩过Redis Module，像BloomFilter，RedisSearch，Redis-ML，面试官得眼睛就开始发亮了。</p>
+<h2 id="28-redis-最适合的场景"><a href="#28-redis-最适合的场景" class="headerlink" title="28 redis 最适合的场景"></a>28 redis 最适合的场景</h2><p>Redis最适合所有数据in-momory的场景，虽然Redis也提供持久化功能，但实际更多的是一个disk-backed的功能，跟传统意义上的持久化有比较大的差别，那么可能大家就会有疑问，似乎Redis更像一个加强版的Memcached，那么何时使用Memcached,何时使用Redis呢?</p>
+<p><strong>（1）会话缓存（Session Cache）</strong><br>最常用的一种使用Redis的情景是会话缓存（session cache）。用Redis缓存会话比其他存储（如Memcached）的优势在于：Redis提供持久化。当维护一个不是严格要求一致性的缓存时，如果用户的购物车信息全部丢失，大部分人都会不高兴的，现在，他们还会这样吗？幸运的是，随着 Redis 这些年的改进，很容易找到怎么恰当的使用Redis来缓存会话的文档。甚至广为人知的商业平台Magento也提供Redis的插件。</p>
+<p><strong>（2）、全页缓存（FPC）</strong><br>除基本的会话token之外，Redis还提供很简便的FPC平台。回到一致性问题，即使重启了Redis实例，因为有磁盘的持久化，用户也不会看到页面加载速度的下降，这是一个极大改进，类似PHP本地FPC。<br>再次以Magento为例，Magento提供一个插件来使用Redis作为全页缓存后端。</p>
+<p>此外，对WordPress的用户来说，Pantheon有一个非常好的插件 wp-redis，这个插件能帮助你以最快速度加载你曾浏览过的页面。</p>
+<p><strong>（3）、队列</strong><br>Reids在内存存储引擎领域的一大优点是提供 list 和 set 操作，这使得Redis能作为一个很好的消息队列平台来使用。Redis作为队列使用的操作，就类似于本地程序语言（如Python）对 list 的 push/pop 操作。</p>
+<p>如果你快速的在Google中搜索“Redis queues”，你马上就能找到大量的开源项目，这些项目的目的就是利用Redis创建非常好的后端工具，以满足各种队列需求。例如，Celery有一个后台就是使用Redis作为broker，你可以从这里去查看。</p>
+<p><strong>（4），排行榜/计数器</strong><br>Redis在内存中对数字进行递增或递减的操作实现的非常好。集合（Set）和有序集合（Sorted Set）也使得我们在执行这些操作的时候变的非常简单，Redis只是正好提供了这两种数据结构。所以，我们要从排序集合中获取到排名最靠前的10个用户–我们称之为“user_scores”，我们只需要像下面一样执行即可：</p>
+<p>当然，这是假定你是根据你用户的分数做递增的排序。如果你想返回用户及用户的分数，你需要这样执行：</p>
+<p>ZRANGE user_scores 0 10 WITHSCORES</p>
+<p>Agora Games就是一个很好的例子，用Ruby实现的，它的排行榜就是使用Redis来存储数据的，你可以在这里看到。</p>
+<p><strong>（5）、发布/订阅</strong><br>最后（但肯定不是最不重要的）是Redis的发布/订阅功能。发布/订阅的使用场景确实非常多。我已看见人们在社交网络连接中使用，还可作为基于发布/订阅的脚本触发器，甚至用Redis的发布/订阅功能来建立聊天系统！（不，这是真的，你可以去核实）。</p>
+<p>Redis提供的所有特性中，我感觉这个是喜欢的人最少的一个，虽然它为用户提供如果此多功能。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://www.bookstack.cn/read/note-of-interview/framework-redis.md" target="_blank" rel="noopener">https://www.bookstack.cn/read/note-of-interview/framework-redis.md</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/04/如何优化Java-GC「译」/" rel="next" title="如何优化Java GC「译」">
+                <i class="fa fa-chevron-left"></i> 如何优化Java GC「译」
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/05/Memcached笔记/" rel="prev" title="Memcached笔记">
+                Memcached笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/09/05/Redis知识点/" data-title="Redis知识点" data-url="http://yoursite.com/2018/09/05/Redis知识点/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Dylan Lang">
+            
+              <p class="site-author-name" itemprop="name">Dylan Lang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">510</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">120</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-什么是redis"><span class="nav-number">1.</span> <span class="nav-text">1 什么是redis?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Reids的特点"><span class="nav-number">2.</span> <span class="nav-text">2 Reids的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-AOF和-RDB的区别？"><span class="nav-number">3.</span> <span class="nav-text">3 AOF和 RDB的区别？?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-skiplist插入和查询原理（来自360）"><span class="nav-number">4.</span> <span class="nav-text">4 skiplist插入和查询原理（来自360）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-redis持久化方式（百度金融）"><span class="nav-number">5.</span> <span class="nav-text">5 redis持久化方式（百度金融）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-redis过期时间如何实现（来自58赶集）"><span class="nav-number">6.</span> <span class="nav-text">6 redis过期时间如何实现（来自58赶集）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-压缩列表的原理（来自360）"><span class="nav-number">7.</span> <span class="nav-text">7 压缩列表的原理（来自360）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-redis如何清除过期keys"><span class="nav-number">8.</span> <span class="nav-text">8 redis如何清除过期keys</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-redis底层为什么使用跳跃表而不是红黑树"><span class="nav-number">9.</span> <span class="nav-text">9 redis底层为什么使用跳跃表而不是红黑树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-使用过Redis分布式锁么，它是什么回事？"><span class="nav-number">10.</span> <span class="nav-text">10 使用过Redis分布式锁么，它是什么回事？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？"><span class="nav-number">11.</span> <span class="nav-text">11 假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-bgsave的原理是什么？"><span class="nav-number">12.</span> <span class="nav-text">12 bgsave的原理是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-Redis的同步机制了解么？"><span class="nav-number">13.</span> <span class="nav-text">13 Redis的同步机制了解么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-是否使用过Redis集群，集群的原理是什么？"><span class="nav-number">14.</span> <span class="nav-text">14 是否使用过Redis集群，集群的原理是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-为什么redis需要把所有数据放到内存中"><span class="nav-number">15.</span> <span class="nav-text">15 为什么redis需要把所有数据放到内存中?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-Redis是单进程单线程的"><span class="nav-number">16.</span> <span class="nav-text">16 Redis是单进程单线程的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#17-redis的并发竞争问题如何解决"><span class="nav-number">17.</span> <span class="nav-text">17 redis的并发竞争问题如何解决?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#18-使用redis有哪些好处？"><span class="nav-number">18.</span> <span class="nav-text">18 使用redis有哪些好处？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#19-redis相比memcached有哪些优势？"><span class="nav-number">19.</span> <span class="nav-text">19 redis相比memcached有哪些优势？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#20-Memcache与Redis的区别都有哪些？"><span class="nav-number">20.</span> <span class="nav-text">20 Memcache与Redis的区别都有哪些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#21-如何提高redis命中率"><span class="nav-number">21.</span> <span class="nav-text">21 如何提高redis命中率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#22-redis主从是如何实现同步的"><span class="nav-number">22.</span> <span class="nav-text">22 redis主从是如何实现同步的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#23-redis主从中的哨兵是做什么的"><span class="nav-number">23.</span> <span class="nav-text">23 redis主从中的哨兵是做什么的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#24-谈谈redis的LRU算法"><span class="nav-number">24.</span> <span class="nav-text">24 谈谈redis的LRU算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#25-mySQL里有2000w数据，redis中只存20w的数据，如何保证redis中的数据都是热点数据"><span class="nav-number">25.</span> <span class="nav-text">25 mySQL里有2000w数据，redis中只存20w的数据，如何保证redis中的数据都是热点数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-Redis-常见的性能问题都有哪些？如何解决？"><span class="nav-number">26.</span> <span class="nav-text">26 Redis 常见的性能问题都有哪些？如何解决？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#27-Redis支持的数据类型"><span class="nav-number">27.</span> <span class="nav-text">27 Redis支持的数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#28-redis-最适合的场景"><span class="nav-number">28.</span> <span class="nav-text">28 redis 最适合的场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">29.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan Lang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
