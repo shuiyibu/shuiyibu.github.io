@@ -1,0 +1,515 @@
+<hr>
+<p>title: Spring、Spring Boot 和 TestNG 测试指南(3)—Annotations<br>date: 2018-04-27 10:56:20<br>categories: Test<br>tags:</p>
+<ul>
+<li>TestNG</li>
+<li>Spring Boot</li>
+<li>TestPropertySource</li>
+<li>ActiveProfiles</li>
+<li>JsonTest</li>
+<li>OverrideAutoConfiguration</li>
+<li>TestConfiguration</li>
+</ul>
+<hr>
+<p>Spring＆Spring Boot Testing工具提供了一些方便测试的Annotation，本文会对其中的一些做一些讲解。<br><!-- more--></p>
+<h2 id="Annotations-TestPropertySource"><a href="#Annotations-TestPropertySource" class="headerlink" title="Annotations - @TestPropertySource"></a>Annotations - <code>@TestPropertySource</code></h2><p><code>@TestPropertySource</code>可以用来覆盖掉来自于系统环境变量、Java系统属性、<code>@PropertySource</code>的属性。同时<code>@TestPropertySource(properties=...)</code>优先级高于<code>@TestPropertySource(locations=...)</code>。利用它我们可以很方便的在测试代码里微调、模拟配置（比如修改操作系统目录分隔符、数据源等）。</p>
+<h3 id="例子1-使用Spring-Testing工具"><a href="#例子1-使用Spring-Testing工具" class="headerlink" title="例子1: 使用Spring Testing工具"></a>例子1: 使用Spring Testing工具</h3><p>我们先使用<code>@PropertySource</code>将一个外部properties文件加载进来，<code>PropertySourceConfig</code>：</p>
+<pre><code class="Java"><span class="meta">@Configuration</span>
+<span class="meta">@PropertySource</span>(<span class="string">"classpath:me/chanjar/annotation/testps/ex1/property-source.properties"</span>)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PropertySourceConfig</span> </span>{
+}
+</code></pre>
+<pre><code class="YAML"><span class="attr">file:</span> <span class="string">property-source.properties</span>
+<span class="string">foo=abc</span>
+</code></pre>
+<p>然后我们用<code>@TestPropertySource</code>覆盖了这个property:</p>
+<pre><code class="Java"><span class="meta">@TestPropertySource</span>(properties = { <span class="string">"foo=xyz"</span> ...
+</code></pre>
+<p>最后我们测试了是否覆盖成功（结果是成功的）：</p>
+<pre><code class="Java"><span class="meta">@Test</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testOverridePropertySource</span><span class="params">()</span> </span>{
+ assertEquals(environment.getProperty(<span class="string">"foo"</span>), <span class="string">"xyz"</span>);
+}
+</code></pre>
+<p>同时我们还对<code>@TestPropertySource</code>做了一些其他的测试，具体情况你可以自己观察。为了方便你观察<code>@TestPropertySource</code>对系统环境变量和Java系统属性的覆盖效果，我们在一开始打印出了它们的值。</p>
+<p>源代码TestPropertyTest：</p>
+<pre><code class="Java"><span class="meta">@ContextConfiguration</span>(classes = PropertySourceConfig.class)
+<span class="meta">@TestPropertySource</span>(
+   properties = { <span class="string">"foo=xyz"</span>, <span class="string">"bar=uvw"</span>, <span class="string">"PATH=aaa"</span>, <span class="string">"java.runtime.name=bbb"</span> },
+   locations = <span class="string">"classpath:me/chanjar/annotation/testps/ex1/test-property-source.properties"</span>
+)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestPropertyTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> <span class="keyword">implements</span> <span class="title">EnvironmentAware</span> </span>{
+
+ <span class="keyword">private</span> Environment environment;
+
+ <span class="meta">@Override</span>
+ <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setEnvironment</span><span class="params">(Environment environment)</span> </span>{
+   <span class="keyword">this</span>.environment = environment;
+   Map&lt;String, Object&gt; systemEnvironment = ((ConfigurableEnvironment) environment).getSystemEnvironment();
+   System.out.println(<span class="string">"=== System Environment ==="</span>);
+   System.out.println(getMapString(systemEnvironment));
+   System.out.println();
+
+   System.out.println(<span class="string">"=== Java System Properties ==="</span>);
+   Map&lt;String, Object&gt; systemProperties = ((ConfigurableEnvironment) environment).getSystemProperties();
+   System.out.println(getMapString(systemProperties));
+ }
+
+ <span class="meta">@Test</span>
+ <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testOverridePropertySource</span><span class="params">()</span> </span>{
+   assertEquals(environment.getProperty(<span class="string">"foo"</span>), <span class="string">"xyz"</span>);
+ }
+
+ <span class="meta">@Test</span>
+ <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testOverrideSystemEnvironment</span><span class="params">()</span> </span>{
+   assertEquals(environment.getProperty(<span class="string">"PATH"</span>), <span class="string">"aaa"</span>);
+ }
+
+ <span class="meta">@Test</span>
+ <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testOverrideJavaSystemProperties</span><span class="params">()</span> </span>{
+   assertEquals(environment.getProperty(<span class="string">"java.runtime.name"</span>), <span class="string">"bbb"</span>);
+ }
+
+ <span class="meta">@Test</span>
+ <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testInlineTestPropertyOverrideResourceLocationTestProperty</span><span class="params">()</span> </span>{
+   assertEquals(environment.getProperty(<span class="string">"bar"</span>), <span class="string">"uvw"</span>);
+ }
+
+ <span class="function"><span class="keyword">private</span> String <span class="title">getMapString</span><span class="params">(Map&lt;String, Object&gt; map)</span> </span>{
+   <span class="keyword">return</span> String.join(<span class="string">"\n"</span>,
+       map.keySet().stream().map(k -&gt; k + <span class="string">"="</span> + map.get(k)).collect(toList())
+   );
+ }
+}
+</code></pre>
+<h3 id="例子2-使用Spring-Boot-Testing工具"><a href="#例子2-使用Spring-Boot-Testing工具" class="headerlink" title="例子2: 使用Spring Boot Testing工具"></a>例子2: 使用Spring Boot Testing工具</h3><p><code>@TestPropertySource</code>也可以和@SpringBootTest一起使用。</p>
+<p>源代码见TestPropertyTest：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>(classes = PropertySourceConfig.class)
+<span class="meta">@TestPropertySource</span>(
+   properties = { <span class="string">"foo=xyz"</span>, <span class="string">"bar=uvw"</span>, <span class="string">"PATH=aaa"</span>, <span class="string">"java.runtime.name=bbb"</span> },
+   locations = <span class="string">"classpath:me/chanjar/annotation/testps/ex1/test-property-source.properties"</span>
+)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestPropertyTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> <span class="keyword">implements</span> <span class="title">EnvironmentAware</span> </span>{
+ <span class="comment">// ...</span>
+}
+</code></pre>
+<h2 id="Annotations-ActiveProfiles"><a href="#Annotations-ActiveProfiles" class="headerlink" title="Annotations - @ActiveProfiles"></a>Annotations - <a href="https://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/html/integration-testing.html#__activeprofiles">@ActiveProfiles</a></h2><p><a href="https://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/html/integration-testing.html#__activeprofiles">@ActiveProfiles</a>可以用来在测试的时候启用某些Profile的Bean。本章节的测试代码使用了下面的这个配置：</p>
+<pre><code class="Java"><span class="meta">@Configuration</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Config</span> </span>{
+
+  <span class="meta">@Bean</span>
+  <span class="meta">@Profile</span>(<span class="string">"dev"</span>)
+  <span class="function"><span class="keyword">public</span> Foo <span class="title">fooDev</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">new</span> Foo(<span class="string">"dev"</span>);
+  }
+
+  <span class="meta">@Bean</span>
+  <span class="meta">@Profile</span>(<span class="string">"product"</span>)
+  <span class="function"><span class="keyword">public</span> Foo <span class="title">fooProduct</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">new</span> Foo(<span class="string">"product"</span>);
+  }
+
+  <span class="meta">@Bean</span>
+  <span class="meta">@Profile</span>(<span class="string">"default"</span>)
+  <span class="function"><span class="keyword">public</span> Foo <span class="title">fooDefault</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">new</span> Foo(<span class="string">"default"</span>);
+  }
+
+  <span class="meta">@Bean</span>
+  <span class="function"><span class="keyword">public</span> Bar <span class="title">bar</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">new</span> Bar(<span class="string">"no profile"</span>);
+  }
+
+}
+</code></pre>
+<h2 id="例子1：不使用ActiveProfiles"><a href="#例子1：不使用ActiveProfiles" class="headerlink" title="例子1：不使用ActiveProfiles"></a>例子1：不使用ActiveProfiles</h2><p>在没有<a href="https://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/html/integration-testing.html#__activeprofiles">@ActiveProfiles</a>的时候，profile=default和没有设定profile的Bean会被加载到。</p>
+<p>源代码<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/activeprofiles/ex1/ActiveProfileTest.java">ActiveProfileTest</a>：</p>
+<pre><code class="Java"><span class="meta">@ContextConfiguration</span>(classes = Config.class)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ActiveProfileTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> Foo foo;
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> Bar bar;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>{
+    assertEquals(foo.getName(), <span class="string">"default"</span>);
+    assertEquals(bar.getName(), <span class="string">"no profile"</span>);
+  }
+
+}
+</code></pre>
+<h2 id="例子2：使用ActiveProfiles"><a href="#例子2：使用ActiveProfiles" class="headerlink" title="例子2：使用ActiveProfiles"></a>例子2：使用ActiveProfiles</h2><p>当使用了<a href="https://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/html/integration-testing.html#__activeprofiles">@ActiveProfiles</a>的时候，profile匹配的和没有设定profile的Bean会被加载到。</p>
+<p>源代码<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/activeprofiles/ex1/ActiveProfileTest.java">ActiveProfileTest</a>：</p>
+<pre><code class="Java"><span class="meta">@ContextConfiguration</span>(classes = Config.class)
+[<span class="meta">@ActiveProfiles</span>][doc-active-profiles](<span class="string">"product"</span>)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ActiveProfileTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> Foo foo;
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> Bar bar;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>{
+    assertEquals(foo.getName(), <span class="string">"product"</span>);
+    assertEquals(bar.getName(), <span class="string">"no profile"</span>);
+  }
+
+}
+</code></pre>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>在没有<a href="https://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/html/integration-testing.html#__activeprofiles">@ActiveProfiles</a>的时候，profile=default和没有设定profile的Bean会被加载到。</li>
+<li>当使用了<a href="https://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/html/integration-testing.html#__activeprofiles">@ActiveProfiles</a>的时候，profile匹配的和没有设定profile的Bean会被加载到。</li>
+</ul>
+<p><a href="https://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/html/integration-testing.html#__activeprofiles">@ActiveProfiles</a>同样也可以和@SpringBootTest配合使用，这里就不举例说明了。</p>
+<hr>
+<h2 id="Annotations-JsonTest"><a href="#Annotations-JsonTest" class="headerlink" title="Annotations - @JsonTest"></a>Annotations - @JsonTest</h2><p><a href="http://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/test/autoconfigure/json/JsonTest.html">@JsonTest</a>是Spring Boot提供的方便测试JSON序列化反序列化的测试工具，在Spring Boot的<a href="http://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/reference/htmlsingle/#boot-features-testing-spring-boot-applications-testing-autoconfigured-json-tests">文档</a>中有一些介绍。</p>
+<p>需要注意的是<a href="http://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/test/autoconfigure/json/JsonTest.html">@JsonTest</a>需要Jackson的<code>ObjectMapper</code>，事实上如果你的Spring Boot项目添加了<code>spring-web</code>的Maven依赖，<a href="http://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/autoconfigure/jackson/JacksonAutoConfiguration.html">JacksonAutoConfiguration</a>就会自动为你配置一个：</p>
+<pre><code class="XML"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-autoconfigure<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>
+
+<span class="tag">&lt;<span class="name">dependency</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>
+</code></pre>
+<p>这里没有提供关于日期时间的例子，关于这个比较复杂，可以看我的另一篇文章：<a href="https://github.com/chanjarster/springboot-jackson-datetime-example">Spring Boot Jackson对于日期时间类型处理的例子</a>。</p>
+<h2 id="例子1：简单例子"><a href="#例子1：简单例子" class="headerlink" title="例子1：简单例子"></a>例子1：简单例子</h2><p>源代码见<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/jsontest/ex1/SimpleJsonTest.java">SimpleJsonTest</a>：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>(classes = SimpleJsonTest.class)
+<span class="meta">@JsonTest</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleJsonTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> JacksonTester&lt;Foo&gt; json;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSerialize</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    Foo details = <span class="keyword">new</span> Foo(<span class="string">"Honda"</span>, <span class="number">12</span>);
+    <span class="comment">// 使用通包下的json文件测试结果是否正确</span>
+    assertThat(<span class="keyword">this</span>.json.write(details)).isEqualToJson(<span class="string">"expected.json"</span>);
+    <span class="comment">// 或者使用基于JSON path的校验</span>
+    assertThat(<span class="keyword">this</span>.json.write(details)).hasJsonPathStringValue(<span class="string">"@.name"</span>);
+    assertThat(<span class="keyword">this</span>.json.write(details)).extractingJsonPathStringValue(<span class="string">"@.name"</span>).isEqualTo(<span class="string">"Honda"</span>);
+    assertThat(<span class="keyword">this</span>.json.write(details)).hasJsonPathNumberValue(<span class="string">"@.age"</span>);
+    assertThat(<span class="keyword">this</span>.json.write(details)).extractingJsonPathNumberValue(<span class="string">"@.age"</span>).isEqualTo(<span class="number">12</span>);
+  }
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDeserialize</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    String content = <span class="string">"{\"name\":\"Ford\",\"age\":13}"</span>;
+    Foo actual = <span class="keyword">this</span>.json.parseObject(content);
+    assertThat(actual).isEqualTo(<span class="keyword">new</span> Foo(<span class="string">"Ford"</span>, <span class="number">13</span>));
+    assertThat(actual.getName()).isEqualTo(<span class="string">"Ford"</span>);
+    assertThat(actual.getAge()).isEqualTo(<span class="number">13</span>);
+
+  }
+
+}
+</code></pre>
+<h2 id="例子2-测试-JsonComponent"><a href="#例子2-测试-JsonComponent" class="headerlink" title="例子2: 测试@JsonComponent"></a>例子2: 测试@JsonComponent</h2><p><a href="http://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/test/autoconfigure/json/JsonTest.html">@JsonTest</a>可以用来测试<a href="http://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/jackson/JsonComponent.html">@JsonComponent</a>。</p>
+<p>这个例子里使用了自定义的<code>@JsonComponent</code> <a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/jsontest/ex2/FooJsonComponent.java">FooJsonComponent</a>：</p>
+<pre><code class="Java"><span class="meta">@JsonComponent</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooJsonComponent</span> </span>{
+
+  <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Serializer</span> <span class="keyword">extends</span> <span class="title">JsonSerializer</span>&lt;<span class="title">Foo</span>&gt; </span>{
+    <span class="meta">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Foo value, JsonGenerator gen, SerializerProvider serializers)</span></span>
+<span class="function">        <span class="keyword">throws</span> IOException, JsonProcessingException </span>{
+      <span class="comment">// ...</span>
+    }
+
+  }
+
+  <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Deserializer</span> <span class="keyword">extends</span> <span class="title">JsonDeserializer</span>&lt;<span class="title">Foo</span>&gt; </span>{
+
+    <span class="meta">@Override</span>
+    <span class="function"><span class="keyword">public</span> Foo <span class="title">deserialize</span><span class="params">(JsonParser p, DeserializationContext ctxt)</span> <span class="keyword">throws</span> IOException, JsonProcessingException </span>{
+      <span class="comment">// ...</span>
+    }
+
+  }
+
+}
+</code></pre>
+<p>测试代码<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/jsontest/ex2/JsonComponentJacksonTest.java">JsonComponentJsonTest</a>：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>(classes = { JsonComponentJacksonTest.class, FooJsonComponent.class })
+<span class="meta">@JsonTest</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JsonComponentJacksonTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> JacksonTester&lt;Foo&gt; json;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSerialize</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    Foo details = <span class="keyword">new</span> Foo(<span class="string">"Honda"</span>, <span class="number">12</span>);
+    assertThat(<span class="keyword">this</span>.json.write(details).getJson()).isEqualTo(<span class="string">"\"name=Honda,age=12\""</span>);
+  }
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDeserialize</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    String content = <span class="string">"\"name=Ford,age=13\""</span>;
+    Foo actual = <span class="keyword">this</span>.json.parseObject(content);
+    assertThat(actual).isEqualTo(<span class="keyword">new</span> Foo(<span class="string">"Ford"</span>, <span class="number">13</span>));
+    assertThat(actual.getName()).isEqualTo(<span class="string">"Ford"</span>);
+    assertThat(actual.getAge()).isEqualTo(<span class="number">13</span>);
+
+  }
+
+}
+</code></pre>
+<h2 id="例子3-使用-ContextConfiguration"><a href="#例子3-使用-ContextConfiguration" class="headerlink" title="例子3: 使用@ContextConfiguration"></a>例子3: 使用@ContextConfiguration</h2><p>事实上<a href="http://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/test/autoconfigure/json/JsonTest.html">@JsonTest</a>也可以配合<code>@ContextConfiguration</code>一起使用。</p>
+<p>源代码见<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/jsontest/ex3/ThinJsonTest.java">ThinJsonTest</a>：</p>
+<pre><code class="Java"><span class="meta">@JsonTest</span>
+<span class="meta">@ContextConfiguration</span>(classes = JsonTest.class)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThinJsonTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> JacksonTester&lt;Foo&gt; json;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSerialize</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    <span class="comment">// ...</span>
+  }
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDeserialize</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    <span class="comment">// ...</span>
+  }
+
+}
+</code></pre>
+<hr>
+<h2 id="Annotations-OverrideAutoConfiguration"><a href="#Annotations-OverrideAutoConfiguration" class="headerlink" title="Annotations - @OverrideAutoConfiguration"></a>Annotations - @OverrideAutoConfiguration</h2><p>在<a href="https://github.com/chanjarster/spring-test-examples/blob/master/chapter_1_s3_spring_boot_testing.md">Chapter 1: 基本用法 - 使用Spring Boot Testing工具</a>里提到：</p>
+<blockquote>
+<p>除了单元测试（不需要初始化ApplicationContext的测试）外，尽量将测试配置和生产配置保持一致。比如如果生产配置里启用了AutoConfiguration，那么测试配置也应该启用。因为只有这样才能够在测试环境下发现生产环境的问题，也避免出现一些因为配置不同导致的奇怪问题。</p>
+</blockquote>
+<p>那么当我们想在测试代码里关闭Auto Configuration如何处理？</p>
+<ol>
+<li>方法1：提供另一套测试配置</li>
+<li>方法2：使用<code>@OverrideAutoConfiguration</code></li>
+</ol>
+<p>方法1虽然能够很好的解决问题，但是比较麻烦。而方法2则能够不改变原有配置、不提供新的配置的情况下，就能够关闭Auto Configuration。</p>
+<p>在本章节的例子里，我们自己做了一个Auto Configuration类，<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/main/java/me/chanjar/annotation/overrideac/AutoConfigurationEnableLogger.java">AutoConfigurationEnableLogger</a>：</p>
+<pre><code class="Java"><span class="meta">@Configuration</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AutoConfigurationEnableLogger</span> </span>{
+
+  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(AutoConfigurationEnableLogger.class);
+
+  <span class="function"><span class="keyword">public</span> <span class="title">AutoConfigurationEnableLogger</span><span class="params">()</span> </span>{
+    LOGGER.info(<span class="string">"Auto Configuration Enabled"</span>);
+  }
+
+}
+</code></pre>
+<p>并且在<code>META-INF/spring.factories</code>里注册了它：</p>
+<pre><code class="YAML"><span class="string">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\</span>
+<span class="string">me.chanjar.annotation.overrideac.AutoConfigurationEnableLogger</span>
+</code></pre>
+<p>这样一来，只要Spring Boot启动了Auto Configuration就会打印出日志：</p>
+<pre><code class="Java"><span class="number">2017</span>-<span class="number">08</span>-<span class="number">24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">52.789</span>  INFO <span class="number">13212</span> --- [           main] m.c.a.o.AutoConfigurationEnableLogger    : Auto Configuration Enabled
+</code></pre>
+<h2 id="例子1：未关闭Auto-Configuration"><a href="#例子1：未关闭Auto-Configuration" class="headerlink" title="例子1：未关闭Auto Configuration"></a>例子1：未关闭Auto Configuration</h2><p>源代码见<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/overrideac/ex1/BootTest.java">BootTest</a>：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>
+<span class="meta">@SpringBootApplication</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BootTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testName</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+
+  }
+}
+</code></pre>
+<p>查看输出的日志，会发现Auto Configuration已经启用。</p>
+<h2 id="例子2：关闭Auto-Configuration"><a href="#例子2：关闭Auto-Configuration" class="headerlink" title="例子2：关闭Auto Configuration"></a>例子2：关闭Auto Configuration</h2><p>然后我们用<a href="http://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/test/autoconfigure/OverrideAutoConfiguration.html">@OverrideAutoConfiguration</a>关闭了Auto Configuration。</p>
+<p>源代码见<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/overrideac/ex2/BootTest.java">BootTest</a>：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>
+<span class="meta">@OverrideAutoConfiguration</span>(enabled = <span class="keyword">false</span>)
+<span class="meta">@SpringBootApplication</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BootTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testName</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+
+  }
+}
+</code></pre>
+<p>再查看输出的日志，就会发现Auto Configuration已经关闭。</p>
+<hr>
+<h2 id="Annotations-TestConfiguration"><a href="#Annotations-TestConfiguration" class="headerlink" title="Annotations - @TestConfiguration"></a>Annotations - @TestConfiguration</h2><h1 id="Chapter-2-Annotations-TestConfiguration"><a href="#Chapter-2-Annotations-TestConfiguration" class="headerlink" title="Chapter 2: Annotations - @TestConfiguration"></a>Chapter 2: Annotations - @TestConfiguration</h1><p><a href="https://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/test/context/TestConfiguration.html">@TestConfiguration</a>是Spring Boot Test提供的一种工具，用它我们可以在一般的@Configuration之外补充测试专门用的Bean或者自定义的配置。</p>
+<p><a href="https://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/test/context/TestConfiguration.html">@TestConfiguration</a>实际上是一种<a href="https://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/test/context/TestComponent.html">@TestComponent</a>，<a href="https://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/test/context/TestComponent.html">@TestComponent</a>是另一种@Component，在语义上用来指定某个Bean是专门用于测试的。</p>
+<p>需要特别注意，你应该使用一切办法避免在生产代码中自动扫描到<a href="https://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/test/context/TestComponent.html">@TestComponent</a>。 如果你使用<code>@SpringBootApplication</code>启动测试或者生产代码，<a href="https://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/test/context/TestComponent.html">@TestComponent</a>会自动被排除掉，如果不是则需要像<code>@SpringBootApplication</code>一样添加<code>TypeExcludeFilter</code>：</p>
+<pre><code class="Java"><span class="comment">//...</span>
+<span class="meta">@ComponentScan</span>(excludeFilters = {
+  <span class="meta">@Filter</span>(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
+  <span class="comment">// ...})</span>
+<span class="keyword">public</span> <span class="meta">@interface</span> SpringBootApplication
+</code></pre>
+<h3 id="例子1：作为内部类"><a href="#例子1：作为内部类" class="headerlink" title="例子1：作为内部类"></a>例子1：作为内部类</h3><p><a href="https://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/test/context/TestConfiguration.html">@TestConfiguration</a>和<code>@Configuration</code>不同，它不会阻止<code>@SpringBootTest</code>去查找机制（在<a href="https://github.com/chanjarster/spring-test-examples/blob/master/chapter_1_s3_spring_boot_testing.md">Chapter 1: 基本用法 - 使用Spring Boot Testing工具 - 例子4</a>提到过），正如<a href="https://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/test/context/TestConfiguration.html">@TestConfiguration</a>的javadoc所说，它只是对既有配置的一个补充。</p>
+<p>所以我们在测试代码上添加<code>@SpringBootConfiguration</code>，用<code>@SpringBootTest(classes=...)</code>或者在同package里添加<code>@SpringBootConfiguration</code>类都是可以的。</p>
+<p>而且<a href="https://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/test/context/TestConfiguration.html">@TestConfiguration</a>作为内部类的时候它是会被<code>@SpringBootTest</code>扫描掉的，这点和<code>@Configuration</code>一样。</p>
+<p>测试代码<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/testconfig/ex1/TestConfigurationTest.java">TestConfigurationTest</a>：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>
+<span class="meta">@SpringBootConfiguration</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestConfigurationTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> Foo foo;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPlusCount</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    assertEquals(foo.getName(), <span class="string">"from test config"</span>);
+  }
+
+  <span class="meta">@TestConfiguration</span>
+  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestConfig</span> </span>{
+
+    <span class="meta">@Bean</span>
+    <span class="function"><span class="keyword">public</span> Foo <span class="title">foo</span><span class="params">()</span> </span>{
+      <span class="keyword">return</span> <span class="keyword">new</span> Foo(<span class="string">"from test config"</span>);
+    }
+
+  }
+}
+</code></pre>
+<h3 id="例子2：对-Configuration的补充和覆盖"><a href="#例子2：对-Configuration的补充和覆盖" class="headerlink" title="例子2：对@Configuration的补充和覆盖"></a>例子2：对@Configuration的补充和覆盖</h3><p><a href="https://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/test/context/TestConfiguration.html">@TestConfiguration</a>能够：</p>
+<ol>
+<li>补充额外的Bean</li>
+<li>覆盖已存在的Bean</li>
+</ol>
+<p>要特别注意第二点，<a href="https://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/api/org/springframework/boot/test/context/TestConfiguration.html">@TestConfiguration</a>能够直接覆盖已存在的Bean，这一点正常的@Configuration是做不到的。</p>
+<p>我们先提供了一个正常的@Configuration（<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/testconfig/ex2/Config.java">Config</a>）：</p>
+<pre><code class="Java"><span class="meta">@Configuration</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Config</span> </span>{
+
+  <span class="meta">@Bean</span>
+  <span class="function"><span class="keyword">public</span> Foo <span class="title">foo</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">new</span> Foo(<span class="string">"from config"</span>);
+  }
+}
+</code></pre>
+<p>又提供了一个@TestConfiguration，在里面覆盖了<code>foo</code> Bean，并且提供了<code>foo2</code> Bean（<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/testconfig/ex2/TestConfig.java">TestConfig</a>）：</p>
+<pre><code class="Java"><span class="meta">@TestConfiguration</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestConfig</span> </span>{
+
+  <span class="comment">// 这里不需要@Primary之类的机制，直接就能够覆盖</span>
+  <span class="meta">@Bean</span>
+  <span class="function"><span class="keyword">public</span> Foo <span class="title">foo</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">new</span> Foo(<span class="string">"from test config"</span>);
+  }
+
+  <span class="meta">@Bean</span>
+  <span class="function"><span class="keyword">public</span> Foo <span class="title">foo2</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">new</span> Foo(<span class="string">"from test config2"</span>);
+  }
+}
+</code></pre>
+<p>测试代码<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/testconfig/ex2/TestConfigurationTest.java">TestConfigurationTest</a>：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>(classes = { Config.class, TestConfig.class })
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestConfigurationTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Qualifier</span>(<span class="string">"foo"</span>)
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> Foo foo;
+
+  <span class="meta">@Qualifier</span>(<span class="string">"foo2"</span>)
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> Foo foo2;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPlusCount</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    assertEquals(foo.getName(), <span class="string">"from test config"</span>);
+    assertEquals(foo2.getName(), <span class="string">"from test config2"</span>);
+
+  }
+
+}
+</code></pre>
+<p>再查看输出的日志，就会发现Auto Configuration已经关闭。</p>
+<h2 id="例子3：避免-TestConfiguration被扫描到"><a href="#例子3：避免-TestConfiguration被扫描到" class="headerlink" title="例子3：避免@TestConfiguration被扫描到"></a>例子3：避免@TestConfiguration被扫描到</h2><p>在上面的这个例子里的<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/testconfig/ex2/TestConfig.java">TestConfig</a>是会被@ComponentScan扫描到的，如果要避免被扫描到，在本文开头已经提到过了。</p>
+<p>先来看一下没有做任何过滤的情形，我们先提供了一个@SpringBootConfiguration（<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/testconfig/ex3/IncludeConfig.java">IncludeConfig</a>）：</p>
+<pre><code class="Java"><span class="meta">@SpringBootConfiguration</span>
+<span class="meta">@ComponentScan</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IncludeConfig</span> </span>{
+}
+</code></pre>
+<p>然后有个测试代码引用了它（<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/testconfig/ex3/TestConfigIncludedTest.java">TestConfigIncludedTest</a>）：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>(classes = IncludeConfig.class)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestConfigIncludedTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>(required = <span class="keyword">false</span>)
+  <span class="keyword">private</span> TestConfig testConfig;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPlusCount</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    assertNotNull(testConfig);
+
+  }
+
+}
+</code></pre>
+<p>从这段代码可以看到<code>TestConfig</code>被加载了。</p>
+<p>现在我们使用TypeExcludeFilter来过滤@TestConfiguration（<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/testconfig/ex3/ExcludeConfig1.java">ExcludeConfig1</a>）：</p>
+<pre><code class="Java"><span class="meta">@SpringBootConfiguration</span>
+<span class="meta">@ComponentScan</span>(excludeFilters = {
+    <span class="meta">@ComponentScan</span>.Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class)
+})
+<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ExcludeConfig1</span> </span>{
+}
+</code></pre>
+<p>再来看看结果（<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/testconfig/ex3/TestConfigExclude_1_Test.java">TestConfigExclude_1_Test</a>）：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>(classes = ExcludeConfig1.class)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestConfigExclude_1_Test</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>(required = <span class="keyword">false</span>)
+  <span class="keyword">private</span> TestConfig testConfig;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    assertNull(testConfig);
+
+  }
+
+}
+</code></pre>
+<p>还可以用@SpringBootApplication来排除<code>TestConfig</code>（<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/testconfig/ex3/ExcludeConfig2.java">ExcludeConfig2</a>）：</p>
+<pre><code class="Java"><span class="meta">@SpringBootApplication</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ExcludeConfig2</span> </span>{
+}
+</code></pre>
+<p>看看结果（<a href="https://github.com/chanjarster/spring-test-examples/blob/master/annotation/src/test/java/me/chanjar/annotation/testconfig/ex3/TestConfigExclude_2_Test.java">TestConfigExclude_2_Test</a>）：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>(classes = ExcludeConfig2.class)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestConfigExclude_2_Test</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>(required = <span class="keyword">false</span>)
+  <span class="keyword">private</span> TestConfig testConfig;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPlusCount</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    assertNull(testConfig);
+
+  }
+
+}
+</code></pre>
+<hr>
+<hr>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="http://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/htmlsingle/#testing">Spring框架测试</a></li>
+<li><a href="http://docs.spring.io/spring-boot/docs/.5.4.RELEASE/reference/htmlsingle/#boot-features-testing">春季启动测试</a></li>
+<li><a href="https://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/html/integration-testing.html#testcontext-ctx-management-property-sources">具有测试属性源的上下文配置</a></li>
+<li><a href="http://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/htmlsingle/#testing">Spring Framework Testing</a></li>
+<li><a href="http://docs.spring.io/spring-boot/docs/.5.4.RELEASE/reference/htmlsingle/#boot-features-testing">Spring Boot Testing</a></li>
+<li><a href="http://docs.spring.io/spring-boot/docs/.5.4.RELEASE/reference/htmlsingle/#boot-features-testing-spring-boot-applications-testing-autoconfigured-json-tests">@JsonTest</a></li>
+<li><a href="http://docs.spring.io/spring-boot/docs/.5.4.RELEASE/api/org/springframework/boot/jackson/JsonComponent.html">JsonComponent</a></li>
+<li><a href="http://docs.spring.io/spring-boot/docs/.5.4.RELEASE/api/org/springframework/boot/autoconfigure/jackson/JacksonAutoConfiguration.html">JacksonAutoConfiguration</a></li>
+<li><a href="http://docs.spring.io/spring-boot/docs/.5.4.RELEASE/api/org/springframework/boot/test/json/JacksonTester.html">JacksonTester</a></li>
+<li><a href="http://docs.spring.io/spring-boot/docs/.5.4.RELEASE/api/org/springframework/boot/test/json/GsonTester.html">GsonTester</a></li>
+<li><a href="http://docs.spring.io/spring-boot/docs/.5.4.RELEASE/api/org/springframework/boot/test/json/BasicJsonTester.html">BasicJsonTester</a></li>
+<li><a href="https://docs.spring.io/spring-boot/docs/.5.4.RELEASE/reference/htmlsingle/#boot-features-testing-spring-boot-applications-detecting-config">Detecting test configuration</a></li>
+<li><a href="https://docs.spring.io/spring-boot/docs/.5.4.RELEASE/reference/htmlsingle/#boot-features-testing-spring-boot-applications-excluding-config">Excluding test configuration</a></li>
+</ul>

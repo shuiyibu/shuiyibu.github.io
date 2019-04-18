@@ -1,0 +1,328 @@
+<hr>
+<p>title: Spring、Spring Boot 和 TestNG 测试指南(2)---@SpringBootTest<br>date: 2018-04-27 10:18:49<br>categories: Test<br>tags:</p>
+<ul>
+<li>TestNG</li>
+<li>Spring Boot</li>
+<li>SpringBootTest</li>
+</ul>
+<hr>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本项目所有的项目均采用Maven的标准目录结构：</p>
+<ul>
+<li>src/main/java，程序java文件目录</li>
+<li>src/main/resource，程序资源文件目录</li>
+<li>src/test/java，测试代码目录</li>
+<li>src/test/resources，测试资源文件目录</li>
+</ul>
+<p>并且所有Maven项目都可以使用<code>mvn clean test</code>方式跑单元测试，特别需要注意，只有文件名是<code>*Test.java</code>才会被执行，一定要注意这一点哦。</p>
+<h2 id="认识TestNG"><a href="#认识TestNG" class="headerlink" title="认识TestNG"></a>认识TestNG</h2><p>先认识一下TestNG，这里有一个<code>FooServiceImpl</code>，里面有两个方法，一个是给计数器+1，一个是获取当前计数器的值：</p>
+<pre><code class="Java"><span class="meta">@Component</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooServiceImpl</span> <span class="keyword">implements</span> <span class="title">FooService</span> </span>{
+
+  <span class="keyword">private</span> <span class="keyword">int</span> count = <span class="number">0</span>;
+
+  <span class="meta">@Override</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">plusCount</span><span class="params">()</span> </span>{
+    <span class="keyword">this</span>.count++;
+  }
+
+  <span class="meta">@Override</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> count;
+  }
+
+}
+</code></pre>
+<p>然后我们针对它有一个<code>FooServiceImplTest</code>作为UT：</p>
+<pre><code class="Java"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooServiceImplTest</span> </span>{
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPlusCount</span><span class="params">()</span> </span>{
+    FooService foo = <span class="keyword">new</span> FooServiceImpl();
+    assertEquals(foo.getCount(), <span class="number">0</span>);
+
+    foo.plusCount();
+    assertEquals(foo.getCount(), <span class="number">1</span>);
+  }
+
+}
+</code></pre>
+<p>注意看代码里的<code>assertEquals(…)</code>，我们利用它来判断<code>Foo.getCount</code>方法是否按照预期执行。所以，所谓的测试其实就是给定输入、执行一些方法，<code>assert</code>结果是否符合预期的过程。</p>
+<h2 id="使用Spring-Testing工具"><a href="#使用Spring-Testing工具" class="headerlink" title="使用Spring Testing工具"></a>使用Spring Testing工具</h2><p>既然我们现在开发的是一个Spring项目，那么肯定会用到Spring Framework的各种特性，这些特性实在是太好用了，它能够大大提高我们的开发效率。那么自然而然，你会想在测试代码里也能够利用Spring Framework提供的特性，来提高测试代码的开发效率。这部分我们会讲如何使用Spring提供的测试工具来做测试。</p>
+<ul>
+<li><p>例子1<br>源代码见<code>FooServiceImplTest</code>：</p>
+<pre><code class="Java"><span class="meta">@ContextConfiguration</span>(classes = FooServiceImpl.class)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooServiceImplTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> FooService foo;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPlusCount</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    assertEquals(foo.getCount(), <span class="number">0</span>);
+
+    foo.plusCount();
+    assertEquals(foo.getCount(), <span class="number">1</span>);
+  }
+
+}
+</code></pre>
+<p>在上面的源代码里我们要注意三点：</p>
+<ul>
+<li>测试类继承了<code>AbstractTestNGSpringContextTests</code>，如果不这么做测试类是无法启动Spring容器的</li>
+<li>使用了<code>@ContextConfiguration</code>来加载被测试的Bean：<code>FooServiceImpl</code></li>
+<li><code>FooServiceImpl</code>是<code>@Component</code></li>
+</ul>
+</li>
+</ul>
+<p>以上三点缺一不可。</p>
+<ul>
+<li><p>例子2<br>在这个例子里，我们将<code>@Configuration</code>作为nested static class放在测试类里，根据<code>@ContextConfiguration</code>的文档，它会在默认情况下查找测试类的nested static <code>@Configuration</code> class，用它来导入Bean。<br>源代码见<code>FooServiceImplTest</code>：</p>
+<pre><code class="Java"><span class="meta">@ContextConfiguration</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooServiceImplTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> FooService foo;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPlusCount</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    assertEquals(foo.getCount(), <span class="number">0</span>);
+
+    foo.plusCount();
+    assertEquals(foo.getCount(), <span class="number">1</span>);
+  }
+
+  <span class="meta">@Configuration</span>
+  <span class="meta">@Import</span>(FooServiceImpl.class)
+  <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Config</span> </span>{
+  }
+
+}
+</code></pre>
+</li>
+<li><p>例子3<br>在这个例子里，我们将<code>@Configuration</code>放到外部，并让<code>@ContextConfiguration</code>去加载。<br>源代码见Config：</p>
+<pre><code class="Java"><span class="meta">@Configuration</span>
+<span class="meta">@Import</span>(FooServiceImpl.class)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Config</span> </span>{
+}
+</code></pre>
+<p>FooServiceImplTest：</p>
+<pre><code class="Java"><span class="meta">@ContextConfiguration</span>(classes = Config.class)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooServiceImplTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> FooService foo;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPlusCount</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    assertEquals(foo.getCount(), <span class="number">0</span>);
+
+    foo.plusCount();
+    assertEquals(foo.getCount(), <span class="number">1</span>);
+  }
+
+}
+</code></pre>
+<p>需要注意的是，如果@Configuration是专供某个测试类使用的话，把它放到外部并不是一个好主意，因为它有可能会被@ComponentScan扫描到，从而产生一些奇怪的问题。</p>
+</li>
+</ul>
+<p><strong>这三个例子的区别是什么？??????????????????????</strong></p>
+<h2 id="使用Spring-Boot-Testing工具"><a href="#使用Spring-Boot-Testing工具" class="headerlink" title="使用Spring Boot Testing工具"></a>使用Spring Boot Testing工具</h2><p>前面一个部分讲解了如何使用Spring Testing工具来测试Spring项目，现在我们讲解如何使用Spring Boot Testing工具来测试Spring Boot项目。</p>
+<p>在Spring Boot项目里既可以使用Spring Boot Testing工具，也可以使用Spring Testing工具。 在Spring项目里，一般使用Spring Testing工具，虽然理论上也可以使用Spring Boot Testing，不过因为Spring Boot Testing工具会引入Spring Boot的一些特性比如AutoConfiguration，这可能会给你的测试带来一些奇怪的问题，所以一般不推荐这样做。</p>
+<ul>
+<li><p>例子1：直接加载Bean<br>使用Spring Boot Testing工具只需要将<code>@ContextConfiguration</code>改成<code>@SpringBootTest</code>即可，源代码见FooServiceImpltest：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>(classes = FooServiceImpl.class)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooServiceImplTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> FooService foo;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPlusCount</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    assertEquals(foo.getCount(), <span class="number">0</span>);
+
+    foo.plusCount();
+    assertEquals(foo.getCount(), <span class="number">1</span>);
+  }
+
+}
+</code></pre>
+</li>
+<li><p>例子2：使用内嵌<code>@Configuration</code>加载Bean<br>源代码见FooServiceImpltest：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooServiceImplTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> FooService foo;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPlusCount</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    assertEquals(foo.getCount(), <span class="number">0</span>);
+
+    foo.plusCount();
+    assertEquals(foo.getCount(), <span class="number">1</span>);
+  }
+
+  <span class="meta">@Configuration</span>
+  <span class="meta">@Import</span>(FooServiceImpl.class)
+  <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Config</span> </span>{
+  }
+
+}
+</code></pre>
+</li>
+<li><p>例子3：使用外部<code>@Configuration</code>加载Bean</p>
+<pre><code class="Java">Config：
+
+  <span class="meta">@Configuration</span>
+  <span class="meta">@Import</span>(FooServiceImpl.class)
+  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Config</span> </span>{
+  }
+</code></pre>
+<p>FooServiceImpltest：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>(classes = Config.class)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooServiceImplTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> FooService foo;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPlusCount</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    assertEquals(foo.getCount(), <span class="number">0</span>);
+
+    foo.plusCount();
+    assertEquals(foo.getCount(), <span class="number">1</span>);
+  }
+
+}
+</code></pre>
+<p>这个例子和例子2差不多，只不过将@Configuration放到了外部。</p>
+</li>
+<li><p>例子4：使用<code>@SpringBootConfiguration</code><br>前面的例子<code>@SpringBootTest</code>的用法和<code>@ContextConfiguration</code>差不多。不过根据<code>@SpringBootTest</code>的文档：</p>
+<ul>
+<li>它会尝试加载<code>@SpringBootTest(classes=…)</code>的定义的Annotated classes。Annotated classes的定义在ContextConfiguration中有说明。</li>
+<li>如果没有设定<code>@SpringBootTest(classes=…)</code>，那么会去找当前测试类的nested @Configuration class</li>
+<li>如果上一步找到，则会尝试查找@SpringBootConfiguration，查找的路径有：<ul>
+<li>看当前测试类是否@SpringBootConfiguration，</li>
+<li>在当前测试类所在的package里找。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>所以我们可以利用这个特性来进一步简化测试代码。<br><code>Config</code>：</p>
+<pre><code class="Java"><span class="meta">@SpringBootConfiguration</span>
+<span class="meta">@Import</span>(FooServiceImpl.class)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Config</span> </span>{
+}
+</code></pre>
+<p><code>FooServiceImpltest</code>：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooServiceImplTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> FooService foo;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPlusCount</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    assertEquals(foo.getCount(), <span class="number">0</span>);
+
+    foo.plusCount();
+    assertEquals(foo.getCount(), <span class="number">1</span>);
+  }
+
+}
+</code></pre>
+<ul>
+<li><p>例子5：使用<code>@ComponentScan</code>扫描Bean<br>前面的例子我们都使用<code>@Import</code>来加载Bean，虽然这中方法很精确，但是在大型项目中很麻烦。<br>在常规的Spring Boot项目中，一般都是依靠自动扫描机制来加载Bean的，所以我们希望我们的测试代码也能够利用自动扫描机制来加载Bean。<br><code>Config</code>：</p>
+<pre><code class="Java"><span class="meta">@SpringBootConfiguration</span>
+<span class="meta">@ComponentScan</span>(basePackages = <span class="string">"me.chanjar.basic.service"</span>)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Config</span> </span>{
+}
+</code></pre>
+<p><code>FooServiceImpltest</code>：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooServiceImplTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> FooService foo;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPlusCount</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    assertEquals(foo.getCount(), <span class="number">0</span>);
+
+    foo.plusCount();
+    assertEquals(foo.getCount(), <span class="number">1</span>);
+  }
+
+}
+</code></pre>
+</li>
+<li><p>例子6：使用<code>@SpringBootApplication</code><br>也可以在测试代码上使用<code>@SpringBootApplication</code>，它有这么几个好处：</p>
+<ul>
+<li>自身SpringBootConfiguration</li>
+<li>提供了<code>@ComponentSca</code>n配置，以及默认的excludeFilter，有了这些filter Spring在初始化ApplicationContext的时候会排除掉某些Bean和<code>@Configuration</code></li>
+<li>启用了<code>EnableAutoConfiguration</code>，这个特性能够利用Spring Boot来自动化配置所需要的外部资源，比如数据库、JMS什么的，这在集成测试的时候非常有用。</li>
+</ul>
+</li>
+<li><p><code>Config</code>：</p>
+<pre><code class="Java"><span class="meta">@SpringBootApplication</span>(scanBasePackages = <span class="string">"me.chanjar.basic.service"</span>)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Config</span> </span>{
+}
+</code></pre>
+<p><code>FooServiceImpltest</code>：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooServiceImplTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> FooService foo;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPlusCount</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+    assertEquals(foo.getCount(), <span class="number">0</span>);
+
+    foo.plusCount();
+    assertEquals(foo.getCount(), <span class="number">1</span>);
+  }
+
+}
+</code></pre>
+<p>避免<code>@SpringBootConfiguration</code>冲突<br>当<code>@SpringBootTest</code>没有定义(classes=…，且没有找到nested @Configuration class的情况下，会尝试查询<code>@SpringBootConfiguration</code>，如果找到多个的话则会抛出异常：</p>
+<pre><code class="Java">Caused by: java.lang.IllegalStateException: Found multiple @SpringBootConfiguration annotated classes [Generic bean: class [...]; scope=; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null; defined in file [/Users/qianjia/workspace-os/spring-test-examples/basic/target/test-classes/me/chanjar/basic/springboot/ex7/FooServiceImplTest1.class], Generic bean: class [me.chanjar.basic.springboot.ex7.FooServiceImplTest2]; scope=; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null; defined in file [...]]
+</code></pre>
+<p>比如以下代码就会造成这个问题：</p>
+<pre><code class="Java"><span class="meta">@SpringBootApplication</span>(scanBasePackages = <span class="string">"me.chanjar.basic.service"</span>)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Config1</span> </span>{
+}
+
+<span class="meta">@SpringBootApplication</span>(scanBasePackages = <span class="string">"me.chanjar.basic.service"</span>)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Config2</span> </span>{
+}
+
+<span class="meta">@SpringBootTest</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooServiceImplTest</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+  <span class="comment">// ...</span>
+}
+</code></pre>
+<p>解决这个问题的方法有就是避免自动查询<code>@SpringBootConfiguration</code>：</p>
+<ul>
+<li>定义@SpringBootTest(classes=…)</li>
+<li>提供nested @Configuration class</li>
+</ul>
+</li>
+</ul>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><p>除了单元测试（不需要初始化ApplicationContext的测试）外，尽量将测试配置和生产配置保持一致。比如如果生产配置里启用了AutoConfiguration，那么测试配置也应该启用。因为只有这样才能够在测试环境下发现生产环境的问题，也避免出现一些因为配置不同导致的奇怪问题。</p>
+<p>在测试代码之间尽量做到配置共用，这么做的优点有3个：</p>
+<ol>
+<li>能够有效利用<code>Spring TestContext Framework的缓存机制</code>，ApplicationContext只会创建一次，后面的测试会直接用已创建的那个，加快测试代码运行速度。</li>
+<li>当项目中的Bean很多的时候，这么做能够降低测试代码复杂度，想想如果每个测试代码都有一套自己的@Configuration或其变体，那得多吓人。</li>
+</ol>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html">Maven Standard Directory Layout</a></li>
+<li><a href="http://testng.org/doc/documentation-main.html">TestNG documentation</a></li>
+<li><a href="http://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/htmlsingle/#testing">Spring Framework Testing</a></li>
+<li><a href="https://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/html/integration-testing.html#testcontext-ctx-management-javaconfig">Context configuration with annotated classes</a></li>
+<li><a href="http://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/htmlsingle/#testing">Spring Framework Testing</a></li>
+<li><a href="http://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/reference/htmlsingle/#boot-features-testing">Spring Boot Testing</a></li>
+<li><a href="https://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/html/integration-testing.html#testcontext-framework">Spring TestContext Framework</a></li>
+<li><a href="http://www.importnew.com/27527.html">http://www.importnew.com/27527.html</a></li>
+</ul>

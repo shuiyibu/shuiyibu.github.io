@@ -1,0 +1,266 @@
+<hr>
+<p>title: Spring、Spring Boot 和 TestNG 测试指南(5)—关系型数据库<br>categories: Test<br>tags:</p>
+<ul>
+<li>TestNG</li>
+<li>Spring Boot<br>date: 2018-04-27 15:48:53</li>
+</ul>
+<hr>
+<p><a href="http://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/htmlsingle/#testing">Spring Test Framework</a>提供了对<a href="http://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/htmlsingle/#integration-testing-support-jdbc">JDBC的支持</a>，能够让我们很方便对关系型数据库做集成测试。</p>
+<p>同时Spring Boot提供了和<a href="https://flywaydb.org/">Flyway</a>的<a href="http://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/reference/htmlsingle/#howto-execute-flyway-database-migrations-on-startup">集成</a>支持，能够方便的管理开发过程中产生的SQL文件，配合Spring已经提供的工具能够更方便地在测试之前初始化数据库以及测试之后清空数据库。<br><!-- more --><br>本章节为了方便起见，本章节使用了H2作为测试数据库。</p>
+<p>注意：<strong>在真实的开发环境中，集成测试用数据库应该和最终的生产数据库保持一致</strong>，这是因为不同数据库的对于SQL不是完全相互兼容的，如果不注意这一点，很有可能出现集成测试通过，但是上了生产环境却报错的问题。</p>
+<p>因为是集成测试，所以我们使用了<code>maven-failsafe-plugin</code>来跑，它和<code>maven-surefire-plugin</code>的差别在于，<code>maven-failsafe-plugin</code>只会搜索<code>*IT.java</code>来跑测试，而<code>maven-surefire-plugin</code>只会搜索<code>*Test.java</code>来跑测试。</p>
+<p>如果想要在maven打包的时候跳过集成测试，只需要<code>mvn clean install -DskipITs</code>。</p>
+<h2 id="被测试类"><a href="#被测试类" class="headerlink" title="被测试类"></a>被测试类</h2><p>先介绍一下被测试的类。</p>
+<p><a href="https://github.com/chanjarster/spring-test-examples/blob/master/rdbs/src/main/java/me/chanjar/domain/Foo.java">Foo.java</a>：</p>
+<pre><code class="Java"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>{
+
+  <span class="keyword">private</span> String name;
+
+  <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> name;
+  }
+
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>{
+    <span class="keyword">this</span>.name = name;
+  }
+}
+</code></pre>
+<p><a href="https://github.com/chanjarster/spring-test-examples/blob/master/rdbs/src/main/java/me/chanjar/domain/FooRepositoryImpl.java">FooRepositoryImpl.java</a>：</p>
+<pre><code class="Java"><span class="meta">@Repository</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooRepositoryImpl</span> <span class="keyword">implements</span> <span class="title">FooRepository</span> </span>{
+
+  <span class="keyword">private</span> JdbcTemplate jdbcTemplate;
+
+  <span class="meta">@Override</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(Foo foo)</span> </span>{
+    jdbcTemplate.update(<span class="string">"INSERT INTO FOO(name) VALUES (?)"</span>, foo.getName());
+  }
+
+  <span class="meta">@Override</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(String name)</span> </span>{
+    jdbcTemplate.update(<span class="string">"DELETE FROM FOO WHERE NAME = ?"</span>, name);
+  }
+
+  <span class="meta">@Autowired</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setJdbcTemplate</span><span class="params">(JdbcTemplate jdbcTemplate)</span> </span>{
+    <span class="keyword">this</span>.jdbcTemplate = jdbcTemplate;
+  }
+
+}
+</code></pre>
+<h3 id="例子1：不使用Spring-Testing提供的工具"><a href="#例子1：不使用Spring-Testing提供的工具" class="headerlink" title="例子1：不使用Spring Testing提供的工具"></a>例子1：不使用Spring Testing提供的工具</h3><p><a href="https://github.com/chanjarster/spring-test-examples/blob/master/rdbs/src/test/java/me/chanjar/spring1/Spring_1_IT_Configuration.java">Spring_1_IT_Configuration.java</a>：</p>
+<pre><code class="Java"><span class="meta">@Configuration</span>
+<span class="meta">@ComponentScan</span>(basePackageClasses = FooRepository.class)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Spring_1_IT_Configuration</span> </span>{
+
+  <span class="meta">@Bean</span>(destroyMethod = <span class="string">"shutdown"</span>)
+  <span class="function"><span class="keyword">public</span> DataSource <span class="title">dataSource</span><span class="params">()</span> </span>{
+
+    <span class="keyword">return</span> <span class="keyword">new</span> EmbeddedDatabaseBuilder()
+        .generateUniqueName(<span class="keyword">true</span>)
+        .setType(EmbeddedDatabaseType.H2)
+        .setScriptEncoding(<span class="string">"UTF-8"</span>)
+        .ignoreFailedDrops(<span class="keyword">true</span>)
+        .addScript(<span class="string">"classpath:me/chanjar/domain/foo-ddl.sql"</span>)
+        .build();
+  }
+
+  <span class="meta">@Bean</span>
+  <span class="function"><span class="keyword">public</span> JdbcTemplate <span class="title">jdbcTemplate</span><span class="params">()</span> </span>{
+
+    <span class="keyword">return</span> <span class="keyword">new</span> JdbcTemplate(dataSource());
+
+  }
+}
+</code></pre>
+<p>在<code>Spring_1_IT_Configuration</code>中，我们定义了一个H2的DataSource Bean，并且构建了JdbcTemplate Bean。</p>
+<p>注意看<code>addScript(&quot;classpath:me/chanjar/domain/foo-ddl.sql&quot;)</code>这句代码，我们让<code>EmbeddedDatabase</code>执行<a href="https://github.com/chanjarster/spring-test-examples/blob/master/rdbs/src/main/resources/me/chanjar/domain/foo-ddl.sql">foo-ddl.sql</a>脚本来建表：</p>
+<pre><code class="sql"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> FOO (
+  <span class="keyword">name</span> VARCHAR2(<span class="number">100</span>)
+);
+</code></pre>
+<p><a href="https://github.com/chanjarster/spring-test-examples/blob/master/rdbs/src/test/java/me/chanjar/spring1/Spring_1_IT.java">Spring_1_IT.java</a>：</p>
+<pre><code class="Java"><span class="meta">@ContextConfiguration</span>(classes = Spring_1_IT_Configuration.class)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Spring_1_IT</span> <span class="keyword">extends</span> <span class="title">AbstractTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> FooRepository fooRepository;
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> JdbcTemplate jdbcTemplate;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSave</span><span class="params">()</span> </span>{
+
+    Foo foo = <span class="keyword">new</span> Foo();
+    foo.setName(<span class="string">"Bob"</span>);
+    fooRepository.save(foo);
+
+    assertEquals(
+        jdbcTemplate.queryForObject(<span class="string">"SELECT count(*) FROM FOO"</span>, Integer.class),
+        Integer.valueOf(<span class="number">1</span>)
+    );
+
+  }
+
+  <span class="meta">@Test</span>(dependsOnMethods = <span class="string">"testSave"</span>)
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDelete</span><span class="params">()</span> </span>{
+
+    assertEquals(
+        jdbcTemplate.queryForObject(<span class="string">"SELECT count(*) FROM FOO"</span>, Integer.class),
+        Integer.valueOf(<span class="number">1</span>)
+    );
+
+    Foo foo = <span class="keyword">new</span> Foo();
+    foo.setName(<span class="string">"Bob"</span>);
+    fooRepository.save(foo);
+
+    fooRepository.delete(foo.getName());
+    assertEquals(
+        jdbcTemplate.queryForObject(<span class="string">"SELECT count(*) FROM FOO"</span>, Integer.class),
+        Integer.valueOf(<span class="number">0</span>)
+    );
+  }
+
+}
+</code></pre>
+<p>在这段测试代码里可以看到，我们分别测试了<code>FooRepository</code>的<code>save</code>和<code>delete</code>方法，并且利用<code>JdbcTemplate</code>来验证数据库中的结果。</p>
+<h3 id="例子2：使用Spring-Testing提供的工具"><a href="#例子2：使用Spring-Testing提供的工具" class="headerlink" title="例子2：使用Spring Testing提供的工具"></a>例子2：使用Spring Testing提供的工具</h3><p>在这个例子里，我们会使用<a href="http://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/htmlsingle/#integration-testing-support-jdbc">JdbcTestUtils</a>来辅助测试。</p>
+<p><a href="https://github.com/chanjarster/spring-test-examples/blob/master/rdbs/src/test/java/me/chanjar/spring2/Spring_2_IT_Configuration.java">Spring_2_IT_Configuration.java</a>：</p>
+<pre><code class="Java"><span class="meta">@Configuration</span>
+<span class="meta">@ComponentScan</span>(basePackageClasses = FooRepository.class)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Spring_2_IT_Configuration</span> </span>{
+
+  <span class="meta">@Bean</span>
+  <span class="function"><span class="keyword">public</span> DataSource <span class="title">dataSource</span><span class="params">()</span> </span>{
+
+    EmbeddedDatabase db = <span class="keyword">new</span> EmbeddedDatabaseBuilder()
+        .generateUniqueName(<span class="keyword">true</span>)
+        .setType(EmbeddedDatabaseType.H2)
+        .setScriptEncoding(<span class="string">"UTF-8"</span>)
+        .ignoreFailedDrops(<span class="keyword">true</span>)
+        .addScript(<span class="string">"classpath:me/chanjar/domain/foo-ddl.sql"</span>)
+        .build();
+    <span class="keyword">return</span> db;
+  }
+
+  <span class="meta">@Bean</span>
+  <span class="function"><span class="keyword">public</span> JdbcTemplate <span class="title">jdbcTemplate</span><span class="params">()</span> </span>{
+
+    <span class="keyword">return</span> <span class="keyword">new</span> JdbcTemplate(dataSource());
+
+  }
+
+  <span class="meta">@Bean</span>
+  <span class="function"><span class="keyword">public</span> PlatformTransactionManager <span class="title">transactionManager</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">new</span> DataSourceTransactionManager(dataSource());
+  }
+
+}
+</code></pre>
+<p>这里和例子1的区别在于，我们提供了一个<code>PlatformTransactionManager</code> Bean，这是因为在下面的测试代码里的<code>AbstractTransactionalTestNGSpringContextTests</code>需要它。</p>
+<p><a href="https://github.com/chanjarster/spring-test-examples/blob/master/rdbs/src/test/java/me/chanjar/spring2/Spring_2_IT.java">Spring_2_IT.java</a>：</p>
+<pre><code class="Java"><span class="meta">@ContextConfiguration</span>(classes = Spring_2_IT_Configuration.class)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Spring_2_IT</span> <span class="keyword">extends</span> <span class="title">AbstractTransactionalTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> FooRepository fooRepository;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSave</span><span class="params">()</span> </span>{
+
+    Foo foo = <span class="keyword">new</span> Foo();
+    foo.setName(<span class="string">"Bob"</span>);
+    fooRepository.save(foo);
+
+    assertEquals(countRowsInTable(<span class="string">"FOO"</span>), <span class="number">1</span>);
+    countRowsInTableWhere(<span class="string">"FOO"</span>, <span class="string">"name = 'Bob'"</span>);
+  }
+
+  <span class="meta">@Test</span>(dependsOnMethods = <span class="string">"testSave"</span>)
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDelete</span><span class="params">()</span> </span>{
+
+    assertEquals(countRowsInTable(<span class="string">"FOO"</span>), <span class="number">0</span>);
+
+    Foo foo = <span class="keyword">new</span> Foo();
+    foo.setName(<span class="string">"Bob"</span>);
+    fooRepository.save(foo);
+
+    fooRepository.delete(foo.getName());
+    assertEquals(countRowsInTable(<span class="string">"FOO"</span>), <span class="number">0</span>);
+
+  }
+
+}
+</code></pre>
+<p>在这里我们使用<code>countRowsInTable(&quot;FOO&quot;)</code>来验证数据库结果，这个方法是<code>AbstractTransactionalTestNGSpringContextTests</code>对<code>JdbcTestUtils</code>的代理。</p>
+<p>而且要注意的是，每个测试方法在执行完毕后，会<code>自动rollback</code>，所以在<code>testDelete</code>的第一行里，我们<code>assertEquals(countRowsInTable(&quot;FOO&quot;), 0)</code>，这一点和例子1里是不同的。</p>
+<p>更多关于Spring Testing Framework与Transaction相关的信息，可以见Spring官方文档 <a href="http://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/htmlsingle/#testcontext-tx">Transaction management</a>。</p>
+<h3 id="例子3：使用Spring-Boot"><a href="#例子3：使用Spring-Boot" class="headerlink" title="例子3：使用Spring Boot"></a>例子3：使用Spring Boot</h3><p><a href="https://github.com/chanjarster/spring-test-examples/blob/master/rdbs/src/test/java/me/chanjar/springboot1/Boot_1_IT.java">Boot_1_IT.java</a>：</p>
+<pre><code class="Java"><span class="meta">@SpringBootTest</span>
+<span class="meta">@SpringBootApplication</span>(scanBasePackageClasses = FooRepository.class)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Boot_1_IT</span> <span class="keyword">extends</span> <span class="title">AbstractTransactionalTestNGSpringContextTests</span> </span>{
+
+  <span class="meta">@Autowired</span>
+  <span class="keyword">private</span> FooRepository fooRepository;
+
+  <span class="meta">@Test</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSave</span><span class="params">()</span> </span>{
+
+    Foo foo = <span class="keyword">new</span> Foo();
+    foo.setName(<span class="string">"Bob"</span>);
+    fooRepository.save(foo);
+
+    assertEquals(countRowsInTable(<span class="string">"FOO"</span>), <span class="number">1</span>);
+    countRowsInTableWhere(<span class="string">"FOO"</span>, <span class="string">"name = 'Bob'"</span>);
+  }
+
+  <span class="meta">@Test</span>(dependsOnMethods = <span class="string">"testSave"</span>)
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDelete</span><span class="params">()</span> </span>{
+
+    assertEquals(countRowsInTable(<span class="string">"FOO"</span>), <span class="number">0</span>);
+
+    Foo foo = <span class="keyword">new</span> Foo();
+    foo.setName(<span class="string">"Bob"</span>);
+    fooRepository.save(foo);
+
+    fooRepository.delete(foo.getName());
+    assertEquals(countRowsInTable(<span class="string">"FOO"</span>), <span class="number">0</span>);
+
+  }
+
+  <span class="meta">@AfterTest</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cleanDb</span><span class="params">()</span> </span>{
+    flyway.clean();
+  }
+
+}
+</code></pre>
+<p>因为使用了Spring Boot来做集成测试，得益于其AutoConfiguration机制，不需要自己构建<code>DataSource</code> 、<code>JdbcTemplate</code>和<code>PlatformTransactionManager</code>的Bean。</p>
+<p>并且因为我们已经将<code>flyway-core</code>添加到了maven依赖中，Spring Boot会利用flyway来帮助我们初始化数据库，我们需要做的仅仅是将sql文件放到classpath的<code>db/migration</code>目录下：</p>
+<p><code>V1.0.0__foo-ddl.sql</code>:</p>
+<pre><code class="sql"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> FOO (
+  <span class="keyword">name</span> VARCHAR2(<span class="number">100</span>)
+);
+</code></pre>
+<p>而且在测试最后，我们利用flyway清空了数据库：</p>
+<pre><code class="Java"><span class="meta">@AfterTest</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cleanDb</span><span class="params">()</span> </span>{
+  flyway.clean();
+}
+</code></pre>
+<p>使用flyway有很多好处：</p>
+<ul>
+<li>每个sql文件名都规定了版本号</li>
+<li>flyway按照版本号顺序执行</li>
+<li>在开发期间，只需要将sql文件放到db/migration目录下就可以了，不需要写类似<code>EmbeddedDatabaseBuilder.addScript()</code>这样的代码</li>
+<li>基于以上三点，就能够将数据库初始化SQL语句也纳入到集成测试中来，保证代码配套的SQL语句的正确性</li>
+<li>可以帮助你清空数据库，这在你使用非内存数据库的时候非常有用，因为不管测试前还是测试后，你都需要一个干净的数据库</li>
+</ul>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="http://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/htmlsingle/#testcontext-tx">Transaction management</a></li>
+<li><a href="http://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/htmlsingle/#testcontext-executing-sql">Executing SQL scripts</a></li>
+<li><a href="https://flywaydb.org/documentation/">flyway的官方文档</a></li>
+<li><a href="http://docs.spring.io/spring-boot/docs/1.5.4.RELEASE/reference/htmlsingle/#howto-execute-flyway-database-migrations-on-startup">flway和spring boot的集成</a></li>
+<li><a href="http://www.importnew.com/27545.html">http://www.importnew.com/27545.html</a></li>
+</ul>
